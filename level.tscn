@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://d2d7u3vxmhpsf"]
+
+[ext_resource type="PackedScene" uid="uid://cxmv04r35emag" path="res://blimp.tscn" id="2_vonw3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u52ul"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_vonw3"]
+sky_material = SubResource("ProceduralSkyMaterial_u52ul")
+
+[sub_resource type="Environment" id="Environment_oi3di"]
+background_mode = 2
+sky = SubResource("Sky_vonw3")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Level" type="Node3D" unique_id=648018424]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1531791650]
+environment = SubResource("Environment_oi3di")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1170055967]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=148427239]
+use_collision = true
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1239690755]
+transform = Transform3D(5.8, 0, 0, 0, 8, 0, 0, 0, 3.9, -12, 0, -3)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1729773464]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.49876404, -0.25653076, 0.05090332)
+use_collision = true
+size = Vector3(128, 0.42077637, 127)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D" unique_id=1858495606]
+transform = Transform3D(0.9921793, -0.077138156, 0.098132946, -0.08665031, -0.9915368, 0.09667767, 0.089844875, -0.10442481, -0.99046624, 5.109627, -5.9823503, -4.5230746)
+polygon = PackedVector2Array(-15.0833645, -9.186816, -6.386774, 2.5932584, 1, 1, 1.6608492, -3.8587446)
+
+[node name="Blimp" parent="." unique_id=1992139785 instance=ExtResource("2_vonw3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 18, -13)

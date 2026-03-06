@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://cxmv04r35emag"]
+
+[ext_resource type="Script" uid="uid://cbr5pdqfw87qh" path="res://blimp.gd" id="1_j7fa5"]
+[ext_resource type="Script" uid="uid://qa6uew68xg0d" path="res://blimp_player_controller.gd" id="2_5xue0"]
+[ext_resource type="Script" uid="uid://caqrbv2whvq2b" path="res://player_camera_3d.gd" id="3_5xue0"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
+friction = 0.5
+bounce = 0.25
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8rjh7"]
+radius = 0.75
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cm3st"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_j7fa5"]
+
+[node name="Blimp" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("camera")]
+physics_material_override = SubResource("PhysicsMaterial_5xue0")
+gravity_scale = 0.75
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, -25, 0)
+can_sleep = false
+angular_damp = 1.0
+script = ExtResource("1_j7fa5")
+camera = NodePath("CameraPivot/Camera3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=808104814]
+transform = Transform3D(4.7767136e-14, 1.0927847e-06, 25, 25, -1.0927847e-06, 0, 1.0927847e-06, 25, -1.0927847e-06, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_8rjh7")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=59626035]
+transform = Transform3D(4.7767136e-14, 1.0927847e-06, 25, 25, -1.0927847e-06, 0, 1.0927847e-06, 25, -1.0927847e-06, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=622988099]
+mesh = SubResource("CapsuleMesh_cm3st")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=1977350045]
+transform = Transform3D(-1.7484556e-08, 0.3, 0, -0.4, -1.3113417e-08, 0, 0, 0, 0.4, -0.59083736, 0.028114822, 0)
+mesh = SubResource("BoxMesh_j7fa5")
+
+[node name="BlimpPlayerController" type="Node" parent="." unique_id=1599259529 node_paths=PackedStringArray("blimp")]
+script = ExtResource("2_5xue0")
+blimp = NodePath("..")
+enabled = true
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1604882816]
+top_level = true
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=253275106 node_paths=PackedStringArray("_camera_pivot")]
+transform = Transform3D(-1, 4.3711392e-08, -7.5710346e-08, 0, 0.86602545, 0.50000006, 8.742278e-08, 0.50000006, -0.8660254, 0, 25, -50)
+script = ExtResource("3_5xue0")
+_camera_pivot = NodePath("..")
+tilt_lower_limit = -1.047
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=863648686]
+remote_path = NodePath("../CameraPivot")
+update_rotation = false
+update_scale = false
