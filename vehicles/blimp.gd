@@ -15,6 +15,7 @@ var terminal_speed = 1000.0
 
 
 func _ready() -> void:
+	camera.current = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
@@ -29,13 +30,13 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	var ground_plane_move = Vector2(move_direction.x, move_direction.z)
 	var blimp_forward = -global_basis.z
 	var accel_scalar = abs(move_direction.dot(blimp_forward))
-	state.apply_central_force(accel_scalar * acceleration * move_direction)
+	state.apply_central_force(mass * accel_scalar * acceleration * move_direction)
 	var rotation_direction = (right * move_input.x).normalized()
-	state.apply_torque(-1 * sign(move_input.x) * rotation_accel * Vector3(0, 1, 0))
+	state.apply_torque(-1 * mass * sign(move_input.x) * rotation_accel * Vector3(0, 1, 0))
 	var righting_axis = global_basis.y.normalized().cross(Vector3.UP);
-	state.apply_torque(righting_force * righting_axis)
+	state.apply_torque(mass * righting_force * righting_axis)
 	
 	if is_jumping:
-		state.apply_central_force(upward_thrust * Vector3.UP)
+		state.apply_central_force(mass * upward_thrust * Vector3.UP)
 	if state.linear_velocity.length() > speed:
 		state.linear_velocity = speed * state.linear_velocity.normalized()

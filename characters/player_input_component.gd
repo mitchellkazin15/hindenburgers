@@ -9,7 +9,6 @@ extends Node
 func _ready():
 	if not character:
 		character = get_parent()
-	assert(character is CharacterBody3D)
 
 
 func _unhandled_input(event):

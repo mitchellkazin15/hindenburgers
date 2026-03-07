@@ -30,6 +30,7 @@ properties/1/spawn = true
 properties/1/replication_mode = 1
 
 [node name="Blimp" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("driver_seat", "camera", "synchronizer")]
+mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_5xue0")
 gravity_scale = 0.75
 center_of_mass_mode = 1

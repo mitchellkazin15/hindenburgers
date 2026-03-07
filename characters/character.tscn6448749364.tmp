@@ -5,10 +5,6 @@
 [ext_resource type="Script" uid="uid://caqrbv2whvq2b" path="res://common_components/player_camera_3d.gd" id="3_wa5vi"]
 [ext_resource type="Script" uid="uid://45ejdo8nxfr5" path="res://common_components/interacting_area_3d.gd" id="4_wfnr8"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
-friction = 0.75
-rough = true
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wfnr8"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_px5sl"]
@@ -22,15 +18,11 @@ properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
 
-[node name="Character" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "synchronizer", "floor_ray_cast")]
-physics_material_override = SubResource("PhysicsMaterial_mdkfl")
-gravity_scale = 5.0
+[node name="Character" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "synchronizer")]
 can_sleep = false
-lock_rotation = true
 script = ExtResource("1_pjt0s")
 camera = NodePath("CameraPivot/Camera3D")
 synchronizer = NodePath("MultiplayerSynchronizer")
-floor_ray_cast = NodePath("RayCast3D")
 metadata/_custom_type_script = "uid://7dmdctw0ys25"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=303792128]
@@ -63,7 +55,3 @@ debug_color = Color(0.2700933, 0.6330955, 0, 0.41960785)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=964156676]
 replication_config = SubResource("SceneReplicationConfig_mdkfl")
 visibility_update_mode = 1
-
-[node name="RayCast3D" type="RayCast3D" parent="." unique_id=665954981]
-transform = Transform3D(5.2714596, 0, 0, 0, 1, 0, 0, 0, 1.6312029, 0, 0, 0)
-target_position = Vector3(0, -1.1, 0)

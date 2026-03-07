@@ -34,9 +34,10 @@ use_collision = true
 transform = Transform3D(5.8, 0, 0, 0, 8, 0, 0, 0, 3.9, -60, 4, -34)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1729773464]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.001236, -0.25653076, -34.949097)
+transform = Transform3D(1, 0, 0, 0, -0.39999998, 0, 0, 0, 1, 34.001236, -21.25653, 56.050903)
 use_collision = true
-size = Vector3(1501, 0.42077637, 1671)
+flip_faces = true
+size = Vector3(1501, 100, 1671)
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D" unique_id=1858495606]
 transform = Transform3D(0.9921793, -0.077138156, 0.098132946, -0.08665031, -0.9915368, 0.09667767, 0.089844875, -0.10442481, -0.99046624, -42.890373, -2.9823503, -32.523075)

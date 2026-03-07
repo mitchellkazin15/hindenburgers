@@ -14,6 +14,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		set_process(false)
 		set_process_input(false)
 		return
+	if not current:
+		return
 	var is_camera_motion := (
 		event is InputEventMouseMotion and
 		Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
