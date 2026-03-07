@@ -43,7 +43,16 @@ transform = Transform3D(0.9921793, -0.077138156, 0.098132946, -0.08665031, -0.99
 polygon = PackedVector2Array(-15.0833645, -9.186816, -6.386774, 2.5932584, 1, 1, 1.6608492, -3.8587446)
 
 [node name="Blimp" parent="." unique_id=1992139785 instance=ExtResource("2_41kie")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98, 18, -39)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 56, 18, 110)
+
+[node name="Blimp2" parent="." unique_id=784951236 instance=ExtResource("2_41kie")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 55, 18, 37)
+
+[node name="Blimp3" parent="." unique_id=1580103247 instance=ExtResource("2_41kie")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 21, 18, 39)
+
+[node name="Blimp4" parent="." unique_id=1012882203 instance=ExtResource("2_41kie")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 19, 18, 110)
 
 [node name="Hangar" type="CSGCombiner3D" parent="." unique_id=772529921]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 16)

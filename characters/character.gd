@@ -6,6 +6,8 @@ signal locked_interaction_ended
 @export var camera : Camera3D
 @export var controllable = true
 @export var synchronizer : MultiplayerSynchronizer
+@export var intitial_multiplayer_authority : int
+@export var initial_position : Vector3
 
 var move_input : Vector2 = Vector2.ZERO
 var is_jumping = false
@@ -18,8 +20,15 @@ var gravity = 50
 var terminal_speed = 1000.0
 
 
+func _enter_tree() -> void:
+	pass
+	#set_initial_values(initial_position, intitial_multiplayer_authority)
+
+
 func _ready() -> void:
 	print("loading character for peer: ", multiplayer.get_unique_id())
+	#set_initial_values(initial_position, intitial_multiplayer_authority)
+	set_initial_values(initial_position, intitial_multiplayer_authority)
 	if is_multiplayer_authority():
 		camera.current = true
 
@@ -30,8 +39,15 @@ func set_initial_values(pos, multiplayer_authority):
 	set_multiplayer_authority(multiplayer_authority, true)
 	set_process(is_multiplayer_authority())
 	set_process_input(is_multiplayer_authority())
-	synchronizer.set_multiplayer_authority(multiplayer_authority)
+	synchronizer.set_multiplayer_authority(multiplayer_authority, true)
 	camera.current = is_multiplayer_authority()
+	if not is_multiplayer_authority():
+		print("received broadcast")
+
+
+func broadcast_initial_values() -> void:
+	print("broadcasting ", self.name)
+	set_initial_values.rpc(initial_position, intitial_multiplayer_authority)
 
 
 func set_locked_interacting():

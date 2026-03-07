@@ -9,4 +9,7 @@ func interact(interacting_node: Node) -> void:
 		return
 	var character : Character = interacting_node
 	character.set_locked_interacting()
-	vehicle.set_driver.rpc(character)
+	print("interact called by: ", multiplayer.get_unique_id())
+	print("driver is: ", interacting_node.multiplayer.get_unique_id())
+	vehicle.set_driver(character)
+	vehicle.update_authority.rpc(character.get_multiplayer_authority())

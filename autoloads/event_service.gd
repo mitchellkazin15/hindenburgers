@@ -45,12 +45,25 @@ func _on_load_multiplayer_level():
 	level.owner = parent_node
 	var player_spawns = get_tree().get_nodes_in_group("player_spawn")
 	var peer_ids = MultiplayerManager.players.keys()
+	var players = []
 	for player_num in peer_ids.size():
-		var player = load("res://characters/character.tscn").instantiate()
+		print("spawning peer: ", peer_ids[player_num], " is local authority: ", peer_ids[player_num] == multiplayer.get_unique_id())
+		var player : Character = load("res://characters/character.tscn").instantiate()
 		player.set_multiplayer_authority(peer_ids[player_num])
 		player.position = player_spawns[player_num].global_position
 		parent_node.add_child(player, true)
 		player.set_initial_values.rpc(player_spawns[player_num].global_position, peer_ids[player_num])
+		#player.intitial_multiplayer_authority = peer_ids[player_num]
+		#player.initial_position = player_spawns[player_num].global_position
+		#parent_node.add_child(player, true)
+		#players.append(player)
+	#call_deferred("_broadcast_player_initial_values", players)
+
+
+func _broadcast_player_initial_values(players: Array) -> void:
+	await get_tree().create_timer(1).timeout
+	for player : Character in players:
+		player.broadcast_initial_values()
 
 
 func _quit_game():
