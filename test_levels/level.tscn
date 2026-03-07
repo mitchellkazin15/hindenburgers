@@ -70,6 +70,41 @@ operation = 2
 transform = Transform3D(-4.0868392e-07, 0, -36.6795, 0, 24.922495, 0, 9.349599, 0, -1.6033115e-06, -11, -3, -37)
 operation = 2
 
+[node name="Hangar2" type="CSGCombiner3D" parent="." unique_id=585230834]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -92, 364, -960)
+use_collision = true
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Hangar2" unique_id=1411377648]
+transform = Transform3D(2.866028e-13, -1.2457746e-05, -149.99998, -149.99998, -1.2457746e-05, 0, -6.556708e-06, 285, -6.556708e-06, 56, 1, 12)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Hangar2" unique_id=1472644074]
+transform = Transform3D(137.47969, 0, 0, 0, 4.052999, 3.5279996, 0, -2.34, 6.110674, 11.232002, 100.619995, 36)
+size = Vector3(18, 290, 46)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Hangar2" unique_id=1046709074]
+transform = Transform3D(137.47969, 0, 0, 0, 0, -2.1167998, 0, 4.68, 3.576279e-08, 10.231995, 660.62, -949)
+size = Vector3(18, 290, 46)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Hangar2" unique_id=833964703]
+transform = Transform3D(137.47969, 0, 0, 0, 4.5205326, -0.54786813, 0, 1.2112732, 2.0446715, -13.768005, 52.619995, -1793)
+size = Vector3(18, 290, 46)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Hangar2" unique_id=74955409]
+transform = Transform3D(164.97563, 0, 0, 0, 0, -1.9051198, 0, 6.5519996, 3.218651e-08, 48.231995, -386.38, -1396.74)
+size = Vector3(18, 451, 46)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Hangar2" unique_id=131904508]
+transform = Transform3D(-6.009428e-06, -8.3133506e-15, -2.1167998, 6.0094285e-06, 4.6800003, 3.5762785e-08, 137.4797, -2.0456932e-07, -9.252828e-08, 1251.2319, 160.62, -746)
+size = Vector3(18, 290, 46)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Hangar2" unique_id=1874455147]
+transform = Transform3D(-6.009428e-06, -8.3133506e-15, -2.1167998, 6.0094285e-06, 4.6800003, 3.5762785e-08, 137.4797, -2.0456932e-07, -9.252828e-08, -688.76807, 160.62, -583)
+size = Vector3(18, 290, 46)
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Hangar2" unique_id=1069728232]
+transform = Transform3D(124.99998, 3.546476e-05, 6.513504e-13, -3.3527795e-20, -1.3004136e-05, 124.99999, 1.49011585e-05, -297.49997, -5.4639227e-06, 56, 1, 12)
+operation = 2
+
 [node name="SpawnGrouping" type="Node3D" parent="." unique_id=1652182979]
 
 [node name="PlayerSpawn" type="Node3D" parent="SpawnGrouping" unique_id=1622750607 groups=["player_spawn"]]

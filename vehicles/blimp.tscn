@@ -28,6 +28,9 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath(".:linear_velocity")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="Blimp" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("driver_seat", "camera", "synchronizer")]
 mass = 100.0
@@ -36,7 +39,6 @@ gravity_scale = 0.75
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -100, 0)
 can_sleep = false
-freeze = true
 angular_damp = 1.0
 script = ExtResource("1_j7fa5")
 driver_seat = NodePath("DriverSeat")
@@ -48,7 +50,7 @@ transform = Transform3D(4.7767136e-14, 1.0927847e-06, 25, 25, -1.0927847e-06, 0,
 shape = SubResource("CapsuleShape3D_8rjh7")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1857533576]
-transform = Transform3D(1, 0, 0, 0, 0.2584987, 0, 0, 0, 1.2303561, 0.031987667, -17.681896, -0.43291765)
+transform = Transform3D(1, 0, 0, 0, 0.2, 0, 0, 0, 1, 0, -17.682, 0)
 shape = SubResource("BoxShape3D_vv172")
 
 [node name="Node3D" type="Node3D" parent="." unique_id=59626035]
@@ -58,7 +60,7 @@ transform = Transform3D(4.7767136e-14, 1.0927847e-06, 25, 25, -1.0927847e-06, 0,
 mesh = SubResource("CapsuleMesh_cm3st")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=1977350045]
-transform = Transform3D(-2.327819e-08, 0.063794, -2.1175824e-22, -0.53254277, -2.7885245e-09, 5.3290705e-15, 5.3290705e-15, -3.982048e-23, 0.5476548, -0.7204373, -0.0013508545, 7.6352975e-08)
+transform = Transform3D(-2.1855694e-08, 0.05, 5.3080847e-22, -0.5, -2.1855695e-09, 5.0034202e-15, 5.0034202e-15, -3.1210203e-23, 0.5, -0.7, -0.001, 0)
 mesh = SubResource("BoxMesh_j7fa5")
 
 [node name="BlimpPlayerController" type="Node" parent="." unique_id=1599259529 node_paths=PackedStringArray("blimp")]
@@ -90,7 +92,7 @@ shape = SubResource("BoxShape3D_5xue0")
 debug_color = Color(0.03858291, 0.65077674, 0, 0.41960785)
 
 [node name="DriverSeat" type="RemoteTransform3D" parent="." unique_id=1617510300]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, 6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, 0)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1269210799]
 replication_config = SubResource("SceneReplicationConfig_oo2kl")

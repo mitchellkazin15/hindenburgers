@@ -57,6 +57,15 @@ func broadcast_initial_values() -> void:
 	set_initial_values.rpc(initial_position, intitial_multiplayer_authority)
 
 
+func reset():
+	if locked_interaction:
+		end_locked_interaction()
+	freeze = true
+	position = initial_position
+	linear_velocity = Vector3.ZERO
+	freeze = false
+
+
 func set_locked_interacting():
 	locked_interaction = true
 	controllable = false
@@ -80,10 +89,13 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	var move_direction = forward * move_input.y + right * move_input.x
 	move_direction.y = 0.0
 	move_direction = move_direction.normalized()
-	if move_direction.length() > 0.01:
-		var target_ground_plane_vel = (speed * move_direction) - state.linear_velocity
-		target_ground_plane_vel.y = 0.0
-		state.apply_central_impulse(target_ground_plane_vel * acceleration * state.step)
+	var collider = floor_ray_cast.get_collider()
+	var relative_linear_vel = state.linear_velocity
+	if collider and collider is RigidBody3D:
+		relative_linear_vel -= collider.linear_velocity
+	var target_ground_plane_vel = (speed * move_direction) - relative_linear_vel
+	target_ground_plane_vel.y = 0.0
+	state.apply_central_impulse(target_ground_plane_vel)
 	if is_jumping and _can_jump and floor_ray_cast.is_colliding():
 		state.apply_central_impulse(jump_speed * Vector3.UP)
 		_can_jump = false

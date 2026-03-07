@@ -39,4 +39,6 @@ func _unhandled_input(event):
 		for area in interacting_area.get_overlapping_areas():
 			if area is InteractableArea3D:
 				area.interact(character)
+	if event.is_action_pressed("reset"):
+		character.reset()
 	
