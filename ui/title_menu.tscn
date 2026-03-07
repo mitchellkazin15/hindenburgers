@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://dsmlj81cd478x"]
+
+[ext_resource type="Script" uid="uid://b10hx1w8pre82" path="res://ui/components/base_menu.gd" id="1_4psj8"]
+[ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="1_gfyv3"]
+[ext_resource type="Script" uid="uid://6tkmaqi6xnvy" path="res://ui/components/overlay_new_menu_button.gd" id="3_4psj8"]
+[ext_resource type="Script" uid="uid://b6nr4bwo0sewj" path="res://ui/components/quit_game_button.gd" id="3_vj6re"]
+[ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="4_dacvo"]
+
+[node name="TitleMenu" type="Control" unique_id=149794967 node_paths=PackedStringArray("initial_focus")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4psj8")
+initial_focus = NodePath("VBoxContainer/HostGameButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1390079455]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_gfyv3")
+
+[node name="HostGameButton" type="Button" parent="VBoxContainer" unique_id=1234687658]
+layout_mode = 2
+theme = ExtResource("1_gfyv3")
+text = "host game"
+script = ExtResource("3_4psj8")
+next_scene_path = "uid://bac48710arx5v"
+metadata/_custom_type_script = "uid://6tkmaqi6xnvy"
+
+[node name="JoinGameButton" type="Button" parent="VBoxContainer" unique_id=902764579]
+layout_mode = 2
+theme = ExtResource("1_gfyv3")
+text = "join game"
+script = ExtResource("3_4psj8")
+next_scene_path = "uid://doy2mv4pyywlx"
+metadata/_custom_type_script = "uid://6tkmaqi6xnvy"
+
+[node name="QuitGameButton" type="Button" parent="VBoxContainer" unique_id=1381113512]
+layout_mode = 2
+theme = ExtResource("1_gfyv3")
+text = "quit
+"
+script = ExtResource("3_vj6re")
+metadata/_custom_type_script = "uid://b6nr4bwo0sewj"
+
+[node name="ScreenScalerComponent" type="Node" parent="VBoxContainer" unique_id=853396174]
+script = ExtResource("4_dacvo")
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"

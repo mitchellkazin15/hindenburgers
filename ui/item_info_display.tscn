@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://btltg5i2t7t8j"]
+
+[ext_resource type="Script" uid="uid://chty073r1htfw" path="res://ui/components/item_info_display.gd" id="1_824k6"]
+[ext_resource type="Texture2D" path="res://assets/misc_sprites/empty-sprite-64x64.png" id="2_1kbna"]
+[ext_resource type="Texture2D" path="res://assets/misc_sprites/chalk-item.png" id="3_ch4mn"]
+[ext_resource type="Texture2D" path="res://assets/misc_sprites/circular-light.png" id="4_wbscg"]
+[ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="5_o1ego"]
+
+[node name="ItemInfoDisplay" type="VBoxContainer" node_paths=PackedStringArray("item_sprite", "item_name", "item_description")]
+script = ExtResource("1_824k6")
+item_sprite = NodePath("HBoxContainer/SizingRect/TextureRect")
+item_name = NodePath("HBoxContainer/Label")
+item_description = NodePath("RichTextLabel")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SizingRect" type="TextureRect" parent="HBoxContainer"]
+process_mode = 3
+layout_mode = 2
+texture = ExtResource("2_1kbna")
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/SizingRect"]
+layout_mode = 1
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("3_ch4mn")
+
+[node name="BackgroundTextureRect" type="TextureRect" parent="HBoxContainer/SizingRect/TextureRect"]
+z_index = -1
+layout_mode = 1
+offset_right = 1024.0
+offset_bottom = 1024.0
+scale = Vector2(0.063, 0.063)
+size_flags_horizontal = 3
+texture = ExtResource("4_wbscg")
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("5_o1ego")
+theme_override_font_sizes/font_size = 48
+text = "test item"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 2
+theme = ExtResource("5_o1ego")
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/bold_italics_font_size = 32
+theme_override_font_sizes/italics_font_size = 32
+theme_override_font_sizes/mono_font_size = 32
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 32
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+fit_content = true

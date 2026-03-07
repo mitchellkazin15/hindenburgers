@@ -1,0 +1,82 @@
+[gd_scene load_steps=7 format=3 uid="uid://cbi1e3qsc1f4l"]
+
+[ext_resource type="Script" uid="uid://b10hx1w8pre82" path="res://ui/components/base_menu.gd" id="1_shis2"]
+[ext_resource type="Texture2D" uid="uid://cjec7m7mqg5rm" path="res://assets/misc_sprites/tmp_title.png" id="3_a8ypb"]
+[ext_resource type="Script" uid="uid://bmyr8nmvkiwej" path="res://ui/components/open_new_scene_button.gd" id="4_28g1g"]
+[ext_resource type="Script" uid="uid://b6nr4bwo0sewj" path="res://ui/components/quit_game_button.gd" id="4_sgmww"]
+[ext_resource type="Texture2D" uid="uid://dij1fcvbhojrt" path="res://assets/misc_sprites/title_background.png" id="5_mt0s4"]
+[ext_resource type="Script" uid="uid://d1a8jijjof1ld" path="res://ui/components/background.gd" id="6_ewjn3"]
+
+[node name="MultiplayerMenu" type="Control" node_paths=PackedStringArray("initial_focus")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_shis2")
+initial_focus = NodePath("VBoxContainer/HostGameButton")
+
+[node name="TmpTitle" type="TextureRect" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.411
+anchor_bottom = 0.218
+offset_left = 54.0
+offset_top = 66.0
+offset_right = -15.472
+offset_bottom = -16.264
+texture = ExtResource("3_a8ypb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 54.0
+offset_top = -112.0
+offset_right = 236.0
+offset_bottom = 112.0
+grow_vertical = 2
+
+[node name="HostGameButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Host Game"
+script = ExtResource("4_28g1g")
+next_scene_path = "res://ui/host_game_menu.tscn"
+
+[node name="JoinGameButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Join Game"
+script = ExtResource("4_28g1g")
+next_scene_path = "res://ui/join_game_menu.tscn"
+
+[node name="MainMenu" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Main Menu"
+script = ExtResource("4_28g1g")
+next_scene_path = "res://ui/main_menu.tscn"
+
+[node name="QuitGameButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Quit Game"
+script = ExtResource("4_sgmww")
+
+[node name="Background" type="TextureRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1112.0
+offset_bottom = -608.0
+scale = Vector2(28.78, 16.1211)
+mouse_filter = 2
+texture = ExtResource("5_mt0s4")
+expand_mode = 1
+script = ExtResource("6_ewjn3")

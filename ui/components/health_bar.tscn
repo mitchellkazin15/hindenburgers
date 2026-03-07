@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://ce7uohvil47by"]
+
+[ext_resource type="Texture2D" uid="uid://b8h13m5pwfaal" path="res://assets/misc_sprites/health_bar_grey.png" id="1_l42kn"]
+[ext_resource type="Script" uid="uid://bisvj30yf77sw" path="res://ui/components/health_bar.gd" id="3_6rt5d"]
+[ext_resource type="Texture2D" uid="uid://dpd55sdityao" path="res://assets/misc_sprites/health_bar_green.png" id="3_njukv"]
+[ext_resource type="Texture2D" uid="uid://cvhx4i6uflvcs" path="res://assets/misc_sprites/health_bar_yellow.png" id="4_hf0fe"]
+[ext_resource type="Texture2D" uid="uid://cn73cqdu23b8h" path="res://assets/misc_sprites/health_bar_red.png" id="5_pitaj"]
+
+[node name="HealthBar" type="TextureProgressBar"]
+offset_right = 256.0
+offset_bottom = 16.0
+texture_under = ExtResource("1_l42kn")
+script = ExtResource("3_6rt5d")
+high_health_bar = ExtResource("3_njukv")
+mid_health_bar = ExtResource("4_hf0fe")
+low_health_bar = ExtResource("5_pitaj")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 255.0
+offset_bottom = 15.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 10
+text = "?/?"
+horizontal_alignment = 1

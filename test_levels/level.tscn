@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://d2d7u3vxmhpsf"]
+
+[ext_resource type="PackedScene" uid="uid://cxmv04r35emag" path="res://vehicles/blimp.tscn" id="2_41kie"]
+[ext_resource type="Script" uid="uid://cww7byljmt284" path="res://test_levels/player_spawn.gd" id="3_ih737"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u52ul"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_vonw3"]
+sky_material = SubResource("ProceduralSkyMaterial_u52ul")
+
+[sub_resource type="Environment" id="Environment_oi3di"]
+background_mode = 2
+sky = SubResource("Sky_vonw3")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Level" type="Node3D" unique_id=648018424]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1531791650]
+environment = SubResource("Environment_oi3di")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1170055967]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 24.181759, 98.071915, -90.205)
+light_energy = 0.762
+light_angular_distance = 6.24
+shadow_enabled = true
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=148427239]
+use_collision = true
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1239690755]
+transform = Transform3D(5.8, 0, 0, 0, 8, 0, 0, 0, 3.9, -60, 4, -34)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1729773464]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.001236, -0.25653076, -34.949097)
+use_collision = true
+size = Vector3(1501, 0.42077637, 1671)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D" unique_id=1858495606]
+transform = Transform3D(0.9921793, -0.077138156, 0.098132946, -0.08665031, -0.9915368, 0.09667767, 0.089844875, -0.10442481, -0.99046624, -42.890373, -2.9823503, -32.523075)
+polygon = PackedVector2Array(-15.0833645, -9.186816, -6.386774, 2.5932584, 1, 1, 1.6608492, -3.8587446)
+
+[node name="Blimp" parent="." unique_id=1992139785 instance=ExtResource("2_41kie")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98, 18, -39)
+
+[node name="Hangar" type="CSGCombiner3D" parent="." unique_id=772529921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 16)
+use_collision = true
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Hangar" unique_id=1158201312]
+transform = Transform3D(2.8660283e-13, -6.5567083e-06, -150, -150, -6.5567083e-06, 0, -6.5567083e-06, 150, -6.5567083e-06, 56, 1, 12)
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Hangar" unique_id=801802540]
+transform = Transform3D(124.999985, 2.0861624e-05, 6.513504e-13, -3.3527798e-20, -7.649492e-06, 124.99999, 1.4901159e-05, -174.99998, -5.4639227e-06, 56, 1, 12)
+operation = 2
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Hangar" unique_id=1995246869]
+transform = Transform3D(-4.0868392e-07, 0, -36.6795, 0, 24.922495, 0, 9.349599, 0, -1.6033115e-06, -11, -3, -37)
+operation = 2
+
+[node name="SpawnGrouping" type="Node3D" parent="." unique_id=1652182979]
+
+[node name="PlayerSpawn" type="Node3D" parent="SpawnGrouping" unique_id=1622750607 groups=["player_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 2, -10)
+script = ExtResource("3_ih737")
+
+[node name="PlayerSpawn2" type="Node3D" parent="SpawnGrouping" unique_id=1596412240 groups=["player_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 2, -5)
+script = ExtResource("3_ih737")
+
+[node name="PlayerSpawn3" type="Node3D" parent="SpawnGrouping" unique_id=218387285 groups=["player_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, -5)
+script = ExtResource("3_ih737")
+
+[node name="PlayerSpawn4" type="Node3D" parent="SpawnGrouping" unique_id=720912028 groups=["player_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, -10)
+script = ExtResource("3_ih737")

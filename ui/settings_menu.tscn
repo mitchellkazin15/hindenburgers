@@ -1,0 +1,233 @@
+[gd_scene format=3 uid="uid://duafv5oq0oub"]
+
+[ext_resource type="Script" uid="uid://8puh1ugtssds" path="res://ui/components/settings_menu.gd" id="1_k80kj"]
+[ext_resource type="Shader" uid="uid://q33r2ejq4uvo" path="res://shaders/menu.gdshader" id="2_k80kj"]
+[ext_resource type="Script" uid="uid://d1a8jijjof1ld" path="res://ui/components/background.gd" id="3_d4e8y"]
+[ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="4_d4e8y"]
+[ext_resource type="Script" uid="uid://t8po5jkg6d65" path="res://ui/components/menu_tab_button.gd" id="4_dnjoo"]
+[ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="6_dnjoo"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_04vxn"]
+noise_type = 2
+seed = 893849
+frequency = 0.003
+cellular_return_type = 6
+domain_warp_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ly6gr"]
+width = 1920
+height = 1080
+seamless = true
+noise = SubResource("FastNoiseLite_04vxn")
+
+[sub_resource type="Curve" id="Curve_d4e8y"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.109467, 1), -38.2231, -38.2231, 0, 0, Vector2(0.751479, 0.00353003), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_vnmga"]
+curve = SubResource("Curve_d4e8y")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dnjoo"]
+shader = ExtResource("2_k80kj")
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_ly6gr")
+shader_parameter/noise_texture2 = SubResource("CurveTexture_vnmga")
+shader_parameter/first_color = Color(0.849191, 0, 0.147646, 1)
+shader_parameter/second_color = Color(0.149684, 0.476809, 0.805241, 1)
+shader_parameter/first_rotation_freq = 0.66
+shader_parameter/first_growth_freq = 0.43
+shader_parameter/first_growth_amp = 0.5
+shader_parameter/second_velocity = Vector2(-0.15, 0)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_psssh"]
+
+[node name="SettingsMenu" type="CanvasLayer" node_paths=PackedStringArray("initial_tab")]
+process_mode = 3
+layer = 2
+script = ExtResource("1_k80kj")
+initial_tab = NodePath("TabContainer/AudioSettings")
+
+[node name="Background" type="TextureRect" parent="."]
+z_index = -1
+material = SubResource("ShaderMaterial_dnjoo")
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = SubResource("CanvasTexture_psssh")
+script = ExtResource("3_d4e8y")
+metadata/_custom_type_script = "uid://d1a8jijjof1ld"
+
+[node name="Label" type="Label" parent="."]
+offset_right = 483.0
+offset_bottom = 104.0
+theme = ExtResource("4_d4e8y")
+theme_override_font_sizes/font_size = 100
+text = "Settings"
+
+[node name="ScreenScalerComponent" type="Node" parent="Label"]
+script = ExtResource("6_dnjoo")
+pivot_offset_x = 0.0
+pivot_offset_y = 0.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="TabContainer" type="HBoxContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -586.0
+offset_top = 260.0
+offset_right = 586.0
+offset_bottom = 331.0
+grow_horizontal = 2
+theme = ExtResource("4_d4e8y")
+
+[node name="AudioSettings" type="Button" parent="TabContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../../ControlButtonsContainer/BackButton")
+focus_neighbor_top = NodePath("../../ControlButtonsContainer/ApplyButton")
+text = "Audio Settings"
+script = ExtResource("4_dnjoo")
+
+[node name="Menu" type="VBoxContainer" parent="TabContainer/AudioSettings"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 82.0
+offset_right = 625.0
+offset_bottom = 198.0
+
+[node name="MuteVolumeContainer" type="HBoxContainer" parent="TabContainer/AudioSettings/Menu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/AudioSettings/Menu/MuteVolumeContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Mute"
+
+[node name="CheckButton" type="CheckButton" parent="TabContainer/AudioSettings/Menu/MuteVolumeContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_stretch_ratio = 2.0
+
+[node name="MasterVolumeContainer" type="HBoxContainer" parent="TabContainer/AudioSettings/Menu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/AudioSettings/Menu/MasterVolumeContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Master Volume"
+
+[node name="HSlider" type="HSlider" parent="TabContainer/AudioSettings/Menu/MasterVolumeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 2.0
+max_value = 1.0
+step = 0.01
+
+[node name="MusicVolumeContainer" type="HBoxContainer" parent="TabContainer/AudioSettings/Menu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/AudioSettings/Menu/MusicVolumeContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Music Volume"
+
+[node name="HSlider" type="HSlider" parent="TabContainer/AudioSettings/Menu/MusicVolumeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 2.0
+max_value = 1.0
+step = 0.001
+
+[node name="SFXVolumeContainer" type="HBoxContainer" parent="TabContainer/AudioSettings/Menu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/AudioSettings/Menu/SFXVolumeContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "SFX Volume"
+
+[node name="HSlider" type="HSlider" parent="TabContainer/AudioSettings/Menu/SFXVolumeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 2.0
+focus_neighbor_bottom = NodePath("../../../../../ControlButtonsContainer/ApplyButton")
+max_value = 1.0
+step = 0.001
+
+[node name="DisplaySettings" type="Button" parent="TabContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../ControlButtonsContainer/ApplyButton")
+focus_neighbor_right = NodePath("../../ControlButtonsContainer/ApplyButton")
+text = "Display Settings"
+script = ExtResource("4_dnjoo")
+
+[node name="Menu" type="HBoxContainer" parent="TabContainer/DisplaySettings"]
+visible = false
+layout_mode = 0
+offset_left = -541.0
+offset_top = 82.0
+offset_right = -357.0
+offset_bottom = 122.0
+
+[node name="LabelsContainer" type="VBoxContainer" parent="TabContainer/DisplaySettings/Menu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/DisplaySettings/Menu/LabelsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Window Mode"
+
+[node name="OptionsContainer" type="VBoxContainer" parent="TabContainer/DisplaySettings/Menu"]
+layout_mode = 2
+
+[node name="WindowModeOptionButton" type="OptionButton" parent="TabContainer/DisplaySettings/Menu/OptionsContainer"]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../../../../../ControlButtonsContainer/ApplyButton")
+theme_override_font_sizes/font_size = 32
+
+[node name="ScreenScalerComponent" type="Node" parent="TabContainer"]
+script = ExtResource("6_dnjoo")
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="ControlButtonsContainer" type="HBoxContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -493.5
+offset_top = -191.0
+offset_right = 493.5
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("4_d4e8y")
+
+[node name="ApplyButton" type="Button" parent="ControlButtonsContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../BackButton")
+focus_neighbor_top = NodePath("../../TabContainer/AudioSettings")
+focus_neighbor_bottom = NodePath("../../TabContainer/DisplaySettings")
+text = "Apply"
+
+[node name="RestoreDefaultsButton" type="Button" parent="ControlButtonsContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../TabContainer/AudioSettings")
+focus_neighbor_bottom = NodePath("../../TabContainer/DisplaySettings")
+text = "Restore Defaults"
+
+[node name="BackButton" type="Button" parent="ControlButtonsContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../TabContainer/AudioSettings")
+focus_neighbor_right = NodePath("../ApplyButton")
+focus_neighbor_bottom = NodePath("../../TabContainer/DisplaySettings")
+text = "Back"
+
+[node name="ScreenScalerComponent" type="Node" parent="ControlButtonsContainer"]
+script = ExtResource("6_dnjoo")
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"

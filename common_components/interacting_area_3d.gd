@@ -1,0 +1,2 @@
+class_name InteractingArea3D
+extends Area3D
