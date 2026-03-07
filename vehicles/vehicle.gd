@@ -9,7 +9,9 @@ extends RigidBody3D
 @export var synchronizer : MultiplayerSynchronizer
 
 
-func set_driver(driving_character: Character) -> void:
+func set_driver(driving_character: Character) -> bool:
+	if being_driven:
+		return false
 	being_driven = true
 	driver = driving_character
 	driver_seat.remote_path = driver.get_path()
@@ -18,6 +20,14 @@ func set_driver(driving_character: Character) -> void:
 	camera.set_process_input(true)
 	camera.current = true
 	call_deferred("_unfreeze")
+	update_authority.rpc(driver.get_multiplayer_authority())
+	update_driving_status.rpc(being_driven)
+	return true
+
+
+@rpc("any_peer", "call_local", "reliable")
+func update_driving_status(being_driven: bool) -> void:
+	self.being_driven = being_driven
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -35,6 +45,7 @@ func _on_end_locked_interaction() -> void:
 	driver_seat.remote_path = NodePath("")
 	driver.locked_interaction_ended.disconnect(_on_end_locked_interaction)
 	driver = null
+	update_driving_status.rpc(being_driven)
 
 
 func _unfreeze() -> void:

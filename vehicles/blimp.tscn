@@ -12,7 +12,7 @@ bounce = 0.25
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8rjh7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vv172"]
-size = Vector3(8, 8, 8)
+size = Vector3(14.360458, 8, 12.652618)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cm3st"]
 
@@ -47,7 +47,7 @@ transform = Transform3D(4.7767136e-14, 1.0927847e-06, 25, 25, -1.0927847e-06, 0,
 shape = SubResource("CapsuleShape3D_8rjh7")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1857533576]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, 0)
+transform = Transform3D(1, 0, 0, 0, 0.2584987, 0, 0, 0, 1.2303561, 0.031987667, -17.681896, -0.43291765)
 shape = SubResource("BoxShape3D_vv172")
 
 [node name="Node3D" type="Node3D" parent="." unique_id=59626035]
@@ -57,7 +57,7 @@ transform = Transform3D(4.7767136e-14, 1.0927847e-06, 25, 25, -1.0927847e-06, 0,
 mesh = SubResource("CapsuleMesh_cm3st")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=1977350045]
-transform = Transform3D(-1.7484556e-08, 0.3, 0, -0.4, -1.3113417e-08, 0, 0, 0, 0.4, -0.591, 0, 0)
+transform = Transform3D(-2.327819e-08, 0.063794, -2.1175824e-22, -0.53254277, -2.7885245e-09, 5.3290705e-15, 5.3290705e-15, -3.982048e-23, 0.5476548, -0.7204373, -0.0013508545, 7.6352975e-08)
 mesh = SubResource("BoxMesh_j7fa5")
 
 [node name="BlimpPlayerController" type="Node" parent="." unique_id=1599259529 node_paths=PackedStringArray("blimp")]
