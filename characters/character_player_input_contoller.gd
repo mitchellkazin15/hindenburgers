@@ -1,4 +1,4 @@
-class_name PlayerInputComponent
+class_name CharacterPlayerInputController
 extends Node
 
 @export var character : Character
@@ -29,10 +29,6 @@ func _unhandled_input(event):
 		"move_down",
 	)
 	character.move_input = move_input.normalized()
-	if event.is_action_pressed("jump"):
-		character.is_jumping = true
-	if event.is_action_released("jump"):
-		character.is_jumping = false
 	if event.is_action_pressed("interact") and character.locked_interaction:
 		character.end_locked_interaction()
 	elif event.is_action_pressed("interact") and interacting_area:
@@ -41,4 +37,5 @@ func _unhandled_input(event):
 				area.interact(character)
 	if event.is_action_pressed("reset"):
 		character.reset()
-	
+	character.is_jumping = Input.is_action_pressed("jump")
+	character.is_sprinting = Input.is_action_pressed("sprint")

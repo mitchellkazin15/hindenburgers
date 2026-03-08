@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://djqwwnq73ttw"]
 
 [ext_resource type="Script" uid="uid://7dmdctw0ys25" path="res://characters/character.gd" id="1_pjt0s"]
-[ext_resource type="Script" uid="uid://b4pxvany8pf1i" path="res://characters/player_input_component.gd" id="2_wa5vi"]
+[ext_resource type="Script" uid="uid://b4pxvany8pf1i" path="res://characters/character_player_input_contoller.gd" id="2_wa5vi"]
 [ext_resource type="Script" uid="uid://caqrbv2whvq2b" path="res://common_components/player_camera_3d.gd" id="3_wa5vi"]
 [ext_resource type="Script" uid="uid://45ejdo8nxfr5" path="res://common_components/interacting_area_3d.gd" id="4_wfnr8"]
+[ext_resource type="Script" uid="uid://wq2hn4rr7qf1" path="res://stats/character_stat_manager.gd" id="5_b1u1o"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
 friction = 0.75
@@ -31,7 +32,7 @@ properties/3/path = NodePath(".:freeze")
 properties/3/spawn = true
 properties/3/replication_mode = 1
 
-[node name="Character" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "synchronizer", "floor_ray_cast")]
+[node name="Character" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "synchronizer", "floor_ray_cast", "stats")]
 physics_material_override = SubResource("PhysicsMaterial_mdkfl")
 gravity_scale = 5.0
 can_sleep = false
@@ -40,6 +41,7 @@ script = ExtResource("1_pjt0s")
 camera = NodePath("CameraPivot/Camera3D")
 synchronizer = NodePath("MultiplayerSynchronizer")
 floor_ray_cast = NodePath("RayCast3D")
+stats = NodePath("CharacterStatManager")
 metadata/_custom_type_script = "uid://7dmdctw0ys25"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=303792128]
@@ -48,9 +50,8 @@ shape = SubResource("CapsuleShape3D_wfnr8")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1739057790]
 mesh = SubResource("CapsuleMesh_px5sl")
 
-[node name="PlayerInputComponent" type="Node" parent="." unique_id=2077985448 node_paths=PackedStringArray("character", "interacting_area")]
+[node name="PlayerInputComponent" type="Node" parent="." unique_id=2077985448 node_paths=PackedStringArray("interacting_area")]
 script = ExtResource("2_wa5vi")
-character = NodePath("")
 interacting_area = NodePath("../InteractingArea3D")
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1271864586]
@@ -76,3 +77,12 @@ visibility_update_mode = 1
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=665954981]
 transform = Transform3D(5.2714596, 0, 0, 0, 1, 0, 0, 0, 1.6312029, 0, 0, 0)
 target_position = Vector3(0, -1.1, 0)
+
+[node name="CharacterStatManager" type="Node" parent="." unique_id=1265100376]
+script = ExtResource("5_b1u1o")
+base_stats = {
+"jump_impulse": 20.0,
+"speed": 10.0,
+"sprint_multiplier": 1.5
+}
+metadata/_custom_type_script = "uid://wq2hn4rr7qf1"

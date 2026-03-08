@@ -50,14 +50,14 @@ func _on_load_multiplayer_level():
 	for player_num in peer_ids.size():
 		print("spawning peer: ", peer_ids[player_num], " is local authority: ", peer_ids[player_num] == multiplayer.get_unique_id())
 		var player : Character = load("res://characters/character.tscn").instantiate()
-		player.intitial_multiplayer_authority = peer_ids[player_num]
+		player.initial_multiplayer_authority = peer_ids[player_num]
 		player.initial_position = player_spawns[player_num].global_position
 		spawner.spawn_player(player)
 		#player.set_multiplayer_authority(peer_ids[player_num])
 		#player.position = player_spawns[player_num].global_position
 		#parent_node.add_child(player, true)
 		#player.set_initial_values.rpc(player_spawns[player_num].global_position, peer_ids[player_num])
-		#player.intitial_multiplayer_authority = peer_ids[player_num]
+		#player.initial_multiplayer_authority = peer_ids[player_num]
 		#player.initial_position = player_spawns[player_num].global_position
 		#parent_node.add_child(player, true)
 		#players.append(player)

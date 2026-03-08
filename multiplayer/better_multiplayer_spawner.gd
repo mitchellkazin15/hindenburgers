@@ -8,11 +8,11 @@ func _ready() -> void:
 func spawn_player(player: Character):
 	spawn({
 		"position": player.initial_position,
-		"authority": player.intitial_multiplayer_authority
+		"authority": player.initial_multiplayer_authority
 	})
 
 func _custom_spawn_func(data: Dictionary) -> Node:
 	var player = load("res://characters/character.tscn").instantiate()
 	player.initial_position = data["position"]
-	player.intitial_multiplayer_authority = data["authority"]
+	player.initial_multiplayer_authority = data["authority"]
 	return player  # Spawner adds this to the scene automatically

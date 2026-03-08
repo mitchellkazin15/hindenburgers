@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://cxmv04r35emag"]
 
 [ext_resource type="Script" uid="uid://cbr5pdqfw87qh" path="res://vehicles/blimp.gd" id="1_j7fa5"]
-[ext_resource type="Script" uid="uid://qa6uew68xg0d" path="res://vehicles/blimp_player_controller.gd" id="2_5xue0"]
+[ext_resource type="Script" uid="uid://qa6uew68xg0d" path="res://vehicles/blimp_player_input_controller.gd" id="2_5xue0"]
 [ext_resource type="Script" uid="uid://caqrbv2whvq2b" path="res://common_components/player_camera_3d.gd" id="3_5xue0"]
 [ext_resource type="Script" uid="uid://833764desipx" path="res://vehicles/enter_driving_area_3d.gd" id="4_vv172"]
+[ext_resource type="Script" uid="uid://d3jst2uikhsxu" path="res://stats/blimp_stat_manager.gd" id="5_66evt"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
 friction = 0.5
@@ -12,7 +13,7 @@ bounce = 0.25
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8rjh7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vv172"]
-size = Vector3(14.360458, 8, 12.652618)
+size = Vector3(13, 1.75, 13)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cm3st"]
 
@@ -32,7 +33,7 @@ properties/2/path = NodePath(".:linear_velocity")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[node name="Blimp" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("driver_seat", "camera", "synchronizer")]
+[node name="Blimp" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("stats", "driver_seat", "camera", "synchronizer")]
 mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_5xue0")
 gravity_scale = 0.75
@@ -41,6 +42,7 @@ center_of_mass = Vector3(0, -100, 0)
 can_sleep = false
 angular_damp = 1.0
 script = ExtResource("1_j7fa5")
+stats = NodePath("BlimpStatManager")
 driver_seat = NodePath("DriverSeat")
 camera = NodePath("CameraPivot/Camera3D")
 synchronizer = NodePath("MultiplayerSynchronizer")
@@ -50,7 +52,7 @@ transform = Transform3D(4.7767136e-14, 1.0927847e-06, 25, 25, -1.0927847e-06, 0,
 shape = SubResource("CapsuleShape3D_8rjh7")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1857533576]
-transform = Transform3D(1, 0, 0, 0, 0.2, 0, 0, 0, 1, 0, -17.682, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17.5, 0)
 shape = SubResource("BoxShape3D_vv172")
 
 [node name="Node3D" type="Node3D" parent="." unique_id=59626035]
@@ -96,3 +98,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, 0)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1269210799]
 replication_config = SubResource("SceneReplicationConfig_oo2kl")
+
+[node name="BlimpStatManager" type="Node" parent="." unique_id=1660235510]
+script = ExtResource("5_66evt")
+base_stats = {
+"acceleration": 5.0,
+"boost_acceleration_multiplier": 2.0,
+"max_speed": 100.0,
+"righting_torque_scalar": 1000.0,
+"rising_acceleration": 10.0,
+"rotational_torque_scalar": 100.0
+}
+metadata/_custom_type_script = "uid://d3jst2uikhsxu"

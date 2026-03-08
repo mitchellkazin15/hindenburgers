@@ -6,19 +6,18 @@ signal locked_interaction_ended
 @export var camera : Camera3D
 @export var controllable = true
 @export var synchronizer : MultiplayerSynchronizer
-@export var intitial_multiplayer_authority : int
+@export var initial_multiplayer_authority : int
 @export var initial_position : Vector3
 @export var floor_ray_cast : RayCast3D
+@export var stats : CharacterStatManager
 
 var move_input : Vector2 = Vector2.ZERO
 var is_jumping = false
+var is_sprinting = false
 var locked_interaction = false
 
 var speed = 20.0
 var jump_speed = 20.0
-var acceleration = 10.0
-var gravity = 50
-var terminal_speed = 1000.0
 var jump_lockout_time = 0.1
 
 var _jump_lock_timer : SceneTreeTimer
@@ -26,18 +25,7 @@ var _can_jump = true
 
 
 func _enter_tree() -> void:
-	#if is_multiplayer_authority():
-		#camera.current = true
-	#pass
-	set_initial_values(initial_position, intitial_multiplayer_authority)
-
-
-func _ready() -> void:
-	print("loading character for peer: ", multiplayer.get_unique_id())
-	#set_initial_values(initial_position, intitial_multiplayer_authority)
-	#set_initial_values(initial_position, intitial_multiplayer_authority)
-	#if is_multiplayer_authority():
-		#camera.current = true
+	set_initial_values(initial_position, initial_multiplayer_authority)
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -54,7 +42,7 @@ func set_initial_values(pos, multiplayer_authority):
 
 func broadcast_initial_values() -> void:
 	print("broadcasting ", self.name)
-	set_initial_values.rpc(initial_position, intitial_multiplayer_authority)
+	set_initial_values.rpc(initial_position, initial_multiplayer_authority)
 
 
 func reset():
@@ -93,37 +81,17 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	var relative_linear_vel = state.linear_velocity
 	if collider and collider is RigidBody3D:
 		relative_linear_vel -= collider.linear_velocity
+	var speed = stats.get_current_speed()
+	if is_sprinting:
+		speed *= stats.get_current_sprint_multiplier()
 	var target_ground_plane_vel = (speed * move_direction) - relative_linear_vel
 	target_ground_plane_vel.y = 0.0
 	state.apply_central_impulse(target_ground_plane_vel)
 	if is_jumping and _can_jump and floor_ray_cast.is_colliding():
-		state.apply_central_impulse(jump_speed * Vector3.UP)
+		state.apply_central_impulse(stats.get_current_jump_impulse() * Vector3.UP)
 		_can_jump = false
 		_jump_lock_timer = get_tree().create_timer(jump_lockout_time)
 		_jump_lock_timer.timeout.connect(_on_jump_lock_timeout)
 
 func _on_jump_lock_timeout():
 	_can_jump = true
-
-
-
-#func _physics_process(delta: float) -> void:
-	#process_movement(delta)
-#
-#
-#func process_movement(delta: float) -> void:
-	#if not controllable:
-		#return
-	#var forward = camera.global_basis.z
-	#var right = camera.global_basis.x
-	#var move_direction = forward * move_input.y + right * move_input.x
-	#move_direction.y = 0.0
-	#move_direction = move_direction.normalized()
-	##var ground_plane_vel = Vector2(velocity.x, velocity.z)
-	##ground_plane_vel = ground_plane_vel.move_toward(speed * Vector2(move_direction.x, move_direction.z), acceleration * delta)
-	##velocity.x = ground_plane_vel.x
-	##velocity.z = ground_plane_vel.y
-	##velocity.y = min(terminal_speed, velocity.y - gravity * delta)
-	##if is_on_floor() and is_jumping:
-		##velocity.y = jump_speed
-	##move_and_slide()

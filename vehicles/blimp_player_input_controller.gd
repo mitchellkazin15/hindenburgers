@@ -1,4 +1,4 @@
-class_name BlimpPlayerController
+class_name BlimpPlayerInputController
 extends Node
 
 @export var blimp : Blimp
@@ -27,7 +27,5 @@ func _unhandled_input(event):
 		"move_down",
 	)
 	blimp.move_input = move_input.normalized()
-	if event.is_action_pressed("jump"):
-		blimp.is_jumping = true
-	if event.is_action_released("jump"):
-		blimp.is_jumping = false
+	blimp.is_rising = Input.is_action_pressed("jump")
+	blimp.is_boosting = Input.is_action_pressed("sprint")
