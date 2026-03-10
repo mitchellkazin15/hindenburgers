@@ -12,7 +12,11 @@ rough = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wfnr8"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b1u1o"]
+albedo_color = Color(0, 0, 0.65882355, 1)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_px5sl"]
+material = SubResource("StandardMaterial3D_b1u1o")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_px5sl"]
 radius = 0.75
@@ -25,20 +29,18 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath(".:linear_velocity")
+properties/2/path = NodePath(".:freeze")
 properties/2/spawn = true
 properties/2/replication_mode = 1
-properties/3/path = NodePath(".:freeze")
-properties/3/spawn = true
-properties/3/replication_mode = 1
 
-[node name="Character" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "synchronizer", "floor_ray_cast", "stats")]
+[node name="Character" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "input_controller", "synchronizer", "floor_ray_cast", "stats")]
 physics_material_override = SubResource("PhysicsMaterial_mdkfl")
 gravity_scale = 5.0
 can_sleep = false
 lock_rotation = true
 script = ExtResource("1_pjt0s")
 camera = NodePath("CameraPivot/Camera3D")
+input_controller = NodePath("PlayerInputComponent")
 synchronizer = NodePath("MultiplayerSynchronizer")
 floor_ray_cast = NodePath("RayCast3D")
 stats = NodePath("CharacterStatManager")
@@ -50,8 +52,9 @@ shape = SubResource("CapsuleShape3D_wfnr8")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1739057790]
 mesh = SubResource("CapsuleMesh_px5sl")
 
-[node name="PlayerInputComponent" type="Node" parent="." unique_id=2077985448 node_paths=PackedStringArray("interacting_area")]
+[node name="PlayerInputComponent" type="Node" parent="." unique_id=2077985448 node_paths=PackedStringArray("character", "interacting_area")]
 script = ExtResource("2_wa5vi")
+character = NodePath("..")
 interacting_area = NodePath("../InteractingArea3D")
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1271864586]

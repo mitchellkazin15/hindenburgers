@@ -7,6 +7,7 @@ extends RigidBody3D
 @export var driver_seat : RemoteTransform3D
 @export var camera : Camera3D
 @export var synchronizer : MultiplayerSynchronizer
+@export var vehicle_controller : VehiclePlayerInputController
 
 
 func set_driver(driving_character: Character) -> bool:
@@ -16,11 +17,9 @@ func set_driver(driving_character: Character) -> bool:
 	driver = driving_character
 	driver_seat.remote_path = driver.get_path()
 	driver.locked_interaction_ended.connect(_on_end_locked_interaction)
-	camera.set_process(true)
-	camera.set_process_input(true)
-	camera.current = true
 	call_deferred("_unfreeze")
-	update_authority.rpc(driver.get_multiplayer_authority())
+	print(" new driver: ", driver.input_controller.get_multiplayer_authority(), " set by: ", get_multiplayer_authority())
+	update_authority.rpc(driver.input_controller.get_multiplayer_authority())
 	update_driving_status.rpc(being_driven)
 	return true
 
@@ -34,9 +33,13 @@ func update_driving_status(being_driven: bool) -> void:
 func update_authority(new_authority: int) -> void:
 	print("current authority: ",  get_multiplayer_authority())
 	print("setting new authority: ", new_authority)
-	set_multiplayer_authority(new_authority, true)
-	set_process(is_multiplayer_authority())
-	set_process_input(is_multiplayer_authority())
+	camera.set_multiplayer_authority(new_authority)
+	camera.set_process(camera.is_multiplayer_authority())
+	camera.set_process_input(camera.is_multiplayer_authority())
+	camera.current = camera.is_multiplayer_authority()
+	vehicle_controller.set_multiplayer_authority(new_authority)
+	vehicle_controller.set_process(vehicle_controller.is_multiplayer_authority())
+	vehicle_controller.set_process_input(vehicle_controller.is_multiplayer_authority())
 
 
 func _on_end_locked_interaction() -> void:

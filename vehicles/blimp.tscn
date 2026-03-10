@@ -15,9 +15,17 @@ bounce = 0.25
 [sub_resource type="BoxShape3D" id="BoxShape3D_vv172"]
 size = Vector3(13, 1.75, 13)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_66evt"]
+albedo_color = Color(0.24313726, 0.6509804, 0, 1)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cm3st"]
+material = SubResource("StandardMaterial3D_66evt")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ijpo3"]
+albedo_color = Color(0.37104803, 0.146849, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_j7fa5"]
+material = SubResource("StandardMaterial3D_ijpo3")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5xue0"]
 size = Vector3(11, 11, 11)
@@ -33,7 +41,33 @@ properties/2/path = NodePath(".:linear_velocity")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[node name="Blimp" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("stats", "driver_seat", "camera", "synchronizer")]
+[sub_resource type="Curve" id="Curve_66evt"]
+_data = [Vector2(0, 0.7501434), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ijpo3"]
+curve = SubResource("Curve_66evt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_66evt"]
+lifetime_randomness = 0.25
+initial_velocity_min = 1.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, 0, 0)
+scale_min = 2.5
+scale_max = 10.0
+alpha_curve = SubResource("CurveTexture_ijpo3")
+turbulence_enabled = true
+turbulence_noise_scale = 0.642
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ay0pt"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.54509807)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ew8ff"]
+material = SubResource("StandardMaterial3D_ay0pt")
+
+[node name="Blimp" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("stats", "driver_seat", "camera", "synchronizer", "vehicle_controller")]
 mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_5xue0")
 gravity_scale = 0.75
@@ -46,6 +80,7 @@ stats = NodePath("BlimpStatManager")
 driver_seat = NodePath("DriverSeat")
 camera = NodePath("CameraPivot/Camera3D")
 synchronizer = NodePath("MultiplayerSynchronizer")
+vehicle_controller = NodePath("BlimpPlayerController")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=808104814]
 transform = Transform3D(4.7767136e-14, 1.0927847e-06, 25, 25, -1.0927847e-06, 0, 1.0927847e-06, 25, -1.0927847e-06, 0, 0, 0)
@@ -65,10 +100,12 @@ mesh = SubResource("CapsuleMesh_cm3st")
 transform = Transform3D(-2.1855694e-08, 0.05, 5.3080847e-22, -0.5, -2.1855695e-09, 5.0034202e-15, 5.0034202e-15, -3.1210203e-23, 0.5, -0.7, -0.001, 0)
 mesh = SubResource("BoxMesh_j7fa5")
 
-[node name="BlimpPlayerController" type="Node" parent="." unique_id=1599259529 node_paths=PackedStringArray("blimp")]
+[node name="BlimpPlayerController" type="Node" parent="." unique_id=894992584 node_paths=PackedStringArray("blimp", "camera")]
 script = ExtResource("2_5xue0")
 blimp = NodePath("..")
+camera = NodePath("../CameraPivot/Camera3D")
 enabled = true
+metadata/_custom_type_script = "uid://cmdgjanr71io4"
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1604882816]
 top_level = true
@@ -110,3 +147,10 @@ base_stats = {
 "rotational_torque_scalar": 100.0
 }
 metadata/_custom_type_script = "uid://d3jst2uikhsxu"
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=122559559]
+amount = 250
+lifetime = 5.0
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_66evt")
+draw_pass_1 = SubResource("SphereMesh_ew8ff")

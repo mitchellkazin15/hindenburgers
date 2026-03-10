@@ -1,7 +1,8 @@
 class_name BlimpPlayerInputController
-extends Node
+extends VehiclePlayerInputController
 
 @export var blimp : Blimp
+@export var camera : PlayerCamera3D
 @export var enabled = false
 
 
@@ -12,7 +13,7 @@ func _ready():
 
 
 func _unhandled_input(event):
-	if not blimp.driver or not blimp.driver.is_multiplayer_authority():
+	if not is_multiplayer_authority():
 		return
 	if not enabled:
 		return
@@ -25,7 +26,20 @@ func _unhandled_input(event):
 		"move_right",
 		"move_up",
 		"move_down",
-	)
-	blimp.move_input = move_input.normalized()
-	blimp.is_rising = Input.is_action_pressed("jump")
-	blimp.is_boosting = Input.is_action_pressed("sprint")
+	).normalized()
+	var forward = camera.global_basis.z
+	var right = camera.global_basis.x
+	var move_direction = forward * move_input.y
+	move_direction.y = 0.0
+	move_direction = move_direction.normalized()
+	var is_rising = Input.is_action_pressed("jump")
+	var is_boosting = Input.is_action_pressed("sprint")
+	_handle_input.rpc_id(1, move_input, move_direction, is_rising, is_boosting)
+
+
+@rpc("authority", "call_local", "unreliable_ordered")
+func _handle_input(move_input, move_direction, is_rising, is_boosting):
+	blimp.move_input = move_input
+	blimp.move_direction = move_direction
+	blimp.is_rising = is_rising
+	blimp.is_boosting = is_boosting

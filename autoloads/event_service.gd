@@ -5,6 +5,8 @@ signal change_menu_overlay(menu_path)
 signal start_game(game_info : Dictionary)
 signal load_multiplayer_level
 
+var spawner : BetterMultiplayerSpawner
+
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -22,20 +24,7 @@ func _change_menu(menu_path):
 
 
 func _start_game(info):
-	print("start event for peer: ", multiplayer.get_unique_id())
 	get_tree().change_scene_to_packed(load("res://multiplayer/multiplayer_base_scene.tscn"))
-	#deferred_change_scene_to_packed(load("res://multiplayer/multiplayer_base_scene.tscn"))
-
-
-func deferred_change_scene_to_packed(next_scene):
-	var old_scene = get_tree().current_scene
-	for child in old_scene.get_children():
-		child.queue_free()
-	call_deferred("_deferred_change_scene_to_packed_helper", next_scene)
-
-
-func _deferred_change_scene_to_packed_helper(next_scene):
-	get_tree().change_scene_to_packed(next_scene)
 
 
 func _on_load_multiplayer_level():
@@ -53,21 +42,6 @@ func _on_load_multiplayer_level():
 		player.initial_multiplayer_authority = peer_ids[player_num]
 		player.initial_position = player_spawns[player_num].global_position
 		spawner.spawn_player(player)
-		#player.set_multiplayer_authority(peer_ids[player_num])
-		#player.position = player_spawns[player_num].global_position
-		#parent_node.add_child(player, true)
-		#player.set_initial_values.rpc(player_spawns[player_num].global_position, peer_ids[player_num])
-		#player.initial_multiplayer_authority = peer_ids[player_num]
-		#player.initial_position = player_spawns[player_num].global_position
-		#parent_node.add_child(player, true)
-		#players.append(player)
-	call_deferred("_broadcast_player_initial_values", players)
-
-
-func _broadcast_player_initial_values(players: Array) -> void:
-	await get_tree().create_timer(1).timeout
-	for player : Character in players:
-		player.broadcast_initial_values()
 
 
 func _quit_game():

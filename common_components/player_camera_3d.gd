@@ -11,8 +11,6 @@ var mouse_sensitivity = 0.25
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority():
-		set_process(false)
-		set_process_input(false)
 		return
 	if not current:
 		return
@@ -24,7 +22,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_camera_input_direction = event.screen_relative * mouse_sensitivity
 
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	_camera_pivot.rotation.x += _camera_input_direction.y * delta
 	_camera_pivot.rotation.x = clamp(_camera_pivot.rotation.x, tilt_lower_limit, tilt_upper_limit)
 	_camera_pivot.rotation.y -= _camera_input_direction.x * delta

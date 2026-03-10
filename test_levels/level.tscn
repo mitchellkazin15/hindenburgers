@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cxmv04r35emag" path="res://vehicles/blimp.tscn" id="2_41kie"]
 [ext_resource type="Script" uid="uid://cww7byljmt284" path="res://test_levels/player_spawn.gd" id="3_ih737"]
+[ext_resource type="PackedScene" uid="uid://de20king28rr0" path="res://items/hamburger.tscn" id="3_vmtoy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u52ul"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -33,6 +34,15 @@ use_collision = true
 [node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1239690755]
 transform = Transform3D(5.8, 0, 0, 0, 8, 0, 0, 0, 3.9, -60, 4, -34)
 
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D" unique_id=729234637]
+transform = Transform3D(5.8, 0, 0, 0, 8, 0, 0, 0, 3.9, -69, 7, -34)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1282547520]
+transform = Transform3D(6.38, 0, 0, 0, 8, 0, 0, 0, 4.6800003, -73, 9, -22)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="CSGCombiner3D" unique_id=337138713]
+transform = Transform3D(12.818001, 0, 0, 0, 8, 0, 0, 0, 9.360001, -103, 13, -43)
+
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1729773464]
 transform = Transform3D(1, 0, 0, 0, -0.39999998, 0, 0, 0, 1, 34.001236, -21.25653, 56.050903)
 use_collision = true
@@ -42,6 +52,15 @@ size = Vector3(1501, 100, 1671)
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D" unique_id=1858495606]
 transform = Transform3D(0.9921793, -0.077138156, 0.098132946, -0.08665031, -0.9915368, 0.09667767, 0.089844875, -0.10442481, -0.99046624, -42.890373, -2.9823503, -32.523075)
 polygon = PackedVector2Array(-15.0833645, -9.186816, -6.386774, 2.5932584, 1, 1, 1.6608492, -3.8587446)
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="CSGCombiner3D" unique_id=1821305884]
+transform = Transform3D(0.77615845, -0.06301977, 0.6273807, 0.22770222, -0.8998349, -0.37208736, 0.5879878, 0.43165493, -0.6840648, -80.89037, 10.01765, -29.523075)
+polygon = PackedVector2Array(-15.0833645, -9.186816, -6.386774, 2.5932584, 1, 1, 1.6608492, -3.8587446)
+
+[node name="CSGTorus3D" type="CSGTorus3D" parent="CSGCombiner3D" unique_id=164498814]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -104, 18, -43)
+inner_radius = 3.0
+outer_radius = 5.0
 
 [node name="Blimp" parent="." unique_id=1992139785 instance=ExtResource("2_41kie")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 56, 18, 110)
@@ -122,3 +141,45 @@ script = ExtResource("3_ih737")
 [node name="PlayerSpawn4" type="Node3D" parent="SpawnGrouping" unique_id=720912028 groups=["player_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, -10)
 script = ExtResource("3_ih737")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=400429302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="Hamburger" parent="Node3D" unique_id=1264862515 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -106, 18, -41)
+
+[node name="Hamburger2" parent="Node3D" unique_id=605657044 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105, 17, -41)
+
+[node name="Hamburger3" parent="Node3D" unique_id=1632564193 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -106, 18, -42)
+
+[node name="Hamburger4" parent="Node3D" unique_id=2064769404 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105, 18, -41)
+
+[node name="Hamburger5" parent="Node3D" unique_id=1286191434 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102, 17, -44)
+
+[node name="Hamburger6" parent="Node3D" unique_id=1905701912 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -103, 17, -43)
+
+[node name="Hamburger7" parent="Node3D" unique_id=1011007938 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -103, 17, -45)
+
+[node name="Hamburger8" parent="Node3D" unique_id=1567536000 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -104, 17, -44)
+
+[node name="Hamburger9" parent="Node3D" unique_id=641496103 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105, 17, -43)
+
+[node name="Hamburger10" parent="Node3D" unique_id=543651599 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102, 17, -42)
+
+[node name="Hamburger" parent="." unique_id=232809443 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -101, 19, -42)
+
+[node name="Hamburger2" parent="." unique_id=1471564452 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102, 19, -46)
+
+[node name="Hamburger3" parent="." unique_id=1447436283 instance=ExtResource("3_vmtoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105, 19, -46)
