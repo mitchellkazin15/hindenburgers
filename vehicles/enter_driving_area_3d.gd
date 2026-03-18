@@ -5,8 +5,11 @@ extends InteractableArea3D
 
 
 func interact(interacting_node: Node) -> void:
-	if not interacting_node is Character or not vehicle.driver == null:
+	if not interacting_node is Character:
 		return
 	var character : Character = interacting_node
-	if vehicle.set_driver(character):
+	if character == vehicle.driver:
+		character.end_locked_interaction()
+		character.end_locked_interaction.rpc_id(character.camera.get_multiplayer_authority())
+	elif vehicle.set_driver(character):
 		character.set_locked_interacting()

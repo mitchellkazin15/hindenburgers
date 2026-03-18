@@ -1,5 +1,8 @@
 [gd_scene format=3 uid="uid://de20king28rr0"]
 
+[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_ngdkf"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_syu0n"]
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_q777v"]
 radius = 0.25
 
@@ -28,8 +31,11 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+
 [node name="Hamburger" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
+script = ExtResource("1_ngdkf")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
 shape = SubResource("SphereShape3D_q777v")
@@ -42,3 +48,12 @@ mesh = SubResource("CylinderMesh_n3gac")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=847552921]
 replication_config = SubResource("SceneReplicationConfig_q777v")
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+script = ExtResource("2_syu0n")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
+shape = SubResource("SphereShape3D_22q5j")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)

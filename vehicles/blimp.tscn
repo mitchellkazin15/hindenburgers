@@ -149,8 +149,8 @@ base_stats = {
 metadata/_custom_type_script = "uid://d3jst2uikhsxu"
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=122559559]
+emitting = false
 amount = 250
 lifetime = 5.0
-trail_enabled = true
 process_material = SubResource("ParticleProcessMaterial_66evt")
 draw_pass_1 = SubResource("SphereMesh_ew8ff")

@@ -37,37 +37,32 @@ func _physics_process(delta: float) -> void:
 		"move_up",
 		"move_down",
 	)
-	if Input.is_action_just_pressed("interact") and character.locked_interaction:
-		character.end_locked_interaction()
-	elif Input.is_action_just_pressed("interact") and interacting_area:
-		for area in interacting_area.get_overlapping_areas():
-			if area is InteractableArea3D:
-				_handle_interact.rpc_id(1)
+	if Input.is_action_just_pressed("interact"):
+		_handle_interact.rpc_id(1)
 	var reset_input = Input.is_action_just_pressed("reset")
 	var is_jumping = Input.is_action_pressed("jump")
 	var is_sprinting = Input.is_action_pressed("sprint")
+	var is_throwing = Input.is_action_pressed("throw")
 	var forward = character.camera.global_basis.z
 	var right = character.camera.global_basis.x
 	var move_direction = forward * move_input.y + right * move_input.x
 	move_direction.y = 0.0
 	move_direction = move_direction.normalized()
-	_handle_input.rpc_id(1, move_direction, reset_input, is_jumping, is_sprinting)
+	_handle_input.rpc_id(1, move_direction, reset_input, is_jumping, is_sprinting, is_throwing)
 
 
 @rpc("authority", "call_local", "unreliable_ordered")
 func _handle_interact():
-	if character.locked_interaction:
-		character.end_locked_interaction()
-		character.end_locked_interaction.rpc_id(character.camera.get_multiplayer_authority())
-	elif interacting_area:
-		for area in interacting_area.get_overlapping_areas():
-			if area is InteractableArea3D:
-				area.interact(character)
+	for area in interacting_area.get_overlapping_areas():
+		if area is InteractableArea3D:
+			area.interact(character)
 
 
 @rpc("authority", "call_local", "unreliable_ordered")
-func _handle_input(move_direction, reset_input, is_jumping, is_sprinting):
+func _handle_input(move_direction, reset_input, is_jumping, is_sprinting, is_throwing):
 	character.move_direction = move_direction
 	character.reset_input = reset_input
 	character.is_jumping = is_jumping
 	character.is_sprinting = is_sprinting
+	if is_throwing:
+		character.throw_item()

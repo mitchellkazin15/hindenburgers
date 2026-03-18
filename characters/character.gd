@@ -11,12 +11,14 @@ signal locked_interaction_ended
 @export var initial_position : Vector3
 @export var floor_ray_cast : RayCast3D
 @export var stats : CharacterStatManager
+@export var hand : RemoteTransform3D
 
 const host_authority = 1
 var move_direction : Vector3
 var is_jumping = false
 var is_sprinting = false
 var locked_interaction = false
+var held_item : HoldableItem = null
 var reset_input = false
 
 var speed = 20.0
@@ -80,6 +82,23 @@ func end_locked_interaction():
 	locked_interaction_ended.emit()
 
 
+func grab_item(item : HoldableItem):
+	if held_item != null:
+		return false
+	hand.remote_path = item.get_path()
+	held_item = item
+	return true
+
+
+func throw_item():
+	if held_item == null:
+		return
+	hand.remote_path = NodePath("")
+	held_item.release.rpc()
+	held_item.apply_central_impulse(2.0 * $RotationPivot.global_basis.z)
+	held_item = null
+
+
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if not is_multiplayer_authority():
 		return
@@ -93,6 +112,8 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if collider and collider is RigidBody3D:
 		relative_linear_vel -= collider.linear_velocity
 	var speed = stats.get_current_speed()
+	if move_direction != Vector3.ZERO:
+		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(move_direction, Vector3.UP), min(10.0 * state.step, 1.0))
 	if is_sprinting:
 		speed *= stats.get_current_sprint_multiplier()
 	var target_ground_plane_vel = (speed * move_direction) - relative_linear_vel

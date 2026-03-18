@@ -32,8 +32,11 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:freeze")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath("RotationPivot:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
-[node name="Character" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "input_controller", "synchronizer", "floor_ray_cast", "stats")]
+[node name="Character" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "input_controller", "synchronizer", "floor_ray_cast", "stats", "hand")]
 physics_material_override = SubResource("PhysicsMaterial_mdkfl")
 gravity_scale = 5.0
 can_sleep = false
@@ -44,13 +47,19 @@ input_controller = NodePath("PlayerInputComponent")
 synchronizer = NodePath("MultiplayerSynchronizer")
 floor_ray_cast = NodePath("RayCast3D")
 stats = NodePath("CharacterStatManager")
+hand = NodePath("RotationPivot/HandRemoteTransform3D")
 metadata/_custom_type_script = "uid://7dmdctw0ys25"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=303792128]
 shape = SubResource("CapsuleShape3D_wfnr8")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1739057790]
+[node name="RotationPivot" type="Node3D" parent="." unique_id=664917725]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RotationPivot" unique_id=1739057790]
 mesh = SubResource("CapsuleMesh_px5sl")
+
+[node name="HandRemoteTransform3D" type="RemoteTransform3D" parent="RotationPivot" unique_id=901843108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
 [node name="PlayerInputComponent" type="Node" parent="." unique_id=2077985448 node_paths=PackedStringArray("character", "interacting_area")]
 script = ExtResource("2_wa5vi")
