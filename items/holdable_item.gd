@@ -19,3 +19,7 @@ func set_being_held():
 func release():
 	being_held = false
 	freeze = false
+
+
+func use():
+	pass

@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cxmv04r35emag" path="res://vehicles/blimp.tscn" id="2_41kie"]
 [ext_resource type="Script" uid="uid://cww7byljmt284" path="res://test_levels/player_spawn.gd" id="3_ih737"]
 [ext_resource type="PackedScene" uid="uid://de20king28rr0" path="res://items/hamburger.tscn" id="3_vmtoy"]
+[ext_resource type="PackedScene" uid="uid://bbqknpjnqy3ym" path="res://items/spatula.tscn" id="4_41kie"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u52ul"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -196,3 +197,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102, 19, -46)
 
 [node name="Hamburger3" parent="." unique_id=1447436283 instance=ExtResource("3_vmtoy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105, 19, -46)
+
+[node name="Hamburger4" parent="." unique_id=1320027961 instance=ExtResource("4_41kie")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -79.12715, -1.2515212, -43.715904)
+
+[node name="Hamburger5" parent="." unique_id=743057756 instance=ExtResource("4_41kie")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.707893, -1.2515193, -7.3922424)
+
+[node name="Hamburger6" parent="." unique_id=1707076363 instance=ExtResource("4_41kie")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -99.87643, -1.2515212, 17.455753)
+
+[node name="Hamburger7" parent="." unique_id=287823927 instance=ExtResource("4_41kie")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -89.531296, -1.2514983, 37.089615)

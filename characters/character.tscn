@@ -41,6 +41,7 @@ physics_material_override = SubResource("PhysicsMaterial_mdkfl")
 gravity_scale = 5.0
 can_sleep = false
 lock_rotation = true
+continuous_cd = true
 script = ExtResource("1_pjt0s")
 camera = NodePath("CameraPivot/Camera3D")
 input_controller = NodePath("PlayerInputComponent")
