@@ -4,16 +4,16 @@
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_brdvl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qikfw"]
-size = Vector3(0.25, 0.01, 0.3)
+size = Vector3(0.25, 0.05, 0.49960938)
 
 [sub_resource type="BoxMesh" id="BoxMesh_brdvl"]
-size = Vector3(0.1, 0.01, 1)
+size = Vector3(0.1, 0.05, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d5n5e"]
 albedo_color = Color(0.23031491, 0.23031494, 0.23031494, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_tgr5y"]
-size = Vector3(0.25, 0.01, 0.3)
+size = Vector3(0.25, 0.05, 0.3)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31h44"]
 albedo_color = Color(0.23137255, 0.23137255, 0.23137255, 1)
@@ -30,20 +30,22 @@ properties/1/replication_mode = 1
 radius = 0.75
 
 [node name="Spatula" type="RigidBody3D" unique_id=1264862515]
-mass = 0.1
+mass = 0.5
+center_of_mass_mode = 1
 continuous_cd = true
 script = ExtResource("1_qikfw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.35)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.75)
 shape = SubResource("BoxShape3D_qikfw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1666493877]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 mesh = SubResource("BoxMesh_brdvl")
 surface_material_override/0 = SubResource("StandardMaterial3D_d5n5e")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1802209539]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.35)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
 mesh = SubResource("BoxMesh_tgr5y")
 surface_material_override/0 = SubResource("StandardMaterial3D_31h44")
 
@@ -51,6 +53,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_31h44")
 replication_config = SubResource("SceneReplicationConfig_q777v")
 
 [node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 script = ExtResource("2_brdvl")
 item = NodePath("..")
 metadata/_custom_type_script = "uid://dfi80sfc6gjg"
@@ -58,3 +61,5 @@ metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
 shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="SwingPivot" type="Node3D" parent="." unique_id=1085677876]

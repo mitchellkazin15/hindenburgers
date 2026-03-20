@@ -37,18 +37,29 @@ func _physics_process(delta: float) -> void:
 		"move_up",
 		"move_down",
 	)
-	if Input.is_action_just_pressed("interact"):
-		_handle_interact.rpc_id(1)
-	var reset_input = Input.is_action_just_pressed("reset")
 	var is_jumping = Input.is_action_pressed("jump")
 	var is_sprinting = Input.is_action_pressed("sprint")
-	var is_throwing = Input.is_action_pressed("throw")
 	var forward = character.camera.global_basis.z
 	var right = character.camera.global_basis.x
 	var move_direction = forward * move_input.y + right * move_input.x
 	move_direction.y = 0.0
 	move_direction = move_direction.normalized()
-	_handle_input.rpc_id(1, move_direction, reset_input, is_jumping, is_sprinting, is_throwing)
+	_handle_move_input.rpc_id(1, move_direction, is_jumping, is_sprinting)
+	if Input.is_action_just_pressed("interact"):
+		_handle_interact.rpc_id(1)
+	if Input.is_action_pressed("throw"):
+		_handle_throw_input.rpc_id(1)
+	if Input.is_action_just_pressed("reset"):
+		_handle_reset_input.rpc_id(1)
+	if Input.is_action_just_pressed("use_item"):
+		_handle_use_item_input.rpc_id(1)
+
+
+@rpc("authority", "call_local", "unreliable_ordered")
+func _handle_move_input(move_direction, is_jumping, is_sprinting):
+	character.move_direction = move_direction
+	character.is_jumping = is_jumping
+	character.is_sprinting = is_sprinting
 
 
 @rpc("authority", "call_local", "unreliable_ordered")
@@ -59,10 +70,15 @@ func _handle_interact():
 
 
 @rpc("authority", "call_local", "unreliable_ordered")
-func _handle_input(move_direction, reset_input, is_jumping, is_sprinting, is_throwing):
-	character.move_direction = move_direction
-	character.reset_input = reset_input
-	character.is_jumping = is_jumping
-	character.is_sprinting = is_sprinting
-	if is_throwing:
-		character.throw_item()
+func _handle_throw_input():
+	character.throw_item()
+
+
+@rpc("authority", "call_local", "unreliable_ordered")
+func _handle_reset_input():
+	character.reset_input = true
+
+
+@rpc("authority", "call_local", "unreliable_ordered")
+func _handle_use_item_input():
+	character.use_item()

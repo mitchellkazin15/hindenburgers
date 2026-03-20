@@ -1,6 +1,8 @@
 class_name HoldableItem
 extends RigidBody3D
 
+signal use_finished
+
 var being_held = false
 
 

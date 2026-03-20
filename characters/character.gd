@@ -90,6 +90,21 @@ func grab_item(item : HoldableItem):
 	return true
 
 
+func use_item():
+	if held_item:
+		hand.update_position = false
+		hand.update_rotation = false
+		hand.update_scale = false
+		held_item.use()
+		held_item.use_finished.connect(_on_use_finished)
+
+
+func _on_use_finished():
+	hand.update_position = true
+	hand.update_rotation = true
+	hand.update_scale = true
+
+
 func throw_item():
 	if held_item == null:
 		return

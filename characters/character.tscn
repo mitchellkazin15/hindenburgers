@@ -18,6 +18,8 @@ albedo_color = Color(0, 0, 0.65882355, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_px5sl"]
 material = SubResource("StandardMaterial3D_b1u1o")
 
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_b1u1o"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_px5sl"]
 radius = 0.75
 height = 2.5
@@ -61,6 +63,9 @@ mesh = SubResource("CapsuleMesh_px5sl")
 
 [node name="HandRemoteTransform3D" type="RemoteTransform3D" parent="RotationPivot" unique_id=901843108]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="RotationPivot" unique_id=1882443013]
+shape = SubResource("SeparationRayShape3D_b1u1o")
 
 [node name="PlayerInputComponent" type="Node" parent="." unique_id=2077985448 node_paths=PackedStringArray("character", "interacting_area")]
 script = ExtResource("2_wa5vi")
