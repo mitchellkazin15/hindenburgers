@@ -8,7 +8,6 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
 friction = 0.75
-rough = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wfnr8"]
 
@@ -17,8 +16,6 @@ albedo_color = Color(0, 0, 0.65882355, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_px5sl"]
 material = SubResource("StandardMaterial3D_b1u1o")
-
-[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_b1u1o"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_px5sl"]
 radius = 0.75
@@ -38,7 +35,11 @@ properties/3/path = NodePath("RotationPivot:rotation")
 properties/3/spawn = true
 properties/3/replication_mode = 1
 
-[node name="Character" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "input_controller", "synchronizer", "floor_ray_cast", "stats", "hand")]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_b1u1o"]
+height = 0.5
+radius = 0.4
+
+[node name="Character" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "input_controller", "synchronizer", "floor_shape_cast", "stats", "hand")]
 physics_material_override = SubResource("PhysicsMaterial_mdkfl")
 gravity_scale = 5.0
 can_sleep = false
@@ -48,7 +49,7 @@ script = ExtResource("1_pjt0s")
 camera = NodePath("CameraPivot/Camera3D")
 input_controller = NodePath("PlayerInputComponent")
 synchronizer = NodePath("MultiplayerSynchronizer")
-floor_ray_cast = NodePath("RayCast3D")
+floor_shape_cast = NodePath("ShapeCast3D")
 stats = NodePath("CharacterStatManager")
 hand = NodePath("RotationPivot/HandRemoteTransform3D")
 metadata/_custom_type_script = "uid://7dmdctw0ys25"
@@ -63,9 +64,6 @@ mesh = SubResource("CapsuleMesh_px5sl")
 
 [node name="HandRemoteTransform3D" type="RemoteTransform3D" parent="RotationPivot" unique_id=901843108]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
-
-[node name="SpringArm3D" type="SpringArm3D" parent="RotationPivot" unique_id=1882443013]
-shape = SubResource("SeparationRayShape3D_b1u1o")
 
 [node name="PlayerInputComponent" type="Node" parent="." unique_id=2077985448 node_paths=PackedStringArray("character", "interacting_area")]
 script = ExtResource("2_wa5vi")
@@ -92,15 +90,16 @@ debug_color = Color(0.2700933, 0.6330955, 0, 0.41960785)
 replication_config = SubResource("SceneReplicationConfig_mdkfl")
 visibility_update_mode = 1
 
-[node name="RayCast3D" type="RayCast3D" parent="." unique_id=665954981]
-transform = Transform3D(5.2714596, 0, 0, 0, 1, 0, 0, 0, 1.6312029, 0, 0, 0)
-target_position = Vector3(0, -1.1, 0)
-
 [node name="CharacterStatManager" type="Node" parent="." unique_id=1265100376]
 script = ExtResource("5_b1u1o")
 base_stats = {
+"air_acceleration": 5.0,
 "jump_impulse": 20.0,
 "speed": 10.0,
 "sprint_multiplier": 1.5
 }
 metadata/_custom_type_script = "uid://wq2hn4rr7qf1"
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="." unique_id=511311796]
+shape = SubResource("CylinderShape3D_b1u1o")
+target_position = Vector3(0, -0.8, 0)

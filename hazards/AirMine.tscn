@@ -54,7 +54,9 @@ turbulence_enabled = true
 turbulence_noise_scale = 0.642
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ay0pt"]
-transparency = 1
+transparency = 3
+alpha_hash_scale = 0.01
+alpha_antialiasing_mode = 0
 vertex_color_use_as_albedo = true
 albedo_color = Color(1, 1, 1, 0.54509807)
 
@@ -131,9 +133,12 @@ debug_color = Color(0.9573023, 0, 0.5359123, 0.41960785)
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=1707541549]
 emitting = false
-amount = 250
+amount = 100
 lifetime = 5.0
 one_shot = true
+explosiveness = 1.0
 visibility_aabb = AABB(-50, -50, -50, 100, 100, 100)
 process_material = SubResource("ParticleProcessMaterial_3cej2")
 draw_pass_1 = SubResource("SphereMesh_itskd")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=58114634]

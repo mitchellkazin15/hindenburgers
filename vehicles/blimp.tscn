@@ -61,7 +61,9 @@ turbulence_enabled = true
 turbulence_noise_scale = 0.642
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ay0pt"]
-transparency = 1
+transparency = 3
+alpha_hash_scale = 0.01
+alpha_antialiasing_mode = 0
 vertex_color_use_as_albedo = true
 albedo_color = Color(1, 1, 1, 0.54509807)
 
@@ -150,7 +152,7 @@ base_stats = {
 metadata/_custom_type_script = "uid://d3jst2uikhsxu"
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=122559559]
-amount = 250
+amount = 100
 lifetime = 5.0
 visibility_aabb = AABB(-25, -25, -25, 50, 50, 50)
 process_material = SubResource("ParticleProcessMaterial_66evt")

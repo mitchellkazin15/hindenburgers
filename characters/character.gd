@@ -9,7 +9,7 @@ signal locked_interaction_ended
 @export var synchronizer : MultiplayerSynchronizer
 @export var initial_multiplayer_authority : int
 @export var initial_position : Vector3
-@export var floor_ray_cast : RayCast3D
+@export var floor_shape_cast : ShapeCast3D
 @export var stats : CharacterStatManager
 @export var hand : RemoteTransform3D
 
@@ -119,7 +119,9 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if reset_input:
 		reset()
 		return
-	var collider = floor_ray_cast.get_collider()
+	var collider = null;
+	if floor_shape_cast.get_collision_count() > 0:
+		collider = floor_shape_cast.get_collider(0)
 	var relative_linear_vel = state.linear_velocity
 	if collider and collider is RigidBody3D:
 		relative_linear_vel -= collider.linear_velocity
@@ -128,10 +130,15 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(move_direction, Vector3.UP), min(10.0 * state.step, 1.0))
 	if is_sprinting:
 		speed *= stats.get_current_sprint_multiplier()
-	var target_ground_plane_vel = (speed * move_direction) - relative_linear_vel
+	var target_ground_plane_vel = (speed * move_direction)
+	#if collider:
+	target_ground_plane_vel -= relative_linear_vel
 	target_ground_plane_vel.y = 0.0
 	state.apply_central_impulse(target_ground_plane_vel)
-	if is_jumping and _can_jump and floor_ray_cast.is_colliding():
+	#else:
+		#target_ground_plane_vel.y = 0.0
+		#state.apply_central_force(target_ground_plane_vel.normalized() * stats.get_current_air_acceleration())
+	if is_jumping and _can_jump and floor_shape_cast.is_colliding():
 		state.apply_central_impulse(stats.get_current_jump_impulse() * Vector3.UP)
 		_can_jump = false
 		_jump_lock_timer = get_tree().create_timer(jump_lockout_time)

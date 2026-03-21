@@ -26,4 +26,4 @@ func _on_body_entered(body):
 
 @rpc("any_peer", "call_local", "reliable")
 func show_explosing():
-	$GPUParticles3D.emitting = true
+	$GPUParticles3D.restart()

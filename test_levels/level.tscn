@@ -20,6 +20,18 @@ sky = SubResource("Sky_vonw3")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wo617"]
+noise_type = 2
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_t0syv"]
+noise = SubResource("FastNoiseLite_wo617")
+seamless = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_68ie7"]
+albedo_color = Color(0.27982405, 0.08084043, 0.010331001, 1)
+albedo_texture = SubResource("NoiseTexture2D_t0syv")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_41kie"]
 albedo_color = Color(0, 0, 0, 1)
 metallic = 1.0
@@ -67,6 +79,7 @@ transform = Transform3D(1, 0, 0, 0, -0.39999998, 0, 0, 0, 1, 34.001236, -21.2565
 use_collision = true
 flip_faces = true
 size = Vector3(1501, 100, 1671)
+material = SubResource("StandardMaterial3D_68ie7")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D" unique_id=1858495606]
 transform = Transform3D(0.9921793, -0.077138156, 0.098132946, -0.08665031, -0.9915368, 0.09667767, 0.089844875, -0.10442481, -0.99046624, -42.890373, -2.9823503, -32.523075)
