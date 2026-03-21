@@ -79,6 +79,7 @@ func end_locked_interaction():
 	controllable = true
 	camera.current = camera.is_multiplayer_authority()
 	freeze = false
+	rotation = Vector3.ZERO
 	locked_interaction_ended.emit()
 
 
@@ -92,17 +93,13 @@ func grab_item(item : HoldableItem):
 
 func use_item():
 	if held_item:
-		hand.update_position = false
 		hand.update_rotation = false
-		hand.update_scale = false
 		held_item.use()
 		held_item.use_finished.connect(_on_use_finished)
 
 
 func _on_use_finished():
-	hand.update_position = true
 	hand.update_rotation = true
-	hand.update_scale = true
 
 
 func throw_item():
@@ -110,7 +107,7 @@ func throw_item():
 		return
 	hand.remote_path = NodePath("")
 	held_item.release.rpc()
-	held_item.apply_central_impulse(2.0 * $RotationPivot.global_basis.z)
+	held_item.apply_central_impulse((2.0 * $RotationPivot.global_basis.z) + (0.1 * linear_velocity))
 	held_item = null
 
 

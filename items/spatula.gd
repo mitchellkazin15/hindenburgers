@@ -10,13 +10,8 @@ func use():
 	if gravity_scale != 0:
 		prev_grav_scale = gravity_scale
 	gravity_scale = 0
-	#tween.tween_property(self, "rotation", rotation + Vector3(PI / 4.0, 0.0, 0.0), 0.1)
-	#tween.tween_property(self, "rotation", rotation + Vector3(-PI / 4.0, 0.0, 0.0), 0.1)
-	#tween.tween_property(self, "angular_velocity", + Vector3(PI * 10.0 / 4.0, 0.0, 0.0), 0.1)
-	#tween.tween_property(self, "angular_velocity", + Vector3(-PI * 10.0 / 4.0, 0.0, 0.0), 0.1)
-	#tween.finished.connect(_on_swing_finished)
 	self.apply_torque_impulse(-10.0 * global_basis.x)
-	get_tree().create_timer(0.2).timeout.connect(_on_swing_finished)
+	get_tree().create_timer(0.25).timeout.connect(_on_swing_finished)
 
 
 func _on_swing_finished():

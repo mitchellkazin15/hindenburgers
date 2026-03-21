@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_brdvl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qikfw"]
-size = Vector3(0.25, 0.05, 0.49960938)
+size = Vector3(0.25, 0.05, 0.75)
 
 [sub_resource type="BoxMesh" id="BoxMesh_brdvl"]
 size = Vector3(0.1, 0.05, 1)
@@ -32,11 +32,12 @@ radius = 0.75
 [node name="Spatula" type="RigidBody3D" unique_id=1264862515]
 mass = 0.5
 center_of_mass_mode = 1
+center_of_mass = Vector3(0, 0, 0.5)
 continuous_cd = true
 script = ExtResource("1_qikfw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.65)
 shape = SubResource("BoxShape3D_qikfw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1666493877]

@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://d2d7u3vxmhpsf"]
 
 [ext_resource type="PackedScene" uid="uid://cxmv04r35emag" path="res://vehicles/blimp.tscn" id="2_41kie"]
+[ext_resource type="PackedScene" uid="uid://cx82doy6u2wvc" path="res://hazards/WindBox.tscn" id="2_ih737"]
 [ext_resource type="Script" uid="uid://cww7byljmt284" path="res://test_levels/player_spawn.gd" id="3_ih737"]
 [ext_resource type="PackedScene" uid="uid://de20king28rr0" path="res://items/hamburger.tscn" id="3_vmtoy"]
 [ext_resource type="PackedScene" uid="uid://bbqknpjnqy3ym" path="res://items/spatula.tscn" id="4_41kie"]
+[ext_resource type="PackedScene" uid="uid://djxhnlbuipq3u" path="res://hazards/AirMine.tscn" id="6_wo617"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u52ul"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -95,6 +97,10 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 21, 
 
 [node name="Blimp4" parent="." unique_id=1012882203 instance=ExtResource("2_41kie")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 19, 18, 110)
+
+[node name="WindBox" parent="." unique_id=1194631076 instance=ExtResource("2_ih737")]
+transform = Transform3D(0.70710677, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, 0.70710677, -84, 16, -35)
+wind_force = 200.0
 
 [node name="Hangar" type="CSGCombiner3D" parent="." unique_id=772529921]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 16)
@@ -305,3 +311,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, -1, -6)
 
 [node name="Spatula9" parent="." unique_id=1522662412 instance=ExtResource("4_41kie")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, -1, -6)
+
+[node name="WindBox2" parent="." unique_id=1962525338 instance=ExtResource("2_ih737")]
+transform = Transform3D(-1.0927847e-06, 0, 25, 0, 25, 0, -25, 0, -1.0927847e-06, 7, 335, -1319)
+
+[node name="AirMine" parent="." unique_id=43301916 instance=ExtResource("6_wo617")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 256, 328, -1335)
+
+[node name="AirMine2" parent="." unique_id=1938083194 instance=ExtResource("6_wo617")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 82, -121)
