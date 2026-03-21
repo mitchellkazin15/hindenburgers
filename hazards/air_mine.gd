@@ -1,7 +1,7 @@
 class_name AirMine
 extends RigidBody3D
 
-@export var explosion_power = 1000000.0
+@export var explosion_power = 100000000.0
 @export var reset_time = 10.0
 
 var reset_timer : SceneTreeTimer
