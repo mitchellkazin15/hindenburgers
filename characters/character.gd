@@ -24,6 +24,7 @@ var reset_input = false
 var speed = 20.0
 var jump_speed = 20.0
 var jump_lockout_time = 0.1
+var launched = false
 
 var _jump_lock_timer : SceneTreeTimer
 var _can_jump = true
@@ -88,6 +89,7 @@ func grab_item(item : HoldableItem):
 		return false
 	hand.remote_path = item.get_path()
 	held_item = item
+	held_item.use_finished.connect(_on_use_finished)
 	return true
 
 
@@ -95,7 +97,6 @@ func use_item():
 	if held_item:
 		hand.update_rotation = false
 		held_item.use()
-		held_item.use_finished.connect(_on_use_finished)
 
 
 func _on_use_finished():
@@ -106,8 +107,9 @@ func throw_item():
 	if held_item == null:
 		return
 	hand.remote_path = NodePath("")
-	held_item.release.rpc()
-	held_item.apply_central_impulse((2.0 * $RotationPivot.global_basis.z) + (0.1 * linear_velocity))
+	held_item.use_finished.disconnect(_on_use_finished)
+	held_item.release()
+	held_item.apply_central_impulse((2.0 * $RotationPivot.global_basis.z) + (held_item.mass * linear_velocity))
 	held_item = null
 
 
@@ -121,6 +123,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		return
 	var collider = null;
 	if floor_shape_cast.get_collision_count() > 0:
+		launched = false
 		collider = floor_shape_cast.get_collider(0)
 	var relative_linear_vel = state.linear_velocity
 	if collider and collider is RigidBody3D:
@@ -131,14 +134,14 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if is_sprinting:
 		speed *= stats.get_current_sprint_multiplier()
 	var target_ground_plane_vel = (speed * move_direction)
-	#if collider:
-	target_ground_plane_vel -= relative_linear_vel
-	target_ground_plane_vel.y = 0.0
-	state.apply_central_impulse(target_ground_plane_vel)
-	#else:
-		#target_ground_plane_vel.y = 0.0
-		#state.apply_central_force(target_ground_plane_vel.normalized() * stats.get_current_air_acceleration())
-	if is_jumping and _can_jump and floor_shape_cast.is_colliding():
+	if launched:
+		target_ground_plane_vel.y = 0.0
+		state.apply_central_force(target_ground_plane_vel.normalized() * stats.get_current_air_acceleration())
+	else:
+		target_ground_plane_vel -= relative_linear_vel
+		target_ground_plane_vel.y = 0.0
+		state.apply_central_impulse(target_ground_plane_vel)
+	if is_jumping and _can_jump and collider:
 		state.apply_central_impulse(stats.get_current_jump_impulse() * Vector3.UP)
 		_can_jump = false
 		_jump_lock_timer = get_tree().create_timer(jump_lockout_time)

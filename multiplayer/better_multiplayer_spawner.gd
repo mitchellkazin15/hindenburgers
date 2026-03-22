@@ -14,7 +14,7 @@ func spawn_player(player: Character):
 
 
 func _custom_spawn_func(data: Dictionary) -> Node:
-	var player = load("res://characters/character.tscn").instantiate()
+	var player = load("res://characters/player.tscn").instantiate()
 	player.initial_position = data["position"]
 	player.initial_multiplayer_authority = data["authority"]
 	return player  # Spawner adds this to the scene automatically

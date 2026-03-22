@@ -38,7 +38,7 @@ func _on_load_multiplayer_level():
 	var players = []
 	for player_num in peer_ids.size():
 		print("spawning peer: ", peer_ids[player_num], " is local authority: ", peer_ids[player_num] == multiplayer.get_unique_id())
-		var player : Character = load("res://characters/character.tscn").instantiate()
+		var player : Character = load("res://characters/player.tscn").instantiate()
 		player.initial_multiplayer_authority = peer_ids[player_num]
 		player.initial_position = player_spawns[player_num].global_position
 		spawner.spawn_player(player)

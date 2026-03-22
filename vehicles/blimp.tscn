@@ -111,13 +111,13 @@ enabled = true
 metadata/_custom_type_script = "uid://cmdgjanr71io4"
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1604882816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 top_level = true
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=253275106 node_paths=PackedStringArray("_camera_pivot")]
-transform = Transform3D(-1, 4.3711392e-08, -7.5710346e-08, 0, 0.86602545, 0.50000006, 8.742278e-08, 0.50000006, -0.8660254, 0, 25, -50)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -50)
 script = ExtResource("3_5xue0")
 _camera_pivot = NodePath("..")
-tilt_lower_limit = -1.571
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=863648686]
 remote_path = NodePath("../CameraPivot")

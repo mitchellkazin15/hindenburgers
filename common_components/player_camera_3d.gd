@@ -2,8 +2,8 @@ class_name PlayerCamera3D
 extends Camera3D
 
 @export var _camera_pivot : Node3D
-@export var tilt_upper_limit := PI / 2.0
-@export var tilt_lower_limit := -PI / 2.0
+@export var tilt_upper_limit := deg_to_rad(89.9)
+@export var tilt_lower_limit := deg_to_rad(-89.9)
 
 var _camera_input_direction : Vector2
 var mouse_sensitivity = 0.25

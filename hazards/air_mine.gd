@@ -17,8 +17,7 @@ func _ready() -> void:
 func _on_body_entered(body):
 	if reset_timer and reset_timer.time_left != 0.0:
 		return
-	print("expload")
-	if body is RigidBody3D:
+	if body is RigidBody3D and body != self:
 		$ExplosionArea3D.explode(explosion_power)
 		reset_timer = get_tree().create_timer(reset_time)
 		show_explosing.rpc()

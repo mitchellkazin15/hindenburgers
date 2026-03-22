@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://cf2jt4onq048j"]
+
+[ext_resource type="Script" uid="uid://bx2ji7nbt02o1" path="res://items/golf_club.gd" id="1_vqemh"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_jnlyj"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vqemh"]
+friction = 0.1
+bounce = 0.75
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vqemh"]
+size = Vector3(0.2, 0.15, 0.3)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vqemh"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d5n5e"]
+albedo_color = Color(0.23031491, 0.23031494, 0.23031494, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tgr5y"]
+size = Vector3(0.25, 0.1, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31h44"]
+albedo_color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q777v"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+radius = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vqemh"]
+radius = 0.25
+
+[node name="GolfClub" type="RigidBody3D" unique_id=1264862515]
+physics_material_override = SubResource("PhysicsMaterial_vqemh")
+continuous_cd = true
+script = ExtResource("1_vqemh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.85, 0.95)
+shape = SubResource("BoxShape3D_vqemh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1666493877]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, -0.35, 0.35)
+mesh = SubResource("CylinderMesh_vqemh")
+surface_material_override/0 = SubResource("StandardMaterial3D_d5n5e")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1802209539]
+transform = Transform3D(0.9848077, -0.17364818, 0, 0.17364818, 0.9848077, 0, 0, 0, 1, 0, -0.9, 0.95)
+mesh = SubResource("BoxMesh_tgr5y")
+surface_material_override/0 = SubResource("StandardMaterial3D_31h44")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=847552921]
+replication_config = SubResource("SceneReplicationConfig_q777v")
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0.25)
+script = ExtResource("2_jnlyj")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
+shape = SubResource("SphereShape3D_22q5j")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="SwingPivot" type="Node3D" parent="." unique_id=1085677876]
+
+[node name="HitArea3D" type="Area3D" parent="." unique_id=2075252801]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0.95)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitArea3D" unique_id=1628954562]
+shape = SubResource("SphereShape3D_vqemh")
+debug_color = Color(0.98807985, 0, 0.3111137, 0.41960785)

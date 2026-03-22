@@ -5,7 +5,6 @@ var prev_grav_scale
 
 
 func use():
-	var tween : Tween = get_tree().create_tween()
 	freeze = false
 	if gravity_scale != 0:
 		prev_grav_scale = gravity_scale
