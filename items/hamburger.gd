@@ -1,2 +1,2 @@
 class_name Hamburger
-extends HoldableItem
+extends EdibleItem

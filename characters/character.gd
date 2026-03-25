@@ -88,6 +88,7 @@ func grab_item(item : HoldableItem):
 	if held_item != null:
 		return false
 	hand.remote_path = item.get_path()
+	hand.update_rotation = true
 	held_item = item
 	held_item.use_finished.connect(_on_use_finished)
 	return true
@@ -95,7 +96,7 @@ func grab_item(item : HoldableItem):
 
 func use_item():
 	if held_item:
-		hand.update_rotation = false
+		hand.update_rotation = not held_item.unlock_rotation_on_use
 		held_item.use()
 
 

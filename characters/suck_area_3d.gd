@@ -35,14 +35,8 @@ func _on_suck_finished():
 		return
 	suck_item.freeze = false
 	suck_reset_timer = get_tree().create_timer(suck_reset_time)
-	if suck_item is Hamburger:
-		free_suck_item.rpc(suck_item.get_path())
+	if suck_item is EdibleItem:
+		MultiplayerManager.broadcast_queue_free(suck_item)
 	else:
 		suck_item.apply_central_impulse(20.0 * mouth.global_basis.z + 5.0 * Vector3.UP)
 	suck_item = null
-
-
-@rpc("any_peer", "call_local", "reliable")
-func free_suck_item(node_path):
-	var free_item = get_node(node_path)
-	free_item.queue_free()

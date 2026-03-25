@@ -37,6 +37,7 @@ properties/1/replication_mode = 1
 mass = 0.1
 continuous_cd = true
 script = ExtResource("1_syu0n")
+food_val = 25.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)

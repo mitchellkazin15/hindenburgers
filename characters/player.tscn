@@ -5,6 +5,14 @@
 [ext_resource type="Script" uid="uid://caqrbv2whvq2b" path="res://common_components/player_camera_3d.gd" id="3_j31ep"]
 [ext_resource type="Script" uid="uid://45ejdo8nxfr5" path="res://common_components/interacting_area_3d.gd" id="4_6t23p"]
 [ext_resource type="Script" uid="uid://wq2hn4rr7qf1" path="res://stats/character_stat_manager.gd" id="5_n8jd0"]
+[ext_resource type="Script" uid="uid://c48o2jx42ote5" path="res://characters/stomach.gd" id="6_h1q25"]
+[ext_resource type="Script" uid="uid://de8nam0rh6p8t" path="res://characters/food_bar.gd" id="6_q605b"]
+[ext_resource type="Texture2D" uid="uid://blhwlpupg10as" path="res://assets/misc_sprites/status_bar_yellow.png" id="7_eho78"]
+[ext_resource type="Script" uid="uid://b2bswxfec002i" path="res://characters/colon.gd" id="7_j31ep"]
+[ext_resource type="Texture2D" uid="uid://dlvp5j4ifqfae" path="res://assets/misc_sprites/status_bar_grey.png" id="8_8sqrr"]
+[ext_resource type="Script" uid="uid://cq8ek1005uy4v" path="res://characters/poop_bar.gd" id="10_6rrl0"]
+[ext_resource type="Texture2D" uid="uid://b8u5nnf5ska18" path="res://assets/misc_sprites/status_bar_brown.png" id="10_8sqrr"]
+[ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="11_eho78"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
 friction = 0.75
@@ -104,3 +112,58 @@ metadata/_custom_type_script = "uid://wq2hn4rr7qf1"
 [node name="ShapeCast3D" type="ShapeCast3D" parent="." unique_id=511311796]
 shape = SubResource("CylinderShape3D_b1u1o")
 target_position = Vector3(0, -0.8, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=557212423]
+
+[node name="FoodBar" type="TextureProgressBar" parent="CanvasLayer" unique_id=560439250 node_paths=PackedStringArray("stomach")]
+offset_right = 256.0
+offset_bottom = 17.0
+scale = Vector2(2.5, 2.5)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+size_flags_stretch_ratio = 8.0
+texture_under = ExtResource("8_8sqrr")
+script = ExtResource("6_q605b")
+stomach = NodePath("../../Stomach")
+high_food_bar = ExtResource("7_eho78")
+mid_food_bar = ExtResource("7_eho78")
+low_food_bar = ExtResource("7_eho78")
+metadata/_custom_type_script = "uid://de8nam0rh6p8t"
+
+[node name="ScreenScalerComponent" type="Node" parent="CanvasLayer/FoodBar" unique_id=535584689]
+script = ExtResource("11_eho78")
+pivot_offset_x = 0.0
+pivot_offset_y = 0.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="PoopBar" type="TextureProgressBar" parent="CanvasLayer" unique_id=202580460 node_paths=PackedStringArray("colon")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_bottom = 17.0
+grow_horizontal = 0
+scale = Vector2(2.5, 2.5)
+pivot_offset = Vector2(256, 0)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+size_flags_stretch_ratio = 8.0
+texture_under = ExtResource("8_8sqrr")
+script = ExtResource("10_6rrl0")
+colon = NodePath("../../Colon")
+high_poop_bar = ExtResource("10_8sqrr")
+mid_poop_bar = ExtResource("10_8sqrr")
+low_poop_bar = ExtResource("10_8sqrr")
+
+[node name="ScreenScalerComponent" type="Node" parent="CanvasLayer/PoopBar" unique_id=1709474948]
+script = ExtResource("11_eho78")
+pivot_offset_x = 1.0
+pivot_offset_y = 0.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="Stomach" type="Node3D" parent="." unique_id=462579980 node_paths=PackedStringArray("colon")]
+script = ExtResource("6_h1q25")
+colon = NodePath("../Colon")
+
+[node name="Colon" type="Node3D" parent="." unique_id=1789571393]
+script = ExtResource("7_j31ep")

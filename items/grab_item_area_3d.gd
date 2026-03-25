@@ -9,4 +9,4 @@ func interact(interacting_node: Node) -> void:
 		return
 	var character : Character = interacting_node
 	if character.grab_item(item):
-		item.set_being_held()
+		item.set_being_held(character)
