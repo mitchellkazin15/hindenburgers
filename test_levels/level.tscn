@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bbqknpjnqy3ym" path="res://items/spatula.tscn" id="4_41kie"]
 [ext_resource type="PackedScene" uid="uid://djxhnlbuipq3u" path="res://hazards/AirMine.tscn" id="6_wo617"]
 [ext_resource type="PackedScene" uid="uid://cf2jt4onq048j" path="res://items/golf_club.tscn" id="7_t0syv"]
+[ext_resource type="PackedScene" uid="uid://t3bu3188qlo8" path="res://vehicles/pogo_stick.tscn" id="9_5hd3n"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u52ul"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -356,3 +357,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -73, 14, -22)
 
 [node name="GolfClub4" parent="." unique_id=1147502901 instance=ExtResource("7_t0syv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 14, -22)
+
+[node name="PogoStick" parent="." unique_id=622401129 instance=ExtResource("9_5hd3n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -58, 0, 36)

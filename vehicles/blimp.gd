@@ -10,11 +10,6 @@ var is_rising = false
 var is_boosting = false
 
 
-func _ready() -> void:
-	camera.current = false
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
-
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if not being_driven:
 		return

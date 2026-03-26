@@ -9,5 +9,5 @@ func use():
 		var stomach : Stomach = item_holder.get_node("Stomach")
 		if stomach.is_full():
 			return
-		stomach.add_food(food_val)
+		stomach.add_food.rpc(food_val)
 		MultiplayerManager.broadcast_queue_free(self)

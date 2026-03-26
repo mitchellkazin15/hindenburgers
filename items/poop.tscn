@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://06g6idstgaj8"]
+
+[ext_resource type="Script" uid="uid://bey5vv6enn4h0" path="res://items/hamburger.gd" id="1_cl1i1"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_x6ld2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cl1i1"]
+radius = 0.1
+height = 0.4
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q777v"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x6ld2"]
+albedo_color = Color(0.3351116, 0.18700126, 0.062335692, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7opfm"]
+material = SubResource("StandardMaterial3D_x6ld2")
+radius = 0.1
+height = 0.4
+
+[node name="Poop" type="RigidBody3D" unique_id=1264862515]
+mass = 0.1
+continuous_cd = true
+script = ExtResource("1_cl1i1")
+food_val = 5.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_cl1i1")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=847552921]
+replication_config = SubResource("SceneReplicationConfig_q777v")
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+script = ExtResource("2_x6ld2")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
+shape = SubResource("SphereShape3D_22q5j")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=665638984]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_7opfm")

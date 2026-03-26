@@ -38,6 +38,10 @@ func _enter_tree() -> void:
 	set_process_input(multiplayer.is_server())
 
 
+func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+
 @rpc("any_peer", "call_local", "reliable")
 func set_initial_values(pos, multiplayer_authority):
 	position = pos
@@ -52,6 +56,8 @@ func set_initial_values(pos, multiplayer_authority):
 	input_controller.set_multiplayer_authority(multiplayer_authority)
 	input_controller.set_process(input_controller.is_multiplayer_authority())
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
+	if not camera.is_multiplayer_authority():
+		$HUD.hide()
 	synchronizer.set_multiplayer_authority(host_authority)
 
 
@@ -67,10 +73,11 @@ func reset():
 	reset_input = false
 
 
-func set_locked_interacting():
+func set_locked_interacting(change_camera : bool):
 	locked_interaction = true
 	controllable = false
-	camera.current = false
+	if change_camera:
+		camera.current = false
 	freeze = true
 
 
