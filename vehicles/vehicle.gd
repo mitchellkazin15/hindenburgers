@@ -10,6 +10,10 @@ extends RigidBody3D
 @export var vehicle_controller : VehiclePlayerInputController
 
 
+func _ready() -> void:
+	camera.current = false
+
+
 func set_driver(driving_character: Character) -> bool:
 	if being_driven:
 		return false
@@ -33,18 +37,21 @@ func update_driving_status(being_driven: bool) -> void:
 func update_authority(new_authority: int) -> void:
 	print("current authority: ",  get_multiplayer_authority())
 	print("setting new authority: ", new_authority)
-	camera.set_multiplayer_authority(new_authority)
-	camera.set_process(camera.is_multiplayer_authority())
-	camera.set_process_input(camera.is_multiplayer_authority())
-	camera.current = camera.is_multiplayer_authority()
+	if camera:
+		camera.set_multiplayer_authority(new_authority)
+		camera.set_process(camera.is_multiplayer_authority())
+		camera.set_process_input(camera.is_multiplayer_authority())
+		camera.current = camera.is_multiplayer_authority()
 	vehicle_controller.set_multiplayer_authority(new_authority)
 	vehicle_controller.set_process(vehicle_controller.is_multiplayer_authority())
 	vehicle_controller.set_process_input(vehicle_controller.is_multiplayer_authority())
+	vehicle_controller
 
 
 func _on_end_locked_interaction() -> void:
 	being_driven = false
-	camera.current = false
+	if camera:
+		camera.current = false
 	driver_seat.remote_path = NodePath("")
 	driver.locked_interaction_ended.disconnect(_on_end_locked_interaction)
 	driver = null

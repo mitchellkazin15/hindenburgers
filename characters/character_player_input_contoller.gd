@@ -47,7 +47,7 @@ func _physics_process(delta: float) -> void:
 	_handle_move_input.rpc_id(1, move_direction, is_jumping, is_sprinting)
 	if Input.is_action_just_pressed("interact"):
 		_handle_interact.rpc_id(1)
-	if Input.is_action_pressed("throw"):
+	if Input.is_action_just_pressed("throw"):
 		_handle_throw_input.rpc_id(1)
 	if Input.is_action_just_pressed("reset"):
 		_handle_reset_input.rpc_id(1)

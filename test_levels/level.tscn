@@ -1,11 +1,14 @@
 [gd_scene format=3 uid="uid://d2d7u3vxmhpsf"]
 
+[ext_resource type="PackedScene" uid="uid://8jwoiorxedsv" path="res://characters/customer.tscn" id="1_68ie7"]
 [ext_resource type="PackedScene" uid="uid://cxmv04r35emag" path="res://vehicles/blimp.tscn" id="2_41kie"]
 [ext_resource type="PackedScene" uid="uid://cx82doy6u2wvc" path="res://hazards/WindBox.tscn" id="2_ih737"]
 [ext_resource type="Script" uid="uid://cww7byljmt284" path="res://test_levels/player_spawn.gd" id="3_ih737"]
 [ext_resource type="PackedScene" uid="uid://de20king28rr0" path="res://items/hamburger.tscn" id="3_vmtoy"]
 [ext_resource type="PackedScene" uid="uid://bbqknpjnqy3ym" path="res://items/spatula.tscn" id="4_41kie"]
 [ext_resource type="PackedScene" uid="uid://djxhnlbuipq3u" path="res://hazards/AirMine.tscn" id="6_wo617"]
+[ext_resource type="PackedScene" uid="uid://cf2jt4onq048j" path="res://items/golf_club.tscn" id="7_t0syv"]
+[ext_resource type="PackedScene" uid="uid://t3bu3188qlo8" path="res://vehicles/pogo_stick.tscn" id="9_5hd3n"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u52ul"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -19,6 +22,18 @@ background_mode = 2
 sky = SubResource("Sky_vonw3")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wo617"]
+noise_type = 2
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_t0syv"]
+noise = SubResource("FastNoiseLite_wo617")
+seamless = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_68ie7"]
+albedo_color = Color(0.27982405, 0.08084043, 0.010331001, 1)
+albedo_texture = SubResource("NoiseTexture2D_t0syv")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_41kie"]
 albedo_color = Color(0, 0, 0, 1)
@@ -59,6 +74,9 @@ transform = Transform3D(5.8, 0, 0, 0, 8, 0, 0, 0, 3.9, -69, 7, -34)
 [node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1282547520]
 transform = Transform3D(6.38, 0, 0, 0, 8, 0, 0, 0, 4.6800003, -73, 9, -22)
 
+[node name="CSGBox3D7" type="CSGBox3D" parent="CSGCombiner3D" unique_id=704241945]
+transform = Transform3D(6.38, 0, 0, 0, 8, 0, 0, 0, 4.6800003, -85, 9, -13)
+
 [node name="CSGBox3D5" type="CSGBox3D" parent="CSGCombiner3D" unique_id=337138713]
 transform = Transform3D(12.818001, 0, 0, 0, 8, 0, 0, 0, 9.360001, -103, 13, -43)
 
@@ -67,6 +85,7 @@ transform = Transform3D(1, 0, 0, 0, -0.39999998, 0, 0, 0, 1, 34.001236, -21.2565
 use_collision = true
 flip_faces = true
 size = Vector3(1501, 100, 1671)
+material = SubResource("StandardMaterial3D_68ie7")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D" unique_id=1858495606]
 transform = Transform3D(0.9921793, -0.077138156, 0.098132946, -0.08665031, -0.9915368, 0.09667767, 0.089844875, -0.10442481, -0.99046624, -42.890373, -2.9823503, -32.523075)
@@ -85,6 +104,12 @@ outer_radius = 5.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, -0.75, -8)
 size = Vector3(5, 0.95, 5)
 material = SubResource("StandardMaterial3D_41kie")
+
+[node name="Customer" parent="." unique_id=1089567296 instance=ExtResource("1_68ie7")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, -86, 14, -13)
+
+[node name="Customer2" parent="." unique_id=1116672603 instance=ExtResource("1_68ie7")]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -47, 0, 20)
 
 [node name="Blimp" parent="." unique_id=1992139785 instance=ExtResource("2_41kie")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 56, 18, 110)
@@ -319,4 +344,19 @@ transform = Transform3D(-1.0927847e-06, 0, 25, 0, 25, 0, -25, 0, -1.0927847e-06,
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 256, 328, -1335)
 
 [node name="AirMine2" parent="." unique_id=1938083194 instance=ExtResource("6_wo617")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 82, -121)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 73, -127)
+
+[node name="GolfClub" parent="." unique_id=916911010 instance=ExtResource("7_t0syv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -74, 14, -21)
+
+[node name="GolfClub2" parent="." unique_id=1087052587 instance=ExtResource("7_t0syv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -72, 14, -21)
+
+[node name="GolfClub3" parent="." unique_id=194796690 instance=ExtResource("7_t0syv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -73, 14, -22)
+
+[node name="GolfClub4" parent="." unique_id=1147502901 instance=ExtResource("7_t0syv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 14, -22)
+
+[node name="PogoStick" parent="." unique_id=622401129 instance=ExtResource("9_5hd3n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -58, 0, 36)

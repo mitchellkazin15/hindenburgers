@@ -9,7 +9,7 @@ signal locked_interaction_ended
 @export var synchronizer : MultiplayerSynchronizer
 @export var initial_multiplayer_authority : int
 @export var initial_position : Vector3
-@export var floor_ray_cast : RayCast3D
+@export var floor_shape_cast : ShapeCast3D
 @export var stats : CharacterStatManager
 @export var hand : RemoteTransform3D
 
@@ -24,6 +24,7 @@ var reset_input = false
 var speed = 20.0
 var jump_speed = 20.0
 var jump_lockout_time = 0.1
+var launched = false
 
 var _jump_lock_timer : SceneTreeTimer
 var _can_jump = true
@@ -35,6 +36,10 @@ func _enter_tree() -> void:
 	set_process(multiplayer.is_server())
 	set_physics_process(multiplayer.is_server())
 	set_process_input(multiplayer.is_server())
+
+
+func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -51,6 +56,8 @@ func set_initial_values(pos, multiplayer_authority):
 	input_controller.set_multiplayer_authority(multiplayer_authority)
 	input_controller.set_process(input_controller.is_multiplayer_authority())
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
+	if not camera.is_multiplayer_authority():
+		$HUD.hide()
 	synchronizer.set_multiplayer_authority(host_authority)
 
 
@@ -66,10 +73,11 @@ func reset():
 	reset_input = false
 
 
-func set_locked_interacting():
+func set_locked_interacting(change_camera : bool):
 	locked_interaction = true
 	controllable = false
-	camera.current = false
+	if change_camera:
+		camera.current = false
 	freeze = true
 
 
@@ -87,15 +95,16 @@ func grab_item(item : HoldableItem):
 	if held_item != null:
 		return false
 	hand.remote_path = item.get_path()
+	hand.update_rotation = true
 	held_item = item
+	held_item.use_finished.connect(_on_use_finished)
 	return true
 
 
 func use_item():
 	if held_item:
-		hand.update_rotation = false
+		hand.update_rotation = not held_item.unlock_rotation_on_use
 		held_item.use()
-		held_item.use_finished.connect(_on_use_finished)
 
 
 func _on_use_finished():
@@ -106,8 +115,9 @@ func throw_item():
 	if held_item == null:
 		return
 	hand.remote_path = NodePath("")
-	held_item.release.rpc()
-	held_item.apply_central_impulse((2.0 * $RotationPivot.global_basis.z) + (0.1 * linear_velocity))
+	held_item.use_finished.disconnect(_on_use_finished)
+	held_item.release()
+	held_item.apply_central_impulse((2.0 * $RotationPivot.global_basis.z) + (held_item.mass * linear_velocity))
 	held_item = null
 
 
@@ -119,7 +129,10 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if reset_input:
 		reset()
 		return
-	var collider = floor_ray_cast.get_collider()
+	var collider = null;
+	if floor_shape_cast.get_collision_count() > 0:
+		launched = false
+		collider = floor_shape_cast.get_collider(0)
 	var relative_linear_vel = state.linear_velocity
 	if collider and collider is RigidBody3D:
 		relative_linear_vel -= collider.linear_velocity
@@ -128,10 +141,15 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(move_direction, Vector3.UP), min(10.0 * state.step, 1.0))
 	if is_sprinting:
 		speed *= stats.get_current_sprint_multiplier()
-	var target_ground_plane_vel = (speed * move_direction) - relative_linear_vel
-	target_ground_plane_vel.y = 0.0
-	state.apply_central_impulse(target_ground_plane_vel)
-	if is_jumping and _can_jump and floor_ray_cast.is_colliding():
+	var target_ground_plane_vel = (speed * move_direction)
+	if launched:
+		target_ground_plane_vel.y = 0.0
+		state.apply_central_force(target_ground_plane_vel.normalized() * stats.get_current_air_acceleration())
+	else:
+		target_ground_plane_vel -= relative_linear_vel
+		target_ground_plane_vel.y = 0.0
+		state.apply_central_impulse(target_ground_plane_vel)
+	if is_jumping and _can_jump and collider:
 		state.apply_central_impulse(stats.get_current_jump_impulse() * Vector3.UP)
 		_can_jump = false
 		_jump_lock_timer = get_tree().create_timer(jump_lockout_time)

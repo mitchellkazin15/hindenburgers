@@ -3,12 +3,12 @@
 [ext_resource type="Script" uid="uid://cr2levxepfnow" path="res://multiplayer/level_root.gd" id="1_3vnt5"]
 [ext_resource type="Script" uid="uid://c0oaac65l2gr" path="res://multiplayer/better_multiplayer_spawner.gd" id="1_31l41"]
 
-[node name="MultiplayerBaseScene" type="Node2D" unique_id=855064899]
+[node name="MultiplayerBaseScene" type="Node3D" unique_id=1390981435]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=363562087]
-_spawnable_scenes = PackedStringArray("uid://d2d7u3vxmhpsf", "uid://djqwwnq73ttw", "uid://cxmv04r35emag")
+_spawnable_scenes = PackedStringArray("uid://d2d7u3vxmhpsf", "uid://cxmv04r35emag", "uid://06g6idstgaj8")
 spawn_path = NodePath("../LevelRoot")
 script = ExtResource("1_31l41")
 
-[node name="LevelRoot" type="Node2D" parent="." unique_id=465191226]
+[node name="LevelRoot" type="Node3D" parent="." unique_id=1293110613]
 script = ExtResource("1_3vnt5")

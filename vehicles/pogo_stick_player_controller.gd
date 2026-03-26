@@ -1,20 +1,24 @@
-class_name BlimpPlayerInputController
+class_name PogoStickPlayerInputController
 extends VehiclePlayerInputController
 
-@export var blimp : Blimp
+@export var pogo_stick : PogoStick
 @export var camera : PlayerCamera3D
 
 
 func _ready():
-	if not blimp:
-		blimp = get_parent()
-	assert(blimp is Blimp)
+	if not pogo_stick:
+		pogo_stick = get_parent()
+	assert(pogo_stick is PogoStick)
 
 
 func _unhandled_input(event):
 	if not is_multiplayer_authority():
 		return
 	if not enabled:
+		return
+	if not camera and pogo_stick.being_driven:
+		camera = pogo_stick.driver.camera
+	if not camera:
 		return
 	if event.is_action_pressed("left_click"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -38,7 +42,7 @@ func _unhandled_input(event):
 
 @rpc("authority", "call_local", "unreliable_ordered")
 func _handle_input(move_input, move_direction, is_rising, is_boosting):
-	blimp.move_input = move_input
-	blimp.move_direction = move_direction
-	blimp.is_rising = is_rising
-	blimp.is_boosting = is_boosting
+	pogo_stick.move_input = move_input
+	pogo_stick.move_direction = move_direction
+	pogo_stick.is_rising = is_rising
+	pogo_stick.is_boosting = is_boosting

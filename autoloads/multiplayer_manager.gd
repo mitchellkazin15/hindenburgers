@@ -109,3 +109,13 @@ func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
 	players.clear()
 	server_disconnected.emit()
+
+
+func broadcast_queue_free(node : Node):
+	_free_node_on_all_peers.rpc(node.get_path())
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _free_node_on_all_peers(node_path):
+	var free_item = EventService.get_node(node_path)
+	free_item.queue_free()

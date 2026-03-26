@@ -10,11 +10,6 @@ var is_rising = false
 var is_boosting = false
 
 
-func _ready() -> void:
-	camera.current = false
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
-
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if not being_driven:
 		return
@@ -29,5 +24,3 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	state.apply_torque(mass * stats.get_current_righting_torque_scalar() * righting_axis)
 	if is_rising:
 		state.apply_central_force(mass * stats.get_current_rising_acceleration() * Vector3.UP)
-	#if state.linear_velocity.length() > stats.get_current_max_speed():
-		#state.linear_velocity = stats.get_current_max_speed() * state.linear_velocity.normalized()

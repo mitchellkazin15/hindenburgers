@@ -1,5 +1,5 @@
 class_name LevelRoot
-extends Node2D
+extends Node3D
 
 
 func _ready():
