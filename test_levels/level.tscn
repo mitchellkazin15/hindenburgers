@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://djxhnlbuipq3u" path="res://hazards/AirMine.tscn" id="6_wo617"]
 [ext_resource type="PackedScene" uid="uid://cf2jt4onq048j" path="res://items/golf_club.tscn" id="7_t0syv"]
 [ext_resource type="PackedScene" uid="uid://t3bu3188qlo8" path="res://vehicles/pogo_stick.tscn" id="9_5hd3n"]
+[ext_resource type="PackedScene" uid="uid://vg6pdbix5lar" path="res://items/bottom_bun.tscn" id="10_w6pai"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u52ul"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -360,3 +361,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 14, -22)
 
 [node name="PogoStick" parent="." unique_id=622401129 instance=ExtResource("9_5hd3n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -58, 0, 36)
+
+[node name="PogoStick2" parent="." unique_id=1780568856 instance=ExtResource("9_5hd3n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61, 0, 37)
+
+[node name="PogoStick3" parent="." unique_id=255887352 instance=ExtResource("9_5hd3n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 0, 37)
+
+[node name="PogoStick4" parent="." unique_id=136152161 instance=ExtResource("9_5hd3n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -68, 0, 38)
+
+[node name="Hamburger28" parent="." unique_id=1358439579 instance=ExtResource("10_w6pai")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52, -1, 11)
+
+[node name="Hamburger29" parent="." unique_id=1177851471 instance=ExtResource("10_w6pai")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53, -1, 18)
+
+[node name="Hamburger30" parent="." unique_id=25472327 instance=ExtResource("10_w6pai")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57, -1, 16)
+
+[node name="Hamburger31" parent="." unique_id=970531081 instance=ExtResource("10_w6pai")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49, -1, 10)
+
+[node name="Hamburger32" parent="." unique_id=481503130 instance=ExtResource("10_w6pai")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, -1, 9)
