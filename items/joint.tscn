@@ -1,0 +1,137 @@
+[gd_scene format=3 uid="uid://bdf1caegn8tx6"]
+
+[ext_resource type="Script" uid="uid://xb45yux1xxsf" path="res://items/joint.gd" id="1_2hvar"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_lk0pb"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lk0pb"]
+albedo_color = Color(0.8642009, 0.84011793, 0.38517347, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g8u53"]
+material = SubResource("StandardMaterial3D_lk0pb")
+top_radius = 0.05
+bottom_radius = 0.01
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4tevw"]
+albedo_color = Color(0.16663936, 0.45378107, 6.738305e-07, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_bitrs"]
+material = SubResource("StandardMaterial3D_4tevw")
+radius = 0.04
+height = 0.08
+
+[sub_resource type="Curve" id="Curve_2hvar"]
+_data = [Vector2(0, 0.7806287), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_lk0pb"]
+curve = SubResource("Curve_2hvar")
+
+[sub_resource type="Curve" id="Curve_lk0pb"]
+_limits = [0.0, 5.0, 0.0, 1.0]
+_data = [Vector2(0, 1.0182614), 0.0, 0.0, 0, 0, Vector2(1, 5), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_g8u53"]
+curve = SubResource("Curve_lk0pb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2hvar"]
+lifetime_randomness = 0.5
+particle_flag_align_y = true
+emission_shape_offset = Vector3(0, 0.12, 0)
+emission_shape = 1
+emission_sphere_radius = 0.03
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_max = 0.25
+gravity = Vector3(0, 1, 0)
+scale_curve = SubResource("CurveTexture_g8u53")
+alpha_curve = SubResource("CurveTexture_lk0pb")
+turbulence_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g8u53"]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_4tevw"]
+material = SubResource("StandardMaterial3D_g8u53")
+radius = 0.01
+height = 0.02
+radial_segments = 8
+rings = 8
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cl1i1"]
+radius = 0.1
+height = 0.3
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q777v"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Joint" type="RigidBody3D" unique_id=1264862515]
+mass = 0.1
+continuous_cd = true
+script = ExtResource("1_2hvar")
+drug_effect_duration = 60.0
+drug_visual_effect_adders = {
+"brightness": 0.0,
+"contrast": 0.0,
+"saturation": 0.0,
+"saturation_color": -167776000.0,
+"x_wiggle_amp": 0.01,
+"x_wiggle_screen_freq": 0.0,
+"x_wiggle_time_freq": 0.0,
+"y_wiggle_amp": 0.0,
+"y_wiggle_screen_freq": 0.0,
+"y_wiggle_time_freq": 0.0
+}
+food_val = 0.0
+uses = 5.0
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1553384249]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.1)
+
+[node name="GrabItemArea3D" type="Area3D" parent="Node3D" unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+script = ExtResource("2_lk0pb")
+item = NodePath("../..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/GrabItemArea3D" unique_id=2137353213]
+shape = SubResource("SphereShape3D_22q5j")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=665638984]
+mesh = SubResource("CylinderMesh_g8u53")
+
+[node name="WeedMesh" type="MeshInstance3D" parent="Node3D" unique_id=1424790860]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.1, -4.371139e-09)
+mesh = SubResource("SphereMesh_bitrs")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Node3D" unique_id=446727920]
+emitting = false
+amount = 50
+lifetime = 3.0
+one_shot = true
+explosiveness = 0.5
+trail_lifetime = 0.8
+process_material = SubResource("ParticleProcessMaterial_2hvar")
+draw_pass_1 = SubResource("SphereMesh_4tevw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.15)
+shape = SubResource("CapsuleShape3D_cl1i1")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=847552921]
+replication_config = SubResource("SceneReplicationConfig_q777v")

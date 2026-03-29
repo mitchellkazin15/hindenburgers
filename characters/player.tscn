@@ -15,6 +15,9 @@
 [ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="11_eho78"]
 [ext_resource type="Script" uid="uid://bthslr67752nd" path="res://characters/cloaca.gd" id="14_eus45"]
 [ext_resource type="PackedScene" uid="uid://06g6idstgaj8" path="res://items/poop.tscn" id="15_vcag3"]
+[ext_resource type="Shader" uid="uid://q24qiyo4wl0f" path="res://shaders/screen_effects/shroom_effect.gdshader" id="16_h076o"]
+[ext_resource type="Script" uid="uid://cwugggetb1b7v" path="res://characters/drug_manager.gd" id="16_lcfw7"]
+[ext_resource type="Script" uid="uid://b1ym6lrvhn5u7" path="res://stats/drug_visual_effect_stat_manager.gd" id="18_b0vde"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
 friction = 0.75
@@ -88,6 +91,25 @@ properties/5/replication_mode = 1
 height = 0.5
 radius = 0.4
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lcfw7"]
+render_priority = 0
+shader = ExtResource("16_h076o")
+shader_parameter/brightness = 4.7499999933364734e-08
+shader_parameter/contrast = 1.0
+shader_parameter/saturation = 1.0
+shader_parameter/saturation_color = Color(1, 1, 1, 1)
+shader_parameter/x_wiggle_amp = 0.0
+shader_parameter/x_wiggle_screen_freq = 1.0
+shader_parameter/x_wiggle_time_freq = 1.0
+shader_parameter/y_wiggle_amp = 0.0
+shader_parameter/y_wiggle_screen_freq = 1.0
+shader_parameter/y_wiggle_time_freq = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_b0vde"]
+flip_faces = true
+size = Vector2(2, 2)
+center_offset = Vector3(0, 0, 1)
+
 [node name="Player" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "input_controller", "synchronizer", "floor_shape_cast", "stats", "hand")]
 physics_material_override = SubResource("PhysicsMaterial_mdkfl")
 gravity_scale = 5.0
@@ -158,8 +180,10 @@ visibility_update_mode = 1
 script = ExtResource("5_n8jd0")
 base_stats = {
 "air_acceleration": 20.0,
+"direction_angle_randomness_degrees": 0.0,
 "jump_impulse": 20.0,
 "speed": 10.0,
+"speed_randomness": 0.0,
 "sprint_multiplier": 1.5
 }
 metadata/_custom_type_script = "uid://wq2hn4rr7qf1"
@@ -218,9 +242,36 @@ metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
 
 [node name="Stomach" type="Node3D" parent="." unique_id=462579980 node_paths=PackedStringArray("colon")]
 script = ExtResource("6_h1q25")
+digestion_tick_val = 1.0
 digestion_period_sec = 1.0
 colon = NodePath("../Colon")
 
 [node name="Colon" type="Node3D" parent="." unique_id=1789571393 node_paths=PackedStringArray("cloaca")]
 script = ExtResource("7_j31ep")
 cloaca = NodePath("../RotationPivot/Cloaca")
+
+[node name="DrugManager" type="Node3D" parent="." unique_id=1039279980 node_paths=PackedStringArray("character_stats", "visual_stats")]
+script = ExtResource("16_lcfw7")
+character_stats = NodePath("../CharacterStatManager")
+visual_stats = NodePath("DrugVisualEffectStatManager")
+
+[node name="DrugScreenEffectQuad" type="MeshInstance3D" parent="DrugManager" unique_id=724448880]
+material_override = SubResource("ShaderMaterial_lcfw7")
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_b0vde")
+
+[node name="DrugVisualEffectStatManager" type="Node" parent="DrugManager" unique_id=232980101]
+script = ExtResource("18_b0vde")
+base_stats = {
+"brightness": 0.0,
+"contrast": 1.0,
+"saturation": 1.0,
+"saturation_color": 4294967295,
+"x_wiggle_amp": 0.0,
+"x_wiggle_screen_freq": 1.0,
+"x_wiggle_time_freq": 0.1,
+"y_wiggle_amp": 0.0,
+"y_wiggle_screen_freq": 1.0,
+"y_wiggle_time_freq": 0.1
+}
+metadata/_custom_type_script = "uid://b1ym6lrvhn5u7"

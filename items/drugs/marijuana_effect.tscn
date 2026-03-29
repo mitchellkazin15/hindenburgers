@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c8kw451m2knp8"]
+
+[ext_resource type="Shader" uid="uid://vdmdk26bmbom" path="res://shaders/screen_effects/marijuana_effect.gdshader" id="1_a5kq5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a5kq5"]
+render_priority = 0
+shader = ExtResource("1_a5kq5")
+shader_parameter/drug_color = Color(0, 1, 0, 1)
+shader_parameter/drug_strength = 0.05
+shader_parameter/depth_range = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_pbhje"]
+flip_faces = true
+size = Vector2(2, 2)
+center_offset = Vector3(0, 0, 1)
+
+[node name="MarijuanaEffect" type="Node3D" unique_id=1541200341]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1510878396]
+material_override = SubResource("ShaderMaterial_a5kq5")
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_pbhje")

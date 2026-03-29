@@ -154,6 +154,13 @@ func _clear_timed_out_stats():
 			stat_updated.emit(stat_name)
 
 
+func get_all_current_stats() -> Dictionary:
+	var ret = {}
+	for stat_name in _base_stats.keys():
+		ret[stat_name] = _get_modified_stat(stat_name)
+	return ret
+
+
 func _print_all_stats():
 	for stat_name in _base_stats.keys():
 		print("%s: %1.2f" % [stat_name, _get_modified_stat(stat_name)])

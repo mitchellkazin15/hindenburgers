@@ -6,6 +6,8 @@ const EXAMPLE_DICT = { # Do NOT update values in this script and expect stats to
 	"jump_impulse": 0.0,
 	"sprint_multiplier": 0.0,
 	"air_acceleration": 0.0,
+	"speed_randomness": 0.0,
+	"direction_angle_randomness_degrees": 0.0
 } 
 
 ## Dict of stat_name -> base val.
@@ -31,3 +33,11 @@ func get_current_sprint_multiplier():
 
 func get_current_air_acceleration():
 	return _get_modified_stat("air_acceleration")
+
+
+func get_current_speed_randomness():
+	return _get_modified_stat("speed_randomness")
+
+
+func get_current_direction_angle_randomness_degrees():
+	return _get_modified_stat("direction_angle_randomness_degrees")

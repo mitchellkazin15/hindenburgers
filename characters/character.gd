@@ -12,6 +12,7 @@ signal locked_interaction_ended
 @export var floor_shape_cast : ShapeCast3D
 @export var stats : CharacterStatManager
 @export var hand : RemoteTransform3D
+@export var randomness_duration = 1.0
 
 const host_authority = 1
 var move_direction : Vector3
@@ -26,6 +27,9 @@ var jump_speed = 20.0
 var jump_lockout_time = 0.1
 var launched = false
 
+var randomness_timer : SceneTreeTimer
+var rand_speed = 0.0
+var rand_angle = 0.0
 var _jump_lock_timer : SceneTreeTimer
 var _can_jump = true
 
@@ -39,6 +43,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	randomness_timer = get_tree().create_timer(0.0)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
@@ -136,12 +141,22 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	var relative_linear_vel = state.linear_velocity
 	if collider and collider is RigidBody3D:
 		relative_linear_vel -= collider.linear_velocity
-	var speed = stats.get_current_speed()
+	if randomness_timer.time_left == 0.0:
+		var speed_randomness = stats.get_current_speed_randomness()
+		var new_rand_speed = max(0.0, randf_range(-speed_randomness, speed_randomness))
+		var angle_randomness = deg_to_rad(stats.get_current_direction_angle_randomness_degrees())
+		var new_rand_angle = randf_range(-angle_randomness, angle_randomness)
+		var tween = get_tree().create_tween()
+		tween.tween_property(self, "rand_speed", new_rand_speed, randomness_duration / 2.0)
+		tween.tween_property(self, "rand_angle", new_rand_angle, randomness_duration / 2.0)
+		randomness_timer = get_tree().create_timer(randomness_duration)
+	var speed = stats.get_current_speed() + rand_speed
 	if move_direction != Vector3.ZERO:
 		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(move_direction, Vector3.UP), min(10.0 * state.step, 1.0))
 	if is_sprinting:
 		speed *= stats.get_current_sprint_multiplier()
-	var target_ground_plane_vel = (speed * move_direction)
+	var target_ground_plane_vel : Vector3 = (speed * move_direction)
+	target_ground_plane_vel = target_ground_plane_vel.rotated(Vector3.UP, rand_angle)
 	if launched:
 		target_ground_plane_vel.y = 0.0
 		state.apply_central_force(target_ground_plane_vel.normalized() * stats.get_current_air_acceleration())

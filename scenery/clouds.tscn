@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://csyju1bndclfq"]
+
+[ext_resource type="Material" uid="uid://dcqp6ilwcpwtp" path="res://assets/cloud_shader.tres" id="1_hmpku"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hmpku"]
+material = ExtResource("1_hmpku")
+
+[node name="Clouds" type="Node3D" unique_id=219908836]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2055393023]
+mesh = SubResource("PlaneMesh_hmpku")

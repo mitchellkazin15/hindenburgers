@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_u4gj4"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_udog6"]
-[ext_resource type="PackedScene" uid="uid://buo6r3e7y8hjk" path="res://Modal/Bottom Bun.blend" id="3_udog6"]
+[ext_resource type="PackedScene" uid="uid://buo6r3e7y8hjk" path="res://models/Bottom Bun.blend" id="3_udog6"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_q777v"]
 radius = 0.25
