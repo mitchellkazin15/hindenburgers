@@ -1,29 +1,29 @@
-[gd_scene format=3 uid="uid://bdf1caegn8tx6"]
+[gd_scene format=3 uid="uid://rq35fe5i75wv"]
 
-[ext_resource type="Script" uid="uid://xb45yux1xxsf" path="res://items/joint.gd" id="1_2hvar"]
-[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_lk0pb"]
+[ext_resource type="Script" uid="uid://xb45yux1xxsf" path="res://items/joint.gd" id="1_22mlh"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_7lltf"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lk0pb"]
-albedo_color = Color(0.8642009, 0.84011793, 0.38517347, 1)
+albedo_color = Color(0.42745098, 0.42745098, 0.42745098, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_g8u53"]
 material = SubResource("StandardMaterial3D_lk0pb")
-top_radius = 0.05
-bottom_radius = 0.01
+top_radius = 0.02
+bottom_radius = 0.02
 height = 0.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4tevw"]
-albedo_color = Color(0.16663936, 0.45378107, 6.738305e-07, 1)
+albedo_color = Color(0.42745098, 0.42745098, 0.42745098, 1)
 emission_enabled = true
 emission = Color(1, 0, 0, 1)
 emission_energy_multiplier = 0.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_bitrs"]
 material = SubResource("StandardMaterial3D_4tevw")
-radius = 0.04
-height = 0.08
+radius = 0.05
+height = 0.1
 
 [sub_resource type="Curve" id="Curve_2hvar"]
 _data = [Vector2(0, 0.7806287), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -79,30 +79,30 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="Joint" type="RigidBody3D" unique_id=1264862515]
+[node name="Meth" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
 continuous_cd = true
-script = ExtResource("1_2hvar")
+script = ExtResource("1_22mlh")
 drug_effect_duration = 60.0
 drug_visual_effect_adders = {
-"brightness": 0.0,
-"contrast": 0.0,
-"saturation": 0.0,
-"saturation_color": -167776000.0,
-"x_wiggle_amp": 0.01,
+"brightness": 0.005,
+"contrast": 0.005,
+"saturation": 0.01,
+"saturation_color": 0.0,
+"x_wiggle_amp": 0.001,
 "x_wiggle_screen_freq": 0.0,
-"x_wiggle_time_freq": 0.0,
+"x_wiggle_time_freq": 20.0,
 "y_wiggle_amp": 0.0,
 "y_wiggle_screen_freq": 0.0,
 "y_wiggle_time_freq": 0.0
 }
 drug_character_effect_adders = {
 "air_acceleration": 0.0,
-"direction_angle_randomness_degrees": 2.0,
-"jump_impulse": -1.0,
-"speed": -0.5,
+"direction_angle_randomness_degrees": 0.0,
+"jump_impulse": 5.0,
+"speed": 3.0,
 "speed_randomness": 0.0,
-"sprint_multiplier": 0.0
+"sprint_multiplier": 0.1
 }
 food_val = 0.0
 uses = 5.0
@@ -112,7 +112,7 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0
 
 [node name="GrabItemArea3D" type="Area3D" parent="Node3D" unique_id=961604140 node_paths=PackedStringArray("item")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
-script = ExtResource("2_lk0pb")
+script = ExtResource("2_7lltf")
 item = NodePath("../..")
 metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 

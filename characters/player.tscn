@@ -104,6 +104,8 @@ shader_parameter/x_wiggle_time_freq = 1.0
 shader_parameter/y_wiggle_amp = 0.0
 shader_parameter/y_wiggle_screen_freq = 1.0
 shader_parameter/y_wiggle_time_freq = 1.0
+shader_parameter/blur_iterations = 1.0
+shader_parameter/blur_power = 1.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_b0vde"]
 flip_faces = true
@@ -263,15 +265,17 @@ mesh = SubResource("QuadMesh_b0vde")
 [node name="DrugVisualEffectStatManager" type="Node" parent="DrugManager" unique_id=232980101]
 script = ExtResource("18_b0vde")
 base_stats = {
+"blur_iterations": 1.0,
+"blur_power": 1.0,
 "brightness": 0.0,
 "contrast": 1.0,
 "saturation": 1.0,
 "saturation_color": 4294967295,
 "x_wiggle_amp": 0.0,
-"x_wiggle_screen_freq": 1.0,
+"x_wiggle_screen_freq": 0.5,
 "x_wiggle_time_freq": 0.1,
 "y_wiggle_amp": 0.0,
-"y_wiggle_screen_freq": 1.0,
+"y_wiggle_screen_freq": 0.5,
 "y_wiggle_time_freq": 0.1
 }
 metadata/_custom_type_script = "uid://b1ym6lrvhn5u7"

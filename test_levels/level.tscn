@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://vg6pdbix5lar" path="res://items/bottom_bun.tscn" id="10_w6pai"]
 [ext_resource type="PackedScene" uid="uid://bdf1caegn8tx6" path="res://items/joint.tscn" id="11_cmq22"]
 [ext_resource type="PackedScene" uid="uid://mi6drwxajht8" path="res://items/beer.tscn" id="12_84sbf"]
+[ext_resource type="PackedScene" uid="uid://rq35fe5i75wv" path="res://items/meth.tscn" id="13_3eukq"]
+[ext_resource type="PackedScene" uid="uid://cy1pb3tm032du" path="res://items/shroom.tscn" id="14_ngvrc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u52ul"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -431,3 +433,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.37387, -1.1065384, 16.221
 
 [node name="Beer6" parent="Items" unique_id=2003980662 instance=ExtResource("12_84sbf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.47169, -1.1065387, 14.271104)
+
+[node name="Meth" parent="Items" unique_id=2124774550 instance=ExtResource("13_3eukq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.745583, -1.2065384, 16.465555)
+
+[node name="Shroom" parent="Items" unique_id=41444945 instance=ExtResource("14_ngvrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, -1, 18)
+
+[node name="Shroom2" parent="Items" unique_id=325643114 instance=ExtResource("14_ngvrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, -1, 18)
+
+[node name="Shroom3" parent="Items" unique_id=134699549 instance=ExtResource("14_ngvrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, -1, 19)
+
+[node name="Shroom4" parent="Items" unique_id=1494822411 instance=ExtResource("14_ngvrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, -1, 19)
+
+[node name="Shroom5" parent="Items" unique_id=2095051959 instance=ExtResource("14_ngvrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, -1, 20)

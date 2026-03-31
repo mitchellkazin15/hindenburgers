@@ -8,6 +8,8 @@ const EXAMPLE_DICT = { # Do NOT update values in this script and expect stats to
 	"y_wiggle_amp": 0.0,
 	"y_wiggle_screen_freq": 0.0,
 	"y_wiggle_time_freq": 0.0,
+	"blur_iterations": 0.0,
+	"blur_power": 0.0,
 	"brightness": 0.0,
 	"contrast": 0.0,
 	"saturation": 0.0,
