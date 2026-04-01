@@ -1,11 +1,9 @@
 shader_type spatial;
-render_mode unshaded;
+render_mode  unshaded, depth_draw_never, depth_test_disabled;
 
 #include "res://shaders/screen_effects/screen_shader_utilities.gdshaderinc"
 
 uniform sampler2D SCREEN_TEXTURE: hint_screen_texture, filter_linear_mipmap;
-uniform sampler2D NORMAL_TEXTURE : hint_normal_roughness_texture, filter_linear_mipmap;
-uniform sampler2D surface_noise_texture : repeat_enable, filter_linear;
 
 uniform float brightness : hint_range(-1, 1) = 0;
 uniform float contrast : hint_range(0, 3) = 1.0;
@@ -25,16 +23,7 @@ uniform float blur_iterations = 1.0;
 uniform float blur_power = 1.0;
 
 void vertex(){
-	POSITION = vec4(VERTEX, 1.0);
-}
-
-mat4 saturation_matrix(vec4 color, float s) {
-	return mat4(
-		vec4(s * color.r + s, s * color.r, s * color.r, 0.0),
-		vec4(s * color.g, s * color.g + s, s * color.r, 0.0),
-		vec4(s * color.b, s * color.b, s * color.b + s, 0.0),
-		vec4(0.0, 0.0, 0.0, 1.0)
-	);
+	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
 }
 
 void fragment() {
@@ -51,11 +40,6 @@ void fragment() {
 	}
 	blur_color /= blur_iterations;
 	vec4 screen_color = blur_color;
-	vec3 normal = texture(NORMAL_TEXTURE, uv).rgb;
-	normal = normal * 2.0 - 1.0;
-	vec2 offset = 1.0 / VIEWPORT_SIZE;
-
 	vec4 final_color = brightnessMatrix(brightness) * contrastMatrix(contrast) * saturationMatrix(saturation_color, saturation) * screen_color;
 	ALBEDO = final_color.rgb;
-	//ALPHA = final_color.a;
 }

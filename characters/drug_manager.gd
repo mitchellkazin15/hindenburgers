@@ -14,6 +14,7 @@ func _ready() -> void:
 	_on_visual_stat_update("")
 
 
+@rpc("any_peer", "call_local", "reliable")
 func apply_drug_visual_effects(stat_adders, stat_multipliers, effect_duration):
 	visual_stats.register_all_temp_adders(stat_adders, effect_duration)
 	visual_stats.register_all_temp_multipliers(stat_multipliers, effect_duration)

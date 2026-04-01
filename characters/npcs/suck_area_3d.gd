@@ -1,6 +1,7 @@
 class_name SuckArea3D
 extends Area3D
 
+@export var customer : Customer
 @export var mouth : Node3D
 @export var suck_time = 2.0
 
@@ -36,7 +37,7 @@ func _on_suck_finished():
 	suck_item.freeze = false
 	suck_reset_timer = get_tree().create_timer(suck_reset_time)
 	if suck_item is EdibleItem:
-		MultiplayerManager.broadcast_queue_free(suck_item)
+		suck_item.eat(customer)
 	else:
 		suck_item.apply_central_impulse(20.0 * mouth.global_basis.z + 5.0 * Vector3.UP)
 	suck_item = null

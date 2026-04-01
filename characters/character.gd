@@ -63,6 +63,7 @@ func set_initial_values(pos, multiplayer_authority):
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
 	if not camera.is_multiplayer_authority():
 		$HUD.hide()
+		$DrugManager/DrugScreenEffectQuad.hide()
 	synchronizer.set_multiplayer_authority(host_authority)
 
 
@@ -122,6 +123,7 @@ func throw_item():
 	hand.remote_path = NodePath("")
 	held_item.use_finished.disconnect(_on_use_finished)
 	held_item.release()
+	var throw_vec = (2.0 * $RotationPivot.global_basis.z) + (held_item.mass * linear_velocity).rotated(Vector3.UP, rand_angle)
 	held_item.apply_central_impulse((2.0 * $RotationPivot.global_basis.z) + (held_item.mass * linear_velocity))
 	held_item = null
 
@@ -150,7 +152,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		tween.tween_property(self, "rand_speed", new_rand_speed, randomness_duration / 2.0)
 		tween.tween_property(self, "rand_angle", new_rand_angle, randomness_duration / 2.0)
 		randomness_timer = get_tree().create_timer(randomness_duration)
-	var speed = stats.get_current_speed() + rand_speed
+	var speed = max(1.0, stats.get_current_speed() + rand_speed)
 	if move_direction != Vector3.ZERO:
 		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(move_direction, Vector3.UP), min(10.0 * state.step, 1.0))
 	if is_sprinting:

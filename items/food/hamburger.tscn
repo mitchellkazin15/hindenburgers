@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://de20king28rr0"]
 
-[ext_resource type="Script" uid="uid://bey5vv6enn4h0" path="res://items/hamburger.gd" id="1_syu0n"]
+[ext_resource type="Script" uid="uid://bey5vv6enn4h0" path="res://items/food/hamburger.gd" id="1_syu0n"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_syu0n"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_q777v"]

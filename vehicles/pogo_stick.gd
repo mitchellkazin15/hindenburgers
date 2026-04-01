@@ -11,6 +11,8 @@ var _jump_lock_timer : SceneTreeTimer
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	if not is_multiplayer_authority():
+		return
 	if not _jump_lock_timer:
 		_jump_lock_timer = get_tree().create_timer(0.0)
 	if not being_driven:

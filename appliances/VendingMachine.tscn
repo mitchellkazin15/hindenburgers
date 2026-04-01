@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://blqptiqj38sch"]
+
+[ext_resource type="Script" uid="uid://bdkn0n30lvc5h" path="res://appliances/vending_machine.gd" id="1_m604e"]
+[ext_resource type="Script" uid="uid://ded70a0im08e8" path="res://appliances/buy_item_area_3d.gd" id="2_ekt7w"]
+[ext_resource type="PackedScene" uid="uid://mi6drwxajht8" path="res://items/food/drugs/beer.tscn" id="2_q35l4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xmkms"]
+albedo_color = Color(0.20511743, 0.20511743, 0.20511743, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xmkms"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_xmkms")
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ekt7w"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q35l4"]
+size = Vector3(3, 3, 2)
+
+[node name="VendingMachine" type="StaticBody3D" unique_id=1282238622 node_paths=PackedStringArray("dispense_pos", "label")]
+script = ExtResource("1_m604e")
+item = ExtResource("2_q35l4")
+dispense_pos = NodePath("Node3D")
+label = NodePath("Label3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=267010012]
+mesh = SubResource("BoxMesh_xmkms")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1119529796]
+shape = SubResource("BoxShape3D_ekt7w")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1657139965]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.75)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=150947277 node_paths=PackedStringArray("vending_machine")]
+script = ExtResource("2_ekt7w")
+vending_machine = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=2061021011]
+shape = SubResource("BoxShape3D_q35l4")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=2024437327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.6)
+alpha_cut = 1
+text = "Item $Price"

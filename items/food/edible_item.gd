@@ -8,8 +8,12 @@ var _amount_used = 0
 
 
 func use():
-	if item_holder.has_node("Stomach"):
-		var stomach : Stomach = item_holder.get_node("Stomach")
+	eat(item_holder)
+
+
+func eat(eater : Node3D):
+	if eater.has_node("Stomach"):
+		var stomach : Stomach = eater.get_node("Stomach")
 		if stomach.is_full():
 			return
 		stomach.add_food.rpc(food_val)

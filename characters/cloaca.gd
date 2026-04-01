@@ -2,12 +2,12 @@ class_name Cloaca
 extends Node3D
 
 @export var poop_scene : PackedScene
+@export var fart_particles : GPUParticles3D
 
 
 func poop():
 	if not is_multiplayer_authority():
 		return
-	print("calling poop on ", multiplayer.get_unique_id())
 	var poop = poop_scene.instantiate()
 	var parent_node = $/root/MultiplayerBaseScene/LevelRoot
 	parent_node.add_child(poop, true)
@@ -18,4 +18,5 @@ func poop():
 
 @rpc("any_peer", "call_local", "reliable")
 func show_fart():
-	$GPUParticles3D.restart()
+	if fart_particles:
+		fart_particles.restart()

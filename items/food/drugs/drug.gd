@@ -11,7 +11,7 @@ extends EdibleItem
 func use():
 	if item_holder.has_node("DrugManager"):
 		var drug_manager : DrugManager = item_holder.get_node("DrugManager")
-		drug_manager.apply_drug_visual_effects(drug_visual_effect_adders, drug_visual_effect_multipliers, drug_effect_duration)
+		drug_manager.apply_drug_visual_effects.rpc(drug_visual_effect_adders, drug_visual_effect_multipliers, drug_effect_duration)
 		drug_manager.apply_drug_character_effects(drug_character_effect_adders, drug_character_effect_multipliers, drug_effect_duration)
 	# new effects first, then call super
 	super.use()

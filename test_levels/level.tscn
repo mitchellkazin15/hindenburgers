@@ -1,19 +1,20 @@
 [gd_scene format=3 uid="uid://d2d7u3vxmhpsf"]
 
-[ext_resource type="PackedScene" uid="uid://8jwoiorxedsv" path="res://characters/customer.tscn" id="1_68ie7"]
+[ext_resource type="PackedScene" uid="uid://8jwoiorxedsv" path="res://characters/npcs/customer.tscn" id="1_68ie7"]
 [ext_resource type="PackedScene" uid="uid://cxmv04r35emag" path="res://vehicles/blimp.tscn" id="2_41kie"]
 [ext_resource type="PackedScene" uid="uid://cx82doy6u2wvc" path="res://hazards/WindBox.tscn" id="2_ih737"]
 [ext_resource type="Script" uid="uid://cww7byljmt284" path="res://test_levels/player_spawn.gd" id="3_ih737"]
-[ext_resource type="PackedScene" uid="uid://de20king28rr0" path="res://items/hamburger.tscn" id="3_vmtoy"]
-[ext_resource type="PackedScene" uid="uid://bbqknpjnqy3ym" path="res://items/spatula.tscn" id="4_41kie"]
+[ext_resource type="PackedScene" uid="uid://de20king28rr0" path="res://items/food/hamburger.tscn" id="3_vmtoy"]
+[ext_resource type="PackedScene" uid="uid://bbqknpjnqy3ym" path="res://items/tools/spatula.tscn" id="4_41kie"]
 [ext_resource type="PackedScene" uid="uid://djxhnlbuipq3u" path="res://hazards/AirMine.tscn" id="6_wo617"]
-[ext_resource type="PackedScene" uid="uid://cf2jt4onq048j" path="res://items/golf_club.tscn" id="7_t0syv"]
+[ext_resource type="PackedScene" uid="uid://cf2jt4onq048j" path="res://items/tools/golf_club.tscn" id="7_t0syv"]
 [ext_resource type="PackedScene" uid="uid://t3bu3188qlo8" path="res://vehicles/pogo_stick.tscn" id="9_5hd3n"]
-[ext_resource type="PackedScene" uid="uid://vg6pdbix5lar" path="res://items/bottom_bun.tscn" id="10_w6pai"]
-[ext_resource type="PackedScene" uid="uid://bdf1caegn8tx6" path="res://items/joint.tscn" id="11_cmq22"]
-[ext_resource type="PackedScene" uid="uid://mi6drwxajht8" path="res://items/beer.tscn" id="12_84sbf"]
-[ext_resource type="PackedScene" uid="uid://rq35fe5i75wv" path="res://items/meth.tscn" id="13_3eukq"]
-[ext_resource type="PackedScene" uid="uid://cy1pb3tm032du" path="res://items/shroom.tscn" id="14_ngvrc"]
+[ext_resource type="PackedScene" uid="uid://vg6pdbix5lar" path="res://items/food/bottom_bun.tscn" id="10_w6pai"]
+[ext_resource type="PackedScene" uid="uid://bdf1caegn8tx6" path="res://items/food/drugs/joint.tscn" id="11_cmq22"]
+[ext_resource type="PackedScene" uid="uid://mi6drwxajht8" path="res://items/food/drugs/beer.tscn" id="12_84sbf"]
+[ext_resource type="PackedScene" uid="uid://rq35fe5i75wv" path="res://items/food/drugs/meth.tscn" id="13_3eukq"]
+[ext_resource type="PackedScene" uid="uid://cy1pb3tm032du" path="res://items/food/drugs/shroom.tscn" id="14_ngvrc"]
+[ext_resource type="PackedScene" uid="uid://blqptiqj38sch" path="res://appliances/VendingMachine.tscn" id="15_04f7n"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u52ul"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -451,3 +452,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, -1, 19)
 
 [node name="Shroom5" parent="Items" unique_id=2095051959 instance=ExtResource("14_ngvrc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, -1, 20)
+
+[node name="VendingMachine" parent="." unique_id=1282238622 instance=ExtResource("15_04f7n")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.075096, 0.4077809, 51.03506)

@@ -13,11 +13,15 @@
 [ext_resource type="Script" uid="uid://cq8ek1005uy4v" path="res://characters/poop_bar.gd" id="10_6rrl0"]
 [ext_resource type="Texture2D" uid="uid://b8u5nnf5ska18" path="res://assets/misc_sprites/status_bar_brown.png" id="10_8sqrr"]
 [ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="11_eho78"]
+[ext_resource type="Script" uid="uid://c8plluvff4eim" path="res://characters/coin_purse_label.gd" id="14_4rspn"]
 [ext_resource type="Script" uid="uid://bthslr67752nd" path="res://characters/cloaca.gd" id="14_eus45"]
-[ext_resource type="PackedScene" uid="uid://06g6idstgaj8" path="res://items/poop.tscn" id="15_vcag3"]
+[ext_resource type="Texture2D" uid="uid://h4nbae34u0ik" path="res://assets/misc_sprites/bronze-coin.png" id="14_svrv0"]
+[ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="15_4rspn"]
+[ext_resource type="PackedScene" uid="uid://06g6idstgaj8" path="res://items/food/poop.tscn" id="15_vcag3"]
 [ext_resource type="Shader" uid="uid://q24qiyo4wl0f" path="res://shaders/screen_effects/shroom_effect.gdshader" id="16_h076o"]
 [ext_resource type="Script" uid="uid://cwugggetb1b7v" path="res://characters/drug_manager.gd" id="16_lcfw7"]
 [ext_resource type="Script" uid="uid://b1ym6lrvhn5u7" path="res://stats/drug_visual_effect_stat_manager.gd" id="18_b0vde"]
+[ext_resource type="Script" uid="uid://dl01gpfyw3kru" path="res://characters/coin_purse.gd" id="19_ke0a4"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
 friction = 0.75
@@ -92,7 +96,8 @@ height = 0.5
 radius = 0.4
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lcfw7"]
-render_priority = 0
+resource_local_to_scene = true
+render_priority = 100
 shader = ExtResource("16_h076o")
 shader_parameter/brightness = 4.7499999933364734e-08
 shader_parameter/contrast = 1.0
@@ -110,7 +115,6 @@ shader_parameter/blur_power = 1.0
 [sub_resource type="QuadMesh" id="QuadMesh_b0vde"]
 flip_faces = true
 size = Vector2(2, 2)
-center_offset = Vector3(0, 0, 1)
 
 [node name="Player" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "input_controller", "synchronizer", "floor_shape_cast", "stats", "hand")]
 physics_material_override = SubResource("PhysicsMaterial_mdkfl")
@@ -138,10 +142,11 @@ mesh = SubResource("CapsuleMesh_px5sl")
 [node name="HandRemoteTransform3D" type="RemoteTransform3D" parent="RotationPivot" unique_id=901843108]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
 
-[node name="Cloaca" type="Node3D" parent="RotationPivot" unique_id=1824787078]
+[node name="Cloaca" type="Node3D" parent="RotationPivot" unique_id=1824787078 node_paths=PackedStringArray("fart_particles")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.75)
 script = ExtResource("14_eus45")
 poop_scene = ExtResource("15_vcag3")
+fart_particles = NodePath("GPUParticles3D")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="RotationPivot/Cloaca" unique_id=688125762]
 emitting = false
@@ -242,6 +247,46 @@ pivot_offset_x = 1.0
 pivot_offset_y = 0.0
 metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
 
+[node name="CoinPurseLabel" type="Control" parent="HUD" unique_id=1664744284 node_paths=PackedStringArray("coin_purse")]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+script = ExtResource("14_4rspn")
+coin_purse = NodePath("../../CoinPurse")
+
+[node name="TextureRect" type="TextureRect" parent="HUD/CoinPurseLabel" unique_id=1511315432]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+offset_right = 64.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 64)
+texture = ExtResource("14_svrv0")
+
+[node name="Label" type="Label" parent="HUD/CoinPurseLabel" unique_id=1760225229]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = -67.0
+offset_right = 133.0
+grow_vertical = 0
+theme = ExtResource("15_4rspn")
+text = "=?"
+
+[node name="ScreenScalerComponent" type="Node" parent="HUD/CoinPurseLabel" unique_id=2122207112]
+script = ExtResource("11_eho78")
+pivot_offset_x = 0.0
+pivot_offset_y = 1.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
 [node name="Stomach" type="Node3D" parent="." unique_id=462579980 node_paths=PackedStringArray("colon")]
 script = ExtResource("6_h1q25")
 digestion_tick_val = 1.0
@@ -279,3 +324,6 @@ base_stats = {
 "y_wiggle_time_freq": 0.1
 }
 metadata/_custom_type_script = "uid://b1ym6lrvhn5u7"
+
+[node name="CoinPurse" type="Node3D" parent="." unique_id=1319970382]
+script = ExtResource("19_ke0a4")

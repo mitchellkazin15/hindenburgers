@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bdf1caegn8tx6"]
 
-[ext_resource type="Script" uid="uid://xb45yux1xxsf" path="res://items/joint.gd" id="1_2hvar"]
+[ext_resource type="Script" uid="uid://xb45yux1xxsf" path="res://items/food/drugs/joint.gd" id="1_2hvar"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_lk0pb"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]

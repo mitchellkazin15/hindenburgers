@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cf2jt4onq048j"]
 
-[ext_resource type="Script" uid="uid://bx2ji7nbt02o1" path="res://items/golf_club.gd" id="1_vqemh"]
+[ext_resource type="Script" uid="uid://bx2ji7nbt02o1" path="res://items/tools/golf_club.gd" id="1_vqemh"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_jnlyj"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vqemh"]

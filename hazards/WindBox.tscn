@@ -25,7 +25,9 @@ gravity = Vector3(0, 0, 0)
 alpha_curve = SubResource("CurveTexture_ql5kk")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2v7uc"]
-transparency = 1
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
 vertex_color_use_as_albedo = true
 
 [sub_resource type="TubeTrailMesh" id="TubeTrailMesh_gg88n"]

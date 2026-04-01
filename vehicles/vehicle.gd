@@ -12,6 +12,9 @@ extends RigidBody3D
 
 func _ready() -> void:
 	camera.current = false
+	set_process(is_multiplayer_authority())
+	set_physics_process(is_multiplayer_authority())
+	set_process_input(is_multiplayer_authority())
 
 
 func set_driver(driving_character: Character) -> bool:
