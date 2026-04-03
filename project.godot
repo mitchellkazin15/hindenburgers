@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 EventService="*uid://c5mhetl76gyya"
 MultiplayerManager="*uid://gbedovc7j4vw"
+StopwatchManager="*uid://bghgvnasj8o5g"
 
 [global_group]
 

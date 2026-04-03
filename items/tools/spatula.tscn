@@ -27,7 +27,7 @@ properties/1/replication_mode = 1
 radius = 0.75
 
 [node name="Spatula" type="RigidBody3D" unique_id=1264862515]
-mass = 0.5
+mass = 0.25
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 0.5)
 continuous_cd = true

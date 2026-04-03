@@ -119,3 +119,12 @@ func broadcast_queue_free(node : Node):
 func _free_node_on_all_peers(node_path):
 	var free_item = EventService.get_node(node_path)
 	free_item.queue_free()
+
+
+func add_node_to_spawner(node : Node3D, position : Vector3):
+	if not is_multiplayer_authority():
+		return
+	var parent_node = $/root/MultiplayerBaseScene/LevelRoot
+	parent_node.add_child(node, true)
+	node.top_level = true
+	node.position = position

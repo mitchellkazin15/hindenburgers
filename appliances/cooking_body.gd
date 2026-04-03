@@ -1,0 +1,2 @@
+class_name CookingBody
+extends RigidBody3D

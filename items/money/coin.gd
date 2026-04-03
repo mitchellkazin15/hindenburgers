@@ -4,7 +4,7 @@ extends HoldableItem
 @export var money_value = 1.0
 
 
-func use():
+func use(use_charge_time : float):
 	if item_holder.has_node("CoinPurse"):
 		var purse : CoinPurse = item_holder.get_node("CoinPurse")
 		purse.add_money(money_value)

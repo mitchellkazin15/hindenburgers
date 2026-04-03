@@ -47,12 +47,12 @@ func _physics_process(delta: float) -> void:
 	_handle_move_input.rpc_id(1, move_direction, is_jumping, is_sprinting)
 	if Input.is_action_just_pressed("interact"):
 		_handle_interact.rpc_id(1)
-	if Input.is_action_just_pressed("throw"):
-		_handle_throw_input.rpc_id(1)
+	if Input.is_action_just_pressed("throw") or Input.is_action_just_released("throw"):
+		_handle_throw_input.rpc_id(1, Input.is_action_just_released("throw"))
 	if Input.is_action_just_pressed("reset"):
 		_handle_reset_input.rpc_id(1)
-	if Input.is_action_just_pressed("use_item"):
-		_handle_use_item_input.rpc_id(1)
+	if Input.is_action_just_pressed("use_item") or Input.is_action_just_released("use_item"):
+		_handle_use_item_input.rpc_id(1, Input.is_action_just_released("use_item"))
 
 
 @rpc("authority", "call_local", "unreliable_ordered")
@@ -69,16 +69,22 @@ func _handle_interact():
 			area.interact(character)
 
 
-@rpc("authority", "call_local", "unreliable_ordered")
-func _handle_throw_input():
-	character.throw_item()
+@rpc("authority", "call_local", "reliable")
+func _handle_throw_input(released : bool):
+	if released:
+		character.throw_item()
+	else:
+		character.start_throw_item()
 
 
-@rpc("authority", "call_local", "unreliable_ordered")
+@rpc("authority", "call_local", "reliable")
 func _handle_reset_input():
 	character.reset_input = true
 
 
-@rpc("authority", "call_local", "unreliable_ordered")
-func _handle_use_item_input():
-	character.use_item()
+@rpc("authority", "call_local", "reliable")
+func _handle_use_item_input(released : bool):
+	if released:
+		character.use_item()
+	else:
+		character.start_use_item()

@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://dgte83yyq36st"]
+
+[ext_resource type="Script" uid="uid://dvdchk8jffo4o" path="res://appliances/stay_on_blimp_area_3d.gd" id="1_ahhu7"]
+[ext_resource type="Script" uid="uid://nnfc7ujjaest" path="res://appliances/cooking_body.gd" id="1_nelog"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gn8vc"]
+size = Vector3(3, 1, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ahhu7"]
+albedo_color = Color(0.10186762, 0.101867534, 0.10186758, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nelog"]
+material = SubResource("StandardMaterial3D_ahhu7")
+size = Vector3(3, 1, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nelog"]
+size = Vector3(3.1, 1.1, 2.1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nelog"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Grill" type="RigidBody3D" unique_id=1957566051]
+mass = 10.0
+gravity_scale = 5.0
+script = ExtResource("1_nelog")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=667799814]
+shape = SubResource("BoxShape3D_gn8vc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1534074312]
+mesh = SubResource("BoxMesh_nelog")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=2005818836]
+script = ExtResource("1_ahhu7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=692514576]
+shape = SubResource("BoxShape3D_nelog")
+debug_color = Color(0.6055246, 0.5414668, 1.92523e-07, 0.41960785)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1201182755]
+replication_config = SubResource("SceneReplicationConfig_nelog")

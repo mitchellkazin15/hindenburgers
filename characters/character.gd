@@ -3,6 +3,8 @@ extends RigidBody3D
 
 signal locked_interaction_ended
 
+@onready var rotation_pivot = $RotationPivot
+
 @export var camera : Camera3D
 @export var controllable = true
 @export var input_controller : CharacterPlayerInputController
@@ -26,12 +28,16 @@ var speed = 20.0
 var jump_speed = 20.0
 var jump_lockout_time = 0.1
 var launched = false
+var prev_relative_vel = Vector3.ZERO
 
 var randomness_timer : SceneTreeTimer
 var rand_speed = 0.0
 var rand_angle = 0.0
 var _jump_lock_timer : SceneTreeTimer
 var _can_jump = true
+
+var throw_item_stopwatch : Stopwatch
+var use_item_stopwatch : Stopwatch
 
 
 func _enter_tree() -> void:
@@ -45,6 +51,8 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	randomness_timer = get_tree().create_timer(0.0)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	use_item_stopwatch = StopwatchManager.create_stopwatch()
+	throw_item_stopwatch = StopwatchManager.create_stopwatch()
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -80,6 +88,7 @@ func reset():
 
 
 func set_locked_interacting(change_camera : bool):
+	prev_relative_vel = Vector3.ZERO
 	locked_interaction = true
 	controllable = false
 	if change_camera:
@@ -100,31 +109,54 @@ func end_locked_interaction():
 func grab_item(item : HoldableItem):
 	if held_item != null:
 		return false
+	use_item_stopwatch.restart()
+	throw_item_stopwatch.restart()
 	hand.remote_path = item.get_path()
 	hand.update_rotation = true
+	hand.rotation = Vector3.ZERO
 	held_item = item
 	held_item.use_finished.connect(_on_use_finished)
 	return true
 
 
+func start_use_item():
+	use_item_stopwatch.restart()
+	use_item_stopwatch.start()
+	if held_item:
+		held_item.start_use()
+
+
 func use_item():
+	use_item_stopwatch.stop()
 	if held_item:
 		hand.update_rotation = not held_item.unlock_rotation_on_use
-		held_item.use()
+		held_item.use(use_item_stopwatch.time_elapsed_sec)
 
 
 func _on_use_finished():
 	hand.update_rotation = true
 
 
+func start_throw_item():
+	throw_item_stopwatch.restart()
+	throw_item_stopwatch.start()
+
+
 func throw_item():
 	if held_item == null:
 		return
+	throw_item_stopwatch.stop()
 	hand.remote_path = NodePath("")
+	hand.rotation = Vector3.ZERO
 	held_item.use_finished.disconnect(_on_use_finished)
 	held_item.release()
-	var throw_vec = (2.0 * $RotationPivot.global_basis.z) + (held_item.mass * linear_velocity).rotated(Vector3.UP, rand_angle)
-	held_item.apply_central_impulse((2.0 * $RotationPivot.global_basis.z) + (held_item.mass * linear_velocity))
+	var throw_vec : Vector3 = ($RotationPivot.global_basis.z + linear_velocity.normalized()).normalized()
+	throw_vec = throw_vec.rotated(Vector3.UP, rand_angle)
+	var charge_time = min(stats.get_current_max_throw_charge_time(), throw_item_stopwatch.time_elapsed_sec)
+	if charge_time < 0.25:
+		charge_time = 0.0
+	throw_vec *= stats.get_current_throw_strength() * charge_time
+	held_item.apply_central_impulse(throw_vec)
 	held_item = null
 
 
@@ -141,8 +173,12 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		launched = false
 		collider = floor_shape_cast.get_collider(0)
 	var relative_linear_vel = state.linear_velocity
-	if collider and collider is RigidBody3D:
-		relative_linear_vel -= collider.linear_velocity
+	if collider:
+		if collider is Vehicle or collider is Character:
+			prev_relative_vel = collider.linear_velocity
+		else:
+			prev_relative_vel = Vector3.ZERO
+	relative_linear_vel -= prev_relative_vel
 	if randomness_timer.time_left == 0.0:
 		var speed_randomness = stats.get_current_speed_randomness()
 		var new_rand_speed = max(0.0, randf_range(-speed_randomness, speed_randomness))

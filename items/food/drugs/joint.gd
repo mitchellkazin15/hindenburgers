@@ -8,10 +8,10 @@ func _ready() -> void:
 	material = $Node3D/WeedMesh.mesh.material
 
 
-func use():
+func use(use_charge_time : float):
 	show_smoke.rpc()
 	# new effects first, then call super
-	super.use()
+	super.use(use_charge_time)
 
 
 @rpc("any_peer", "call_local", "reliable")

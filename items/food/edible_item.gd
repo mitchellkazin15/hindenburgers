@@ -7,7 +7,9 @@ extends HoldableItem
 var _amount_used = 0
 
 
-func use():
+func use(use_charge_time : float):
+	if use_charge_time < max_use_charge_time:
+		return
 	eat(item_holder)
 
 

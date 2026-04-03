@@ -12,9 +12,12 @@
 [ext_resource type="PackedScene" uid="uid://vg6pdbix5lar" path="res://items/food/bottom_bun.tscn" id="10_w6pai"]
 [ext_resource type="PackedScene" uid="uid://bdf1caegn8tx6" path="res://items/food/drugs/joint.tscn" id="11_cmq22"]
 [ext_resource type="PackedScene" uid="uid://mi6drwxajht8" path="res://items/food/drugs/beer.tscn" id="12_84sbf"]
+[ext_resource type="PackedScene" uid="uid://c65pcxntsmjqy" path="res://items/money/coin.tscn" id="12_iq2tn"]
 [ext_resource type="PackedScene" uid="uid://rq35fe5i75wv" path="res://items/food/drugs/meth.tscn" id="13_3eukq"]
 [ext_resource type="PackedScene" uid="uid://cy1pb3tm032du" path="res://items/food/drugs/shroom.tscn" id="14_ngvrc"]
 [ext_resource type="PackedScene" uid="uid://blqptiqj38sch" path="res://appliances/VendingMachine.tscn" id="15_04f7n"]
+[ext_resource type="PackedScene" uid="uid://dgte83yyq36st" path="res://appliances/grill.tscn" id="17_61pkr"]
+[ext_resource type="PackedScene" uid="uid://dc5nx712jgekb" path="res://items/food/patty.tscn" id="18_8auyx"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u52ul"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -414,9 +417,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49, -1, 10)
 [node name="Hamburger32" parent="Items" unique_id=489024435 instance=ExtResource("10_w6pai")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, -1, 9)
 
-[node name="Joint" parent="Items" unique_id=154818967 instance=ExtResource("11_cmq22")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54, -1, 13)
-
 [node name="Beer" parent="Items" unique_id=840929404 instance=ExtResource("12_84sbf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.425396, -1.1065391, 15.685037)
 
@@ -429,29 +429,48 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.365993, -1.1065365, 15.19
 [node name="Beer4" parent="Items" unique_id=1386816533 instance=ExtResource("12_84sbf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.609673, -1.1065377, 13.566701)
 
-[node name="Beer5" parent="Items" unique_id=76635836 instance=ExtResource("12_84sbf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.37387, -1.1065384, 16.221867)
-
-[node name="Beer6" parent="Items" unique_id=2003980662 instance=ExtResource("12_84sbf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.47169, -1.1065387, 14.271104)
-
-[node name="Meth" parent="Items" unique_id=2124774550 instance=ExtResource("13_3eukq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.745583, -1.2065384, 16.465555)
-
-[node name="Shroom" parent="Items" unique_id=41444945 instance=ExtResource("14_ngvrc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, -1, 18)
-
-[node name="Shroom2" parent="Items" unique_id=325643114 instance=ExtResource("14_ngvrc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, -1, 18)
-
-[node name="Shroom3" parent="Items" unique_id=134699549 instance=ExtResource("14_ngvrc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, -1, 19)
-
-[node name="Shroom4" parent="Items" unique_id=1494822411 instance=ExtResource("14_ngvrc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, -1, 19)
-
-[node name="Shroom5" parent="Items" unique_id=2095051959 instance=ExtResource("14_ngvrc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, -1, 20)
+[node name="Coin" parent="Items" unique_id=1975701546 instance=ExtResource("12_iq2tn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.380432, 0, 0)
 
 [node name="VendingMachine" parent="." unique_id=1282238622 instance=ExtResource("15_04f7n")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.075096, 0.4077809, 51.03506)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.558586, 0.25217342, 51.03506)
+item = ExtResource("12_84sbf")
+
+[node name="VendingMachine2" parent="." unique_id=253333898 instance=ExtResource("15_04f7n")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.558586, 0.25217342, 55.30865)
+item = ExtResource("11_cmq22")
+price = 3.0
+
+[node name="VendingMachine3" parent="." unique_id=696150271 instance=ExtResource("15_04f7n")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.558586, 0.25217342, 59.143864)
+item = ExtResource("13_3eukq")
+price = 5.0
+
+[node name="VendingMachine4" parent="." unique_id=2001241683 instance=ExtResource("15_04f7n")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.558586, 0.25217342, 62.785797)
+item = ExtResource("14_ngvrc")
+price = 10.0
+
+[node name="Grill" parent="." unique_id=1957566051 instance=ExtResource("17_61pkr")]
+transform = Transform3D(-0.020924991, 0, -0.9997811, 0, 1, 0, 0.9997811, 0, -0.020924991, -41.171745, -0.48018694, 0.7446251)
+
+[node name="Patty" parent="." unique_id=2087272741 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.52771, -1.2065327, -0.48538685)
+
+[node name="Patty2" parent="." unique_id=1191126389 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.66958, -1.2065365, 0.9555292)
+
+[node name="Patty3" parent="." unique_id=1740876723 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.776997, -1.2065413, 2.4759455)
+
+[node name="Patty4" parent="." unique_id=545729800 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.81388, -1.2065337, -1.8197508)
+
+[node name="Patty5" parent="." unique_id=2034429518 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.634865, -1.2065394, -1.8928404)
+
+[node name="Patty6" parent="." unique_id=1793848428 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.163372, -1.206528, -0.7046156)
+
+[node name="Patty7" parent="." unique_id=878654574 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.353855, -1.2065327, 0.40376472)

@@ -9,10 +9,7 @@ func poop():
 	if not is_multiplayer_authority():
 		return
 	var poop = poop_scene.instantiate()
-	var parent_node = $/root/MultiplayerBaseScene/LevelRoot
-	parent_node.add_child(poop, true)
-	poop.top_level = true
-	poop.position = global_position
+	MultiplayerManager.add_node_to_spawner(poop, self.global_position)
 	show_fart.rpc()
 
 
