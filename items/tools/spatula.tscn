@@ -32,6 +32,7 @@ center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 0.5)
 continuous_cd = true
 script = ExtResource("1_qikfw")
+per_sec_use_strength = 5.0
 unlock_rotation_on_use = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]

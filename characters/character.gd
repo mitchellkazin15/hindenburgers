@@ -53,6 +53,8 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	use_item_stopwatch = StopwatchManager.create_stopwatch()
 	throw_item_stopwatch = StopwatchManager.create_stopwatch()
+	use_item_stopwatch.stop()
+	throw_item_stopwatch.stop()
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -131,6 +133,7 @@ func use_item():
 	if held_item:
 		hand.update_rotation = not held_item.unlock_rotation_on_use
 		held_item.use(use_item_stopwatch.time_elapsed_sec)
+	use_item_stopwatch.restart()
 
 
 func _on_use_finished():
@@ -143,14 +146,16 @@ func start_throw_item():
 
 
 func throw_item():
-	if held_item == null:
-		return
 	throw_item_stopwatch.stop()
+	if held_item == null:
+		throw_item_stopwatch.restart()
+		return
 	hand.remote_path = NodePath("")
 	hand.rotation = Vector3.ZERO
 	held_item.use_finished.disconnect(_on_use_finished)
 	held_item.release()
-	var throw_vec : Vector3 = ($RotationPivot.global_basis.z + linear_velocity.normalized()).normalized()
+	var throw_vec : Vector3 = ($RotationPivot.global_basis.z).normalized()
+	throw_vec += held_item.mass * Vector3(0.1, .5, 0.1) * linear_velocity
 	throw_vec = throw_vec.rotated(Vector3.UP, rand_angle)
 	var charge_time = min(stats.get_current_max_throw_charge_time(), throw_item_stopwatch.time_elapsed_sec)
 	if charge_time < 0.25:
@@ -158,6 +163,7 @@ func throw_item():
 	throw_vec *= stats.get_current_throw_strength() * charge_time
 	held_item.apply_central_impulse(throw_vec)
 	held_item = null
+	throw_item_stopwatch.restart()
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:

@@ -9,6 +9,8 @@ func _ready() -> void:
 
 
 func use(use_charge_time : float):
+	if use_charge_time < max_use_charge_time:
+		return
 	show_smoke.rpc()
 	# new effects first, then call super
 	super.use(use_charge_time)

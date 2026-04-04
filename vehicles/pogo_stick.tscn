@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://833764desipx" path="res://vehicles/enter_driving_area_3d.gd" id="4_im4xx"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
+friction = 0.5
 rough = true
 bounce = 0.5
 

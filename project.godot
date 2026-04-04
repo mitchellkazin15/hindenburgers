@@ -95,3 +95,4 @@ use_item={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+textures/lossless_compression/force_png=true

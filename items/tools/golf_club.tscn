@@ -43,6 +43,7 @@ mass = 0.25
 physics_material_override = SubResource("PhysicsMaterial_vqemh")
 continuous_cd = true
 script = ExtResource("1_vqemh")
+per_sec_use_strength = 3.0
 unlock_rotation_on_use = true
 max_use_charge_time = 2.5
 

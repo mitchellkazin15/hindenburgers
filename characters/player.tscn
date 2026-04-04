@@ -20,8 +20,15 @@
 [ext_resource type="PackedScene" uid="uid://06g6idstgaj8" path="res://items/food/poop.tscn" id="15_vcag3"]
 [ext_resource type="Shader" uid="uid://q24qiyo4wl0f" path="res://shaders/screen_effects/shroom_effect.gdshader" id="16_h076o"]
 [ext_resource type="Script" uid="uid://cwugggetb1b7v" path="res://characters/drug_manager.gd" id="16_lcfw7"]
+[ext_resource type="Texture2D" uid="uid://c3k53aemop7ij" path="res://assets/misc_sprites/eating_icon.png" id="17_3t8uj"]
+[ext_resource type="Script" uid="uid://w04p051x2frh" path="res://ui/components/use_charge_bar.gd" id="17_qk7w8"]
+[ext_resource type="Texture2D" uid="uid://dbvd6lx7qjn3y" path="res://assets/misc_sprites/throwing_icon.png" id="17_qp1es"]
 [ext_resource type="Script" uid="uid://b1ym6lrvhn5u7" path="res://stats/drug_visual_effect_stat_manager.gd" id="18_b0vde"]
+[ext_resource type="Texture2D" uid="uid://dvofyew6a27f3" path="res://assets/misc_sprites/grey-circular-loading-icon.png" id="18_qk7w8"]
+[ext_resource type="Texture2D" uid="uid://dsllaf36ufdat" path="res://assets/misc_sprites/circular-loading-icon.png" id="19_3t8uj"]
 [ext_resource type="Script" uid="uid://dl01gpfyw3kru" path="res://characters/coin_purse.gd" id="19_ke0a4"]
+[ext_resource type="Texture2D" uid="uid://c1n1tn5fy70p0" path="res://assets/misc_sprites/using_icon.png" id="19_lit6r"]
+[ext_resource type="Script" uid="uid://blskd0vdwvhf4" path="res://ui/components/throw_charge_bar.gd" id="21_rjhu2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
 friction = 0.75
@@ -190,11 +197,11 @@ base_stats = {
 "air_acceleration": 20.0,
 "direction_angle_randomness_degrees": 0.0,
 "jump_impulse": 20.0,
-"max_throw_charge_time": 1.0,
+"max_throw_charge_time": 3.0,
 "speed": 10.0,
 "speed_randomness": 0.0,
 "sprint_multiplier": 1.5,
-"throw_strength": 5.0
+"throw_strength": 0.75
 }
 metadata/_custom_type_script = "uid://wq2hn4rr7qf1"
 
@@ -285,6 +292,83 @@ theme = ExtResource("15_4rspn")
 text = "=?"
 
 [node name="ScreenScalerComponent" type="Node" parent="HUD/CoinPurseLabel" unique_id=2122207112]
+script = ExtResource("11_eho78")
+pivot_offset_x = 0.0
+pivot_offset_y = 1.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="UseChargeBar" type="Control" parent="HUD" unique_id=396903030 node_paths=PackedStringArray("character", "progress_bar", "icon")]
+layout_mode = 3
+anchor_left = 0.141
+anchor_top = 1.0
+anchor_right = 0.141
+anchor_bottom = 1.0
+offset_left = 0.56799316
+offset_top = -40.0
+offset_right = 40.567993
+grow_vertical = 0
+scale = Vector2(2, 2)
+script = ExtResource("17_qk7w8")
+character = NodePath("../..")
+progress_bar = NodePath("TextureProgressBar")
+icon = NodePath("UsingIcon")
+eat_texture = ExtResource("17_3t8uj")
+other_use_texture = ExtResource("19_lit6r")
+
+[node name="UsingIcon" type="Sprite2D" parent="HUD/UseChargeBar" unique_id=495385582]
+position = Vector2(32, 8)
+texture = ExtResource("17_3t8uj")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="HUD/UseChargeBar" unique_id=718558938]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+offset_right = 64.0
+grow_vertical = 0
+fill_mode = 4
+texture_under = ExtResource("18_qk7w8")
+texture_progress = ExtResource("19_3t8uj")
+
+[node name="ScreenScalerComponent" type="Node" parent="HUD/UseChargeBar" unique_id=193091116]
+script = ExtResource("11_eho78")
+pivot_offset_x = 0.0
+pivot_offset_y = 1.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="ThrowChargeBar" type="Control" parent="HUD" unique_id=1479656252 node_paths=PackedStringArray("character", "progress_bar")]
+layout_mode = 3
+anchor_left = 0.22000001
+anchor_top = 1.0
+anchor_right = 0.22000001
+anchor_bottom = 1.0
+offset_left = -0.4400177
+offset_top = -40.0
+offset_right = 39.559982
+grow_vertical = 0
+scale = Vector2(2, 2)
+script = ExtResource("21_rjhu2")
+character = NodePath("../..")
+progress_bar = NodePath("TextureProgressBar")
+
+[node name="ThrowingIcon" type="Sprite2D" parent="HUD/ThrowChargeBar" unique_id=2065417964]
+position = Vector2(32, 8)
+texture = ExtResource("17_qp1es")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="HUD/ThrowChargeBar" unique_id=1467749165]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+offset_right = 64.0
+grow_vertical = 0
+fill_mode = 4
+texture_under = ExtResource("18_qk7w8")
+texture_progress = ExtResource("19_3t8uj")
+
+[node name="ScreenScalerComponent" type="Node" parent="HUD/ThrowChargeBar" unique_id=1729566734]
 script = ExtResource("11_eho78")
 pivot_offset_x = 0.0
 pivot_offset_y = 1.0
