@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://8ng2as3ct8qv"]
+
+[ext_resource type="Script" uid="uid://bimdyydlbocfu" path="res://appliances/knife_iteraction_area_3d.gd" id="1_51b6x"]
+[ext_resource type="PackedScene" uid="uid://dc5nx712jgekb" path="res://items/food/patty.tscn" id="2_svhoa"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ti5wi"]
+radius = 1.0
+height = 4.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_51b6x"]
+noise_type = 0
+fractal_lacunarity = 100.0
+fractal_gain = 0.05
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_svhoa"]
+noise = SubResource("FastNoiseLite_51b6x")
+seamless = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gbns"]
+albedo_texture = SubResource("NoiseTexture2D_svhoa")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_k5g27"]
+material = SubResource("StandardMaterial3D_5gbns")
+radius = 1.0
+height = 4.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ti5wi"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_svhoa"]
+radius = 1.1
+height = 4.2
+
+[node name="Cow" type="RigidBody3D" unique_id=101706065]
+mass = 10.0
+gravity_scale = 5.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1636732133]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_ti5wi")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=473693094]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_k5g27")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1456115912]
+replication_config = SubResource("SceneReplicationConfig_ti5wi")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=2105014877]
+script = ExtResource("1_51b6x")
+spawn_at_collision_scene = ExtResource("2_svhoa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1691569024]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_svhoa")
+debug_color = Color(0.95427436, 1.347661e-06, 0.5517831, 0.41960785)

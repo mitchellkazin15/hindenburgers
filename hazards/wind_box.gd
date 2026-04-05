@@ -16,4 +16,4 @@ func _physics_process(delta: float) -> void:
 		return
 	for body in get_overlapping_bodies():
 		if body is RigidBody3D:
-			body.apply_force(wind_force * global_basis.z)
+			body.apply_central_force(wind_force * global_basis.z)

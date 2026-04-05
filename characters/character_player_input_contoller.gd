@@ -11,7 +11,7 @@ func _ready():
 		character = get_parent()
 
 
-func _unhandled_input(event):
+func _input(event):
 	if not is_multiplayer_authority():
 		set_process(false)
 		set_physics_process(false)

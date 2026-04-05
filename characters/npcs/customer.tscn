@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://b2bswxfec002i" path="res://characters/colon.gd" id="5_jqa2g"]
 [ext_resource type="Script" uid="uid://wq2hn4rr7qf1" path="res://stats/character_stat_manager.gd" id="5_pmaai"]
 [ext_resource type="Script" uid="uid://bthslr67752nd" path="res://characters/cloaca.gd" id="6_l5cv3"]
-[ext_resource type="PackedScene" uid="uid://c65pcxntsmjqy" path="res://items/money/coin.tscn" id="7_bd3p1"]
+[ext_resource type="PackedScene" uid="uid://c65pcxntsmjqy" path="res://items/money/penny.tscn" id="7_bd3p1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wfnr8"]
 
@@ -89,6 +89,7 @@ script = ExtResource("3_4tcmh")
 customer = NodePath("..")
 mouth = NodePath("../Mouth")
 suck_time = 1.0
+eat_list = Array[String](["res://items/food/hamburger.tscn"])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SuckArea3D" unique_id=1732774292]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 1.5)

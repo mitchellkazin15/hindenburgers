@@ -6,7 +6,7 @@
 [node name="MultiplayerBaseScene" type="Node3D" unique_id=1390981435]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=363562087]
-_spawnable_scenes = PackedStringArray("uid://d2d7u3vxmhpsf", "uid://cxmv04r35emag", "uid://06g6idstgaj8", "uid://c65pcxntsmjqy", "uid://mi6drwxajht8", "uid://bdf1caegn8tx6", "uid://rq35fe5i75wv", "uid://cy1pb3tm032du")
+_spawnable_scenes = PackedStringArray("uid://d2d7u3vxmhpsf", "uid://cxmv04r35emag", "uid://06g6idstgaj8", "res://items/money/coin.tscn", "uid://mi6drwxajht8", "uid://bdf1caegn8tx6", "uid://rq35fe5i75wv", "uid://cy1pb3tm032du", "uid://dc5nx712jgekb", "uid://de20king28rr0", "uid://c34l574dlsje", "uid://b8422lbslingj")
 spawn_path = NodePath("../LevelRoot")
 script = ExtResource("1_31l41")
 

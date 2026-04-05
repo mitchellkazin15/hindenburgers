@@ -1,19 +1,24 @@
-[gd_scene format=3 uid="uid://bbqknpjnqy3ym"]
+[gd_scene format=3 uid="uid://cxhm0i8wmwji4"]
 
-[ext_resource type="Script" uid="uid://clia0s6jdmf34" path="res://items/tools/spatula.gd" id="1_qikfw"]
-[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_brdvl"]
-[ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_d5n5e"]
+[ext_resource type="Script" uid="uid://cvqyxkv08uhsk" path="res://items/tools/knife.gd" id="1_jricu"]
+[ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_pjlok"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="3_bwkjd"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qikfw"]
-size = Vector3(0.25, 0.05, 0.75)
+size = Vector3(0.1, 0.5, 0.15)
 
-[sub_resource type="BoxMesh" id="BoxMesh_brdvl"]
-material = ExtResource("2_d5n5e")
-size = Vector3(0.1, 0.04, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pjlok"]
+albedo_color = Color(0, 0, 0, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_tgr5y"]
-material = ExtResource("2_d5n5e")
-size = Vector3(0.25, 0.05, 0.3)
+[sub_resource type="CylinderMesh" id="CylinderMesh_bwkjd"]
+material = SubResource("StandardMaterial3D_pjlok")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.2
+
+[sub_resource type="PrismMesh" id="PrismMesh_iwudx"]
+material = ExtResource("2_pjlok")
+size = Vector3(0.05, 0.15, 0.3)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q777v"]
 properties/0/path = NodePath(".:position")
@@ -26,33 +31,31 @@ properties/1/replication_mode = 1
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 radius = 0.75
 
-[node name="Spatula" type="RigidBody3D" unique_id=1264862515]
+[node name="Knife" type="RigidBody3D" unique_id=1264862515]
 mass = 0.25
-center_of_mass_mode = 1
-center_of_mass = Vector3(0, 0, 0.5)
 continuous_cd = true
-script = ExtResource("1_qikfw")
-per_sec_use_strength = 3.0
+script = ExtResource("1_jricu")
 unlock_rotation_on_use = true
+max_use_charge_time = 0.5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.65)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.05)
 shape = SubResource("BoxShape3D_qikfw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1666493877]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
-mesh = SubResource("BoxMesh_brdvl")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("CylinderMesh_bwkjd")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1802209539]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
-mesh = SubResource("BoxMesh_tgr5y")
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.35, 0.05)
+mesh = SubResource("PrismMesh_iwudx")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=847552921]
 replication_config = SubResource("SceneReplicationConfig_q777v")
 
 [node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
-script = ExtResource("2_brdvl")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.1)
+script = ExtResource("3_bwkjd")
 item = NodePath("..")
 metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 

@@ -71,6 +71,7 @@ drug_character_effect_adders = {
 "speed_randomness": 1.0,
 "sprint_multiplier": 0.0
 }
+max_use_charge_time = 0.1
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1553384249]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)

@@ -19,6 +19,9 @@ var burnt = false
 
 
 func _ready() -> void:
+	set_process(is_multiplayer_authority())
+	set_physics_process(is_multiplayer_authority())
+	set_process_input(is_multiplayer_authority())
 	top_side_cook_timer = StopwatchManager.create_stopwatch()
 	bottom_side_cook_timer = StopwatchManager.create_stopwatch()
 
@@ -30,10 +33,7 @@ func _physics_process(delta: float) -> void:
 	var bottom_cooked = bottom_side_cook_timer.time_elapsed_sec > per_side_cook_time
 	if top_cooked and bottom_cooked:
 		spawn_cooked_item()
-	if top_cooked:
-		display_cooked_sides.rpc(top_mesh)
-	if bottom_cooked:
-		display_cooked_sides.rpc(bottom_mesh)
+	display_cooked_sides.rpc(top_cooked, bottom_cooked)
 	if top_raycast.get_collider() is CookingBody:
 		top_side_cook_timer.start()
 	else:
@@ -56,9 +56,14 @@ func spawn_cooked_item():
 
 
 @rpc("any_peer", "call_local", "reliable")
-func display_cooked_sides(side_mesh : MeshInstance3D):
-	var material : StandardMaterial3D = side_mesh.mesh.material
-	material.albedo_color = cooked_color
+func display_cooked_sides(top_cooked, bottom_cooked):
+	var material : StandardMaterial3D
+	if top_cooked:
+		material = top_mesh.mesh.material
+		material.albedo_color = cooked_color
+	if bottom_cooked:
+		material = bottom_mesh.mesh.material
+		material.albedo_color = cooked_color
 
 
 @rpc("any_peer", "call_local", "reliable")

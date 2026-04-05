@@ -1,22 +1,22 @@
-[gd_scene format=3 uid="uid://c65pcxntsmjqy"]
+[gd_scene format=3 uid="uid://b8422lbslingj"]
 
-[ext_resource type="Script" uid="uid://h7um5s26s26s" path="res://items/money/coin.gd" id="1_qk1uf"]
-[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_4vk7y"]
-[ext_resource type="Texture2D" uid="uid://h4nbae34u0ik" path="res://assets/misc_sprites/bronze-coin.png" id="2_kq1qp"]
+[ext_resource type="Script" uid="uid://h7um5s26s26s" path="res://items/money/coin.gd" id="1_t264k"]
+[ext_resource type="Texture2D" uid="uid://kbqspe01gf6q" path="res://assets/misc_sprites/gold-coin.png" id="2_t264k"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="3_vmnlb"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_gflxi"]
 height = 0.1
 radius = 0.25
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_22q5j"]
-albedo_color = Color(0.9982992, 0.6939406, 0, 1)
+albedo_color = Color(0.9607843, 0.8901961, 0, 1)
 metallic = 1.0
 roughness = 0.25
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.01
 normal_enabled = true
 normal_scale = 0.25
-normal_texture = ExtResource("2_kq1qp")
+normal_texture = ExtResource("2_t264k")
 uv1_scale = Vector3(1.1, 1.1, 1.1)
 uv1_offset = Vector3(0.2, -0.4, 0)
 
@@ -36,10 +36,12 @@ properties/1/replication_mode = 1
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 
-[node name="Coin" type="RigidBody3D" unique_id=1264862515]
+[node name="Dime" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
 continuous_cd = true
-script = ExtResource("1_qk1uf")
+script = ExtResource("1_t264k")
+money_value = 10.0
+max_use_charge_time = 0.1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
@@ -54,7 +56,7 @@ replication_config = SubResource("SceneReplicationConfig_q777v")
 
 [node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
-script = ExtResource("2_4vk7y")
+script = ExtResource("3_vmnlb")
 item = NodePath("..")
 metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 

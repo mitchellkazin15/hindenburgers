@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cf2jt4onq048j"]
 
 [ext_resource type="Script" uid="uid://bx2ji7nbt02o1" path="res://items/tools/golf_club.gd" id="1_vqemh"]
+[ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_fk433"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_jnlyj"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vqemh"]
@@ -15,14 +16,8 @@ top_radius = 0.05
 bottom_radius = 0.05
 height = 1.5
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d5n5e"]
-albedo_color = Color(0.23031491, 0.23031494, 0.23031494, 1)
-
 [sub_resource type="BoxMesh" id="BoxMesh_tgr5y"]
 size = Vector3(0.25, 0.1, 0.25)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31h44"]
-albedo_color = Color(0.23137255, 0.23137255, 0.23137255, 1)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q777v"]
 properties/0/path = NodePath(".:position")
@@ -54,12 +49,12 @@ shape = SubResource("BoxShape3D_vqemh")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1666493877]
 transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, -0.35, 0.35)
 mesh = SubResource("CylinderMesh_vqemh")
-surface_material_override/0 = SubResource("StandardMaterial3D_d5n5e")
+surface_material_override/0 = ExtResource("2_fk433")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1802209539]
 transform = Transform3D(0.9848077, -0.17364818, 0, 0.17364818, 0.9848077, 0, 0, 0, 1, 0, -0.9, 0.95)
 mesh = SubResource("BoxMesh_tgr5y")
-surface_material_override/0 = SubResource("StandardMaterial3D_31h44")
+surface_material_override/0 = ExtResource("2_fk433")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=847552921]
 replication_config = SubResource("SceneReplicationConfig_q777v")

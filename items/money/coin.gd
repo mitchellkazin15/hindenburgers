@@ -5,6 +5,8 @@ extends HoldableItem
 
 
 func use(use_charge_time : float):
+	if use_charge_time < max_use_charge_time:
+		return
 	if item_holder.has_node("CoinPurse"):
 		var purse : CoinPurse = item_holder.get_node("CoinPurse")
 		purse.add_money(money_value)

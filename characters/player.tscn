@@ -97,6 +97,12 @@ properties/4/replication_mode = 1
 properties/5/path = NodePath("Colon:_curr_digested_food_val")
 properties/5/spawn = true
 properties/5/replication_mode = 1
+properties/6/path = NodePath("HUD/ThrowChargeBar/TextureProgressBar:value")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath("HUD/UseChargeBar/TextureProgressBar:value")
+properties/7/spawn = true
+properties/7/replication_mode = 1
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_b1u1o"]
 height = 0.5
@@ -169,7 +175,6 @@ draw_pass_1 = SubResource("SphereMesh_lcfw7")
 script = ExtResource("2_h1q25")
 character = NodePath("..")
 interacting_area = NodePath("../InteractingArea3D")
-enabled = null
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1271864586]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

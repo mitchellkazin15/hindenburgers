@@ -4,6 +4,7 @@ extends Area3D
 @export var customer : Customer
 @export var mouth : Node3D
 @export var suck_time = 2.0
+@export var eat_list : Array[String]
 
 var suck_item : RigidBody3D = null
 var suck_reset_timer : SceneTreeTimer
@@ -36,8 +37,11 @@ func _on_suck_finished():
 		return
 	suck_item.freeze = false
 	suck_reset_timer = get_tree().create_timer(suck_reset_time)
-	if suck_item is EdibleItem:
+	print(suck_item.get_scene_file_path())
+	print(eat_list)
+	if suck_item is EdibleItem and suck_item.get_scene_file_path() in eat_list:
 		suck_item.eat(customer)
 	else:
-		suck_item.apply_central_impulse(20.0 * mouth.global_basis.z + 5.0 * Vector3.UP)
+		var spit_strength = (10.0 * mouth.global_basis.z + 10.0 * Vector3.UP) * suck_item.mass
+		suck_item.apply_central_impulse(spit_strength)
 	suck_item = null
