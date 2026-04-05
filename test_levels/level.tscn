@@ -613,6 +613,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.240746, 1.175, 109.01065)
 [node name="Patty13" parent="Items" unique_id=895687806 instance=ExtResource("18_8auyx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.721221, 1.1750004, 111.67434)
 
+[node name="Grill2" parent="Items" unique_id=1644082996 instance=ExtResource("17_61pkr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.006273, 1.575, 110.70143)
+
 [node name="Customer3" parent="." unique_id=1767255480 instance=ExtResource("1_68ie7")]
 transform = Transform3D(-0.010471618, 0, -0.99994516, 0, 1, 0, 0.99994516, 0, -0.010471618, -115.73943, 30.999985, -1.719598)
 payment = ExtResource("22_on3nk")

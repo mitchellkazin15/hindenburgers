@@ -51,9 +51,9 @@ func _on_swing_finished():
 func _on_hit(body):
 	if not hit_area_active:
 		return
-	if body is RigidBody3D and body != self and not body in bodies_hit_per_swing:
+	if body is RelativeRigidBody3D and body != self and not body in bodies_hit_per_swing:
 		if body is Character:
 			body.launched = true
 			hit_strength *= 10.0
-		body.apply_central_impulse((hit_strength * global_basis.x))
+		body.apply_relative_central_impulse((hit_strength * global_basis.x))
 		bodies_hit_per_swing.append(body)

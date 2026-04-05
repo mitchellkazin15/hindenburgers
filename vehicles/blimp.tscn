@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://833764desipx" path="res://vehicles/enter_driving_area_3d.gd" id="4_vv172"]
 [ext_resource type="Script" uid="uid://d3jst2uikhsxu" path="res://stats/blimp_stat_manager.gd" id="5_66evt"]
 [ext_resource type="PackedScene" uid="uid://bgu41g83yv72j" path="res://models/chair.tscn" id="6_ijpo3"]
-[ext_resource type="PackedScene" uid="uid://dgte83yyq36st" path="res://appliances/grill.tscn" id="7_ay0pt"]
 [ext_resource type="Script" uid="uid://bn443o2wp6ivq" path="res://vehicles/reference_frame_area_3d.gd" id="8_ew8ff"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
@@ -137,10 +136,10 @@ replication_config = SubResource("SceneReplicationConfig_oo2kl")
 script = ExtResource("5_66evt")
 base_stats = {
 "acceleration": 5.0,
-"boost_acceleration_multiplier": 2.0,
+"boost_acceleration_multiplier": 1.1,
 "max_speed": 100.0,
 "righting_torque_scalar": 2000.0,
-"rising_acceleration": 10.0,
+"rising_acceleration": 12.0,
 "rotational_torque_scalar": 100.0
 }
 metadata/_custom_type_script = "uid://d3jst2uikhsxu"
@@ -169,9 +168,6 @@ vehicle = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.75, 5.5)
 shape = SubResource("BoxShape3D_5xue0")
 debug_color = Color(0.03858291, 0.65077674, 0, 0.41960785)
-
-[node name="Grill" parent="." unique_id=815211517 instance=ExtResource("7_ay0pt")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.14, -16.4, -0.314)
 
 [node name="ReferenceFrameArea3D" type="Area3D" parent="." unique_id=1630329575 node_paths=PackedStringArray("reference_body")]
 script = ExtResource("8_ew8ff")

@@ -1,2 +1,2 @@
 class_name CookingBody
-extends StaticBody3D
+extends HoldableItem

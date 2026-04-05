@@ -9,13 +9,13 @@ var is_boosting = false
 
 var _jump_lock_timer : SceneTreeTimer
 
+func _ready() -> void:
+	super._ready()
+	_jump_lock_timer = get_tree().create_timer(0.0)
+
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	if not is_multiplayer_authority():
-		return
-	if not _jump_lock_timer:
-		_jump_lock_timer = get_tree().create_timer(0.0)
-	if not being_driven:
+	if not being_driven or not is_multiplayer_authority():
 		return
 	var ground_plane_move = Vector3(move_direction.x, 0.0, move_direction.z).rotated(Vector3.UP, driver.rand_angle)
 	var pogo_forward = -global_basis.z

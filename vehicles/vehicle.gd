@@ -1,5 +1,5 @@
 class_name Vehicle
-extends RigidBody3D
+extends RelativeRigidBody3D
 
 
 @export var being_driven = false
@@ -57,8 +57,6 @@ func _on_end_locked_interaction() -> void:
 		camera.current = false
 	driver_seat.remote_path = NodePath("")
 	driver.locked_interaction_ended.disconnect(_on_end_locked_interaction)
-	driver.apply_central_impulse(linear_velocity)
-	driver.launched = true
 	driver = null
 	update_driving_status.rpc(being_driven)
 

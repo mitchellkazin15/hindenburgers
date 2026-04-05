@@ -1,5 +1,5 @@
 class_name HoldableItem
-extends RigidBody3D
+extends RelativeRigidBody3D
 
 signal use_finished
 

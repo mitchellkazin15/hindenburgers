@@ -22,7 +22,7 @@ func _ready() -> void:
 func _on_body_entered(body):
 	if suck_item or not is_multiplayer_authority() or suck_reset_timer.time_left != 0.0:
 		return
-	if body is RigidBody3D and body != get_parent():
+	if body is RelativeRigidBody3D and body != get_parent():
 		if not body is HoldableItem or body.being_held:
 			return
 		body.freeze
@@ -43,5 +43,5 @@ func _on_suck_finished():
 		suck_item.eat(customer)
 	else:
 		var spit_strength = (10.0 * mouth.global_basis.z + 10.0 * Vector3.UP) * suck_item.mass
-		suck_item.apply_central_impulse(spit_strength)
+		suck_item.apply_relative_central_impulse(spit_strength)
 	suck_item = null

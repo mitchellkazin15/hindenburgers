@@ -1,5 +1,5 @@
 class_name Character
-extends RigidBody3D
+extends RelativeRigidBody3D
 
 signal locked_interaction_ended
 
@@ -29,7 +29,6 @@ var speed = 20.0
 var jump_speed = 20.0
 var jump_lockout_time = 0.1
 var launched = false
-var prev_relative_vel = Vector3.ZERO
 
 var randomness_timer : SceneTreeTimer
 var rand_speed = 0.0
@@ -93,7 +92,6 @@ func reset():
 
 
 func set_locked_interacting(change_camera : bool):
-	prev_relative_vel = Vector3.ZERO
 	locked_interaction = true
 	controllable = false
 	if change_camera:
@@ -158,13 +156,14 @@ func throw_item():
 	held_item.use_finished.disconnect(_on_use_finished)
 	held_item.release()
 	var throw_vec : Vector3 = ($RotationPivot.global_basis.z).normalized()
-	throw_vec += held_item.mass * Vector3(0.1, .5, 0.1) * linear_velocity
+	if reference_frame_vel.length() == 0.0:
+		throw_vec += held_item.mass * Vector3(0.1, .5, 0.1) * linear_velocity
 	throw_vec = throw_vec.rotated(Vector3.UP, rand_angle)
 	var charge_time = min(stats.get_current_max_throw_charge_time(), throw_item_stopwatch.time_elapsed_sec)
 	if charge_time < 0.25:
 		charge_time = 0.0
 	throw_vec *= stats.get_current_throw_strength() * charge_time
-	held_item.apply_central_impulse(throw_vec)
+	held_item.apply_relative_central_impulse(throw_vec)
 	held_item = null
 	throw_item_stopwatch.restart()
 
@@ -181,13 +180,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if floor_shape_cast.get_collision_count() > 0:
 		launched = false
 		collider = floor_shape_cast.get_collider(0)
-	var relative_linear_vel = state.linear_velocity
-	if collider:
-		if collider is Vehicle or collider is Character:
-			prev_relative_vel = collider.linear_velocity
-		else:
-			prev_relative_vel = Vector3.ZERO
-	relative_linear_vel -= prev_relative_vel
 	if randomness_timer.time_left == 0.0:
 		var speed_randomness = stats.get_current_speed_randomness()
 		var new_rand_speed = max(0.0, randf_range(-speed_randomness, speed_randomness))
@@ -197,7 +189,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		tween.tween_property(self, "rand_speed", new_rand_speed, randomness_duration / 2.0)
 		tween.tween_property(self, "rand_angle", new_rand_angle, randomness_duration / 2.0)
 		randomness_timer = get_tree().create_timer(randomness_duration)
-	var speed = max(1.0, stats.get_current_speed() + rand_speed)
+	var speed = calculate_speed()
 	if move_direction != Vector3.ZERO:
 		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(move_direction, Vector3.UP), min(10.0 * state.step, 1.0))
 	if is_sprinting:
@@ -208,14 +200,20 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		target_ground_plane_vel.y = 0.0
 		state.apply_central_force(target_ground_plane_vel.normalized() * stats.get_current_air_acceleration())
 	else:
-		target_ground_plane_vel -= relative_linear_vel
+		target_ground_plane_vel -= linear_velocity
 		target_ground_plane_vel.y = 0.0
-		state.apply_central_impulse(target_ground_plane_vel)
+		self.apply_relative_central_impulse(target_ground_plane_vel, Vector3(1.0, 0.0, 1.0))
 	if is_jumping and _can_jump and collider:
-		state.apply_central_impulse(stats.get_current_jump_impulse() * Vector3.UP)
+		self.apply_relative_central_impulse(stats.get_current_jump_impulse() * Vector3.UP)
 		_can_jump = false
 		_jump_lock_timer = get_tree().create_timer(jump_lockout_time)
 		_jump_lock_timer.timeout.connect(_on_jump_lock_timeout)
+
+
+func calculate_speed():
+	var speed = max(1.0, stats.get_current_speed() + rand_speed)
+	speed /= (mass + (0.0 if not held_item else held_item.mass))
+	return speed
 
 
 func _on_jump_lock_timeout():

@@ -1,20 +1,25 @@
 [gd_scene format=3 uid="uid://dgte83yyq36st"]
 
-[ext_resource type="Script" uid="uid://dvdchk8jffo4o" path="res://appliances/stay_on_blimp_area_3d.gd" id="1_ahhu7"]
 [ext_resource type="Script" uid="uid://nnfc7ujjaest" path="res://appliances/cooking_body.gd" id="1_nelog"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_nelog"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nelog"]
+rough = true
+absorbent = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gn8vc"]
-size = Vector3(3, 0.9, 2)
+size = Vector3(3, 1, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ahhu7"]
 albedo_color = Color(0.10186762, 0.101867534, 0.10186758, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_nelog"]
 material = SubResource("StandardMaterial3D_ahhu7")
-size = Vector3(3, 0.9, 2)
+size = Vector3(3, 1, 2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_nelog"]
-size = Vector3(3.1, 1.1, 2.1)
+[sub_resource type="TorusMesh" id="TorusMesh_iq2jc"]
+inner_radius = 0.05
+outer_radius = 0.1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nelog"]
 properties/0/path = NodePath(".:position")
@@ -24,21 +29,36 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="Grill" type="StaticBody3D" unique_id=815211517]
+[sub_resource type="SphereShape3D" id="SphereShape3D_yqmo2"]
+radius = 0.2
+
+[node name="Grill" type="RigidBody3D" unique_id=1644082996]
+mass = 5.0
+physics_material_override = SubResource("PhysicsMaterial_nelog")
+gravity_scale = 5.0
+can_sleep = false
 script = ExtResource("1_nelog")
+metadata/_custom_type_script = "uid://cglmrmpbm6ssh"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=667799814]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 shape = SubResource("BoxShape3D_gn8vc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1534074312]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 mesh = SubResource("BoxMesh_nelog")
 
-[node name="Area3D" type="Area3D" parent="." unique_id=2005818836]
-script = ExtResource("1_ahhu7")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=692514576]
-shape = SubResource("BoxShape3D_nelog")
-debug_color = Color(0.6055246, 0.5414668, 1.92523e-07, 0.41960785)
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=551921452]
+mesh = SubResource("TorusMesh_iq2jc")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1201182755]
 replication_config = SubResource("SceneReplicationConfig_nelog")
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=2031406287 node_paths=PackedStringArray("item")]
+script = ExtResource("2_nelog")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=138003932]
+shape = SubResource("SphereShape3D_yqmo2")
+debug_color = Color(2.4065375e-07, 0.64267063, 0.3190791, 0.41960785)

@@ -1,5 +1,5 @@
 class_name AirMine
-extends RigidBody3D
+extends RelativeRigidBody3D
 
 @export var explosion_power = 100000000.0
 @export var reset_time = 10.0
@@ -17,7 +17,7 @@ func _ready() -> void:
 func _on_body_entered(body):
 	if reset_timer and reset_timer.time_left != 0.0:
 		return
-	if body is RigidBody3D and body != self:
+	if body is RelativeRigidBody3D and body != self:
 		$ExplosionArea3D.explode(explosion_power)
 		reset_timer = get_tree().create_timer(reset_time)
 		show_explosing.rpc()

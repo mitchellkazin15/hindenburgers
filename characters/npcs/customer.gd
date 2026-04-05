@@ -1,5 +1,5 @@
 class_name Customer
-extends RigidBody3D
+extends RelativeRigidBody3D
 
 @export var eat_list_override : Array[String]
 @export var payment : PackedScene

@@ -1,7 +1,7 @@
 class_name Spatula
 extends HoldableItem
 
-@export var per_sec_use_strength = 0.25
+@export var per_sec_use_strength = 3.0
 @export var swing_duration = 0.25
 
 var prev_grav_scale
@@ -19,9 +19,10 @@ func _physics_process(delta: float) -> void:
 	if not active or burger_flip_timer.time_left == 0.0:
 		return
 	for body in $BurgerFlipArea3D.get_overlapping_bodies():
-		if body is RigidBody3D:
+		if body is RelativeRigidBody3D and body != self and not body is CookingBody:
 			body.apply_central_impulse(active_strength * Vector3.UP)
 			body.apply_torque_impulse(0.1 * active_strength * self.global_basis.x)
+			active = false
 
 
 func use(use_charge_time : float):
