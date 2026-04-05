@@ -15,8 +15,9 @@ func use(use_charge_time : float):
 		prev_grav_scale = gravity_scale
 	gravity_scale = 0
 	active = true
-	self.apply_torque_impulse(per_sec_use_strength * min(max_use_charge_time, use_charge_time) * global_basis.x)
-	get_tree().create_timer(0.1).timeout.connect(_on_swing_finished)
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "rotation", rotation + Vector3(PI / 2.0, 0.0, 0.0), 0.1)
+	tween.finished.connect(_on_swing_finished)
 
 
 func _on_swing_finished():

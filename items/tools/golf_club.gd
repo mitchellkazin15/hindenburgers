@@ -29,9 +29,12 @@ func use(use_charge_time : float):
 	if start_use_tween:
 		start_use_tween.stop()
 	bodies_hit_per_swing = []
-	self.apply_torque_impulse(0.1 * min(max_use_charge_time, use_charge_time) * global_basis.z)
+	var charge_time = min(max_use_charge_time, use_charge_time)
+	var tween = get_tree().create_tween()
+	var final_rotation =  PI * charge_time / max_use_charge_time
+	tween.tween_property(self, "rotation", rotation + Vector3(0.0, 0.0, final_rotation), 0.1)
 	hit_area_active = true
-	hit_strength = per_sec_use_strength * use_charge_time
+	hit_strength = per_sec_use_strength * charge_time
 	get_tree().create_timer(0.4).timeout.connect(_on_swing_finished)
 
 
@@ -52,5 +55,5 @@ func _on_hit(body):
 		if body is Character:
 			body.launched = true
 			hit_strength *= 10.0
-		body.apply_central_impulse((hit_strength * global_basis.x) + (1.0 * Vector3.UP))
+		body.apply_central_impulse((hit_strength * global_basis.x))
 		bodies_hit_per_swing.append(body)

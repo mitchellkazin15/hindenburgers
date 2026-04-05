@@ -10,7 +10,8 @@ func spawn_player(player: Character):
 	spawn({
 		"scene_file_path": "res://characters/player.tscn",
 		"position": player.initial_position,
-		"authority": player.initial_multiplayer_authority
+		"authority": player.initial_multiplayer_authority,
+		"display_name": player.display_name
 	})
 
 
@@ -19,6 +20,7 @@ func _custom_spawn_func(data: Dictionary) -> Node:
 	if node is Character:
 		node.initial_position = data["position"]
 		node.initial_multiplayer_authority = data["authority"]
+		node.display_name = data["display_name"]
 	return node  # Spawner adds this to the scene automatically
 
 

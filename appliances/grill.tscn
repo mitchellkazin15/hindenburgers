@@ -4,14 +4,14 @@
 [ext_resource type="Script" uid="uid://nnfc7ujjaest" path="res://appliances/cooking_body.gd" id="1_nelog"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gn8vc"]
-size = Vector3(3, 1, 2)
+size = Vector3(3, 0.9, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ahhu7"]
 albedo_color = Color(0.10186762, 0.101867534, 0.10186758, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_nelog"]
 material = SubResource("StandardMaterial3D_ahhu7")
-size = Vector3(3, 1, 2)
+size = Vector3(3, 0.9, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nelog"]
 size = Vector3(3.1, 1.1, 2.1)
@@ -24,9 +24,7 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="Grill" type="RigidBody3D" unique_id=1957566051]
-mass = 10.0
-gravity_scale = 5.0
+[node name="Grill" type="StaticBody3D" unique_id=815211517]
 script = ExtResource("1_nelog")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=667799814]

@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bgu41g83yv72j"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yl3ul"]
+size = Vector3(1, 0.25, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_seft4"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_l21ff"]
+size = Vector3(1, 1.5, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oiiyw"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_av2wi"]
+size = Vector3(0.1, 0.4, 1)
+
+[node name="Chair" type="Node3D" unique_id=973371720]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=84704333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
+mesh = SubResource("BoxMesh_yl3ul")
+surface_material_override/0 = SubResource("StandardMaterial3D_seft4")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=238151167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -0.5)
+mesh = SubResource("BoxMesh_l21ff")
+surface_material_override/0 = SubResource("StandardMaterial3D_oiiyw")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1711819179]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0.3, 0)
+mesh = SubResource("BoxMesh_av2wi")
+surface_material_override/0 = SubResource("StandardMaterial3D_oiiyw")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=857788872]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0.3, 0)
+mesh = SubResource("BoxMesh_av2wi")
+surface_material_override/0 = SubResource("StandardMaterial3D_oiiyw")

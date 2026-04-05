@@ -15,8 +15,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority() or spawn_cooldown_timer.time_left != 0.0:
 		return
-	for collider in get_overlapping_bodies():
-		if collider is Knife and collider.active:
+	for collider in get_overlapping_areas():
+		if collider is KnifeDamageArea3D and collider.get_parent().active:
 			var spawn = spawn_at_collision_scene.instantiate()
 			MultiplayerManager.add_node_to_spawner(spawn, collider.global_position)
 			if spawn is RigidBody3D:

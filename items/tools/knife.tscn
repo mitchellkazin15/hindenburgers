@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cvqyxkv08uhsk" path="res://items/tools/knife.gd" id="1_jricu"]
 [ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_pjlok"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="3_bwkjd"]
+[ext_resource type="Script" uid="uid://bd6vj3ugmxr13" path="res://items/tools/knife_damage_area_3d.gd" id="4_pjlok"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qikfw"]
 size = Vector3(0.1, 0.5, 0.15)
@@ -64,3 +65,10 @@ shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
 [node name="SwingPivot" type="Node3D" parent="." unique_id=1085677876]
+
+[node name="KnifeDamageArea3D" type="Area3D" parent="." unique_id=705711118]
+script = ExtResource("4_pjlok")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="KnifeDamageArea3D" unique_id=282260634]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.05)
+shape = SubResource("BoxShape3D_qikfw")

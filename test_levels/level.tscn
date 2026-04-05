@@ -542,7 +542,7 @@ item = ExtResource("14_ngvrc")
 price = 10.0
 
 [node name="Grill" parent="Items" unique_id=1957566051 instance=ExtResource("17_61pkr")]
-transform = Transform3D(-0.020924991, 0, -0.9997811, 0, 1, 0, 0.9997811, 0, -0.020924991, -41.171745, -0.48018694, 0.7446251)
+transform = Transform3D(-0.020924991, 0, -0.9997811, 0, 1, 0, 0.9997811, 0, -0.020924991, -41.171745, -0.76830184, 0.7446251)
 
 [node name="Patty" parent="Items" unique_id=2087272741 instance=ExtResource("18_8auyx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.52771, -1.2065327, -0.48538685)
@@ -588,6 +588,30 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.69437, 55.025, 8.524173)
 
 [node name="Coin" parent="Items" unique_id=1975701546 instance=ExtResource("12_iq2tn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.380432, 0, 0)
+
+[node name="Patty8" parent="Items" unique_id=461039982 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.355146, 1.1749971, 111.550735)
+
+[node name="Patty9" parent="Items" unique_id=1838797573 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.243683, 1.1749973, 108.92527)
+
+[node name="Patty10" parent="Items" unique_id=273150073 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.292196, 1.1749971, 110.2123)
+
+[node name="Spatula10" parent="Items" unique_id=1977319421 instance=ExtResource("4_41kie")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.892982, 1.1499974, 108.264206)
+
+[node name="Spatula11" parent="Items" unique_id=1087532584 instance=ExtResource("4_41kie")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.627445, 1.1499974, 108.31946)
+
+[node name="Patty11" parent="Items" unique_id=1710163169 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.979923, 1.175, 110.34755)
+
+[node name="Patty12" parent="Items" unique_id=102304003 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.240746, 1.175, 109.01065)
+
+[node name="Patty13" parent="Items" unique_id=895687806 instance=ExtResource("18_8auyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.721221, 1.1750004, 111.67434)
 
 [node name="Customer3" parent="." unique_id=1767255480 instance=ExtResource("1_68ie7")]
 transform = Transform3D(-0.010471618, 0, -0.99994516, 0, 1, 0, 0.99994516, 0, -0.010471618, -115.73943, 30.999985, -1.719598)

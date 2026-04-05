@@ -26,13 +26,15 @@ properties/1/replication_mode = 1
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 radius = 0.75
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_5u1aq"]
+size = Vector3(0.35, 0.2, 0.35)
+
 [node name="Spatula" type="RigidBody3D" unique_id=1264862515]
 mass = 0.25
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 0.5)
 continuous_cd = true
 script = ExtResource("1_qikfw")
-per_sec_use_strength = 3.0
 unlock_rotation_on_use = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
@@ -61,3 +63,10 @@ shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
 [node name="SwingPivot" type="Node3D" parent="." unique_id=1085677876]
+
+[node name="BurgerFlipArea3D" type="Area3D" parent="." unique_id=572576884]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BurgerFlipArea3D" unique_id=499665901]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
+shape = SubResource("BoxShape3D_5u1aq")
+debug_color = Color(0.8135569, 0.40943807, 5.7756904e-07, 0.41960785)

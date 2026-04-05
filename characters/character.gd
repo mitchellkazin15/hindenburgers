@@ -11,6 +11,7 @@ signal locked_interaction_ended
 @export var synchronizer : MultiplayerSynchronizer
 @export var initial_multiplayer_authority : int
 @export var initial_position : Vector3
+@export var display_name = ""
 @export var floor_shape_cast : ShapeCast3D
 @export var stats : CharacterStatManager
 @export var hand : RemoteTransform3D
@@ -55,6 +56,7 @@ func _ready() -> void:
 	throw_item_stopwatch = StopwatchManager.create_stopwatch()
 	use_item_stopwatch.stop()
 	throw_item_stopwatch.stop()
+	$Label3D.text = display_name
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -75,6 +77,7 @@ func set_initial_values(pos, multiplayer_authority):
 		$HUD.hide()
 		$DrugManager/DrugScreenEffectQuad.hide()
 	synchronizer.set_multiplayer_authority(host_authority)
+	$Label3D.text = display_name
 
 
 func reset():

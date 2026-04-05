@@ -8,6 +8,7 @@ signal use_finished
 
 var item_holder : Character
 var being_held = false
+var old_collision_child : CollisionShape3D
 
 
 func _ready() -> void:
@@ -19,12 +20,15 @@ func _ready() -> void:
 func set_being_held(holder : Character):
 	being_held = true
 	freeze = true
+	old_collision_child = $CollisionShape3D
+	remove_child(old_collision_child)
 	item_holder = holder
 
 
 @rpc("any_peer", "call_local", "reliable")
 func release():
 	being_held = false
+	add_child(old_collision_child)
 	freeze = false
 
 

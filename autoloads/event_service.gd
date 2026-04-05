@@ -41,6 +41,7 @@ func _on_load_multiplayer_level():
 		var player : Character = load("res://characters/player.tscn").instantiate()
 		player.initial_multiplayer_authority = peer_ids[player_num]
 		player.initial_position = player_spawns[player_num].global_position
+		player.display_name = MultiplayerManager.players[peer_ids[player_num]]["name"]
 		spawner.spawn_player(player)
 
 

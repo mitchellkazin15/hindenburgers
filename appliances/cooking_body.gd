@@ -1,2 +1,2 @@
 class_name CookingBody
-extends RigidBody3D
+extends StaticBody3D
