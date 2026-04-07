@@ -1,7 +1,13 @@
 class_name CoinPurse
 extends Node3D
 
+@export var initial_val = 0.0
+
 var money_val = 0.0
+
+
+func _ready() -> void:
+	money_val = initial_val
 
 
 func add_money(val : float):

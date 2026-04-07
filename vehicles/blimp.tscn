@@ -136,7 +136,7 @@ replication_config = SubResource("SceneReplicationConfig_oo2kl")
 script = ExtResource("5_66evt")
 base_stats = {
 "acceleration": 5.0,
-"boost_acceleration_multiplier": 1.1,
+"boost_acceleration_multiplier": 1.5,
 "max_speed": 100.0,
 "righting_torque_scalar": 2000.0,
 "rising_acceleration": 12.0,
