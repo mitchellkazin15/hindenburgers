@@ -15,13 +15,17 @@ func _ready() -> void:
 	set_process(is_multiplayer_authority())
 	set_physics_process(is_multiplayer_authority())
 	set_process_input(is_multiplayer_authority())
-	body_entered.connect(_on_body_entered)
 	suck_reset_timer = get_tree().create_timer(0.0)
 
 
-func _on_body_entered(body):
+func _physics_process(delta: float) -> void:
 	if suck_item or not is_multiplayer_authority() or suck_reset_timer.time_left != 0.0:
 		return
+	for body in get_overlapping_bodies():
+		_on_body_entered(body)
+
+
+func _on_body_entered(body):
 	if body is RelativeRigidBody3D and body != get_parent():
 		if not body is HoldableItem or body.being_held:
 			return
@@ -37,8 +41,6 @@ func _on_suck_finished():
 		return
 	suck_item.freeze = false
 	suck_reset_timer = get_tree().create_timer(suck_reset_time)
-	print(suck_item.get_scene_file_path())
-	print(eat_list)
 	if suck_item is EdibleItem and suck_item.get_scene_file_path() in eat_list:
 		suck_item.eat(customer)
 	else:

@@ -89,11 +89,13 @@ func reset():
 	linear_velocity = Vector3.ZERO
 	freeze = false
 	reset_input = false
+	$DrugManager.clear_drug_visual_effects.rpc()
 
 
 func set_locked_interacting(change_camera : bool):
 	locked_interaction = true
 	controllable = false
+	rotation_pivot.rotation = Vector3.ZERO
 	if change_camera:
 		camera.current = false
 	freeze = true
@@ -163,7 +165,8 @@ func throw_item():
 	if charge_time < 0.25:
 		charge_time = 0.0
 	throw_vec *= stats.get_current_throw_strength() * charge_time
-	held_item.apply_relative_central_impulse(throw_vec)
+	held_item.set_new_reference_frame(self.reference_frame_vel)
+	held_item.apply_central_impulse(throw_vec)
 	held_item = null
 	throw_item_stopwatch.restart()
 

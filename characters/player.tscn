@@ -327,15 +327,15 @@ metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
 
 [node name="UseChargeBar" type="Control" parent="HUD" unique_id=396903030 node_paths=PackedStringArray("character", "progress_bar", "icon")]
 layout_mode = 3
-anchor_left = 0.141
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 0.141
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.56799316
+offset_left = -40.0
 offset_top = -40.0
-offset_right = 40.567993
+grow_horizontal = 0
 grow_vertical = 0
-scale = Vector2(2, 2)
 script = ExtResource("17_qk7w8")
 character = NodePath("../..")
 progress_bar = NodePath("TextureProgressBar")
@@ -344,16 +344,19 @@ eat_texture = ExtResource("17_3t8uj")
 other_use_texture = ExtResource("19_lit6r")
 
 [node name="UsingIcon" type="Sprite2D" parent="HUD/UseChargeBar" unique_id=495385582]
-position = Vector2(32, 8)
+position = Vector2(8, 8)
 texture = ExtResource("17_3t8uj")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="HUD/UseChargeBar" unique_id=718558938]
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -64.0
 offset_top = -64.0
-offset_right = 64.0
+grow_horizontal = 0
 grow_vertical = 0
 fill_mode = 4
 texture_under = ExtResource("18_qk7w8")
@@ -361,36 +364,41 @@ texture_progress = ExtResource("19_3t8uj")
 
 [node name="ScreenScalerComponent" type="Node" parent="HUD/UseChargeBar" unique_id=193091116]
 script = ExtResource("11_eho78")
-pivot_offset_x = 0.0
+pivot_offset_x = 1.0
 pivot_offset_y = 1.0
 metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
 
 [node name="ThrowChargeBar" type="Control" parent="HUD" unique_id=1479656252 node_paths=PackedStringArray("character", "progress_bar")]
 layout_mode = 3
-anchor_left = 0.22000001
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 0.22000001
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -0.4400177
+offset_left = -109.0
 offset_top = -40.0
-offset_right = 39.559982
+offset_right = -69.0
+grow_horizontal = 0
 grow_vertical = 0
-scale = Vector2(2, 2)
 script = ExtResource("21_rjhu2")
 character = NodePath("../..")
 progress_bar = NodePath("TextureProgressBar")
 
 [node name="ThrowingIcon" type="Sprite2D" parent="HUD/ThrowChargeBar" unique_id=2065417964]
-position = Vector2(32, 8)
+position = Vector2(-15, 8)
 texture = ExtResource("17_qp1es")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="HUD/ThrowChargeBar" unique_id=1467749165]
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -87.0
 offset_top = -64.0
-offset_right = 64.0
+offset_right = -23.0
+grow_horizontal = 0
 grow_vertical = 0
 fill_mode = 4
 texture_under = ExtResource("18_qk7w8")
@@ -398,7 +406,8 @@ texture_progress = ExtResource("19_3t8uj")
 
 [node name="ScreenScalerComponent" type="Node" parent="HUD/ThrowChargeBar" unique_id=1729566734]
 script = ExtResource("11_eho78")
-pivot_offset_x = 0.0
+preserve_y = false
+pivot_offset_x = 1.0
 pivot_offset_y = 1.0
 metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
 

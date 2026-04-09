@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dgte83yyq36st"]
 
-[ext_resource type="Script" uid="uid://nnfc7ujjaest" path="res://appliances/cooking_body.gd" id="1_nelog"]
+[ext_resource type="Script" uid="uid://nnfc7ujjaest" path="res://appliances/cooking/cooking_body.gd" id="1_nelog"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_nelog"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nelog"]

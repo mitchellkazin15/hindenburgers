@@ -7,7 +7,8 @@ const EXAMPLE_DICT = { # Do NOT update values in this script and expect stats to
 	"rising_acceleration": 0.0,
 	"boost_acceleration_multiplier": 0.0,
 	"rotational_torque_scalar": 0.0,
-	"righting_torque_scalar": 0.0
+	"righting_torque_scalar": 0.0,
+	"max_altitude": 0.0
 } 
 
 ## Dict of stat_name -> base val.
@@ -41,3 +42,7 @@ func get_current_rotational_torque_scalar():
 
 func get_current_righting_torque_scalar():
 	return _get_modified_stat("righting_torque_scalar")
+
+
+func get_current_max_altitude():
+	return _get_modified_stat("max_altitude")

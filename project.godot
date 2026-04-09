@@ -90,7 +90,12 @@ use_item={
 
 [physics]
 
+common/physics_ticks_per_second=120
+common/physics_jitter_fix=0.01
 3d/physics_engine="Jolt Physics"
+jolt_physics_3d/simulation/velocity_steps=100
+jolt_physics_3d/simulation/speculative_contact_distance=0.1
+3d/solver/solver_iterations=32
 
 [rendering]
 

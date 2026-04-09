@@ -131,6 +131,14 @@ func register_all_temp_multipliers(stat_dict, duration_sec, num_times=1, emit=tr
 		register_temp_multiplier(stat_name, stat_dict[stat_name] * num_times, duration_sec, emit)
 
 
+func clear_all_temp_stats():
+	for stat_name in _base_stats.keys():
+		_temp_adders[stat_name] = []
+		_temp_multipliers[stat_name] = []
+		_stat_cached[stat_name][0] = false
+		stat_updated.emit(stat_name)
+
+
 func _clear_timed_out_stats():
 	for stat_name in _temp_multipliers.keys():
 		var remove_indexs = []

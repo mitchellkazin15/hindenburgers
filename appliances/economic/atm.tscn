@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://bvvy0cnyej4eb"]
+
+[ext_resource type="Script" uid="uid://dyr1xotgpy6t7" path="res://appliances/economic/atm.gd" id="1_77chn"]
+[ext_resource type="Script" uid="uid://dl01gpfyw3kru" path="res://characters/coin_purse.gd" id="2_mek0c"]
+[ext_resource type="Script" uid="uid://cdhg8sq5lqh44" path="res://appliances/economic/bank_transfer_area_3d.gd" id="3_3oadc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xmkms"]
+albedo_color = Color(0.20511743, 0.20511743, 0.20511743, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xmkms"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_xmkms")
+size = Vector3(3, 2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ekt7w"]
+size = Vector3(3, 2, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gqs0g"]
+
+[node name="Atm" type="StaticBody3D" unique_id=1282238622 node_paths=PackedStringArray("vault", "label")]
+script = ExtResource("1_77chn")
+vault = NodePath("CoinPurse")
+label = NodePath("BalanceLabel")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=267010012]
+mesh = SubResource("BoxMesh_xmkms")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1119529796]
+shape = SubResource("BoxShape3D_ekt7w")
+
+[node name="CoinPurse" type="Node3D" parent="." unique_id=2017706955]
+script = ExtResource("2_mek0c")
+metadata/_custom_type_script = "uid://dl01gpfyw3kru"
+
+[node name="DepositArea3D" type="Area3D" parent="." unique_id=150947277 node_paths=PackedStringArray("vault")]
+script = ExtResource("3_3oadc")
+vault = NodePath("../CoinPurse")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DepositArea3D" unique_id=2061021011]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0.5)
+shape = SubResource("SphereShape3D_gqs0g")
+debug_color = Color(0.86557174, 0.00058449985, 0.86300755, 0.41960785)
+
+[node name="WithdrawArea3D" type="Area3D" parent="." unique_id=2139069643 node_paths=PackedStringArray("vault")]
+script = ExtResource("3_3oadc")
+transfer_type = 1
+vault = NodePath("../CoinPurse")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WithdrawArea3D" unique_id=1730055407]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0.5)
+shape = SubResource("SphereShape3D_gqs0g")
+debug_color = Color(0.86557174, 0.00058449985, 0.86300755, 0.41960785)
+
+[node name="Label3D" type="Label3D" parent="." unique_id=2024437327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 0.6)
+alpha_cut = 1
+text = "Deposit"
+
+[node name="Label3D2" type="Label3D" parent="." unique_id=321314986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0.6)
+alpha_cut = 1
+text = "Withdraw"
+
+[node name="BalanceLabel" type="Label3D" parent="." unique_id=613162460]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0.6)
+alpha_cut = 1
+text = "ATM
+Balance: $?"

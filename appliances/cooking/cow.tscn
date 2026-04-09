@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://8ng2as3ct8qv"]
 
-[ext_resource type="Script" uid="uid://bimdyydlbocfu" path="res://appliances/knife_iteraction_area_3d.gd" id="1_51b6x"]
+[ext_resource type="Script" uid="uid://bimdyydlbocfu" path="res://appliances/cooking/knife_iteraction_area_3d.gd" id="1_51b6x"]
 [ext_resource type="PackedScene" uid="uid://dc5nx712jgekb" path="res://items/food/patty.tscn" id="2_svhoa"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ti5wi"]

@@ -36,9 +36,6 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath(".:linear_velocity")
-properties/2/spawn = true
-properties/2/replication_mode = 1
 
 [sub_resource type="Curve" id="Curve_66evt"]
 _data = [Vector2(0, 0.7501434), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -136,10 +133,11 @@ replication_config = SubResource("SceneReplicationConfig_oo2kl")
 script = ExtResource("5_66evt")
 base_stats = {
 "acceleration": 5.0,
-"boost_acceleration_multiplier": 1.5,
-"max_speed": 100.0,
+"boost_acceleration_multiplier": 1.1,
+"max_altitude": 500.0,
+"max_speed": 75.0,
 "righting_torque_scalar": 2000.0,
-"rising_acceleration": 12.0,
+"rising_acceleration": 8.0,
 "rotational_torque_scalar": 100.0
 }
 metadata/_custom_type_script = "uid://d3jst2uikhsxu"

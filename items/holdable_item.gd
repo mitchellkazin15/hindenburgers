@@ -7,6 +7,8 @@ signal use_finished
 @export var max_use_charge_time = 1.0
 
 var item_holder : Character
+var prev_item_holder : Character
+var prev_release_position : Vector3
 var being_held = false
 var old_collision_child : CollisionShape3D
 
@@ -23,10 +25,13 @@ func set_being_held(holder : Character):
 	old_collision_child = $CollisionShape3D
 	remove_child(old_collision_child)
 	item_holder = holder
+	prev_item_holder = item_holder
 
 
 @rpc("any_peer", "call_local", "reliable")
 func release():
+	prev_release_position = item_holder.global_position
+	item_holder = null
 	being_held = false
 	add_child(old_collision_child)
 	freeze = false

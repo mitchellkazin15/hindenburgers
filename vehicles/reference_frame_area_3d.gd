@@ -10,7 +10,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	for body in get_overlapping_bodies():
-		if body is RelativeRigidBody3D and body != reference_body and not body.freeze:
+		if body is RelativeRigidBody3D and body != reference_body:
 			body.set_new_reference_frame(reference_body.linear_velocity)
 		if body is StaticBody3D:
 			body.constant_linear_velocity = reference_body.linear_velocity

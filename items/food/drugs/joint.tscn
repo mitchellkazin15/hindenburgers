@@ -15,12 +15,14 @@ bottom_radius = 0.01
 height = 0.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4tevw"]
+resource_local_to_scene = true
 albedo_color = Color(0.16663936, 0.45378107, 6.738305e-07, 1)
 emission_enabled = true
 emission = Color(1, 0, 0, 1)
 emission_energy_multiplier = 0.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_bitrs"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_4tevw")
 radius = 0.04
 height = 0.08

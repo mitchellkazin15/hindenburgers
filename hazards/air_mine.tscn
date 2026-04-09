@@ -69,7 +69,6 @@ height = 2.0
 [node name="AirMine" type="RigidBody3D" unique_id=43301916]
 gravity_scale = 0.0
 freeze = true
-contact_monitor = true
 max_contacts_reported = 4
 script = ExtResource("1_qw0yc")
 

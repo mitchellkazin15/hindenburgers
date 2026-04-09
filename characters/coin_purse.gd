@@ -11,12 +11,12 @@ func _ready() -> void:
 
 
 func add_money(val : float):
-	assert(val > 0.0)
+	assert(val >= 0.0)
 	update_money_val.rpc(val)
 
 
 func spend_money(positive_price: float):
-	assert(positive_price > 0.0)
+	assert(positive_price >= 0.0)
 	update_money_val.rpc(-positive_price)
 
 

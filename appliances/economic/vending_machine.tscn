@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://blqptiqj38sch"]
 
-[ext_resource type="Script" uid="uid://bdkn0n30lvc5h" path="res://appliances/vending_machine.gd" id="1_m604e"]
-[ext_resource type="Script" uid="uid://ded70a0im08e8" path="res://appliances/buy_item_area_3d.gd" id="2_ekt7w"]
+[ext_resource type="Script" uid="uid://bdkn0n30lvc5h" path="res://appliances/economic/vending_machine.gd" id="1_m604e"]
+[ext_resource type="Script" uid="uid://ded70a0im08e8" path="res://appliances/economic/buy_item_area_3d.gd" id="2_ekt7w"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xmkms"]
 albedo_color = Color(0.20511743, 0.20511743, 0.20511743, 1)

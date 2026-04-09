@@ -15,6 +15,12 @@ func _ready() -> void:
 
 
 @rpc("any_peer", "call_local", "reliable")
+func clear_drug_visual_effects():
+	print("clearing drug effects")
+	visual_stats.clear_all_temp_stats()
+
+
+@rpc("any_peer", "call_local", "reliable")
 func apply_drug_visual_effects(stat_adders, stat_multipliers, effect_duration):
 	visual_stats.register_all_temp_adders(stat_adders, effect_duration)
 	visual_stats.register_all_temp_multipliers(stat_multipliers, effect_duration)
