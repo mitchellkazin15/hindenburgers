@@ -94,6 +94,7 @@ use_item={
 jolt_physics_3d/simulation/velocity_steps=100
 jolt_physics_3d/simulation/speculative_contact_distance=0.1
 3d/solver/solver_iterations=32
+common/physics_interpolation=true
 
 [rendering]
 
