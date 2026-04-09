@@ -11,6 +11,7 @@ var bodies_hit_per_swing = []
 
 
 func _ready() -> void:
+	super._ready()
 	$HitArea3D.body_entered.connect(_on_hit)
 
 

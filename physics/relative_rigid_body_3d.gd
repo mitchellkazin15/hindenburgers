@@ -4,6 +4,10 @@ extends RigidBody3D
 var reference_frame_vel = Vector3.ZERO
 
 
+func _ready() -> void:
+	custom_integrator = not is_multiplayer_authority()
+
+
 func set_new_reference_frame(frame_vel : Vector3, apply_impulse = true):
 	var diff = frame_vel - reference_frame_vel
 	if apply_impulse:

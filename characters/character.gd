@@ -49,6 +49,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	super._ready()
 	randomness_timer = get_tree().create_timer(0.0)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	use_item_stopwatch = StopwatchManager.create_stopwatch()

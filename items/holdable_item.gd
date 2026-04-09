@@ -14,6 +14,7 @@ var old_collision_child : CollisionShape3D
 
 
 func _ready() -> void:
+	super._ready()
 	set_process(is_multiplayer_authority())
 	set_physics_process(is_multiplayer_authority())
 	set_process_input(is_multiplayer_authority())

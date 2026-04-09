@@ -8,6 +8,7 @@ var reset_timer : SceneTreeTimer
 
 
 func _ready() -> void:
+	super._ready()
 	set_process(is_multiplayer_authority())
 	set_physics_process(is_multiplayer_authority())
 	set_process_input(is_multiplayer_authority())
