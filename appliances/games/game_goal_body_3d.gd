@@ -10,9 +10,10 @@ extends StaticBody3D
 ## List of Lists whose first item is min distance the scorring item needs to travel to get the specific prize
 ## NOTE: list is expected to be sorted in ascending distance
 @export var prize_list = [
-	[ 20.0, preload("res://items/money/penny.tscn") ],
-	[ 50.0, preload("res://items/money/nickel.tscn") ],
-	[ 100.0, preload("res://items/money/dime.tscn") ]
+	[ 10.0, preload("res://items/money/penny.tscn") ],
+	[ 20.0, preload("res://items/money/nickel.tscn") ],
+	[ 50.0, preload("res://items/money/dime.tscn") ],
+	[ 100.0, preload("res://items/money/dollar.tscn") ]
 ]
 
 ## Example tuple to be added to leaderboard: [ "N/A", 0.0 ]

@@ -35,6 +35,7 @@ properties/1/spawn = true
 properties/1/replication_mode = 1
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+radius = 1.0
 
 [node name="Basketball" type="RigidBody3D" unique_id=1832368976]
 mass = 0.1
