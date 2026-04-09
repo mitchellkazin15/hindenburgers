@@ -125,6 +125,6 @@ func add_node_to_spawner(node : Node3D, position : Vector3):
 	if not is_multiplayer_authority():
 		return
 	var parent_node = $/root/MultiplayerBaseScene/LevelRoot
-	parent_node.add_child(node, true)
 	node.top_level = true
 	node.position = position
+	parent_node.add_child(node, true)

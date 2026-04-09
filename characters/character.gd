@@ -82,7 +82,6 @@ func set_initial_values(pos, multiplayer_authority):
 
 func reset():
 	if locked_interaction:
-		print("sending reset result to: ", camera.get_multiplayer_authority())
 		end_locked_interaction.rpc_id(camera.get_multiplayer_authority())
 		end_locked_interaction()
 	freeze = true
@@ -175,10 +174,10 @@ func throw_item():
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if not is_multiplayer_authority():
 		return
-	if not controllable:
-		return
 	if reset_input:
 		reset()
+		return
+	if not controllable:
 		return
 	var collider = null;
 	if floor_shape_cast.get_collision_count() > 0:
