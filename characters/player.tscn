@@ -222,7 +222,7 @@ visibility_update_mode = 1
 [node name="CharacterStatManager" type="Node" parent="." unique_id=1265100376]
 script = ExtResource("5_n8jd0")
 base_stats = {
-"air_acceleration": 20.0,
+"air_acceleration": 40.0,
 "direction_angle_randomness_degrees": 0.0,
 "jump_impulse": 20.0,
 "max_throw_charge_time": 3.0,

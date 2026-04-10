@@ -5,7 +5,11 @@ extends Area3D
 
 
 func _ready() -> void:
-	body_exited.connect(_on_body_exited)
+	set_process(is_multiplayer_authority())
+	set_physics_process(is_multiplayer_authority())
+	set_process_input(is_multiplayer_authority())
+	if is_multiplayer_authority():
+		body_exited.connect(_on_body_exited)
 
 
 func _physics_process(delta: float) -> void:

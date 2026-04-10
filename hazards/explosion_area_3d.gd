@@ -2,6 +2,12 @@ class_name ExplosionArea3D
 extends Area3D
 
 
+func _ready() -> void:
+	set_process(is_multiplayer_authority())
+	set_physics_process(is_multiplayer_authority())
+	set_process_input(is_multiplayer_authority())
+
+
 func explode(power):
 	for body in get_overlapping_bodies():
 		if body is Character:

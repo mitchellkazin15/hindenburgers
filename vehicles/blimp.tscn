@@ -137,7 +137,7 @@ base_stats = {
 "max_altitude": 500.0,
 "max_speed": 75.0,
 "righting_torque_scalar": 2000.0,
-"rising_acceleration": 8.0,
+"rising_acceleration": 10.0,
 "rotational_torque_scalar": 100.0
 }
 metadata/_custom_type_script = "uid://d3jst2uikhsxu"

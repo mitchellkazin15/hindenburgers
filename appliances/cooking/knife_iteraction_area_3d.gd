@@ -9,6 +9,9 @@ var spawn_cooldown_timer : SceneTreeTimer
 
 
 func _ready() -> void:
+	set_process(is_multiplayer_authority())
+	set_physics_process(is_multiplayer_authority())
+	set_process_input(is_multiplayer_authority())
 	spawn_cooldown_timer = get_tree().create_timer(0.0)
 
 
