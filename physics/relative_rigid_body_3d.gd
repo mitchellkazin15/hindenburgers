@@ -5,7 +5,10 @@ var reference_frame_vel = Vector3.ZERO
 
 
 func _ready() -> void:
-	custom_integrator = not is_multiplayer_authority()
+	if not is_multiplayer_authority():
+		custom_integrator = true
+		freeze = true
+		freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
 
 
 func set_new_reference_frame(frame_vel : Vector3, apply_impulse = true):

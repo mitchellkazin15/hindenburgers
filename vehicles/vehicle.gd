@@ -33,6 +33,7 @@ func set_driver(driving_character: Character) -> bool:
 
 @rpc("any_peer", "call_local", "reliable")
 func update_driving_status(being_driven: bool, driver_path : String) -> void:
+	reset_physics_interpolation()
 	driver_seat.remote_path = NodePath(driver_path)
 	self.being_driven = being_driven
 

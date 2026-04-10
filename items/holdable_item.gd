@@ -31,6 +31,7 @@ func set_being_held(holder : Character):
 
 @rpc("any_peer", "call_local", "reliable")
 func release():
+	reset_physics_interpolation()
 	prev_release_position = item_holder.global_position
 	item_holder = null
 	being_held = false
