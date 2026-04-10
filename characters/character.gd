@@ -87,6 +87,7 @@ func reset():
 	freeze = true
 	position = initial_position
 	rotation = Vector3.ZERO
+	set_new_reference_frame(Vector3.ZERO)
 	freeze = false
 	reset_input = false
 	$DrugManager.clear_drug_visual_effects.rpc()
