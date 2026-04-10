@@ -23,17 +23,17 @@ func set_driver(driving_character: Character) -> bool:
 		return false
 	being_driven = true
 	driver = driving_character
-	driver_seat.remote_path = driver.get_path()
 	driver.locked_interaction_ended.connect(_on_end_locked_interaction)
 	call_deferred("_unfreeze")
 	print(" new driver: ", driver.input_controller.get_multiplayer_authority(), " set by: ", get_multiplayer_authority())
 	update_authority.rpc(driver.input_controller.get_multiplayer_authority())
-	update_driving_status.rpc(being_driven)
+	update_driving_status.rpc(being_driven, str(driver.get_path()))
 	return true
 
 
 @rpc("any_peer", "call_local", "reliable")
-func update_driving_status(being_driven: bool) -> void:
+func update_driving_status(being_driven: bool, driver_path : String) -> void:
+	driver_seat.remote_path = NodePath(driver_path)
 	self.being_driven = being_driven
 
 
@@ -49,17 +49,15 @@ func update_authority(new_authority: int) -> void:
 	vehicle_controller.set_multiplayer_authority(new_authority)
 	vehicle_controller.set_process(vehicle_controller.is_multiplayer_authority())
 	vehicle_controller.set_process_input(vehicle_controller.is_multiplayer_authority())
-	vehicle_controller
 
 
 func _on_end_locked_interaction() -> void:
 	being_driven = false
 	if camera:
 		camera.current = false
-	driver_seat.remote_path = NodePath("")
 	driver.locked_interaction_ended.disconnect(_on_end_locked_interaction)
 	driver = null
-	update_driving_status.rpc(being_driven)
+	update_driving_status.rpc(being_driven, "")
 
 
 func _unfreeze() -> void:
