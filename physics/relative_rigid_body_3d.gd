@@ -5,6 +5,7 @@ var reference_frame_vel = Vector3.ZERO
 
 
 func _ready() -> void:
+	set_physics_process(true)
 	if not is_multiplayer_authority():
 		custom_integrator = true
 		freeze = true
@@ -20,3 +21,9 @@ func set_new_reference_frame(frame_vel : Vector3, apply_impulse = true):
 
 func apply_relative_central_impulse(impulse : Vector3, relative_multiplier = Vector3.ONE):
 	super.apply_central_impulse(impulse + mass * reference_frame_vel * relative_multiplier)
+
+
+func _physics_process(delta: float) -> void:
+	if is_multiplayer_authority():
+		return
+	global_position += linear_velocity * delta

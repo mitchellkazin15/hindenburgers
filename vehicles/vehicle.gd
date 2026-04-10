@@ -11,11 +11,11 @@ extends RelativeRigidBody3D
 
 
 func _ready() -> void:
-	super._ready()
 	camera.current = false
 	set_process(is_multiplayer_authority())
 	set_physics_process(is_multiplayer_authority())
 	set_process_input(is_multiplayer_authority())
+	super._ready()
 
 
 func set_driver(driving_character: Character) -> bool:
