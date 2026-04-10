@@ -5,7 +5,7 @@
 [ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="3_cprux"]
 [ext_resource type="Script" uid="uid://caqrbv2whvq2b" path="res://common_components/player_camera_3d.gd" id="3_y4o51"]
 [ext_resource type="Script" uid="uid://833764desipx" path="res://vehicles/enter_driving_area_3d.gd" id="4_im4xx"]
-[ext_resource type="Script" uid="uid://bn443o2wp6ivq" path="res://vehicles/reference_frame_area_3d.gd" id="4_ryp4v"]
+[ext_resource type="Script" uid="uid://bn443o2wp6ivq" path="res://physics/reference_frame_area_3d.gd" id="4_ryp4v"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
 friction = 0.5

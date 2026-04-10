@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://833764desipx" path="res://vehicles/enter_driving_area_3d.gd" id="4_vv172"]
 [ext_resource type="Script" uid="uid://d3jst2uikhsxu" path="res://stats/blimp_stat_manager.gd" id="5_66evt"]
 [ext_resource type="PackedScene" uid="uid://bgu41g83yv72j" path="res://models/chair.tscn" id="6_ijpo3"]
-[ext_resource type="Script" uid="uid://bn443o2wp6ivq" path="res://vehicles/reference_frame_area_3d.gd" id="8_ew8ff"]
+[ext_resource type="Script" uid="uid://bn443o2wp6ivq" path="res://physics/reference_frame_area_3d.gd" id="8_ew8ff"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
 rough = true
@@ -36,9 +36,6 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath(".:linear_velocity")
-properties/2/spawn = true
-properties/2/replication_mode = 1
 
 [sub_resource type="Curve" id="Curve_66evt"]
 _data = [Vector2(0, 0.7501434), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -131,6 +128,7 @@ update_scale = false
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1269210799]
 replication_config = SubResource("SceneReplicationConfig_oo2kl")
+visibility_update_mode = 1
 
 [node name="BlimpStatManager" type="Node" parent="." unique_id=1660235510]
 script = ExtResource("5_66evt")

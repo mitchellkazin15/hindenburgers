@@ -86,7 +86,7 @@ func reset():
 		end_locked_interaction()
 	freeze = true
 	position = initial_position
-	linear_velocity = Vector3.ZERO
+	rotation = Vector3.ZERO
 	freeze = false
 	reset_input = false
 	$DrugManager.clear_drug_visual_effects.rpc()
@@ -211,6 +211,48 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		_can_jump = false
 		_jump_lock_timer = get_tree().create_timer(jump_lockout_time)
 		_jump_lock_timer.timeout.connect(_on_jump_lock_timeout)
+
+
+#func _physics_process(delta: float) -> void:
+	#if not is_multiplayer_authority():
+		#return
+	#if reset_input:
+		#reset()
+		#return
+	#if not controllable:
+		#return
+	#var collider = null;
+	#if floor_shape_cast.get_collision_count() > 0:
+		#launched = false
+		#collider = floor_shape_cast.get_collider(0)
+	#if randomness_timer.time_left == 0.0:
+		#var speed_randomness = stats.get_current_speed_randomness()
+		#var new_rand_speed = max(0.0, randf_range(-speed_randomness, speed_randomness))
+		#var angle_randomness = deg_to_rad(stats.get_current_direction_angle_randomness_degrees())
+		#var new_rand_angle = randf_range(-angle_randomness, angle_randomness)
+		#var tween = get_tree().create_tween()
+		#tween.tween_property(self, "rand_speed", new_rand_speed, randomness_duration / 2.0)
+		#tween.tween_property(self, "rand_angle", new_rand_angle, randomness_duration / 2.0)
+		#randomness_timer = get_tree().create_timer(randomness_duration)
+	#var speed = calculate_speed()
+	#if move_direction != Vector3.ZERO:
+		#$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(move_direction, Vector3.UP), min(10.0 * delta, 1.0))
+	#if is_sprinting:
+		#speed *= stats.get_current_sprint_multiplier()
+	#var target_ground_plane_vel : Vector3 = (speed * move_direction)
+	#target_ground_plane_vel = target_ground_plane_vel.rotated(Vector3.UP, rand_angle)
+	#if launched:
+		#target_ground_plane_vel.y = 0.0
+		#apply_central_force(target_ground_plane_vel.normalized() * stats.get_current_air_acceleration())
+	#else:
+		#target_ground_plane_vel -= linear_velocity
+		#target_ground_plane_vel.y = 0.0
+		#self.apply_relative_central_impulse(target_ground_plane_vel, Vector3(1.0, 0.0, 1.0))
+	#if is_jumping and _can_jump and collider:
+		#self.apply_central_impulse(stats.get_current_jump_impulse() * Vector3.UP)
+		#_can_jump = false
+		#_jump_lock_timer = get_tree().create_timer(jump_lockout_time)
+		#_jump_lock_timer.timeout.connect(_on_jump_lock_timeout)
 
 
 func calculate_speed():

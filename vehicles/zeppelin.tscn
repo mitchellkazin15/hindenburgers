@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://d3jst2uikhsxu" path="res://stats/blimp_stat_manager.gd" id="5_px565"]
 [ext_resource type="PackedScene" uid="uid://bgu41g83yv72j" path="res://models/chair.tscn" id="6_quy0k"]
 [ext_resource type="Script" uid="uid://833764desipx" path="res://vehicles/enter_driving_area_3d.gd" id="7_drf3n"]
-[ext_resource type="Script" uid="uid://bn443o2wp6ivq" path="res://vehicles/reference_frame_area_3d.gd" id="8_2878g"]
+[ext_resource type="Script" uid="uid://bn443o2wp6ivq" path="res://physics/reference_frame_area_3d.gd" id="8_2878g"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
 rough = true
