@@ -19,9 +19,11 @@ var players = {}
 # entered in a UI scene.
 var player_info = {"name": "Name"}
 var players_loaded = 0
+var stats_timer : SceneTreeTimer
 
 
 func _ready():
+	stats_timer = get_tree().create_timer(0.0)
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_ok)
@@ -118,6 +120,8 @@ func broadcast_queue_free(node : Node):
 @rpc("any_peer", "call_local", "reliable")
 func _free_node_on_all_peers(node_path):
 	var free_item = EventService.get_node(node_path)
+	if multiplayer.is_server() and free_item in RigidBodySyncManager.tracked_bodies:
+		RigidBodySyncManager.tracked_bodies.erase(free_item)
 	free_item.queue_free()
 
 
@@ -128,3 +132,18 @@ func add_node_to_spawner(node : Node3D, position : Vector3):
 	node.top_level = true
 	node.position = position
 	parent_node.add_child(node, true)
+
+
+func _physics_process(delta: float) -> void:
+	if not multiplayer.is_server() or multiplayer.multiplayer_peer is OfflineMultiplayerPeer:
+		return
+	if stats_timer.time_left > 0.0:
+		return
+	stats_timer = get_tree().create_timer(10.0)
+	for peer_id in multiplayer.get_peers():
+		var peer = multiplayer.multiplayer_peer.get_peer(peer_id)
+		print("statistics for: ", peer_id)
+		var ping: float = peer.get_statistic(ENetPacketPeer.PEER_LAST_ROUND_TRIP_TIME)
+		var loss: float = peer.get_statistic(ENetPacketPeer.PEER_PACKET_LOSS) / ENetPacketPeer.PACKET_LOSS_SCALE
+		print("ping: ", ping)
+		print("loss: ", loss)

@@ -1,21 +1,23 @@
 [gd_scene format=3 uid="uid://vg6pdbix5lar"]
 
-[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_u4gj4"]
+[ext_resource type="Script" uid="uid://uaf6i15r345p" path="res://items/food/bun.gd" id="1_12bte"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_udog6"]
 [ext_resource type="PackedScene" uid="uid://buo6r3e7y8hjk" path="res://models/Bottom Bun.blend" id="3_udog6"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_q777v"]
-radius = 0.25
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_12bte"]
+height = 0.1
+radius = 0.3
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 
-[node name="Hamburger" type="RigidBody3D" unique_id=1264862515]
+[node name="BottomBun" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
 continuous_cd = true
-script = ExtResource("1_u4gj4")
+script = ExtResource("1_12bte")
+food_val = 1.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
-shape = SubResource("SphereShape3D_q777v")
+shape = SubResource("CylinderShape3D_12bte")
 
 [node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
 script = ExtResource("2_udog6")

@@ -21,14 +21,6 @@ size = Vector3(3, 1, 2)
 inner_radius = 0.05
 outer_radius = 0.1
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nelog"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_yqmo2"]
 radius = 0.2
 
@@ -50,9 +42,6 @@ mesh = SubResource("BoxMesh_nelog")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=551921452]
 mesh = SubResource("TorusMesh_iq2jc")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1201182755]
-replication_config = SubResource("SceneReplicationConfig_nelog")
 
 [node name="GrabItemArea3D" type="Area3D" parent="." unique_id=2031406287 node_paths=PackedStringArray("item")]
 script = ExtResource("2_nelog")
