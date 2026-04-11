@@ -26,14 +26,6 @@ height = 0.6
 [sub_resource type="SphereShape3D" id="SphereShape3D_fqe21"]
 radius = 0.3
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q777v"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 radius = 1.0
 
@@ -51,9 +43,6 @@ mesh = SubResource("SphereMesh_uutew")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=375276829]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
 shape = SubResource("SphereShape3D_fqe21")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=847552921]
-replication_config = SubResource("SceneReplicationConfig_q777v")
 
 [node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)

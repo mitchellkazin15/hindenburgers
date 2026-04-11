@@ -29,14 +29,6 @@ albedo_color = Color(0.37104803, 0.146849, 0, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_j7fa5"]
 material = SubResource("StandardMaterial3D_ijpo3")
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_oo2kl"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-
 [sub_resource type="Curve" id="Curve_66evt"]
 _data = [Vector2(0, 0.7501434), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
@@ -85,7 +77,7 @@ script = ExtResource("1_j7fa5")
 stats = NodePath("BlimpStatManager")
 driver_seat = NodePath("DriverChairOffset/DriverSeat")
 camera = NodePath("CameraPivot/Camera3D")
-synchronizer = NodePath("MultiplayerSynchronizer")
+synchronizer = NodePath("")
 vehicle_controller = NodePath("BlimpPlayerController")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=808104814]
@@ -125,10 +117,6 @@ top_level = true
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -50)
 script = ExtResource("3_5xue0")
 _camera_pivot = NodePath("..")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1269210799]
-replication_config = SubResource("SceneReplicationConfig_oo2kl")
-visibility_update_mode = 1
 
 [node name="BlimpStatManager" type="Node" parent="." unique_id=1660235510]
 script = ExtResource("5_66evt")

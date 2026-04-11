@@ -34,7 +34,7 @@ func set_driver(driving_character: Character) -> bool:
 
 @rpc("any_peer", "call_local", "reliable")
 func update_driving_status(being_driven: bool) -> void:
-	reset_physics_interpolation()
+	#reset_physics_interpolation()
 	self.being_driven = being_driven
 
 

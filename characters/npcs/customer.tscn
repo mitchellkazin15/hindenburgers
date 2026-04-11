@@ -24,20 +24,6 @@ material = SubResource("StandardMaterial3D_bclvw")
 inner_radius = 0.15
 outer_radius = 0.4
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mdkfl"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath(".:freeze")
-properties/2/spawn = true
-properties/2/replication_mode = 1
-properties/3/path = NodePath("RotationPivot:rotation")
-properties/3/spawn = true
-properties/3/replication_mode = 1
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_b1u1o"]
 height = 0.5
 radius = 0.4
@@ -65,10 +51,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="RotationPivot" unique_id=178304432]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.55)
 mesh = SubResource("TorusMesh_4tcmh")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=964156676]
-replication_config = SubResource("SceneReplicationConfig_mdkfl")
-visibility_update_mode = 1
 
 [node name="CharacterStatManager" type="Node" parent="." unique_id=1265100376]
 script = ExtResource("5_pmaai")

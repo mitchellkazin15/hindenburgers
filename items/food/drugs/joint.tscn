@@ -73,14 +73,6 @@ rings = 8
 radius = 0.1
 height = 0.3
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q777v"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-
 [node name="Joint" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
 continuous_cd = true
@@ -143,6 +135,3 @@ draw_pass_1 = SubResource("SphereMesh_4tevw")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.15)
 shape = SubResource("CapsuleShape3D_cl1i1")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=847552921]
-replication_config = SubResource("SceneReplicationConfig_q777v")

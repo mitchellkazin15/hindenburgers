@@ -36,7 +36,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("throw") or Input.is_action_just_released("throw"):
 		_handle_throw_input.rpc_id(1, Input.is_action_just_released("throw"))
 	if Input.is_action_just_pressed("reset"):
-		reset_physics_interpolation()
+		#reset_physics_interpolation()
 		_handle_reset_input.rpc_id(1)
 	if Input.is_action_just_pressed("use_item") or Input.is_action_just_released("use_item"):
 		_handle_use_item_input.rpc_id(1, Input.is_action_just_released("use_item"))

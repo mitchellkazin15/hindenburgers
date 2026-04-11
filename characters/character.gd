@@ -22,6 +22,7 @@ var move_direction : Vector3
 var is_jumping = false
 var is_sprinting = false
 var locked_interaction = false
+var vehicle : Vehicle
 var held_item : HoldableItem = null
 var reset_input = false
 
@@ -93,9 +94,10 @@ func reset():
 	$DrugManager.clear_drug_visual_effects.rpc()
 
 
-func set_locked_interacting(change_camera : bool):
+func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
 	locked_interaction = true
 	controllable = false
+	self.vehicle = vehicle
 	rotation_pivot.rotation = Vector3.ZERO
 	if change_camera:
 		camera.current = false
@@ -108,6 +110,7 @@ func end_locked_interaction():
 	controllable = true
 	camera.current = camera.is_multiplayer_authority()
 	freeze = false
+	vehicle = null
 	rotation = Vector3.ZERO
 	locked_interaction_ended.emit()
 
@@ -173,6 +176,7 @@ func throw_item():
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	super._integrate_forces(state)
 	if not is_multiplayer_authority():
 		return
 	if reset_input:

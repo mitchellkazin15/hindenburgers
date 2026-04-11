@@ -66,11 +66,9 @@ material = SubResource("StandardMaterial3D_ay0pt")
 radius = 1.0
 height = 2.0
 
-[node name="AirMine" type="RigidBody3D" unique_id=43301916]
-gravity_scale = 0.0
-freeze = true
-max_contacts_reported = 4
+[node name="AirMine" type="StaticBody3D" unique_id=426768735]
 script = ExtResource("1_qw0yc")
+metadata/_custom_type_script = "uid://ttxgvbl5kwia"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=358138403]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)

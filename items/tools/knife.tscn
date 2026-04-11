@@ -21,14 +21,6 @@ height = 0.2
 material = ExtResource("2_pjlok")
 size = Vector3(0.05, 0.15, 0.3)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q777v"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 radius = 0.75
 
@@ -50,9 +42,6 @@ mesh = SubResource("CylinderMesh_bwkjd")
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1802209539]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.35, 0.05)
 mesh = SubResource("PrismMesh_iwudx")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=847552921]
-replication_config = SubResource("SceneReplicationConfig_q777v")
 
 [node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.1)

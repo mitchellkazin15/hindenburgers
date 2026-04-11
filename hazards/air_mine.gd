@@ -1,5 +1,5 @@
 class_name AirMine
-extends RelativeRigidBody3D
+extends StaticBody3D
 
 @export var explosion_power = 100000000.0
 @export var reset_time = 10.0
@@ -8,11 +8,11 @@ var reset_timer : SceneTreeTimer
 
 
 func _ready() -> void:
-	super._ready()
 	set_process(is_multiplayer_authority())
 	set_physics_process(is_multiplayer_authority())
 	set_process_input(is_multiplayer_authority())
-	$ContactArea.body_entered.connect(_on_body_entered)
+	if is_multiplayer_authority():
+		$ContactArea.body_entered.connect(_on_body_entered)
 
 
 func _on_body_entered(body):

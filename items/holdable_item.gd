@@ -14,10 +14,10 @@ var old_collision_child : CollisionShape3D
 
 
 func _ready() -> void:
-	super._ready()
 	set_process(is_multiplayer_authority())
 	set_physics_process(is_multiplayer_authority())
 	set_process_input(is_multiplayer_authority())
+	super._ready()
 
 
 func set_being_held(holder : Character):
@@ -29,9 +29,8 @@ func set_being_held(holder : Character):
 	prev_item_holder = item_holder
 
 
-@rpc("any_peer", "call_local", "reliable")
 func release():
-	reset_physics_interpolation()
+	#reset_physics_interpolation()
 	prev_release_position = item_holder.global_position
 	item_holder = null
 	being_held = false

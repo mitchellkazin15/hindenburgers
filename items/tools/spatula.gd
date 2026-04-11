@@ -16,7 +16,8 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if not active or burger_flip_timer.time_left == 0.0:
+	super._physics_process(delta)
+	if not is_multiplayer_authority() or not active or burger_flip_timer.time_left == 0.0:
 		return
 	for body in $BurgerFlipArea3D.get_overlapping_bodies():
 		if body is RelativeRigidBody3D and body != self and not body is CookingBody:

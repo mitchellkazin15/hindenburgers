@@ -95,7 +95,6 @@ common/physics_jitter_fix=0.0
 jolt_physics_3d/simulation/velocity_steps=20
 jolt_physics_3d/simulation/position_steps=10
 3d/solver/solver_iterations=32
-common/physics_interpolation=true
 
 [rendering]
 

@@ -30,8 +30,8 @@ func _unhandled_input(event):
 	var is_rising = Input.is_action_pressed("jump")
 	var is_boosting = Input.is_action_pressed("sprint")
 	var reset_input = Input.is_action_pressed("reset")
-	if reset_input:
-		reset_physics_interpolation()
+	#if reset_input:
+		#reset_physics_interpolation()
 	_handle_input.rpc_id(1, move_input, move_direction, is_rising, is_boosting, reset_input)
 
 
