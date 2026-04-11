@@ -128,3 +128,15 @@ func add_node_to_spawner(node : Node3D, position : Vector3):
 	node.top_level = true
 	node.position = position
 	parent_node.add_child(node, true)
+
+
+func _physics_process(delta: float) -> void:
+	if not multiplayer.is_server() or multiplayer.multiplayer_peer is OfflineMultiplayerPeer:
+		return
+	for peer_id in multiplayer.get_peers():
+		var peer = multiplayer.multiplayer_peer.get_peer(peer_id)
+		print("statistics for: ", peer_id)
+		var ping: float = peer.get_statistic(ENetPacketPeer.PEER_LAST_ROUND_TRIP_TIME)
+		var loss: float = peer.get_statistic(ENetPacketPeer.PEER_PACKET_LOSS) / ENetPacketPeer.PACKET_LOSS_SCALE
+		print("ping: ", ping)
+		print("loss: ", loss)

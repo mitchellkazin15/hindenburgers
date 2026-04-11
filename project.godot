@@ -21,6 +21,10 @@ EventService="*uid://c5mhetl76gyya"
 MultiplayerManager="*uid://gbedovc7j4vw"
 StopwatchManager="*uid://bghgvnasj8o5g"
 
+[display]
+
+window/size/mode=4
+
 [global_group]
 
 player_spawn="Node3D whose position can be used to spawn a player"
