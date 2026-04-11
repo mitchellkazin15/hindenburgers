@@ -5,7 +5,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_32g7s"]
 friction = 0.5
-bounce = 1.0
+bounce = 0.9
 
 [sub_resource type="Curve" id="Curve_g21kk"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.022499993, 0), 0.0, 0.0, 0, 0, Vector2(0.06999999, 1), 0.0, 0.0, 0, 0, Vector2(0.1375, 0), 0.0, 0.0, 0, 0, Vector2(0.2075, 1), 0.0, 0.0, 0, 0, Vector2(0.2625, 0), 0.0, 0.0, 0, 0, Vector2(0.3275, 1), 0.0, 0.0, 0, 0, Vector2(0.3775, 0), 0.0, 0.0, 0, 0, Vector2(0.41999996, 1), 0.0, 0.0, 0, 0, Vector2(0.5175, 0), 0.0, 0.0, 0, 0, Vector2(0.56, 1), 0.0, 0.0, 0, 0, Vector2(0.6425, 0), 0.0, 0.0, 0, 0, Vector2(0.67999995, 1), 0.0, 0.0, 0, 0, Vector2(0.78749996, 0), 0.0, 0.0, 0, 0, Vector2(0.8325, 1), 0.0, 0.0, 0, 0, Vector2(0.925, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -29,10 +29,10 @@ radius = 0.3
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q777v"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
-properties/0/replication_mode = 1
+properties/0/replication_mode = 2
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
-properties/1/replication_mode = 1
+properties/1/replication_mode = 2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 radius = 1.0
