@@ -35,9 +35,10 @@ func _physics_process(delta: float) -> void:
 		display_cooked_sides.rpc(top_cooked, bottom_cooked)
 	var top_collider = top_raycast.get_collider()
 	var bottom_collider = bottom_raycast.get_collider()
-	if top_cooked and bottom_cooked and (top_collider is Bun or bottom_collider is Bun):
-		var bun : Bun = top_collider if top_collider is Bun else bottom_collider
-		spawn_cooked_item(bun)
+	if top_cooked and bottom_cooked and top_collider is Bun and bottom_collider is Bun:
+		var top_bun = top_collider
+		var bottom_bun = bottom_collider
+		spawn_cooked_item(top_bun, bottom_bun)
 	if top_collider is CookingBody:
 		top_side_cook_timer.start()
 	else:
@@ -53,11 +54,12 @@ func _physics_process(delta: float) -> void:
 		display_burnt.rpc()
 
 
-func spawn_cooked_item(bun : Bun):
+func spawn_cooked_item(top_bun, bottom_bun):
 	var cooked_item = cooked_item_scene.instantiate()
 	MultiplayerManager.add_node_to_spawner(cooked_item, cookable_item.global_position)
 	MultiplayerManager.broadcast_queue_free(cookable_item)
-	MultiplayerManager.broadcast_queue_free(bun)
+	MultiplayerManager.broadcast_queue_free(top_bun)
+	MultiplayerManager.broadcast_queue_free(bottom_bun)
 
 
 @rpc("any_peer", "call_local", "reliable")

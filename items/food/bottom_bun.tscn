@@ -17,9 +17,11 @@ script = ExtResource("1_12bte")
 food_val = 1.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.3277136)
 shape = SubResource("CylinderShape3D_12bte")
 
 [node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.31329298)
 script = ExtResource("2_udog6")
 item = NodePath("..")
 metadata/_custom_type_script = "uid://dfi80sfc6gjg"
@@ -29,4 +31,4 @@ shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
 [node name="Bottom Bun2" parent="." unique_id=1190105540 instance=ExtResource("3_udog6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, -0.001)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, 0.36486518)
