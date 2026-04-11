@@ -11,20 +11,6 @@ func _ready():
 		character = get_parent()
 
 
-func _input(event):
-	if not is_multiplayer_authority():
-		set_process(false)
-		set_physics_process(false)
-		set_process_input(false)
-		return
-	if not enabled:
-		return
-	if event.is_action_pressed("left_click"):
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	if event.is_action_pressed("exit"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-
-
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		set_process(false)

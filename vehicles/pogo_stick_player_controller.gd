@@ -20,10 +20,6 @@ func _unhandled_input(event):
 		camera = pogo_stick.driver.camera
 	if not camera:
 		return
-	if event.is_action_pressed("left_click"):
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	if event.is_action_pressed("exit"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	var move_input = Input.get_vector(
 		"move_left",
 		"move_right",
