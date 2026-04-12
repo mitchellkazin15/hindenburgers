@@ -398,6 +398,22 @@ script = ExtResource("3_ih737")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, -10)
 script = ExtResource("3_ih737")
 
+[node name="PlayerSpawn5" type="Node3D" parent="SpawnGrouping" unique_id=338689358 groups=["player_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 2, 7.867939)
+script = ExtResource("3_ih737")
+
+[node name="PlayerSpawn6" type="Node3D" parent="SpawnGrouping" unique_id=1481973615 groups=["player_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 2, 12.867939)
+script = ExtResource("3_ih737")
+
+[node name="PlayerSpawn7" type="Node3D" parent="SpawnGrouping" unique_id=1761838074 groups=["player_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, 12.867939)
+script = ExtResource("3_ih737")
+
+[node name="PlayerSpawn8" type="Node3D" parent="SpawnGrouping" unique_id=1116038914 groups=["player_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, 7.867939)
+script = ExtResource("3_ih737")
+
 [node name="Items" type="Node3D" parent="." unique_id=1053376266]
 
 [node name="Hamburger2" parent="Items" unique_id=605657044 instance=ExtResource("3_vmtoy")]
