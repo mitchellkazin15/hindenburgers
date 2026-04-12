@@ -22,10 +22,6 @@ MultiplayerManager="*uid://gbedovc7j4vw"
 StopwatchManager="*uid://bghgvnasj8o5g"
 RigidBodySyncManager="*uid://daeeso1gae7yk"
 
-[display]
-
-window/size/mode=4
-
 [global_group]
 
 player_spawn="Node3D whose position can be used to spawn a player"

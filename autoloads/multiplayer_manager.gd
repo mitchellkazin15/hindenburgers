@@ -132,6 +132,7 @@ func add_node_to_spawner(node : Node3D, position : Vector3):
 	node.top_level = true
 	node.position = position
 	parent_node.add_child(node, true)
+	RigidBodySyncManager.tracked_bodies
 
 
 func _physics_process(delta: float) -> void:

@@ -5,6 +5,7 @@ var material : StandardMaterial3D
 
 
 func _ready() -> void:
+	super._ready()
 	material = $Node3D/WeedMesh.mesh.material
 
 
