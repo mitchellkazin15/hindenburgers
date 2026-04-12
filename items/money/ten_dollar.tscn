@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://6bodhnof0r1e"]
+
+[ext_resource type="Script" uid="uid://h7um5s26s26s" path="res://items/money/coin.gd" id="1_u3sqa"]
+[ext_resource type="Texture2D" uid="uid://kbqspe01gf6q" path="res://assets/misc_sprites/gold-coin.png" id="2_u3sqa"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="3_h62xg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_dhovw"]
+size = Vector3(1, 0.05, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_22q5j"]
+albedo_color = Color(0, 0.69411767, 0, 1)
+metallic_specular = 0.0
+roughness = 0.25
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.01
+normal_enabled = true
+normal_scale = 1.11
+normal_texture = ExtResource("2_u3sqa")
+uv1_offset = Vector3(0, 0.7, 0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dhovw"]
+size = Vector3(1, 0.05, 0.5)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+radius = 0.75
+
+[node name="TenDollar" type="RigidBody3D" unique_id=1264862515]
+mass = 0.1
+continuous_cd = true
+script = ExtResource("1_u3sqa")
+money_value = 1000.0
+max_use_charge_time = 0.1
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=183999302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+mesh = SubResource("BoxMesh_dhovw")
+surface_material_override/0 = SubResource("StandardMaterial3D_22q5j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1025510261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+shape = SubResource("BoxShape3D_dhovw")
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+script = ExtResource("3_h62xg")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
+shape = SubResource("SphereShape3D_22q5j")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)

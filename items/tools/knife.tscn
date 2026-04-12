@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://cxhm0i8wmwji4"]
+
+[ext_resource type="Script" uid="uid://cvqyxkv08uhsk" path="res://items/tools/knife.gd" id="1_jricu"]
+[ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_pjlok"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="3_bwkjd"]
+[ext_resource type="Script" uid="uid://bd6vj3ugmxr13" path="res://items/tools/knife_damage_area_3d.gd" id="4_pjlok"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qikfw"]
+size = Vector3(0.1, 0.5, 0.15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pjlok"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bwkjd"]
+material = SubResource("StandardMaterial3D_pjlok")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.2
+
+[sub_resource type="PrismMesh" id="PrismMesh_iwudx"]
+material = ExtResource("2_pjlok")
+size = Vector3(0.05, 0.15, 0.3)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+radius = 0.75
+
+[node name="Knife" type="RigidBody3D" unique_id=1264862515]
+mass = 0.25
+continuous_cd = true
+script = ExtResource("1_jricu")
+unlock_rotation_on_use = true
+max_use_charge_time = 0.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.05)
+shape = SubResource("BoxShape3D_qikfw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1666493877]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("CylinderMesh_bwkjd")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1802209539]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.35, 0.05)
+mesh = SubResource("PrismMesh_iwudx")
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.1)
+script = ExtResource("3_bwkjd")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
+shape = SubResource("SphereShape3D_22q5j")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="SwingPivot" type="Node3D" parent="." unique_id=1085677876]
+
+[node name="KnifeDamageArea3D" type="Area3D" parent="." unique_id=705711118]
+script = ExtResource("4_pjlok")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="KnifeDamageArea3D" unique_id=282260634]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.05)
+shape = SubResource("BoxShape3D_qikfw")

@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://ck84coifipr6d"]
+
+[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_cwd31"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="3_cw8cm"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cwd31"]
+friction = 0.5
+bounce = 0.5
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gflxi"]
+height = 0.1
+radius = 0.35
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gpcr5"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_n3gac"]
+material = SubResource("StandardMaterial3D_gpcr5")
+top_radius = 0.3
+bottom_radius = 0.35
+height = 0.05
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+radius = 1.0
+
+[node name="Frisbee" type="RigidBody3D" unique_id=1832368976]
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_cwd31")
+gravity_scale = 0.25
+continuous_cd = true
+script = ExtResource("1_cwd31")
+metadata/_custom_type_script = "uid://c4dpgof6ca7yj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+shape = SubResource("CylinderShape3D_gflxi")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=183999302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+mesh = SubResource("CylinderMesh_n3gac")
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+script = ExtResource("3_cw8cm")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
+shape = SubResource("SphereShape3D_22q5j")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)

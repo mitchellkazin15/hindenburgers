@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://de20king28rr0"]
+
+[ext_resource type="Script" uid="uid://bey5vv6enn4h0" path="res://items/food/hamburger.gd" id="1_syu0n"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_syu0n"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_q777v"]
+radius = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ngdkf"]
+albedo_color = Color(0.63564134, 0.33660248, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_syu0n"]
+material = SubResource("StandardMaterial3D_ngdkf")
+radius = 0.25
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_22q5j"]
+albedo_color = Color(0.24507704, 0.09850269, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_n3gac"]
+material = SubResource("StandardMaterial3D_22q5j")
+top_radius = 0.27
+bottom_radius = 0.27
+height = 0.05
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+
+[node name="Hamburger" type="RigidBody3D" unique_id=1264862515]
+mass = 0.1
+continuous_cd = true
+script = ExtResource("1_syu0n")
+food_val = 25.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+shape = SubResource("SphereShape3D_q777v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=561942683]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+mesh = SubResource("CapsuleMesh_syu0n")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=183999302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+mesh = SubResource("CylinderMesh_n3gac")
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+script = ExtResource("2_syu0n")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
+shape = SubResource("SphereShape3D_22q5j")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)

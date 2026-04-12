@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://doy2mv4pyywlx"]
+
+[ext_resource type="Script" uid="uid://b10hx1w8pre82" path="res://ui/components/base_menu.gd" id="1_54bbc"]
+[ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="2_j7444"]
+[ext_resource type="Script" uid="uid://djxtfcc1gcuam" path="res://ui/components/join_game_button.gd" id="3_i6p7n"]
+[ext_resource type="Script" uid="uid://6tkmaqi6xnvy" path="res://ui/components/overlay_new_menu_button.gd" id="4_j7444"]
+[ext_resource type="Script" uid="uid://b6nr4bwo0sewj" path="res://ui/components/quit_game_button.gd" id="5_q4oss"]
+[ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="7_i7h81"]
+[ext_resource type="PackedScene" uid="uid://bwaqfat7e86im" path="res://ui/components/multiplayer_lobby.tscn" id="8_ancxe"]
+
+[node name="JoinGameMenu" type="Control" unique_id=1301732010 node_paths=PackedStringArray("initial_focus")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_54bbc")
+initial_focus = NodePath("HBoxContainer/VBoxContainer/IpFieldTextEdit")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1400272260]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 39.0
+offset_top = -137.0
+offset_right = 221.0
+offset_bottom = 138.0
+grow_vertical = 2
+theme = ExtResource("2_j7444")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1750109334]
+layout_mode = 2
+
+[node name="IpFieldTextEdit" type="TextEdit" parent="HBoxContainer/VBoxContainer" unique_id=2145698934]
+custom_minimum_size = Vector2(600, 80)
+layout_mode = 2
+text = "127.0.0.1"
+placeholder_text = "127.0.0.1"
+
+[node name="NameFieldTextEdit" type="TextEdit" parent="HBoxContainer/VBoxContainer" unique_id=1884452201]
+custom_minimum_size = Vector2(600, 80)
+layout_mode = 2
+placeholder_text = "Name"
+
+[node name="JoinGameButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1445736133 node_paths=PackedStringArray("host_ip_field", "name_field", "lobby")]
+layout_mode = 2
+text = "join game"
+script = ExtResource("3_i6p7n")
+host_ip_field = NodePath("../IpFieldTextEdit")
+name_field = NodePath("../NameFieldTextEdit")
+lobby = NodePath("../../MultiplayerLobby")
+
+[node name="MainMenuButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1415344491]
+layout_mode = 2
+theme = ExtResource("2_j7444")
+text = "main menu"
+script = ExtResource("4_j7444")
+next_scene_path = "uid://dsmlj81cd478x"
+disconnect_multiplayer = true
+metadata/_custom_type_script = "uid://6tkmaqi6xnvy"
+
+[node name="QuitGameButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1148058487]
+layout_mode = 2
+text = "quit game"
+script = ExtResource("5_q4oss")
+
+[node name="MultiplayerLobby" parent="HBoxContainer" unique_id=1175492558 instance=ExtResource("8_ancxe")]
+layout_mode = 2
+
+[node name="ScreenScalerComponent" type="Node" parent="HBoxContainer" unique_id=375472732]
+script = ExtResource("7_i7h81")
+pivot_offset_x = 0.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"

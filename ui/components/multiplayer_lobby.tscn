@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bwaqfat7e86im"]
+
+[ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="1_cml43"]
+[ext_resource type="Script" uid="uid://behyo8mjuiro5" path="res://ui/components/multiplayer_lobby.gd" id="1_jaopw"]
+
+[node name="MultiplayerLobby" type="VBoxContainer" unique_id=1834812820]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_cml43")
+script = ExtResource("1_jaopw")
+
+[node name="Label" type="Label" parent="." unique_id=1307962499]
+layout_mode = 2
+text = "In Lobby:"
+
+[node name="PLayerListContainer" type="VBoxContainer" parent="." unique_id=890253185]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PLayerListContainer" unique_id=1538241162]
+layout_mode = 2
+text = "player1"

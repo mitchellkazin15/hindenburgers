@@ -1,0 +1,452 @@
+[gd_scene format=3 uid="uid://djqwwnq73ttw"]
+
+[ext_resource type="Script" uid="uid://7dmdctw0ys25" path="res://characters/character.gd" id="1_evndh"]
+[ext_resource type="Script" uid="uid://b4pxvany8pf1i" path="res://characters/character_player_input_contoller.gd" id="2_h1q25"]
+[ext_resource type="Script" uid="uid://caqrbv2whvq2b" path="res://common_components/player_camera_3d.gd" id="3_j31ep"]
+[ext_resource type="Script" uid="uid://45ejdo8nxfr5" path="res://common_components/interacting_area_3d.gd" id="4_6t23p"]
+[ext_resource type="Script" uid="uid://wq2hn4rr7qf1" path="res://stats/character_stat_manager.gd" id="5_n8jd0"]
+[ext_resource type="Script" uid="uid://c48o2jx42ote5" path="res://characters/stomach.gd" id="6_h1q25"]
+[ext_resource type="Script" uid="uid://de8nam0rh6p8t" path="res://characters/food_bar.gd" id="6_q605b"]
+[ext_resource type="Texture2D" uid="uid://blhwlpupg10as" path="res://assets/misc_sprites/status_bar_yellow.png" id="7_eho78"]
+[ext_resource type="Script" uid="uid://b2bswxfec002i" path="res://characters/colon.gd" id="7_j31ep"]
+[ext_resource type="Texture2D" uid="uid://dlvp5j4ifqfae" path="res://assets/misc_sprites/status_bar_grey.png" id="8_8sqrr"]
+[ext_resource type="Script" uid="uid://cq8ek1005uy4v" path="res://characters/poop_bar.gd" id="10_6rrl0"]
+[ext_resource type="Texture2D" uid="uid://b8u5nnf5ska18" path="res://assets/misc_sprites/status_bar_brown.png" id="10_8sqrr"]
+[ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="11_eho78"]
+[ext_resource type="Script" uid="uid://c8plluvff4eim" path="res://characters/coin_purse_label.gd" id="14_4rspn"]
+[ext_resource type="Script" uid="uid://bthslr67752nd" path="res://characters/cloaca.gd" id="14_eus45"]
+[ext_resource type="Texture2D" uid="uid://h4nbae34u0ik" path="res://assets/misc_sprites/bronze-coin.png" id="14_svrv0"]
+[ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="15_4rspn"]
+[ext_resource type="PackedScene" uid="uid://06g6idstgaj8" path="res://items/food/poop.tscn" id="15_vcag3"]
+[ext_resource type="Shader" uid="uid://q24qiyo4wl0f" path="res://shaders/screen_effects/shroom_effect.gdshader" id="16_h076o"]
+[ext_resource type="Script" uid="uid://cwugggetb1b7v" path="res://characters/drug_manager.gd" id="16_lcfw7"]
+[ext_resource type="Texture2D" uid="uid://c3k53aemop7ij" path="res://assets/misc_sprites/eating_icon.png" id="17_3t8uj"]
+[ext_resource type="Script" uid="uid://w04p051x2frh" path="res://ui/components/use_charge_bar.gd" id="17_qk7w8"]
+[ext_resource type="Texture2D" uid="uid://dbvd6lx7qjn3y" path="res://assets/misc_sprites/throwing_icon.png" id="17_qp1es"]
+[ext_resource type="Script" uid="uid://b1ym6lrvhn5u7" path="res://stats/drug_visual_effect_stat_manager.gd" id="18_b0vde"]
+[ext_resource type="Texture2D" uid="uid://dvofyew6a27f3" path="res://assets/misc_sprites/grey-circular-loading-icon.png" id="18_qk7w8"]
+[ext_resource type="Texture2D" uid="uid://dsllaf36ufdat" path="res://assets/misc_sprites/circular-loading-icon.png" id="19_3t8uj"]
+[ext_resource type="Script" uid="uid://dl01gpfyw3kru" path="res://characters/coin_purse.gd" id="19_ke0a4"]
+[ext_resource type="Texture2D" uid="uid://c1n1tn5fy70p0" path="res://assets/misc_sprites/using_icon.png" id="19_lit6r"]
+[ext_resource type="Script" uid="uid://blskd0vdwvhf4" path="res://ui/components/throw_charge_bar.gd" id="21_rjhu2"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
+friction = 0.75
+rough = true
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wfnr8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b1u1o"]
+albedo_color = Color(0, 0, 0.65882355, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_px5sl"]
+material = SubResource("StandardMaterial3D_b1u1o")
+
+[sub_resource type="Curve" id="Curve_b5n4k"]
+_data = [Vector2(0, 0.7501434), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ijpo3"]
+curve = SubResource("Curve_b5n4k")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vcag3"]
+resource_local_to_scene = true
+lifetime_randomness = 0.25
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+radial_velocity_min = 0.09997764
+radial_velocity_max = 0.99997765
+gravity = Vector3(0, 0, 0)
+scale_max = 2.5
+alpha_curve = SubResource("CurveTexture_ijpo3")
+turbulence_enabled = true
+turbulence_noise_scale = 0.642
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h076o"]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+albedo_color = Color(0, 0.63529414, 0.07058824, 0.77254903)
+
+[sub_resource type="SphereMesh" id="SphereMesh_lcfw7"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_h076o")
+radius = 0.1
+height = 0.2
+
+[sub_resource type="Curve" id="Curve_lit6r"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.4425, 0.9917197), 0.0, 0.0, 0, 0, Vector2(0.5025, 0), 0.0, 0.0, 0, 0, Vector2(0.54999995, 1), 0.0, 0.0, 0, 0, Vector2(0.92249995, 1), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_ys5vl"]
+curve = SubResource("Curve_lit6r")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3y70i"]
+albedo_texture = SubResource("CurveTexture_ys5vl")
+
+[sub_resource type="SphereMesh" id="SphereMesh_lit6r"]
+material = SubResource("StandardMaterial3D_3y70i")
+radius = 0.1
+height = 0.2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_px5sl"]
+radius = 0.75
+height = 2.5
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mdkfl"]
+properties/0/path = NodePath("RotationPivot:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Stomach:_curr_food_val")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("Colon:_curr_digested_food_val")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("HUD/ThrowChargeBar/TextureProgressBar:value")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath("HUD/UseChargeBar/TextureProgressBar:value")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_b1u1o"]
+height = 0.5
+radius = 0.4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lcfw7"]
+resource_local_to_scene = true
+render_priority = 100
+shader = ExtResource("16_h076o")
+shader_parameter/brightness = 4.7499999933364734e-08
+shader_parameter/contrast = 1.0
+shader_parameter/saturation = 1.0
+shader_parameter/saturation_color = Color(1, 1, 1, 1)
+shader_parameter/x_wiggle_amp = 0.0
+shader_parameter/x_wiggle_screen_freq = 1.0
+shader_parameter/x_wiggle_time_freq = 1.0
+shader_parameter/y_wiggle_amp = 0.0
+shader_parameter/y_wiggle_screen_freq = 1.0
+shader_parameter/y_wiggle_time_freq = 1.0
+shader_parameter/blur_iterations = 1.0
+shader_parameter/blur_power = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_b0vde"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="Player" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "input_controller", "synchronizer", "floor_shape_cast", "stats", "hand")]
+physics_material_override = SubResource("PhysicsMaterial_mdkfl")
+gravity_scale = 5.0
+can_sleep = false
+lock_rotation = true
+continuous_cd = true
+script = ExtResource("1_evndh")
+camera = NodePath("CameraPivot/Camera3D")
+input_controller = NodePath("PlayerInputComponent")
+synchronizer = NodePath("MultiplayerSynchronizer")
+floor_shape_cast = NodePath("ShapeCast3D")
+stats = NodePath("CharacterStatManager")
+hand = NodePath("RotationPivot/HandRemoteTransform3D")
+metadata/_custom_type_script = "uid://7dmdctw0ys25"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=303792128]
+shape = SubResource("CapsuleShape3D_wfnr8")
+
+[node name="RotationPivot" type="Node3D" parent="." unique_id=664917725]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RotationPivot" unique_id=1739057790]
+mesh = SubResource("CapsuleMesh_px5sl")
+
+[node name="HandRemoteTransform3D" type="RemoteTransform3D" parent="RotationPivot" unique_id=901843108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
+
+[node name="Cloaca" type="Node3D" parent="RotationPivot" unique_id=1824787078 node_paths=PackedStringArray("fart_particles")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.75)
+script = ExtResource("14_eus45")
+poop_scene = ExtResource("15_vcag3")
+fart_particles = NodePath("GPUParticles3D")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="RotationPivot/Cloaca" unique_id=688125762]
+emitting = false
+amount = 50
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB(-50, -50, -50, 100, 100, 100)
+process_material = SubResource("ParticleProcessMaterial_vcag3")
+draw_pass_1 = SubResource("SphereMesh_lcfw7")
+
+[node name="RightEye" type="MeshInstance3D" parent="RotationPivot" unique_id=1812758530]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.2, 0.392, 0.457)
+mesh = SubResource("SphereMesh_lit6r")
+
+[node name="LeftEye" type="MeshInstance3D" parent="RotationPivot" unique_id=428381662]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.2, 0.392, 0.457)
+mesh = SubResource("SphereMesh_lit6r")
+
+[node name="PlayerInputComponent" type="Node" parent="." unique_id=2077985448 node_paths=PackedStringArray("character", "interacting_area")]
+script = ExtResource("2_h1q25")
+character = NodePath("..")
+interacting_area = NodePath("../InteractingArea3D")
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1271864586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1708174973 node_paths=PackedStringArray("_camera_pivot")]
+transform = Transform3D(-1, 0, -8.742277e-08, 0, 0.9999999, 0, 8.742278e-08, 0, -0.9999999, 0, 0, -3.5)
+current = true
+script = ExtResource("3_j31ep")
+_camera_pivot = NodePath("..")
+
+[node name="InteractingArea3D" type="Area3D" parent="." unique_id=291866202]
+script = ExtResource("4_6t23p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractingArea3D" unique_id=759872]
+shape = SubResource("CapsuleShape3D_px5sl")
+debug_color = Color(0.2700933, 0.6330955, 0, 0.41960785)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=964156676]
+replication_config = SubResource("SceneReplicationConfig_mdkfl")
+visibility_update_mode = 1
+
+[node name="CharacterStatManager" type="Node" parent="." unique_id=1265100376]
+script = ExtResource("5_n8jd0")
+base_stats = {
+"air_acceleration": 40.0,
+"direction_angle_randomness_degrees": 0.0,
+"jump_impulse": 20.0,
+"max_throw_charge_time": 3.0,
+"speed": 10.0,
+"speed_randomness": 0.0,
+"sprint_multiplier": 1.5,
+"throw_strength": 0.75
+}
+metadata/_custom_type_script = "uid://wq2hn4rr7qf1"
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="." unique_id=511311796]
+shape = SubResource("CylinderShape3D_b1u1o")
+target_position = Vector3(0, -0.8, 0)
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=557212423]
+
+[node name="FoodBar" type="TextureProgressBar" parent="HUD" unique_id=560439250 node_paths=PackedStringArray("stomach")]
+offset_right = 256.0
+offset_bottom = 17.0
+scale = Vector2(2.5, 2.5)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+size_flags_stretch_ratio = 8.0
+texture_under = ExtResource("8_8sqrr")
+script = ExtResource("6_q605b")
+stomach = NodePath("../../Stomach")
+high_food_bar = ExtResource("7_eho78")
+mid_food_bar = ExtResource("7_eho78")
+low_food_bar = ExtResource("7_eho78")
+metadata/_custom_type_script = "uid://de8nam0rh6p8t"
+
+[node name="ScreenScalerComponent" type="Node" parent="HUD/FoodBar" unique_id=535584689]
+script = ExtResource("11_eho78")
+pivot_offset_x = 0.0
+pivot_offset_y = 0.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="PoopBar" type="TextureProgressBar" parent="HUD" unique_id=202580460 node_paths=PackedStringArray("colon")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_bottom = 17.0
+grow_horizontal = 0
+scale = Vector2(2.5, 2.5)
+pivot_offset = Vector2(256, 0)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+size_flags_stretch_ratio = 8.0
+texture_under = ExtResource("8_8sqrr")
+script = ExtResource("10_6rrl0")
+colon = NodePath("../../Colon")
+high_poop_bar = ExtResource("10_8sqrr")
+mid_poop_bar = ExtResource("10_8sqrr")
+low_poop_bar = ExtResource("10_8sqrr")
+
+[node name="ScreenScalerComponent" type="Node" parent="HUD/PoopBar" unique_id=1709474948]
+script = ExtResource("11_eho78")
+pivot_offset_x = 1.0
+pivot_offset_y = 0.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="CoinPurseLabel" type="Control" parent="HUD" unique_id=1664744284 node_paths=PackedStringArray("coin_purse")]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+script = ExtResource("14_4rspn")
+coin_purse = NodePath("../../CoinPurse")
+
+[node name="TextureRect" type="TextureRect" parent="HUD/CoinPurseLabel" unique_id=1511315432]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+offset_right = 64.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 64)
+texture = ExtResource("14_svrv0")
+
+[node name="Label" type="Label" parent="HUD/CoinPurseLabel" unique_id=1760225229]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = -67.0
+offset_right = 133.0
+grow_vertical = 0
+theme = ExtResource("15_4rspn")
+text = "=?"
+
+[node name="ScreenScalerComponent" type="Node" parent="HUD/CoinPurseLabel" unique_id=2122207112]
+script = ExtResource("11_eho78")
+pivot_offset_x = 0.0
+pivot_offset_y = 1.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="UseChargeBar" type="Control" parent="HUD" unique_id=396903030 node_paths=PackedStringArray("character", "progress_bar", "icon")]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("17_qk7w8")
+character = NodePath("../..")
+progress_bar = NodePath("TextureProgressBar")
+icon = NodePath("UsingIcon")
+eat_texture = ExtResource("17_3t8uj")
+other_use_texture = ExtResource("19_lit6r")
+
+[node name="UsingIcon" type="Sprite2D" parent="HUD/UseChargeBar" unique_id=495385582]
+position = Vector2(8, 8)
+texture = ExtResource("17_3t8uj")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="HUD/UseChargeBar" unique_id=718558938]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -64.0
+grow_horizontal = 0
+grow_vertical = 0
+fill_mode = 4
+texture_under = ExtResource("18_qk7w8")
+texture_progress = ExtResource("19_3t8uj")
+
+[node name="ScreenScalerComponent" type="Node" parent="HUD/UseChargeBar" unique_id=193091116]
+script = ExtResource("11_eho78")
+pivot_offset_x = 1.0
+pivot_offset_y = 1.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="ThrowChargeBar" type="Control" parent="HUD" unique_id=1479656252 node_paths=PackedStringArray("character", "progress_bar")]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -109.0
+offset_top = -40.0
+offset_right = -69.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("21_rjhu2")
+character = NodePath("../..")
+progress_bar = NodePath("TextureProgressBar")
+
+[node name="ThrowingIcon" type="Sprite2D" parent="HUD/ThrowChargeBar" unique_id=2065417964]
+position = Vector2(-15, 8)
+texture = ExtResource("17_qp1es")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="HUD/ThrowChargeBar" unique_id=1467749165]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -87.0
+offset_top = -64.0
+offset_right = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+fill_mode = 4
+texture_under = ExtResource("18_qk7w8")
+texture_progress = ExtResource("19_3t8uj")
+
+[node name="ScreenScalerComponent" type="Node" parent="HUD/ThrowChargeBar" unique_id=1729566734]
+script = ExtResource("11_eho78")
+preserve_y = false
+pivot_offset_x = 1.0
+pivot_offset_y = 1.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="Stomach" type="Node3D" parent="." unique_id=462579980 node_paths=PackedStringArray("colon")]
+script = ExtResource("6_h1q25")
+digestion_tick_val = 1.0
+digestion_period_sec = 1.0
+colon = NodePath("../Colon")
+
+[node name="Colon" type="Node3D" parent="." unique_id=1789571393 node_paths=PackedStringArray("cloaca")]
+script = ExtResource("7_j31ep")
+cloaca = NodePath("../RotationPivot/Cloaca")
+
+[node name="DrugManager" type="Node3D" parent="." unique_id=1039279980 node_paths=PackedStringArray("character_stats", "visual_stats")]
+script = ExtResource("16_lcfw7")
+character_stats = NodePath("../CharacterStatManager")
+visual_stats = NodePath("DrugVisualEffectStatManager")
+
+[node name="DrugScreenEffectQuad" type="MeshInstance3D" parent="DrugManager" unique_id=724448880]
+material_override = SubResource("ShaderMaterial_lcfw7")
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_b0vde")
+
+[node name="DrugVisualEffectStatManager" type="Node" parent="DrugManager" unique_id=232980101]
+script = ExtResource("18_b0vde")
+base_stats = {
+"blur_iterations": 1.0,
+"blur_power": 1.0,
+"brightness": 0.0,
+"contrast": 1.0,
+"saturation": 1.0,
+"saturation_color": 4294967295,
+"x_wiggle_amp": 0.0,
+"x_wiggle_screen_freq": 0.5,
+"x_wiggle_time_freq": 0.1,
+"y_wiggle_amp": 0.0,
+"y_wiggle_screen_freq": 0.5,
+"y_wiggle_time_freq": 0.1
+}
+metadata/_custom_type_script = "uid://b1ym6lrvhn5u7"
+
+[node name="CoinPurse" type="Node3D" parent="." unique_id=1319970382]
+script = ExtResource("19_ke0a4")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=324362064]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+billboard = 1
+alpha_cut = 1
+text = "name"
+font_size = 64
+outline_size = 16

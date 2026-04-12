@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://cx82doy6u2wvc"]
+
+[ext_resource type="Script" uid="uid://d05gwxfpxt4nn" path="res://hazards/wind_box.gd" id="1_ta2hj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ql5kk"]
+size = Vector3(1, 1, 10)
+
+[sub_resource type="Curve" id="Curve_ta2hj"]
+_data = [Vector2(0, 0.5205164), 0.0, 0.0, 0, 0, Vector2(1, 0.25979722), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ql5kk"]
+curve = SubResource("Curve_ta2hj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gu2nv"]
+particle_flag_align_y = true
+emission_shape_offset = Vector3(0, 0, 5)
+emission_shape = 3
+emission_box_extents = Vector3(0.5, 0.5, 5)
+direction = Vector3(0, 0, 1)
+spread = 0.0
+initial_velocity_min = 4.0
+initial_velocity_max = 7.0
+gravity = Vector3(0, 0, 0)
+alpha_curve = SubResource("CurveTexture_ql5kk")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2v7uc"]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_gg88n"]
+material = SubResource("StandardMaterial3D_2v7uc")
+radius = 0.01
+sections = 10
+section_length = 0.1
+
+[node name="WindBox" type="Area3D" unique_id=1194631076]
+script = ExtResource("1_ta2hj")
+wind_force = 1000.0
+metadata/_custom_type_script = "uid://d05gwxfpxt4nn"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=590614246]
+shape = SubResource("BoxShape3D_ql5kk")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=532520426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+amount = 20
+visibility_aabb = AABB(-4, -4, -4, 8, 8, 16)
+trail_enabled = true
+trail_lifetime = 0.8
+process_material = SubResource("ParticleProcessMaterial_gu2nv")
+draw_pass_1 = SubResource("TubeTrailMesh_gg88n")

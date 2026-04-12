@@ -11,9 +11,24 @@ config_version=5
 [application]
 
 config/name="HindenBurgers"
-run/main_scene="uid://d2d7u3vxmhpsf"
+run/main_scene="uid://d68awp30sg5d"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+EventService="*uid://c5mhetl76gyya"
+MultiplayerManager="*uid://gbedovc7j4vw"
+StopwatchManager="*uid://bghgvnasj8o5g"
+RigidBodySyncManager="*uid://daeeso1gae7yk"
+
+[display]
+
+window/size/mode=4
+
+[global_group]
+
+player_spawn="Node3D whose position can be used to spawn a player"
 
 [input]
 
@@ -52,11 +67,42 @@ jump={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
 ]
 }
+interact={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
+]
+}
+reset={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":82,"key_label":0,"unicode":114,"location":0,"echo":false,"script":null)
+]
+}
+sprint={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+throw={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(504, 15),"global_position":Vector2(523, 111),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+use_item={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(439, 50),"global_position":Vector2(458, 146),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
 
 [physics]
 
+common/physics_jitter_fix=0.0
 3d/physics_engine="Jolt Physics"
+jolt_physics_3d/simulation/velocity_steps=20
+jolt_physics_3d/simulation/position_steps=10
+3d/solver/solver_iterations=32
+common/physics_interpolation=true
 
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+textures/lossless_compression/force_png=true

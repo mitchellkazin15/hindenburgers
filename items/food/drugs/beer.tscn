@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://mi6drwxajht8"]
+
+[ext_resource type="Script" uid="uid://bb1deo5u31hi7" path="res://items/food/drugs/drug.gd" id="1_tmcrh"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_kmgj0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lk0pb"]
+albedo_color = Color(0.44705883, 0.2509804, 0.050980393, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g8u53"]
+material = SubResource("StandardMaterial3D_lk0pb")
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kmgj0"]
+albedo_color = Color(0.44705883, 0.2509804, 0.050980393, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_isjp1"]
+material = SubResource("StandardMaterial3D_kmgj0")
+top_radius = 0.04
+bottom_radius = 0.1
+height = 0.15
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_de322"]
+albedo_color = Color(0.44705883, 0.2509804, 0.050980393, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_buxka"]
+material = SubResource("StandardMaterial3D_de322")
+top_radius = 0.03
+bottom_radius = 0.04
+height = 0.15
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2ykj7"]
+height = 0.6
+radius = 0.1
+
+[node name="Beer" type="RigidBody3D" unique_id=1264862515]
+mass = 0.1
+continuous_cd = true
+script = ExtResource("1_tmcrh")
+drug_effect_duration = 180.0
+drug_visual_effect_adders = {
+"blur_iterations": 1.0,
+"blur_power": 0.01,
+"brightness": 0.0,
+"contrast": 0.0,
+"saturation": 0.0,
+"saturation_color": 0.0,
+"x_wiggle_amp": 0.01,
+"x_wiggle_screen_freq": 0.0,
+"x_wiggle_time_freq": 0.1,
+"y_wiggle_amp": 0.01,
+"y_wiggle_screen_freq": 0.0,
+"y_wiggle_time_freq": 0.1
+}
+drug_character_effect_adders = {
+"air_acceleration": 0.0,
+"direction_angle_randomness_degrees": 5.0,
+"jump_impulse": 0.0,
+"speed": -1.0,
+"speed_randomness": 1.0,
+"sprint_multiplier": 0.0
+}
+max_use_charge_time = 0.1
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1553384249]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
+
+[node name="GrabItemArea3D" type="Area3D" parent="Node3D" unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+script = ExtResource("2_kmgj0")
+item = NodePath("../..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/GrabItemArea3D" unique_id=2137353213]
+shape = SubResource("SphereShape3D_22q5j")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=665638984]
+mesh = SubResource("CylinderMesh_g8u53")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=721624815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.225, 0)
+mesh = SubResource("CylinderMesh_isjp1")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D" unique_id=1607639867]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375, 0)
+mesh = SubResource("CylinderMesh_buxka")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0.1)
+shape = SubResource("CylinderShape3D_2ykj7")

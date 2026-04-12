@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://bbqknpjnqy3ym"]
+
+[ext_resource type="Script" uid="uid://clia0s6jdmf34" path="res://items/tools/spatula.gd" id="1_qikfw"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_brdvl"]
+[ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_d5n5e"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qikfw"]
+size = Vector3(0.25, 0.05, 0.75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_brdvl"]
+material = ExtResource("2_d5n5e")
+size = Vector3(0.1, 0.04, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tgr5y"]
+material = ExtResource("2_d5n5e")
+size = Vector3(0.25, 0.05, 0.3)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+radius = 0.75
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5u1aq"]
+size = Vector3(0.35, 0.2, 0.35)
+
+[node name="Spatula" type="RigidBody3D" unique_id=1264862515]
+mass = 0.25
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, 0, 0.5)
+continuous_cd = true
+script = ExtResource("1_qikfw")
+unlock_rotation_on_use = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.65)
+shape = SubResource("BoxShape3D_qikfw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1666493877]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh = SubResource("BoxMesh_brdvl")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1802209539]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
+mesh = SubResource("BoxMesh_tgr5y")
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+script = ExtResource("2_brdvl")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
+shape = SubResource("SphereShape3D_22q5j")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="SwingPivot" type="Node3D" parent="." unique_id=1085677876]
+
+[node name="BurgerFlipArea3D" type="Area3D" parent="." unique_id=572576884]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BurgerFlipArea3D" unique_id=499665901]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
+shape = SubResource("BoxShape3D_5u1aq")
+debug_color = Color(0.8135569, 0.40943807, 5.7756904e-07, 0.41960785)

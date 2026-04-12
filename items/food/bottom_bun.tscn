@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://vg6pdbix5lar"]
+
+[ext_resource type="Script" uid="uid://uaf6i15r345p" path="res://items/food/bun.gd" id="1_12bte"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_udog6"]
+[ext_resource type="PackedScene" uid="uid://buo6r3e7y8hjk" path="res://models/Bottom Bun.blend" id="3_udog6"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_12bte"]
+height = 0.1
+radius = 0.3
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+
+[node name="BottomBun" type="RigidBody3D" unique_id=1264862515]
+mass = 0.1
+continuous_cd = true
+script = ExtResource("1_12bte")
+food_val = 1.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.3277136)
+shape = SubResource("CylinderShape3D_12bte")
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.31329298)
+script = ExtResource("2_udog6")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
+shape = SubResource("SphereShape3D_22q5j")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="Bottom Bun2" parent="." unique_id=1190105540 instance=ExtResource("3_udog6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, 0.36486518)

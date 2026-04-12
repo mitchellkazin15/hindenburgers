@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://t3bu3188qlo8"]
+
+[ext_resource type="Script" uid="uid://qnroxfsasul5" path="res://vehicles/pogo_stick.gd" id="1_aib25"]
+[ext_resource type="Script" uid="uid://owae6nndxkye" path="res://vehicles/pogo_stick_player_controller.gd" id="2_ryp4v"]
+[ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="3_cprux"]
+[ext_resource type="Script" uid="uid://caqrbv2whvq2b" path="res://common_components/player_camera_3d.gd" id="3_y4o51"]
+[ext_resource type="Script" uid="uid://833764desipx" path="res://vehicles/enter_driving_area_3d.gd" id="4_im4xx"]
+[ext_resource type="Script" uid="uid://bn443o2wp6ivq" path="res://physics/reference_frame_area_3d.gd" id="4_ryp4v"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
+friction = 0.5
+rough = true
+bounce = 0.5
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_aib25"]
+radius = 0.25
+
+[sub_resource type="BoxMesh" id="BoxMesh_ryp4v"]
+material = ExtResource("3_cprux")
+size = Vector3(0.25, 0.5, 0.25)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cprux"]
+material = ExtResource("3_cprux")
+top_radius = 0.05
+bottom_radius = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y4o51"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_y4o51"]
+material = SubResource("StandardMaterial3D_y4o51")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.75
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ryp4v"]
+radius = 0.6
+height = 2.5
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cprux"]
+properties/0/path = NodePath("RotationPivot:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="PogoStick" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("driver_seat", "camera", "vehicle_controller")]
+mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_5xue0")
+gravity_scale = 5.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, -100, 0)
+can_sleep = false
+lock_rotation = true
+continuous_cd = true
+angular_damp = 1.0
+script = ExtResource("1_aib25")
+driver_seat = NodePath("RotationPivot/DriverSeat")
+camera = NodePath("CameraPivot/Camera3D")
+vehicle_controller = NodePath("PogoStickPlayerController")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1375530691]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("CapsuleShape3D_aib25")
+
+[node name="PogoStickPlayerController" type="Node" parent="." unique_id=1437177279 node_paths=PackedStringArray("pogo_stick", "camera")]
+script = ExtResource("2_ryp4v")
+pogo_stick = NodePath("..")
+camera = NodePath("../CameraPivot/Camera3D")
+enabled = true
+
+[node name="RotationPivot" type="Node3D" parent="." unique_id=1861614804]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RotationPivot" unique_id=680359087]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+mesh = SubResource("BoxMesh_ryp4v")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="RotationPivot" unique_id=1923002084]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("CylinderMesh_cprux")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="RotationPivot" unique_id=347135928]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("CylinderMesh_y4o51")
+
+[node name="DriverSeat" type="RemoteTransform3D" parent="RotationPivot" unique_id=1617510300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -0.75)
+
+[node name="EnterDrivingArea3D" type="Area3D" parent="." unique_id=1610838353 node_paths=PackedStringArray("vehicle")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+script = ExtResource("4_im4xx")
+vehicle = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnterDrivingArea3D" unique_id=1377534942]
+shape = SubResource("CapsuleShape3D_ryp4v")
+debug_color = Color(0.03858291, 0.65077674, 0, 0.41960785)
+
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=2010175636]
+target_position = Vector3(0, -1.75, 0)
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1052977174]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1282061281 node_paths=PackedStringArray("_camera_pivot")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -4)
+script = ExtResource("3_y4o51")
+_camera_pivot = NodePath("..")
+
+[node name="ReferenceFrameArea3D" type="Area3D" parent="." unique_id=322964498]
+script = ExtResource("4_ryp4v")
+metadata/_custom_type_script = "uid://bn443o2wp6ivq"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ReferenceFrameArea3D" unique_id=2115059388]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20834255, 0)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=413634069]
+replication_interval = 0.02
+delta_interval = 0.02
+replication_config = SubResource("SceneReplicationConfig_cprux")
+visibility_update_mode = 1

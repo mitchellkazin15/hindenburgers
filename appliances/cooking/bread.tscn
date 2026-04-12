@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://cpne3d3o1kb8m"]
+
+[ext_resource type="Script" uid="uid://cglmrmpbm6ssh" path="res://physics/relative_rigid_body_3d.gd" id="1_dc0cf"]
+[ext_resource type="Script" uid="uid://bimdyydlbocfu" path="res://appliances/cooking/knife_iteraction_area_3d.gd" id="2_4o16g"]
+[ext_resource type="PackedScene" uid="uid://vg6pdbix5lar" path="res://items/food/bottom_bun.tscn" id="3_dc0cf"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ti5wi"]
+radius = 1.0
+height = 4.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gbns"]
+albedo_color = Color(0.71629137, 0.5210308, 0.074121766, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_k5g27"]
+material = SubResource("StandardMaterial3D_5gbns")
+radius = 1.0
+height = 4.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_svhoa"]
+radius = 1.1
+height = 4.2
+
+[node name="Bread" type="RigidBody3D" unique_id=101706065]
+mass = 10.0
+gravity_scale = 5.0
+script = ExtResource("1_dc0cf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1636732133]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_ti5wi")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=473693094]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_k5g27")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=2105014877]
+script = ExtResource("2_4o16g")
+spawn_at_collision_scene = ExtResource("3_dc0cf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1691569024]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_svhoa")
+debug_color = Color(0.95427436, 1.347661e-06, 0.5517831, 0.41960785)

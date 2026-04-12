@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://cy1pb3tm032du"]
+
+[ext_resource type="Script" uid="uid://bb1deo5u31hi7" path="res://items/food/drugs/drug.gd" id="1_cs4cm"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_hty2s"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lk0pb"]
+albedo_color = Color(0.44705883, 0.2509804, 0.050980393, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g8u53"]
+material = SubResource("StandardMaterial3D_lk0pb")
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kmgj0"]
+albedo_color = Color(0.44705883, 0.2509804, 0.050980393, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_isjp1"]
+material = SubResource("StandardMaterial3D_kmgj0")
+top_radius = 0.01
+bottom_radius = 0.04
+height = 0.05
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2ykj7"]
+height = 0.25
+radius = 0.05
+
+[node name="Shroom" type="RigidBody3D" unique_id=1264862515]
+mass = 0.1
+continuous_cd = true
+script = ExtResource("1_cs4cm")
+drug_effect_duration = 180.0
+drug_visual_effect_adders = {
+"blur_iterations": 1.0,
+"blur_power": 0.05,
+"brightness": 0.0,
+"contrast": 0.01,
+"saturation": 0.25,
+"saturation_color": 0.0,
+"x_wiggle_amp": 0.1,
+"x_wiggle_screen_freq": 0.2,
+"x_wiggle_time_freq": 0.1,
+"y_wiggle_amp": 0.1,
+"y_wiggle_screen_freq": 0.5,
+"y_wiggle_time_freq": 0.1
+}
+drug_character_effect_adders = {
+"air_acceleration": 0.0,
+"direction_angle_randomness_degrees": 2.0,
+"jump_impulse": 0.0,
+"speed": 0.25,
+"speed_randomness": 0.0,
+"sprint_multiplier": 0.0
+}
+max_use_charge_time = 0.1
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1553384249]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
+
+[node name="GrabItemArea3D" type="Area3D" parent="Node3D" unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+script = ExtResource("2_hty2s")
+item = NodePath("../..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/GrabItemArea3D" unique_id=2137353213]
+shape = SubResource("SphereShape3D_22q5j")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=665638984]
+mesh = SubResource("CylinderMesh_g8u53")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=721624815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("CylinderMesh_isjp1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0.1)
+shape = SubResource("CylinderShape3D_2ykj7")

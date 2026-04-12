@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://8jwoiorxedsv"]
+
+[ext_resource type="Script" uid="uid://c7ryuetqmvgdm" path="res://characters/npcs/customer.gd" id="1_4tcmh"]
+[ext_resource type="Script" uid="uid://cjfi4fjy340fp" path="res://characters/npcs/suck_area_3d.gd" id="3_4tcmh"]
+[ext_resource type="Script" uid="uid://c48o2jx42ote5" path="res://characters/stomach.gd" id="4_6apfp"]
+[ext_resource type="Script" uid="uid://b2bswxfec002i" path="res://characters/colon.gd" id="5_jqa2g"]
+[ext_resource type="Script" uid="uid://wq2hn4rr7qf1" path="res://stats/character_stat_manager.gd" id="5_pmaai"]
+[ext_resource type="Script" uid="uid://bthslr67752nd" path="res://characters/cloaca.gd" id="6_l5cv3"]
+[ext_resource type="PackedScene" uid="uid://c65pcxntsmjqy" path="res://items/money/penny.tscn" id="7_bd3p1"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wfnr8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b1u1o"]
+albedo_color = Color(0.85882354, 0, 0.65882355, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_px5sl"]
+material = SubResource("StandardMaterial3D_b1u1o")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bclvw"]
+albedo_color = Color(1, 0.23137255, 0.1764706, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_4tcmh"]
+material = SubResource("StandardMaterial3D_bclvw")
+inner_radius = 0.15
+outer_radius = 0.4
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_b1u1o"]
+height = 0.5
+radius = 0.4
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0kpea"]
+height = 2.25
+radius = 0.9
+
+[node name="Customer" type="RigidBody3D" unique_id=1116672603]
+lock_rotation = true
+freeze = true
+script = ExtResource("1_4tcmh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=303792128]
+shape = SubResource("CapsuleShape3D_wfnr8")
+
+[node name="RotationPivot" type="Node3D" parent="." unique_id=664917725]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RotationPivot" unique_id=1739057790]
+mesh = SubResource("CapsuleMesh_px5sl")
+
+[node name="HandRemoteTransform3D" type="RemoteTransform3D" parent="RotationPivot" unique_id=901843108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="RotationPivot" unique_id=178304432]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.55)
+mesh = SubResource("TorusMesh_4tcmh")
+
+[node name="CharacterStatManager" type="Node" parent="." unique_id=1265100376]
+script = ExtResource("5_pmaai")
+base_stats = {
+"air_acceleration": 5.0,
+"jump_impulse": 20.0,
+"speed": 10.0,
+"sprint_multiplier": 1.5
+}
+metadata/_custom_type_script = "uid://wq2hn4rr7qf1"
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="." unique_id=511311796]
+shape = SubResource("CylinderShape3D_b1u1o")
+target_position = Vector3(0, -0.8, 0)
+
+[node name="SuckArea3D" type="Area3D" parent="." unique_id=958013262 node_paths=PackedStringArray("customer", "mouth")]
+script = ExtResource("3_4tcmh")
+customer = NodePath("..")
+mouth = NodePath("../Mouth")
+suck_time = 1.0
+eat_list = Array[String](["res://items/food/hamburger.tscn"])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SuckArea3D" unique_id=1732774292]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 1.5)
+shape = SubResource("CylinderShape3D_0kpea")
+
+[node name="Mouth" type="Node3D" parent="." unique_id=1636409425]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.55)
+
+[node name="Stomach" type="Node3D" parent="." unique_id=1187894305 node_paths=PackedStringArray("colon")]
+script = ExtResource("4_6apfp")
+max_food_capacity = 1.0
+digestion_period_sec = 0.5
+colon = NodePath("../Colon")
+metadata/_custom_type_script = "uid://c48o2jx42ote5"
+
+[node name="Colon" type="Node3D" parent="." unique_id=356156663 node_paths=PackedStringArray("cloaca")]
+script = ExtResource("5_jqa2g")
+max_digested_food_capacity = 1.0
+cloaca = NodePath("../Cloaca")
+metadata/_custom_type_script = "uid://b2bswxfec002i"
+
+[node name="Cloaca" type="Node3D" parent="." unique_id=187387486]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -1)
+script = ExtResource("6_l5cv3")
+poop_scene = ExtResource("7_bd3p1")
+metadata/_custom_type_script = "uid://bthslr67752nd"

@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://bftatpevyqku4"]
+
+[ext_resource type="Script" uid="uid://wufkxb04nnlx" path="res://appliances/garbage_area_3d.gd" id="1_awoep"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vcj3f"]
+top_radius = 0.75
+bottom_radius = 0.75
+height = 1.0
+radial_segments = 8
+cap_top = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n8l78"]
+cull_mode = 2
+albedo_color = Color(0.65834, 0.65834, 0.6583398, 1)
+metallic = 0.79
+metallic_specular = 0.45
+roughness = 0.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_68ot7"]
+height = 0.75
+radius = 0.75
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_m0wng"]
+height = 0.4
+radius = 0.6
+
+[node name="GarbageCan" type="StaticBody3D" unique_id=924699724]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=45357172]
+mesh = SubResource("CylinderMesh_vcj3f")
+surface_material_override/0 = SubResource("StandardMaterial3D_n8l78")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1002702512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
+shape = SubResource("CylinderShape3D_68ot7")
+
+[node name="GarbageArea3D" type="Area3D" parent="." unique_id=220048133]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4409123, 0)
+script = ExtResource("1_awoep")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GarbageArea3D" unique_id=973818728]
+shape = SubResource("CylinderShape3D_m0wng")
+debug_color = Color(1, 0.00345213, 0.09075304, 0.41960785)

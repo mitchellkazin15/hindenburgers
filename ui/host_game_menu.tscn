@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://bac48710arx5v"]
+
+[ext_resource type="Script" uid="uid://b10hx1w8pre82" path="res://ui/components/base_menu.gd" id="1_iglra"]
+[ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="2_cbrgj"]
+[ext_resource type="Script" uid="uid://b5yik3ul64chv" path="res://ui/components/host_game_button.gd" id="4_7wu37"]
+[ext_resource type="Script" uid="uid://6tkmaqi6xnvy" path="res://ui/components/overlay_new_menu_button.gd" id="5_exi1p"]
+[ext_resource type="Script" uid="uid://b6nr4bwo0sewj" path="res://ui/components/quit_game_button.gd" id="5_u6jip"]
+[ext_resource type="Script" uid="uid://b0jqcd5hg303v" path="res://ui/components/start_game_button.gd" id="7_pr58h"]
+[ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="8_cbrgj"]
+[ext_resource type="PackedScene" uid="uid://bwaqfat7e86im" path="res://ui/components/multiplayer_lobby.tscn" id="9_w70bj"]
+
+[node name="HostGameMenu" type="Control" unique_id=659498688 node_paths=PackedStringArray("initial_focus")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iglra")
+initial_focus = NodePath("HBoxContainer/VBoxContainer/HostGameButton")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=211113821]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 54.0
+offset_top = -135.0
+offset_right = 267.0
+offset_bottom = 135.0
+grow_vertical = 2
+theme = ExtResource("2_cbrgj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=135641581]
+layout_mode = 2
+
+[node name="NameFieldTextEdit" type="TextEdit" parent="HBoxContainer/VBoxContainer" unique_id=255597727]
+custom_minimum_size = Vector2(600, 80)
+layout_mode = 2
+placeholder_text = "Name"
+
+[node name="HostGameButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=448485311 node_paths=PackedStringArray("name_field", "lobby", "start_game_button")]
+layout_mode = 2
+text = "start hosting"
+script = ExtResource("4_7wu37")
+name_field = NodePath("../NameFieldTextEdit")
+lobby = NodePath("../../MultiplayerLobby")
+start_game_button = NodePath("../StartGameButton")
+
+[node name="StartGameButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1493427749]
+visible = false
+layout_mode = 2
+text = "start game"
+script = ExtResource("7_pr58h")
+
+[node name="MainMenuButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1987326036]
+layout_mode = 2
+theme = ExtResource("2_cbrgj")
+text = "main menu"
+script = ExtResource("5_exi1p")
+next_scene_path = "uid://dsmlj81cd478x"
+disconnect_multiplayer = true
+metadata/_custom_type_script = "uid://6tkmaqi6xnvy"
+
+[node name="QuitGameButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=809033056]
+layout_mode = 2
+text = "quit game"
+script = ExtResource("5_u6jip")
+
+[node name="MultiplayerLobby" parent="HBoxContainer" unique_id=160545299 instance=ExtResource("9_w70bj")]
+layout_mode = 2
+
+[node name="ScreenScalerComponent" type="Node" parent="HBoxContainer" unique_id=1849786765]
+script = ExtResource("8_cbrgj")
+pivot_offset_x = 0.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"

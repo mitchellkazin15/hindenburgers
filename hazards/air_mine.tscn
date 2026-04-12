@@ -1,0 +1,141 @@
+[gd_scene format=3 uid="uid://djxhnlbuipq3u"]
+
+[ext_resource type="Script" uid="uid://ttxgvbl5kwia" path="res://hazards/air_mine.gd" id="1_qw0yc"]
+[ext_resource type="Material" uid="uid://rls6f7eoqx12" path="res://hazards/air_mine_material_3d.tres" id="1_uqerm"]
+[ext_resource type="Script" uid="uid://beyt3q2wem0sv" path="res://hazards/explosion_area_3d.gd" id="3_b5n4k"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_qw0yc"]
+material = ExtResource("1_uqerm")
+radius = 1.0
+height = 2.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_b5n4k"]
+radius = 6.25
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_itskd"]
+radius = 7.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3cej2"]
+material = ExtResource("1_uqerm")
+top_radius = 0.1
+bottom_radius = 0.1
+height = 2.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3cej2"]
+radius = 50.0
+
+[sub_resource type="Curve" id="Curve_b5n4k"]
+_data = [Vector2(0, 0.7501434), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ijpo3"]
+curve = SubResource("Curve_b5n4k")
+
+[sub_resource type="Gradient" id="Gradient_b5n4k"]
+offsets = PackedFloat32Array(0, 0.17777778)
+colors = PackedColorArray(0.7707027, 0.13537017, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3cej2"]
+gradient = SubResource("Gradient_b5n4k")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3cej2"]
+resource_local_to_scene = true
+lifetime_randomness = 0.25
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+radial_velocity_min = 9.999977
+radial_velocity_max = 19.999977
+gravity = Vector3(0, 0, 0)
+scale_min = 2.5
+scale_max = 10.0
+color_ramp = SubResource("GradientTexture1D_3cej2")
+alpha_curve = SubResource("CurveTexture_ijpo3")
+turbulence_enabled = true
+turbulence_noise_scale = 0.642
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ay0pt"]
+transparency = 3
+alpha_hash_scale = 0.01
+alpha_antialiasing_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.54509807)
+
+[sub_resource type="SphereMesh" id="SphereMesh_itskd"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_ay0pt")
+radius = 1.0
+height = 2.0
+
+[node name="AirMine" type="StaticBody3D" unique_id=426768735]
+script = ExtResource("1_qw0yc")
+metadata/_custom_type_script = "uid://ttxgvbl5kwia"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=358138403]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+mesh = SubResource("SphereMesh_qw0yc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=938613234]
+shape = SubResource("SphereShape3D_b5n4k")
+
+[node name="ContactArea" type="Area3D" parent="." unique_id=1330081959]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ContactArea" unique_id=148735013]
+shape = SubResource("SphereShape3D_itskd")
+debug_color = Color(0.76940835, 0.44592464, 9.62615e-07, 0.41960785)
+
+[node name="Spikes" type="Node3D" parent="." unique_id=1309217540]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Spikes" unique_id=1977929984]
+mesh = SubResource("CylinderMesh_3cej2")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Spikes" unique_id=637785190]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_3cej2")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Spikes" unique_id=1691442730]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, 0, 0, 0)
+mesh = SubResource("CylinderMesh_3cej2")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Spikes" unique_id=582933810]
+transform = Transform3D(-4.371139e-08, 0.70710677, 0.70710677, 0, 0.70710677, -0.70710677, -1, -3.090862e-08, -3.090862e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_3cej2")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Spikes" unique_id=683746691]
+transform = Transform3D(1, 0, 0, 0, 0.7071067, -0.7071067, 0, 0.7071067, 0.7071067, 0, 0, 0)
+mesh = SubResource("CylinderMesh_3cej2")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Spikes" unique_id=1096571809]
+transform = Transform3D(-4.371139e-08, -0.7071067, -0.7071067, 0, 0.7071067, -0.7071067, 1, -3.0908616e-08, -3.0908616e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_3cej2")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Spikes" unique_id=1587427957]
+transform = Transform3D(-1, -6.181723e-08, -6.181723e-08, 0, 0.7071067, -0.7071067, 8.742278e-08, -0.7071067, -0.7071067, 0, 0, 0)
+mesh = SubResource("CylinderMesh_3cej2")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Spikes" unique_id=281344165]
+transform = Transform3D(0.70710677, 0.7071067, -3.0908616e-08, 0, -4.3711385e-08, -0.9999999, -0.70710677, 0.7071067, -3.0908616e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_3cej2")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="Spikes" unique_id=96232499]
+transform = Transform3D(0.7071067, -0.7071067, 3.0908616e-08, 0, -4.3711385e-08, -0.9999999, 0.7071067, 0.7071067, -3.0908616e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_3cej2")
+
+[node name="ExplosionArea3D" type="Area3D" parent="." unique_id=1736852630]
+script = ExtResource("3_b5n4k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExplosionArea3D" unique_id=721462753]
+shape = SubResource("SphereShape3D_3cej2")
+debug_color = Color(0.9573023, 0, 0.5359123, 0.41960785)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=1707541549]
+emitting = false
+amount = 100
+lifetime = 5.0
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB(-50, -50, -50, 100, 100, 100)
+process_material = SubResource("ParticleProcessMaterial_3cej2")
+draw_pass_1 = SubResource("SphereMesh_itskd")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=58114634]
