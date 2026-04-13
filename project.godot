@@ -21,6 +21,9 @@ EventService="*uid://c5mhetl76gyya"
 MultiplayerManager="*uid://gbedovc7j4vw"
 StopwatchManager="*uid://bghgvnasj8o5g"
 RigidBodySyncManager="*uid://daeeso1gae7yk"
+PauseScreen="*uid://dtqv5k8vqbqpp"
+Settings="*uid://cf1i1fw5gorn3"
+SettingsScreen="*uid://cntsivp2ndb77"
 
 [display]
 
@@ -32,6 +35,12 @@ player_spawn="Node3D whose position can be used to spawn a player"
 
 [input]
 
+ui_accept={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194309,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194310,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
 move_up={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":119,"location":0,"echo":false,"script":null)

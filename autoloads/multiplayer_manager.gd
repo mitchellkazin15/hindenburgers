@@ -136,7 +136,7 @@ func add_node_to_spawner(node : Node3D, position : Vector3):
 
 
 func _physics_process(delta: float) -> void:
-	if not multiplayer.is_server() or multiplayer.multiplayer_peer is OfflineMultiplayerPeer:
+	if not multiplayer.multiplayer_peer or not multiplayer.is_server() or multiplayer.multiplayer_peer is OfflineMultiplayerPeer:
 		return
 	if stats_timer.time_left > 0.0:
 		return

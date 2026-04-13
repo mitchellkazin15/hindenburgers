@@ -355,6 +355,7 @@ texture_progress = ExtResource("19_3t8uj")
 
 [node name="ScreenScalerComponent" type="Node" parent="HUD/UseChargeBar" unique_id=193091116]
 script = ExtResource("11_eho78")
+preserve_y = false
 pivot_offset_x = 1.0
 pivot_offset_y = 1.0
 metadata/_custom_type_script = "uid://cetvkhqp7tx0b"

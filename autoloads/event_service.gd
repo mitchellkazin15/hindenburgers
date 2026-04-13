@@ -4,6 +4,8 @@ enum GameState {MENU, IN_GAME}
 
 signal quit_game
 signal change_menu_overlay(menu_path)
+signal change_scene(scene_path)
+signal change_settings_overlay_state(show : bool)
 signal start_game(game_info : Dictionary)
 signal load_multiplayer_level
 
@@ -15,6 +17,8 @@ func _ready():
 	state = GameState.MENU
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	change_menu_overlay.connect(_change_menu)
+	change_scene.connect(_on_changed_scene)
+	change_settings_overlay_state.connect(_change_settings_overlay_state)
 	start_game.connect(_start_game)
 	load_multiplayer_level.connect(_on_load_multiplayer_level)
 	quit_game.connect(_quit_game)
@@ -27,17 +31,42 @@ func _change_menu(menu_path):
 			return
 
 
+func _on_changed_scene(scene_path : String):
+	if scene_path.contains("ui") or scene_path.contains("menu"):
+		state = GameState.MENU
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		PauseScreen.hide_menu()
+	get_tree().change_scene_to_packed(load(scene_path))
+
+
+func _change_settings_overlay_state(show : bool):
+	if show:
+		SettingsScreen.show()
+		SettingsScreen.process_mode = ProcessMode.PROCESS_MODE_ALWAYS
+	else:
+		SettingsScreen.hide()
+		SettingsScreen.process_mode = ProcessMode.PROCESS_MODE_DISABLED
+
+
 func _start_game(info):
 	get_tree().change_scene_to_packed(load("res://multiplayer/multiplayer_base_scene.tscn"))
 
 
-func _input(event):
+func _unhandled_input(event: InputEvent) -> void:
 	if state == GameState.MENU:
 		return
-	if event.is_action_pressed("left_click"):
+	if event.is_action_pressed("left_click") and not PauseScreen.displayed:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if event.is_action_pressed("exit"):
+		handle_in_game_menu_change()
+
+
+func handle_in_game_menu_change():
+	PauseScreen.pause_state_changed()
+	if PauseScreen.displayed:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
 func _on_load_multiplayer_level():

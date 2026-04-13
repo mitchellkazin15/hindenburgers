@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://6tkmaqi6xnvy" path="res://ui/components/overlay_new_menu_button.gd" id="3_4psj8"]
 [ext_resource type="Script" uid="uid://b6nr4bwo0sewj" path="res://ui/components/quit_game_button.gd" id="3_vj6re"]
 [ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="4_dacvo"]
+[ext_resource type="Script" uid="uid://rrmpyei3laxx" path="res://ui/components/settings_menu_button.gd" id="4_l3ffj"]
 
 [node name="TitleMenu" type="Control" unique_id=149794967 node_paths=PackedStringArray("initial_focus")]
 layout_mode = 3
@@ -46,6 +47,12 @@ text = "join game"
 script = ExtResource("3_4psj8")
 next_scene_path = "uid://doy2mv4pyywlx"
 metadata/_custom_type_script = "uid://6tkmaqi6xnvy"
+
+[node name="SettingsMenuButton" type="Button" parent="VBoxContainer" unique_id=1440089794]
+layout_mode = 2
+text = "settings"
+script = ExtResource("4_l3ffj")
+metadata/_custom_type_script = "uid://rrmpyei3laxx"
 
 [node name="QuitGameButton" type="Button" parent="VBoxContainer" unique_id=1381113512]
 layout_mode = 2

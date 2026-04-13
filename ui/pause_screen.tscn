@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://dtqv5k8vqbqpp"]
+
+[ext_resource type="Script" uid="uid://dgpgk6x2vmey5" path="res://autoloads/pause_screen.gd" id="1_4lxnp"]
+[ext_resource type="Script" uid="uid://bkkiktgfh53qm" path="res://ui/components/pause_menu.gd" id="2_pcfgi"]
+[ext_resource type="Script" uid="uid://bmyr8nmvkiwej" path="res://ui/components/open_new_scene_button.gd" id="2_pyns1"]
+[ext_resource type="Script" uid="uid://b6nr4bwo0sewj" path="res://ui/components/quit_game_button.gd" id="3_dg1bm"]
+[ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="3_pcfgi"]
+[ext_resource type="Script" uid="uid://ch0vtm1q8hxxh" path="res://ui/resume_button.gd" id="4_pcfgi"]
+[ext_resource type="Script" uid="uid://43xpmuf1denx" path="res://ui/components/save_game_button.gd" id="5_1gduw"]
+[ext_resource type="Script" uid="uid://rrmpyei3laxx" path="res://ui/components/settings_menu_button.gd" id="8_1gduw"]
+[ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="9_1gduw"]
+
+[node name="PauseScreen" type="CanvasLayer" unique_id=1628201489]
+script = ExtResource("1_4lxnp")
+
+[node name="PauseMenu" type="Control" parent="." unique_id=361356309 node_paths=PackedStringArray("secondary_focus", "initial_focus")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("2_pcfgi")
+secondary_focus = NodePath("VBoxContainer/ResumeButton")
+initial_focus = NodePath("VBoxContainer/ResumeButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu" unique_id=1576690090]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -50.5
+offset_right = 48.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/VBoxContainer" unique_id=993408235]
+layout_mode = 2
+focus_neighbor_top = NodePath("../QuitGameButton")
+mouse_filter = 1
+theme = ExtResource("3_pcfgi")
+text = "resume"
+script = ExtResource("4_pcfgi")
+
+[node name="SaveGameButton" type="Button" parent="PauseMenu/VBoxContainer" unique_id=1936187661]
+layout_mode = 2
+theme = ExtResource("3_pcfgi")
+text = "save game"
+script = ExtResource("5_1gduw")
+metadata/_custom_type_script = "uid://43xpmuf1denx"
+
+[node name="MainMenuButton" type="Button" parent="PauseMenu/VBoxContainer" unique_id=931873646]
+layout_mode = 2
+mouse_filter = 1
+theme = ExtResource("3_pcfgi")
+text = "main menu"
+script = ExtResource("2_pyns1")
+next_scene_path = "uid://d68awp30sg5d"
+
+[node name="SettingsButton" type="Button" parent="PauseMenu/VBoxContainer" unique_id=1482530331]
+layout_mode = 2
+theme = ExtResource("3_pcfgi")
+text = "settings"
+script = ExtResource("8_1gduw")
+
+[node name="QuitGameButton" type="Button" parent="PauseMenu/VBoxContainer" unique_id=1137859611]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../ResumeButton")
+mouse_filter = 1
+theme = ExtResource("3_pcfgi")
+text = "quit game"
+script = ExtResource("3_dg1bm")
+
+[node name="ScreenScalerComponent" type="Node" parent="PauseMenu/VBoxContainer" unique_id=644722026]
+script = ExtResource("9_1gduw")
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
