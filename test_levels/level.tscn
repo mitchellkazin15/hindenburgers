@@ -5,17 +5,17 @@
 [ext_resource type="PackedScene" uid="uid://cxmv04r35emag" path="res://vehicles/blimp.tscn" id="2_41kie"]
 [ext_resource type="PackedScene" uid="uid://cx82doy6u2wvc" path="res://hazards/wind_box.tscn" id="2_ih737"]
 [ext_resource type="Script" uid="uid://cww7byljmt284" path="res://test_levels/player_spawn.gd" id="3_ih737"]
-[ext_resource type="PackedScene" uid="uid://de20king28rr0" path="res://items/food/hamburger.tscn" id="3_vmtoy"]
 [ext_resource type="Material" uid="uid://c246ja83fjkrm" path="res://test_levels/hangar_material.tres" id="4_8mm68"]
 [ext_resource type="PackedScene" uid="uid://bbqknpjnqy3ym" path="res://items/tools/spatula.tscn" id="4_41kie"]
+[ext_resource type="PackedScene" uid="uid://vg6pdbix5lar" path="res://items/food/bottom_bun.tscn" id="5_abttm"]
 [ext_resource type="PackedScene" uid="uid://djxhnlbuipq3u" path="res://hazards/air_mine.tscn" id="6_wo617"]
 [ext_resource type="PackedScene" uid="uid://cf2jt4onq048j" path="res://items/tools/golf_club.tscn" id="7_t0syv"]
 [ext_resource type="PackedScene" uid="uid://bftatpevyqku4" path="res://appliances/garbage_can.tscn" id="8_crff7"]
 [ext_resource type="PackedScene" uid="uid://t3bu3188qlo8" path="res://vehicles/pogo_stick.tscn" id="9_5hd3n"]
 [ext_resource type="PackedScene" uid="uid://bdf1caegn8tx6" path="res://items/food/drugs/joint.tscn" id="11_cmq22"]
 [ext_resource type="PackedScene" uid="uid://mi6drwxajht8" path="res://items/food/drugs/beer.tscn" id="12_84sbf"]
-[ext_resource type="PackedScene" uid="uid://c65pcxntsmjqy" path="res://items/money/penny.tscn" id="12_iq2tn"]
 [ext_resource type="PackedScene" uid="uid://rq35fe5i75wv" path="res://items/food/drugs/meth.tscn" id="13_3eukq"]
+[ext_resource type="Script" uid="uid://dvv1qhiaxhbwi" path="res://multiplayer/auto_spawner.gd" id="13_abttm"]
 [ext_resource type="PackedScene" uid="uid://bvvy0cnyej4eb" path="res://appliances/economic/atm.tscn" id="13_epacb"]
 [ext_resource type="PackedScene" uid="uid://cy1pb3tm032du" path="res://items/food/drugs/shroom.tscn" id="14_ngvrc"]
 [ext_resource type="PackedScene" uid="uid://blqptiqj38sch" path="res://appliances/economic/vending_machine.tscn" id="15_04f7n"]
@@ -112,6 +112,15 @@ transform = Transform3D(37.093323, 0, 0, 0, 8, 0, 0, 0, 4.6800003, -44, 51, 9)
 transform = Transform3D(6.38, 0, 0, 0, 8, 0, 0, 0, 4.6800003, -76.24, 42, 3)
 size = Vector3(5, 1, 1)
 
+[node name="HideTestBlimpBox" type="CSGBox3D" parent="CSGCombiner3D" unique_id=837777272]
+transform = Transform3D(6.38, 0, 0, 0, 8, 0, 0, 0, 4.6800003, 111.481415, -98.528244, -8.048243)
+size = Vector3(56.1933, 12.161255, 100.80266)
+
+[node name="HideTestBlimpBox2" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1866570362]
+transform = Transform3D(6.38, 0, 0, 0, 8, 0, 0, 0, 4.6800003, 109.492966, -98.528244, -5.6211185)
+operation = 2
+size = Vector3(45.19194, 12.161255, 91.44429)
+
 [node name="CSGBox3D5" type="CSGBox3D" parent="CSGCombiner3D" unique_id=337138713]
 transform = Transform3D(12.818001, 0, 0, 0, 8, 0, 0, 0, 9.360001, -103, 13, -43)
 
@@ -133,77 +142,136 @@ transform = Transform3D(0.70710677, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, 0.7071
 wind_force = 200.0
 
 [node name="TestBlimps" type="Node3D" parent="." unique_id=1844392642]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -177.23016, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -147.38663, 0)
 
 [node name="BlimpNItems" type="Node3D" parent="TestBlimps" unique_id=1475445606]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 39.72332, 21.529175, -173.20929)
 
-[node name="Blimp4" parent="TestBlimps/BlimpNItems" unique_id=1012882203 instance=ExtResource("2_41kie")]
+[node name="BlimpAutoSpawner" type="Node3D" parent="TestBlimps/BlimpNItems" unique_id=219959083]
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("2_41kie")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty8" parent="TestBlimps/BlimpNItems" unique_id=461039982 instance=ExtResource("18_8auyx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -3.3551464, -16.825003, -1.5507355)
+[node name="BunAutoSpawner" type="Node3D" parent="TestBlimps/BlimpNItems" unique_id=186073654]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -3.3551445, -16.824997, -1.5507355)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("5_abttm")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty9" parent="TestBlimps/BlimpNItems" unique_id=1838797573 instance=ExtResource("18_8auyx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -3.2436829, -16.825003, 1.0747299)
+[node name="BunAutoSpawner2" type="Node3D" parent="TestBlimps/BlimpNItems" unique_id=233054638]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -3.2436829, -16.824997, 1.0747223)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("5_abttm")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty10" parent="TestBlimps/BlimpNItems" unique_id=273150073 instance=ExtResource("18_8auyx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.2921963, -16.825003, -0.21230316)
+[node name="PattyAutoSpawner" type="Node3D" parent="TestBlimps/BlimpNItems" unique_id=1210045744]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.2921982, -16.824997, -0.21231079)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("18_8auyx")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Spatula10" parent="TestBlimps/BlimpNItems" unique_id=1977319421 instance=ExtResource("4_41kie")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.8929825, -16.850002, 1.7357941)
+[node name="SpatulaAutoSpawner" type="Node3D" parent="TestBlimps/BlimpNItems" unique_id=972274336]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.8929825, -16.850006, 1.7357941)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("4_41kie")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Spatula11" parent="TestBlimps/BlimpNItems" unique_id=1087532584 instance=ExtResource("4_41kie")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1.3725548, -16.850002, 1.680542)
+[node name="SpatulaAutoSpawner2" type="Node3D" parent="TestBlimps/BlimpNItems" unique_id=1822861092]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1.3725548, -16.850006, 1.680542)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("4_41kie")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty11" parent="TestBlimps/BlimpNItems" unique_id=1710163169 instance=ExtResource("18_8auyx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2.0200768, -16.825, -0.34754944)
+[node name="PattyAutoSpawner2" type="Node3D" parent="TestBlimps/BlimpNItems" unique_id=1313792613]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2.0200768, -16.824997, -0.34754944)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("18_8auyx")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty12" parent="TestBlimps/BlimpNItems" unique_id=102304003 instance=ExtResource("18_8auyx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2.7592545, -16.825, 0.98934937)
+[node name="BunAutoSpawner3" type="Node3D" parent="TestBlimps/BlimpNItems" unique_id=602455300]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2.7592545, -16.824997, 0.98934937)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("5_abttm")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty13" parent="TestBlimps/BlimpNItems" unique_id=895687806 instance=ExtResource("18_8auyx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 3.278779, -16.824999, -1.6743393)
+[node name="BunAutoSpawner4" type="Node3D" parent="TestBlimps/BlimpNItems" unique_id=361677365]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 3.278778, -16.824997, -1.6743317)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("5_abttm")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Grill2" parent="TestBlimps/BlimpNItems" unique_id=1644082996 instance=ExtResource("17_61pkr")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.0062732697, -16.425, -0.7014313)
+[node name="GrillAutoSpawner" type="Node3D" parent="TestBlimps/BlimpNItems" unique_id=1864811681]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.0062713623, -16.425003, -0.7014313)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("17_61pkr")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="BlimpNItems2" type="Node3D" parent="TestBlimps" unique_id=398647489]
+[node name="ZeppNItems" type="Node3D" parent="TestBlimps" unique_id=398647489]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 39.72332, 33.532684, 38.678856)
 
-[node name="Zeppelin" parent="TestBlimps/BlimpNItems2" unique_id=1992139785 instance=ExtResource("18_r28pc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.107868, 0)
+[node name="ZeppelinAutoSpawner" type="Node3D" parent="TestBlimps/ZeppNItems" unique_id=1205209376]
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("18_r28pc")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty8" parent="TestBlimps/BlimpNItems2" unique_id=1264862515 instance=ExtResource("18_8auyx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -3.3551464, -16.825003, -1.5507355)
+[node name="BunAutoSpawner" type="Node3D" parent="TestBlimps/ZeppNItems" unique_id=1498212388]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -3.3551445, -16.824997, -1.5507355)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("5_abttm")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty9" parent="TestBlimps/BlimpNItems2" unique_id=445661283 instance=ExtResource("18_8auyx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -3.2436829, -16.825003, 1.0747299)
+[node name="BunAutoSpawner2" type="Node3D" parent="TestBlimps/ZeppNItems" unique_id=346767664]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -3.2436829, -16.824997, 1.0747223)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("5_abttm")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty10" parent="TestBlimps/BlimpNItems2" unique_id=1610548969 instance=ExtResource("18_8auyx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.2921963, -16.825003, -0.21230316)
+[node name="PattyAutoSpawner" type="Node3D" parent="TestBlimps/ZeppNItems" unique_id=2036876254]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.2921982, -16.824997, -0.21231079)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("18_8auyx")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Spatula10" parent="TestBlimps/BlimpNItems2" unique_id=560369241 instance=ExtResource("4_41kie")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.8929825, -16.850002, 1.7357941)
+[node name="SpatulaAutoSpawner" type="Node3D" parent="TestBlimps/ZeppNItems" unique_id=809461225]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.8929825, -16.850006, 1.7357941)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("4_41kie")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Spatula11" parent="TestBlimps/BlimpNItems2" unique_id=345548732 instance=ExtResource("4_41kie")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1.3725548, -16.850002, 1.680542)
+[node name="SpatulaAutoSpawner2" type="Node3D" parent="TestBlimps/ZeppNItems" unique_id=1081932483]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1.3725548, -16.850006, 1.680542)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("4_41kie")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty11" parent="TestBlimps/BlimpNItems2" unique_id=480300377 instance=ExtResource("18_8auyx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2.0200768, -16.825, -0.34754944)
+[node name="PattyAutoSpawner2" type="Node3D" parent="TestBlimps/ZeppNItems" unique_id=670567211]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2.0200768, -16.824997, -0.34754944)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("18_8auyx")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty12" parent="TestBlimps/BlimpNItems2" unique_id=497516837 instance=ExtResource("18_8auyx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2.7592545, -16.825, 0.98934937)
+[node name="BunAutoSpawner3" type="Node3D" parent="TestBlimps/ZeppNItems" unique_id=2131610962]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2.7592545, -16.824997, 0.98934937)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("5_abttm")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty13" parent="TestBlimps/BlimpNItems2" unique_id=1448214710 instance=ExtResource("18_8auyx")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 3.278779, -16.824999, -1.6743393)
+[node name="BunAutoSpawner4" type="Node3D" parent="TestBlimps/ZeppNItems" unique_id=1095574618]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 3.278778, -16.824997, -1.6743317)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("5_abttm")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Grill2" parent="TestBlimps/BlimpNItems2" unique_id=1928158477 instance=ExtResource("17_61pkr")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.0062732697, -16.425, -0.7014313)
+[node name="GrillAutoSpawner" type="Node3D" parent="TestBlimps/ZeppNItems" unique_id=2088478328]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.0062713623, -16.425003, -0.7014313)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("17_61pkr")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
 [node name="CSGBox3D" type="CSGBox3D" parent="TestBlimps" unique_id=342108703]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 120.567604, 0.30664063, -36.065006)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 120.567604, 0.30664063, -7.528126)
 use_collision = true
-size = Vector3(342.47473, 2.1791992, 374.248)
+size = Vector3(342.47473, 2.1791992, 431.32175)
 
 [node name="Hangar" type="CSGCombiner3D" parent="." unique_id=772529921]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 16)
@@ -381,6 +449,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 343.92764, 32.989014, -430.44
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 345.33377, 30.889557, -405.5758)
 
 [node name="SpawnGrouping" type="Node3D" parent="." unique_id=1652182979]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
 [node name="PlayerSpawn" type="Node3D" parent="SpawnGrouping" unique_id=1622750607 groups=["player_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 2, -10)
@@ -416,39 +485,6 @@ script = ExtResource("3_ih737")
 
 [node name="Items" type="Node3D" parent="." unique_id=1053376266]
 
-[node name="Hamburger2" parent="Items" unique_id=605657044 instance=ExtResource("3_vmtoy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105, 20, -41)
-
-[node name="Hamburger" parent="Items" unique_id=1857258167 instance=ExtResource("3_vmtoy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -106, 21, -43.70673)
-
-[node name="Spatula" parent="Items" unique_id=1827875821 instance=ExtResource("4_41kie")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47, -1, -9)
-
-[node name="Spatula2" parent="Items" unique_id=2031609996 instance=ExtResource("4_41kie")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, -1, -9)
-
-[node name="Spatula3" parent="Items" unique_id=1496282361 instance=ExtResource("4_41kie")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49, -1, -9)
-
-[node name="Spatula4" parent="Items" unique_id=2087381217 instance=ExtResource("4_41kie")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, -1, -9)
-
-[node name="Spatula5" parent="Items" unique_id=1878800961 instance=ExtResource("4_41kie")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47, -1, -6)
-
-[node name="Spatula6" parent="Items" unique_id=1746658352 instance=ExtResource("4_41kie")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46, -1, -6)
-
-[node name="Spatula7" parent="Items" unique_id=546132278 instance=ExtResource("4_41kie")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, -1, -6)
-
-[node name="Spatula8" parent="Items" unique_id=546805765 instance=ExtResource("4_41kie")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, -1, -6)
-
-[node name="Spatula9" parent="Items" unique_id=1522662412 instance=ExtResource("4_41kie")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, -1, -6)
-
 [node name="AirMine2" parent="Items" unique_id=1938083194 instance=ExtResource("6_wo617")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 143.86282, 121.22266, 454.70163)
 
@@ -476,17 +512,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 91.285355, 294.6717, -1313.86
 [node name="AirMine9" parent="Items" unique_id=1469478895 instance=ExtResource("6_wo617")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 114.73816, 294.6717, -1312.3569)
 
-[node name="Beer" parent="Items" unique_id=840929404 instance=ExtResource("12_84sbf")]
+[node name="BeerAutoSpawner" type="Node3D" parent="Items" unique_id=1329680132]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.425396, -1.1065391, 15.685037)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("12_84sbf")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Beer2" parent="Items" unique_id=651858659 instance=ExtResource("12_84sbf")]
+[node name="BeerAutoSpawner2" type="Node3D" parent="Items" unique_id=1086568563]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.520386, -1.1065379, 16.58732)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("12_84sbf")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Beer3" parent="Items" unique_id=803055224 instance=ExtResource("12_84sbf")]
+[node name="BeerAutoSpawner3" type="Node3D" parent="Items" unique_id=1835457123]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.365993, -1.1065365, 15.190679)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("12_84sbf")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Beer4" parent="Items" unique_id=1386816533 instance=ExtResource("12_84sbf")]
+[node name="BeerAutoSpawner4" type="Node3D" parent="Items" unique_id=215400427]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.609673, -1.1065377, 13.566701)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("12_84sbf")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
 [node name="VendingMachine" parent="Items" unique_id=890026574 instance=ExtResource("15_04f7n")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.558586, 0.25217342, 51.03506)
@@ -496,12 +544,12 @@ price = 2.0
 [node name="VendingMachine5" parent="Items" unique_id=180238338 instance=ExtResource("15_04f7n")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.604748, 0.25217342, -3.2696955)
 item = ExtResource("4_41kie")
-price = 2.0
+price = 0.0
 
 [node name="VendingMachine6" parent="Items" unique_id=1938378046 instance=ExtResource("15_04f7n")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.604748, 0.25217342, -0.4679196)
 item = ExtResource("20_wvaym")
-price = 2.0
+price = 0.0
 
 [node name="VendingMachine7" parent="Items" unique_id=981076154 instance=ExtResource("15_04f7n")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.604748, 0.25217342, -39.127983)
@@ -542,62 +590,23 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.
 item = ExtResource("14_ngvrc")
 price = 50.0
 
-[node name="Grill" parent="Items" unique_id=1957566051 instance=ExtResource("17_61pkr")]
+[node name="GrillAutoSpawner" type="Node3D" parent="Items" unique_id=2059722723]
 transform = Transform3D(-0.020924991, 0, -0.9997811, 0, 1, 0, 0.9997811, 0, -0.020924991, -41.171745, -0.76830184, 0.7446251)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("17_61pkr")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Patty" parent="Items" unique_id=2087272741 instance=ExtResource("18_8auyx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.52771, -1.2065327, -0.48538685)
-
-[node name="Patty2" parent="Items" unique_id=1191126389 instance=ExtResource("18_8auyx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.66958, -1.2065365, 0.9555292)
-
-[node name="Patty3" parent="Items" unique_id=1740876723 instance=ExtResource("18_8auyx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.776997, -1.2065413, 2.4759455)
-
-[node name="Patty4" parent="Items" unique_id=545729800 instance=ExtResource("18_8auyx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.81388, -1.2065337, -1.8197508)
-
-[node name="Patty5" parent="Items" unique_id=2034429518 instance=ExtResource("18_8auyx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.634865, -1.2065394, -1.8928404)
-
-[node name="Patty6" parent="Items" unique_id=1793848428 instance=ExtResource("18_8auyx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.163372, -1.206528, -0.7046156)
-
-[node name="Patty7" parent="Items" unique_id=878654574 instance=ExtResource("18_8auyx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.353855, -1.2065327, 0.40376472)
-
-[node name="Cow" parent="Items" unique_id=101706065 instance=ExtResource("19_yn5yk")]
+[node name="CowAutoSpawner" type="Node3D" parent="Items" unique_id=659410357]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.59753, -0.25654304, 10.83713)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("19_yn5yk")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
-[node name="Knife" parent="Items" unique_id=1545214784 instance=ExtResource("20_wvaym")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, -1, 4)
-
-[node name="Knife2" parent="Items" unique_id=1499428017 instance=ExtResource("20_wvaym")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, -1, 4)
-
-[node name="Knife3" parent="Items" unique_id=969828607 instance=ExtResource("20_wvaym")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, -1, 5)
-
-[node name="Knife4" parent="Items" unique_id=1246255439 instance=ExtResource("20_wvaym")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, -1, 5)
-
-[node name="Coin2" parent="Items" unique_id=272798609 instance=ExtResource("21_wqgis")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.78604, 55.07734, 8.593466)
-
-[node name="Dime" parent="Items" unique_id=2017329257 instance=ExtResource("22_on3nk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.69437, 55.025, 8.524173)
-
-[node name="Coin" parent="Items" unique_id=1975701546 instance=ExtResource("12_iq2tn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.380432, 0, -7.108453)
-
-[node name="FiveDollar" parent="Items" unique_id=113587516 instance=ExtResource("26_mt3wb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.90987, 1108.4753, -1407.9313)
-
-[node name="TenDollar" parent="Items" unique_id=1484732576 instance=ExtResource("27_ginh7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.90987, 1108.4753, -1408.8385)
-
-[node name="Penny" parent="Items" unique_id=426319840 instance=ExtResource("26_3shqq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.90987, 1108.4753, -1406.9313)
+[node name="BreadAutoSpawner" type="Node3D" parent="Items" unique_id=58514989]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.067253, -0.25658023, 17.162416)
+script = ExtResource("13_abttm")
+spawn_scene = ExtResource("34_abttm")
+metadata/_custom_type_script = "uid://dvv1qhiaxhbwi"
 
 [node name="Customers" type="Node3D" parent="." unique_id=1900844280]
 
@@ -632,6 +641,3 @@ transform = Transform3D(-0.9997662, 0, 0.02162303, 0, 1, 0, -0.02162303, 0, -0.9
 
 [node name="GarbageCan" parent="." unique_id=924699724 instance=ExtResource("8_crff7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.85982, -0.68173385, -27.705553)
-
-[node name="Bread" parent="." unique_id=391556525 instance=ExtResource("34_abttm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.067253, -0.25658023, 17.162416)

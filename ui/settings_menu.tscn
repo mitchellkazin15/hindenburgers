@@ -7,38 +7,39 @@
 [ext_resource type="Script" uid="uid://t8po5jkg6d65" path="res://ui/components/menu_tab_button.gd" id="4_dnjoo"]
 [ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="6_dnjoo"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_04vxn"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ap6h8"]
 noise_type = 2
-seed = 893849
-frequency = 0.003
-cellular_return_type = 6
-domain_warp_type = 2
+seed = 1
+frequency = 0.0437
+cellular_distance_function = 1
+cellular_jitter = 10.0
+cellular_return_type = 5
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ly6gr"]
-width = 1920
-height = 1080
-noise = SubResource("FastNoiseLite_04vxn")
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1bvp3"]
+noise = SubResource("FastNoiseLite_ap6h8")
 seamless = true
 
-[sub_resource type="Curve" id="Curve_d4e8y"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.109467, 1), -38.2231, -38.2231, 0, 0, Vector2(0.751479, 0.00353003), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 4
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jpwvl"]
+noise_type = 4
+seed = 1
+fractal_weighted_strength = 1.0
 
-[sub_resource type="CurveTexture" id="CurveTexture_vnmga"]
-curve = SubResource("Curve_d4e8y")
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7mycd"]
+noise = SubResource("FastNoiseLite_jpwvl")
+seamless = true
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dnjoo"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_23nap"]
 shader = ExtResource("2_k80kj")
-shader_parameter/noise_texture = SubResource("NoiseTexture2D_ly6gr")
-shader_parameter/noise_texture2 = SubResource("CurveTexture_vnmga")
-shader_parameter/first_color = Color(0.849191, 0, 0.147646, 1)
-shader_parameter/second_color = Color(0.149684, 0.476809, 0.805241, 1)
-shader_parameter/first_rotation_freq = 0.66
-shader_parameter/first_growth_freq = 0.43
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_1bvp3")
+shader_parameter/noise_texture2 = SubResource("NoiseTexture2D_7mycd")
+shader_parameter/first_color = Color(0.75686276, 0, 0, 1)
+shader_parameter/second_color = Color(0.6627451, 1, 0, 1)
+shader_parameter/first_rotation_freq = 0.5
+shader_parameter/first_growth_freq = 0.5
 shader_parameter/first_growth_amp = 0.5
-shader_parameter/second_velocity = Vector2(-0.15, 0)
+shader_parameter/second_velocity = Vector2(0.1, 0)
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_psssh"]
+[sub_resource type="CanvasTexture" id="CanvasTexture_s4y56"]
 
 [node name="SettingsMenu" type="CanvasLayer" unique_id=951224500 node_paths=PackedStringArray("initial_tab")]
 process_mode = 4
@@ -46,12 +47,12 @@ layer = 2
 script = ExtResource("1_k80kj")
 initial_tab = NodePath("TabContainer/AudioSettings")
 
-[node name="Background" type="TextureRect" parent="." unique_id=2023098709]
+[node name="Background" type="TextureRect" parent="." unique_id=432513612]
 z_index = -1
-material = SubResource("ShaderMaterial_dnjoo")
+material = SubResource("ShaderMaterial_23nap")
 offset_right = 1920.0
 offset_bottom = 1080.0
-texture = SubResource("CanvasTexture_psssh")
+texture = SubResource("CanvasTexture_s4y56")
 script = ExtResource("3_d4e8y")
 metadata/_custom_type_script = "uid://d1a8jijjof1ld"
 
@@ -69,13 +70,15 @@ pivot_offset_y = 0.0
 metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
 
 [node name="TabContainer" type="HBoxContainer" parent="." unique_id=1757052027]
-anchors_preset = 5
+anchors_preset = -1
 anchor_left = 0.5
+anchor_top = 0.18200001
 anchor_right = 0.5
+anchor_bottom = 0.18200001
 offset_left = -586.0
-offset_top = 180.0
+offset_top = 62.063995
 offset_right = 586.0
-offset_bottom = 251.0
+offset_bottom = 133.064
 grow_horizontal = 2
 theme = ExtResource("4_d4e8y")
 

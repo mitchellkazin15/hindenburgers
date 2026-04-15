@@ -10,6 +10,8 @@ var mouse_sensitivity = 0.25
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if MultiplayerManager.safe_is_multiplayer_authority(self):
+		
 	if not is_multiplayer_authority():
 		return
 	if not current:

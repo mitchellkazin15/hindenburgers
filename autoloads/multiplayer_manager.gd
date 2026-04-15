@@ -71,11 +71,11 @@ func start_game_for_peers(game_info):
 @rpc("any_peer", "call_local", "reliable")
 func player_loaded():
 	print("player_loaded: ", multiplayer.get_unique_id())
-	if multiplayer.is_server():
-		players_loaded += 1
-		if players_loaded == players.size():
-			EventService.load_multiplayer_level.emit()
-			players_loaded = 0
+	#if multiplayer.is_server() and EventService.state != EventService.GameState.IN_GAME:
+		#players_loaded += 1
+		#if players_loaded == players.size():
+			#EventService.load_multiplayer_level.emit()
+			#players_loaded = 0
 
 
 # When a peer connects, send them my player info.
@@ -90,9 +90,13 @@ func _register_player(new_player_info):
 	var new_player_id = multiplayer.get_remote_sender_id()
 	players[new_player_id] = new_player_info
 	player_connected.emit(new_player_id, new_player_info)
+	if multiplayer.is_server() and EventService.state == EventService.GameState.IN_GAME:
+		EventService.load_in_progress_state_for_peer.emit(new_player_id)
+		EventService.spawn_new_player(new_player_id, players.size())
 
 
 func _on_player_disconnected(id):
+	print("player disconnected: ", id)
 	players.erase(id)
 	player_disconnected.emit(id)
 
@@ -108,43 +112,46 @@ func _on_connected_fail():
 
 
 func _on_server_disconnected():
+	print("server disconnected")
+	EventService.return_all_peers_to_menu()
+	EventService.clear_level_root()
 	multiplayer.multiplayer_peer = null
 	players.clear()
-	server_disconnected.emit()
 
 
 func broadcast_queue_free(node : Node):
-	_free_node_on_all_peers.rpc(node.get_path())
-
-
-@rpc("any_peer", "call_local", "reliable")
-func _free_node_on_all_peers(node_path):
-	var free_item = EventService.get_node(node_path)
-	if multiplayer.is_server() and free_item in RigidBodySyncManager.tracked_bodies:
-		RigidBodySyncManager.tracked_bodies.erase(free_item)
-	free_item.queue_free()
+	if not multiplayer.is_server():
+		return
+	if node in RigidBodySyncManager.tracked_bodies:
+		RigidBodySyncManager.tracked_bodies.erase(node)
+	node.queue_free()
 
 
 func add_node_to_spawner(node : Node3D, position : Vector3):
 	if not is_multiplayer_authority():
 		return
-	var parent_node = $/root/MultiplayerBaseScene/LevelRoot
+	var parent_node = $/root/Main/MultiplayerBaseScene/LevelRoot
 	node.top_level = true
 	node.position = position
 	parent_node.add_child(node, true)
-	RigidBodySyncManager.tracked_bodies
 
 
-func _physics_process(delta: float) -> void:
-	if not multiplayer.multiplayer_peer or not multiplayer.is_server() or multiplayer.multiplayer_peer is OfflineMultiplayerPeer:
+func safe_is_multiplayer_authority(node : Node) -> bool:
+	return node.multiplayer.has_multiplayer_peer() and node.is_multiplayer_authority()
+
+
+func _process(delta: float) -> void:
+	if not multiplayer.has_multiplayer_peer() or not multiplayer.is_server() or multiplayer.multiplayer_peer is OfflineMultiplayerPeer:
 		return
 	if stats_timer.time_left > 0.0:
 		return
 	stats_timer = get_tree().create_timer(10.0)
 	for peer_id in multiplayer.get_peers():
 		var peer = multiplayer.multiplayer_peer.get_peer(peer_id)
-		print("statistics for: ", peer_id)
+		if not peer:
+			continue
+		print("statistics for: '%s' (%d)" % [players[peer_id]["name"], peer_id])
 		var ping: float = peer.get_statistic(ENetPacketPeer.PEER_LAST_ROUND_TRIP_TIME)
 		var loss: float = peer.get_statistic(ENetPacketPeer.PEER_PACKET_LOSS) / ENetPacketPeer.PACKET_LOSS_SCALE
-		print("ping: ", ping)
-		print("loss: ", loss)
+		print("    ping: ", ping)
+		print("    loss: ", loss)

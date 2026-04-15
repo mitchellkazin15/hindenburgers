@@ -30,3 +30,4 @@ func _on_character_spawned(node: Node):
 		# Node is fully in the tree and _ready has run on all children
 		var peer_id = node.initial_multiplayer_authority
 		node.set_initial_values.rpc(node.initial_position, peer_id)
+		RigidBodySyncManager.set_invalidate_cached_states.rpc_id(1)

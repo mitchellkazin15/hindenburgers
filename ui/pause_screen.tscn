@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dgpgk6x2vmey5" path="res://autoloads/pause_screen.gd" id="1_4lxnp"]
 [ext_resource type="Script" uid="uid://bkkiktgfh53qm" path="res://ui/components/pause_menu.gd" id="2_pcfgi"]
-[ext_resource type="Script" uid="uid://bmyr8nmvkiwej" path="res://ui/components/open_new_scene_button.gd" id="2_pyns1"]
 [ext_resource type="Script" uid="uid://b6nr4bwo0sewj" path="res://ui/components/quit_game_button.gd" id="3_dg1bm"]
 [ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="3_pcfgi"]
 [ext_resource type="Script" uid="uid://ch0vtm1q8hxxh" path="res://ui/resume_button.gd" id="4_pcfgi"]
 [ext_resource type="Script" uid="uid://43xpmuf1denx" path="res://ui/components/save_game_button.gd" id="5_1gduw"]
+[ext_resource type="Script" uid="uid://bn7peg4l5h3lf" path="res://ui/components/main_menu_button.gd" id="6_pcfgi"]
 [ext_resource type="Script" uid="uid://rrmpyei3laxx" path="res://ui/components/settings_menu_button.gd" id="8_1gduw"]
 [ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="9_1gduw"]
 
@@ -59,8 +59,7 @@ layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("3_pcfgi")
 text = "main menu"
-script = ExtResource("2_pyns1")
-next_scene_path = "uid://d68awp30sg5d"
+script = ExtResource("6_pcfgi")
 
 [node name="SettingsButton" type="Button" parent="PauseMenu/VBoxContainer" unique_id=1482530331]
 layout_mode = 2

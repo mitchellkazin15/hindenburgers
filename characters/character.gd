@@ -62,7 +62,8 @@ func _ready() -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func set_initial_values(pos, multiplayer_authority):
-	position = pos
+	if multiplayer.get_unique_id() == multiplayer_authority and not multiplayer.is_server():
+		position = pos
 	set_multiplayer_authority(host_authority, true)
 	set_process(multiplayer.is_server())
 	set_physics_process(multiplayer.is_server())
