@@ -1,6 +1,6 @@
 extends Node
 
-enum GameState {MENU, IN_GAME}
+enum GameState {MENU, LOADING, IN_GAME}
 
 signal change_menu_overlay(menu_path)
 signal change_scene(scene_path)
@@ -40,10 +40,21 @@ func _on_changed_scene(scene_path : String):
 
 
 func _on_player_disconnected(peer_id):
+	if not multiplayer.has_multiplayer_peer() or not multiplayer.is_server() or state != GameState.IN_GAME:
+		return
+	var character = find_player_by_peer(peer_id)
+	character.end_locked_interaction.rpc()
+	if character.held_item:
+		character.held_item.release()
+	character.queue_free()
+
+
+func find_player_by_peer(peer_id) -> Character:
 	for node in $/root/Main/MultiplayerBaseScene/LevelRoot.get_children():
 		if node is Character and node.initial_multiplayer_authority == peer_id:
-			MultiplayerManager.broadcast_queue_free(node)
-			return
+			var character : Character = node
+			return character
+	return null
 
 
 func _on_server_disconnected(peer_id):
@@ -52,6 +63,7 @@ func _on_server_disconnected(peer_id):
 
 @rpc("authority", "call_remote", "reliable")
 func return_all_peers_to_menu():
+	EventService.change_menu_overlay.emit("res://ui/title_menu.tscn")
 	return_to_menu()
 
 
@@ -79,11 +91,10 @@ func _start_game(info):
 	$/root/Main/Background.process_mode = Node.PROCESS_MODE_DISABLED
 	$/root/Main/MenuContainer.hide()
 	$/root/Main/MenuContainer.process_mode = Node.PROCESS_MODE_DISABLED
-	if not multiplayer.is_server():
-		state = GameState.IN_GAME
+	state = GameState.LOADING
 	MultiplayerManager.player_loaded.rpc()
 	if multiplayer.is_server():
-		_on_load_multiplayer_level()
+		call_deferred("_on_load_multiplayer_level")
 
 
 func return_to_menu():
@@ -116,20 +127,14 @@ func handle_in_game_menu_change():
 func _on_load_multiplayer_level():
 	print("loading level: ", multiplayer.get_unique_id())
 	clear_level_root()
-	var parent_node = $/root/Main/MultiplayerBaseScene/LevelRoot
-	var level : Node = load("res://test_levels/level.tscn").instantiate()
-	#var reparent_list = []
-	#for child in level.find_children("*"):
-		#if child is RelativeRigidBody3D:
-			#reparent_list.append(child)
-	#for reparent_child in reparent_list:
-		#var parent = reparent_child.get_parent()
-		#parent.remove_child(reparent_child)
-		#parent_node.add_child(reparent_child, true)
-	parent_node.add_child(level, true)
-	level.owner = parent_node
+	var spawner : BetterMultiplayerSpawner = $/root/Main/MultiplayerBaseScene/MultiplayerSpawner
+	spawner.spawn({
+		"scene_file_path": "res://test_levels/level.tscn",
+	})
 	var peer_ids = MultiplayerManager.players.keys()
+	print(peer_ids)
 	for player_num in peer_ids.size():
+		#call_deferred("spawn_new_player", peer_ids[player_num], player_num)
 		spawn_new_player(peer_ids[player_num], player_num)
 	state = GameState.IN_GAME
 
@@ -143,6 +148,7 @@ func spawn_new_player(peer_id, player_num):
 	player.initial_position = player_spawns[player_num].global_position
 	player.display_name = MultiplayerManager.players[peer_id]["name"]
 	spawner.spawn_player(player)
+	RigidBodySyncManager.set_invalidate_cached_states.rpc()
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -152,3 +158,16 @@ func set_game_state(new_state : GameState):
 
 func _quit_game():
 	get_tree().quit()
+
+
+func _physics_process(delta: float) -> void:
+	if state != GameState.LOADING:
+		LoadingScreen.hide()
+	else:
+		LoadingScreen.show()
+	if not multiplayer.has_multiplayer_peer():
+		return
+	var spawner : BetterMultiplayerSpawner = $/root/Main/MultiplayerBaseScene/MultiplayerSpawner
+	if spawner.is_locally_synced() and find_player_by_peer(multiplayer.get_unique_id()):
+		state = GameState.IN_GAME
+		RigidBodySyncManager.set_invalidate_cached_states.rpc()

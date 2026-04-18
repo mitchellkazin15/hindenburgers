@@ -11,7 +11,7 @@ func _ready() -> void:
 	set_process(is_multiplayer_authority())
 	set_physics_process(is_multiplayer_authority())
 	set_process_input(is_multiplayer_authority())
-	if is_multiplayer_authority():
+	if MultiplayerManager.safe_is_multiplayer_authority(self):
 		$ContactArea.body_entered.connect(_on_body_entered)
 
 

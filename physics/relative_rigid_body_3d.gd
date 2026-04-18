@@ -15,7 +15,7 @@ func _ready() -> void:
 	if has_node("MultiplayerSynchronizer"):
 		var sync : MultiplayerSynchronizer = get_node("MultiplayerSynchronizer")
 		sync.replication_interval = 1.0 / Engine.physics_ticks_per_second
-	if not is_multiplayer_authority():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		gravity_scale = 0.0
 		for child in get_children():
 			if child is CollisionShape3D:
@@ -50,7 +50,7 @@ var current_interpolation_step = 0
 #
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	pass
-	#if not is_multiplayer_authority() and current_interpolation_step < max_interpolation_steps:
+	#if not MultiplayerManager.safe_is_multiplayer_authority(self) and current_interpolation_step < max_interpolation_steps:
 		#_interpolate_state(state)
 		#if just_spawned:
 			#global_position = target_position
@@ -59,7 +59,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 #
 #
 #func _physics_process(delta: float) -> void:
-	#if is_multiplayer_authority():
+	#if MultiplayerManager.safe_is_multiplayer_authority(self):
 		#var new_position : Vector3 = global_position
 		#var new_linear_velocity : Vector3 = linear_velocity
 		#var new_rotation : Vector3 = rotation

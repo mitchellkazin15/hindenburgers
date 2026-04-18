@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bac48710arx5v"]
 
-[ext_resource type="Script" uid="uid://b10hx1w8pre82" path="res://ui/components/base_menu.gd" id="1_iglra"]
+[ext_resource type="Script" uid="uid://dynopjcpy66h3" path="res://ui/components/host_game_menu.gd" id="1_cbrgj"]
 [ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="2_cbrgj"]
 [ext_resource type="Script" uid="uid://b5yik3ul64chv" path="res://ui/components/host_game_button.gd" id="4_7wu37"]
 [ext_resource type="Script" uid="uid://6tkmaqi6xnvy" path="res://ui/components/overlay_new_menu_button.gd" id="5_exi1p"]
@@ -9,14 +9,16 @@
 [ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="8_cbrgj"]
 [ext_resource type="PackedScene" uid="uid://bwaqfat7e86im" path="res://ui/components/multiplayer_lobby.tscn" id="9_w70bj"]
 
-[node name="HostGameMenu" type="Control" unique_id=659498688 node_paths=PackedStringArray("initial_focus")]
+[node name="HostGameMenu" type="Control" unique_id=659498688 node_paths=PackedStringArray("name_field", "host_button", "initial_focus")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_iglra")
+script = ExtResource("1_cbrgj")
+name_field = NodePath("HBoxContainer/VBoxContainer/NameFieldTextEdit")
+host_button = NodePath("HBoxContainer/VBoxContainer/HostGameButton")
 initial_focus = NodePath("HBoxContainer/VBoxContainer/HostGameButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=211113821]

@@ -16,7 +16,7 @@ func _ready() -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func add_food(food_val):
-	if not is_multiplayer_authority():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	_curr_food_val = min(_curr_food_val + food_val, max_food_capacity)
 
@@ -35,7 +35,7 @@ func _digest_food() -> float:
 
 
 func _physics_process(delta: float) -> void:
-	if not is_multiplayer_authority():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		set_physics_process(false)
 		return
 	if digestion_timer.time_left == 0.0:

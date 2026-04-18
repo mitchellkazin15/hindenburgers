@@ -8,7 +8,7 @@ var prev_grav_scale
 
 
 func use(use_charge_time : float):
-	if not is_multiplayer_authority():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	freeze = false
 	if gravity_scale != 0:

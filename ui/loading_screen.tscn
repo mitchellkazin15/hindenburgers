@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://d33xqqrolb86a"]
+
+[ext_resource type="Script" uid="uid://drthi2sbqidsg" path="res://ui/loading_screen.gd" id="1_gyf4x"]
+[ext_resource type="Script" uid="uid://d1a8jijjof1ld" path="res://ui/components/background.gd" id="1_pojjl"]
+[ext_resource type="Script" uid="uid://bks3bmxgrg4j5" path="res://ui/components/loading_label.gd" id="2_e66os"]
+[ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="2_to6u5"]
+[ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="3_to6u5"]
+
+[sub_resource type="Curve" id="Curve_gyf4x"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_o3r17"]
+curve = SubResource("Curve_gyf4x")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_1kfex"]
+diffuse_texture = SubResource("CurveTexture_o3r17")
+
+[node name="LoadingScreen" type="Control" unique_id=1456472679]
+z_index = -1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gyf4x")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1381182516]
+z_index = -1
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = SubResource("CanvasTexture_1kfex")
+script = ExtResource("1_pojjl")
+metadata/_custom_type_script = "uid://d1a8jijjof1ld"
+
+[node name="LoadingLabel" type="Label" parent="." unique_id=160275297]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.5
+offset_top = -11.5
+offset_right = 28.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_to6u5")
+text = "loading"
+script = ExtResource("2_e66os")
+metadata/_custom_type_script = "uid://bks3bmxgrg4j5"
+
+[node name="ScreenScalerComponent" type="Node" parent="LoadingLabel" unique_id=50102061]
+script = ExtResource("3_to6u5")
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"

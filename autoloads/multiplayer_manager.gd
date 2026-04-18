@@ -46,15 +46,15 @@ func host_game():
 	var error = peer.create_server(PORT, MAX_CONNECTIONS)
 	if error:
 		return error
-	#error = peer.create_client("localhost", PORT)
-	#if error:
-		#return error
 	multiplayer.multiplayer_peer = peer
 	players[1] = player_info
 	player_connected.emit(1, player_info)
 
 
 func remove_multiplayer_peer():
+	if multiplayer.is_server():
+		print("local server disconnected")
+		players = {}
 	multiplayer.multiplayer_peer = null
 	client_disconnected.emit()
 
@@ -71,11 +71,6 @@ func start_game_for_peers(game_info):
 @rpc("any_peer", "call_local", "reliable")
 func player_loaded():
 	print("player_loaded: ", multiplayer.get_unique_id())
-	#if multiplayer.is_server() and EventService.state != EventService.GameState.IN_GAME:
-		#players_loaded += 1
-		#if players_loaded == players.size():
-			#EventService.load_multiplayer_level.emit()
-			#players_loaded = 0
 
 
 # When a peer connects, send them my player info.
@@ -112,11 +107,11 @@ func _on_connected_fail():
 
 
 func _on_server_disconnected():
-	print("server disconnected")
+	print("remote server disconnected")
 	EventService.return_all_peers_to_menu()
 	EventService.clear_level_root()
 	multiplayer.multiplayer_peer = null
-	players.clear()
+	players = {}
 
 
 func broadcast_queue_free(node : Node):
@@ -127,13 +122,14 @@ func broadcast_queue_free(node : Node):
 	node.queue_free()
 
 
-func add_node_to_spawner(node : Node3D, position : Vector3):
-	if not is_multiplayer_authority():
+func add_node_to_spawner(scene_path : String, position : Vector3) -> Node:
+	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
-	var parent_node = $/root/Main/MultiplayerBaseScene/LevelRoot
-	node.top_level = true
-	node.position = position
-	parent_node.add_child(node, true)
+	var spawner : BetterMultiplayerSpawner = $/root/Main/MultiplayerBaseScene/MultiplayerSpawner
+	return spawner.spawn({
+		"scene_file_path": scene_path,
+		"position": position,
+	})
 
 
 func safe_is_multiplayer_authority(node : Node) -> bool:

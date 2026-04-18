@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://doy2mv4pyywlx"]
 
-[ext_resource type="Script" uid="uid://b10hx1w8pre82" path="res://ui/components/base_menu.gd" id="1_54bbc"]
+[ext_resource type="Script" uid="uid://e2hoyqyux03o" path="res://ui/components/join_game_menu.gd" id="1_i7h81"]
 [ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="2_j7444"]
 [ext_resource type="Script" uid="uid://djxtfcc1gcuam" path="res://ui/components/join_game_button.gd" id="3_i6p7n"]
 [ext_resource type="Script" uid="uid://6tkmaqi6xnvy" path="res://ui/components/overlay_new_menu_button.gd" id="4_j7444"]
@@ -8,15 +8,20 @@
 [ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="7_i7h81"]
 [ext_resource type="PackedScene" uid="uid://bwaqfat7e86im" path="res://ui/components/multiplayer_lobby.tscn" id="8_ancxe"]
 
-[node name="JoinGameMenu" type="Control" unique_id=1301732010 node_paths=PackedStringArray("initial_focus")]
+[node name="JoinGameMenu" type="Control" unique_id=1301732010 node_paths=PackedStringArray("ip_field", "name_field", "join_button", "initial_focus")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_54bbc")
-initial_focus = NodePath("HBoxContainer/VBoxContainer/IpFieldTextEdit")
+script = ExtResource("1_i7h81")
+ip_field = NodePath("HBoxContainer/VBoxContainer/IpFieldTextEdit")
+name_field = NodePath("HBoxContainer/VBoxContainer/NameFieldTextEdit")
+join_button = NodePath("HBoxContainer/VBoxContainer/JoinGameButton")
+initial_focus = NodePath("HBoxContainer/VBoxContainer/JoinGameButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1400272260]
 layout_mode = 1

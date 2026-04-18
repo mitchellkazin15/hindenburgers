@@ -12,7 +12,7 @@ func _ready():
 
 
 func _unhandled_input(event):
-	if not is_multiplayer_authority():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	if not enabled:
 		return

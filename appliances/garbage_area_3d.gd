@@ -3,7 +3,7 @@ extends Area3D
 
 
 func _physics_process(delta: float) -> void:
-	if not is_multiplayer_authority():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	for body in get_overlapping_bodies():
 		if body is StaticBody3D or body is Character:
