@@ -29,7 +29,6 @@ func save_level():
 			body.position,
 			body.rotation,
 	])
-	print($/root/Main/MultiplayerBaseScene/LevelRoot/Level.find_children("*Atm*"))
 	for child in $/root/Main/MultiplayerBaseScene/LevelRoot/Level.find_children("*Atm*"):
 		if child is Atm:
 			var atm : Atm = child

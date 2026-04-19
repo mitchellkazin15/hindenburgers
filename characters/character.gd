@@ -50,18 +50,18 @@ func _ready() -> void:
 	use_item_stopwatch.stop()
 	throw_item_stopwatch.stop()
 	$Label3D.text = display_name
-	set_initial_values(position, initial_multiplayer_authority)
+	set_initial_values()
 
 
-func set_initial_values(pos, multiplayer_authority):
+func set_initial_values():
 	set_process(MultiplayerManager.safe_is_server())
 	set_physics_process(MultiplayerManager.safe_is_server())
 	set_process_input(MultiplayerManager.safe_is_server())
-	camera.set_multiplayer_authority(multiplayer_authority)
+	camera.set_multiplayer_authority(initial_multiplayer_authority)
 	camera.set_process(camera.is_multiplayer_authority())
 	camera.set_process_input(camera.is_multiplayer_authority())
-	camera.current = multiplayer_authority == multiplayer.get_unique_id()
-	input_controller.set_multiplayer_authority(multiplayer_authority)
+	camera.current = initial_multiplayer_authority == multiplayer.get_unique_id()
+	input_controller.set_multiplayer_authority(initial_multiplayer_authority)
 	input_controller.set_process(input_controller.is_multiplayer_authority())
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
 	if not camera.is_multiplayer_authority():

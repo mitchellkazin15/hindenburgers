@@ -77,16 +77,8 @@ func _on_spawned(node: Node):
 	if node is Character:
 		# Node is fully in the tree and _ready has run on all children
 		var peer_id = node.initial_multiplayer_authority
-		#node.set_initial_values.rpc(node.initial_position, peer_id)
 
 
 func _on_despawned(node: Node):
 	print(node.name, " node despawned on: ", multiplayer.get_unique_id())
 	update_per_peer_spawn_count.rpc(multiplayer.get_unique_id(), get_node(spawn_path).get_children().size())
-
-#
-#func _physics_process(delta: float) -> void:
-	#if multiplayer.has_multiplayer_peer() and not multiplayer.is_server() and update_spawn_count_timer.time_left == 0.0:
-		#print(get_node(spawn_path).get_children().size())
-		#update_spawn_count_timer = get_tree().create_timer(0.1)
-		#update_per_peer_spawn_count.rpc(multiplayer.get_unique_id(), get_node(spawn_path).get_children().size())
