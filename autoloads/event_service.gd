@@ -164,6 +164,6 @@ func _physics_process(delta: float) -> void:
 	if not multiplayer.has_multiplayer_peer():
 		return
 	var spawner : BetterMultiplayerSpawner = $/root/Main/MultiplayerBaseScene/MultiplayerSpawner
-	if spawner.is_locally_synced() and find_player_by_peer(multiplayer.get_unique_id()):
+	if spawner.is_locally_synced() and find_player_by_peer(multiplayer.get_unique_id()) and state != GameState.IN_GAME:
 		state = GameState.IN_GAME
 		RigidBodySyncManager.set_invalidate_cached_states.rpc()

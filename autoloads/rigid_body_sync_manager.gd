@@ -45,6 +45,7 @@ func generate_state(body : RelativeRigidBody3D) -> Array:
 
 @rpc("any_peer", "call_local", "unreliable_ordered")
 func set_invalidate_cached_states():
+	print("invalidated cached body states!")
 	invalidate_cached_states = true
 
 
