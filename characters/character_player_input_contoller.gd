@@ -12,7 +12,7 @@ func _ready():
 
 
 func _physics_process(delta: float) -> void:
-	if not is_multiplayer_authority():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		set_process(false)
 		set_physics_process(false)
 		set_process_input(false)

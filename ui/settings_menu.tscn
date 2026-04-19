@@ -1,0 +1,236 @@
+[gd_scene format=3 uid="uid://cntsivp2ndb77"]
+
+[ext_resource type="Script" uid="uid://dtfbvx7rje8ju" path="res://ui/components/settings_menu.gd" id="1_k80kj"]
+[ext_resource type="Shader" uid="uid://q33r2ejq4uvo" path="res://shaders/menu.gdshader" id="2_k80kj"]
+[ext_resource type="Script" uid="uid://d1a8jijjof1ld" path="res://ui/components/background.gd" id="3_d4e8y"]
+[ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="4_d4e8y"]
+[ext_resource type="Script" uid="uid://t8po5jkg6d65" path="res://ui/components/menu_tab_button.gd" id="4_dnjoo"]
+[ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="6_dnjoo"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ap6h8"]
+noise_type = 2
+seed = 1
+frequency = 0.0437
+cellular_distance_function = 1
+cellular_jitter = 10.0
+cellular_return_type = 5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1bvp3"]
+noise = SubResource("FastNoiseLite_ap6h8")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jpwvl"]
+noise_type = 4
+seed = 1
+fractal_weighted_strength = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7mycd"]
+noise = SubResource("FastNoiseLite_jpwvl")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_23nap"]
+shader = ExtResource("2_k80kj")
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_1bvp3")
+shader_parameter/noise_texture2 = SubResource("NoiseTexture2D_7mycd")
+shader_parameter/first_color = Color(0.75686276, 0, 0, 1)
+shader_parameter/second_color = Color(0.6627451, 1, 0, 1)
+shader_parameter/first_rotation_freq = 0.5
+shader_parameter/first_growth_freq = 0.5
+shader_parameter/first_growth_amp = 0.5
+shader_parameter/second_velocity = Vector2(0.1, 0)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_s4y56"]
+
+[node name="SettingsMenu" type="CanvasLayer" unique_id=951224500 node_paths=PackedStringArray("initial_tab")]
+process_mode = 4
+layer = 2
+script = ExtResource("1_k80kj")
+initial_tab = NodePath("TabContainer/AudioSettings")
+
+[node name="Background" type="TextureRect" parent="." unique_id=432513612]
+z_index = -1
+material = SubResource("ShaderMaterial_23nap")
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = SubResource("CanvasTexture_s4y56")
+script = ExtResource("3_d4e8y")
+metadata/_custom_type_script = "uid://d1a8jijjof1ld"
+
+[node name="Label" type="Label" parent="." unique_id=246915914]
+offset_right = 483.0
+offset_bottom = 104.0
+theme = ExtResource("4_d4e8y")
+theme_override_font_sizes/font_size = 100
+text = "Settings"
+
+[node name="ScreenScalerComponent" type="Node" parent="Label" unique_id=1657687527]
+script = ExtResource("6_dnjoo")
+pivot_offset_x = 0.0
+pivot_offset_y = 0.0
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="TabContainer" type="HBoxContainer" parent="." unique_id=1757052027]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.18200001
+anchor_right = 0.5
+anchor_bottom = 0.18200001
+offset_left = -586.0
+offset_top = 62.063995
+offset_right = 586.0
+offset_bottom = 133.064
+grow_horizontal = 2
+theme = ExtResource("4_d4e8y")
+
+[node name="AudioSettings" type="Button" parent="TabContainer" unique_id=108414561]
+layout_mode = 2
+focus_neighbor_left = NodePath("../../ControlButtonsContainer/BackButton")
+focus_neighbor_top = NodePath("../../ControlButtonsContainer/ApplyButton")
+text = "Audio Settings"
+script = ExtResource("4_dnjoo")
+
+[node name="Menu" type="VBoxContainer" parent="TabContainer/AudioSettings" unique_id=3587674]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 82.0
+offset_right = 625.0
+offset_bottom = 198.0
+
+[node name="MuteVolumeContainer" type="HBoxContainer" parent="TabContainer/AudioSettings/Menu" unique_id=2024222744]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/AudioSettings/Menu/MuteVolumeContainer" unique_id=101042826]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Mute"
+
+[node name="CheckButton" type="CheckButton" parent="TabContainer/AudioSettings/Menu/MuteVolumeContainer" unique_id=1315512651]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_stretch_ratio = 2.0
+
+[node name="MasterVolumeContainer" type="HBoxContainer" parent="TabContainer/AudioSettings/Menu" unique_id=807611528]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/AudioSettings/Menu/MasterVolumeContainer" unique_id=1586437331]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Master Volume"
+
+[node name="HSlider" type="HSlider" parent="TabContainer/AudioSettings/Menu/MasterVolumeContainer" unique_id=283084260]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 2.0
+max_value = 1.0
+step = 0.01
+
+[node name="MusicVolumeContainer" type="HBoxContainer" parent="TabContainer/AudioSettings/Menu" unique_id=1125324056]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/AudioSettings/Menu/MusicVolumeContainer" unique_id=160136489]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Music Volume"
+
+[node name="HSlider" type="HSlider" parent="TabContainer/AudioSettings/Menu/MusicVolumeContainer" unique_id=1755349208]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 2.0
+max_value = 1.0
+step = 0.001
+
+[node name="SFXVolumeContainer" type="HBoxContainer" parent="TabContainer/AudioSettings/Menu" unique_id=435496183]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/AudioSettings/Menu/SFXVolumeContainer" unique_id=1523099711]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "SFX Volume"
+
+[node name="HSlider" type="HSlider" parent="TabContainer/AudioSettings/Menu/SFXVolumeContainer" unique_id=960716298]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 2.0
+focus_neighbor_bottom = NodePath("../../../../../ControlButtonsContainer/ApplyButton")
+max_value = 1.0
+step = 0.001
+
+[node name="DisplaySettings" type="Button" parent="TabContainer" unique_id=1499529589]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../ControlButtonsContainer/ApplyButton")
+focus_neighbor_right = NodePath("../../ControlButtonsContainer/ApplyButton")
+text = "Display Settings"
+script = ExtResource("4_dnjoo")
+
+[node name="Menu" type="HBoxContainer" parent="TabContainer/DisplaySettings" unique_id=1394808118]
+visible = false
+layout_mode = 0
+offset_left = -541.0
+offset_top = 82.0
+offset_right = -357.0
+offset_bottom = 122.0
+
+[node name="LabelsContainer" type="VBoxContainer" parent="TabContainer/DisplaySettings/Menu" unique_id=403736067]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/DisplaySettings/Menu/LabelsContainer" unique_id=890016160]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Window Mode"
+
+[node name="OptionsContainer" type="VBoxContainer" parent="TabContainer/DisplaySettings/Menu" unique_id=1103438893]
+layout_mode = 2
+
+[node name="WindowModeOptionButton" type="OptionButton" parent="TabContainer/DisplaySettings/Menu/OptionsContainer" unique_id=635804602]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../../../../../ControlButtonsContainer/ApplyButton")
+theme_override_font_sizes/font_size = 32
+
+[node name="ScreenScalerComponent" type="Node" parent="TabContainer" unique_id=378985814]
+script = ExtResource("6_dnjoo")
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
+
+[node name="ControlButtonsContainer" type="HBoxContainer" parent="." unique_id=1102888216]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -493.5
+offset_top = -148.0
+offset_right = 493.5
+offset_bottom = -77.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("4_d4e8y")
+
+[node name="ApplyButton" type="Button" parent="ControlButtonsContainer" unique_id=2127637700]
+layout_mode = 2
+focus_neighbor_left = NodePath("../BackButton")
+focus_neighbor_top = NodePath("../../TabContainer/AudioSettings")
+focus_neighbor_bottom = NodePath("../../TabContainer/DisplaySettings")
+text = "Apply"
+
+[node name="RestoreDefaultsButton" type="Button" parent="ControlButtonsContainer" unique_id=263798483]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../TabContainer/AudioSettings")
+focus_neighbor_bottom = NodePath("../../TabContainer/DisplaySettings")
+text = "Restore Defaults"
+
+[node name="BackButton" type="Button" parent="ControlButtonsContainer" unique_id=1679721815]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../TabContainer/AudioSettings")
+focus_neighbor_right = NodePath("../ApplyButton")
+focus_neighbor_bottom = NodePath("../../TabContainer/DisplaySettings")
+text = "Back"
+
+[node name="ScreenScalerComponent" type="Node" parent="ControlButtonsContainer" unique_id=253132742]
+script = ExtResource("6_dnjoo")
+metadata/_custom_type_script = "uid://cetvkhqp7tx0b"

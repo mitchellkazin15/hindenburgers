@@ -29,7 +29,7 @@ mass = 0.1
 continuous_cd = true
 script = ExtResource("1_02d61")
 money_value = 500.0
-max_use_charge_time = 0.1
+max_use_charge_time = 0.0
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=183999302]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)

@@ -26,7 +26,7 @@ func _ready() -> void:
 
 
 func _on_body_entered(body):
-	if not is_multiplayer_authority() or not body is HoldableItem:
+	if not MultiplayerManager.safe_is_multiplayer_authority(self) or not body is HoldableItem:
 		return
 	var item : HoldableItem = body
 	if not item.prev_item_holder or not item.prev_release_position:

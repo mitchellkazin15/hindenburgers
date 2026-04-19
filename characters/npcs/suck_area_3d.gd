@@ -19,7 +19,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if suck_item or not is_multiplayer_authority() or suck_reset_timer.time_left != 0.0:
+	if suck_item or not MultiplayerManager.safe_is_multiplayer_authority(self) or suck_reset_timer.time_left != 0.0:
 		return
 	for body in get_overlapping_bodies():
 		_on_body_entered(body)

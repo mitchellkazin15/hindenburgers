@@ -27,6 +27,8 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if not MultiplayerManager.safe_is_server():
+		return
 	if burnt:
 		return
 	var top_cooked = top_side_cook_timer.time_elapsed_sec > per_side_cook_time 
@@ -55,8 +57,7 @@ func _physics_process(delta: float) -> void:
 
 
 func spawn_cooked_item(top_bun, bottom_bun):
-	var cooked_item = cooked_item_scene.instantiate()
-	MultiplayerManager.add_node_to_spawner(cooked_item, cookable_item.global_position)
+	var cooked_item = MultiplayerManager.add_node_to_spawner(cooked_item_scene.resource_path, cookable_item.global_position)
 	MultiplayerManager.broadcast_queue_free(cookable_item)
 	MultiplayerManager.broadcast_queue_free(top_bun)
 	MultiplayerManager.broadcast_queue_free(bottom_bun)

@@ -6,7 +6,7 @@
 [node name="MultiplayerBaseScene" type="Node3D" unique_id=1390981435]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=363562087]
-_spawnable_scenes = PackedStringArray("uid://d2d7u3vxmhpsf", "uid://cxmv04r35emag", "uid://06g6idstgaj8", "uid://mi6drwxajht8", "uid://bdf1caegn8tx6", "uid://rq35fe5i75wv", "uid://cy1pb3tm032du", "uid://dc5nx712jgekb", "uid://de20king28rr0", "uid://c34l574dlsje", "uid://b8422lbslingj", "uid://dgte83yyq36st", "uid://8ng2as3ct8qv", "uid://cxmv04r35emag", "uid://t3bu3188qlo8", "uid://cf2jt4onq048j", "uid://cxhm0i8wmwji4", "uid://bbqknpjnqy3ym", "uid://d5chjswamo74", "uid://c65pcxntsmjqy", "uid://b6tmf4m8sfxo7", "uid://bvom6ss0bnfnl", "uid://6bodhnof0r1e", "uid://ck84coifipr6d", "uid://bdul88e0nmpuo", "uid://vg6pdbix5lar")
+_spawnable_scenes = PackedStringArray("uid://d2d7u3vxmhpsf", "uid://cxmv04r35emag", "uid://06g6idstgaj8", "uid://mi6drwxajht8", "uid://bdf1caegn8tx6", "uid://rq35fe5i75wv", "uid://cy1pb3tm032du", "uid://dc5nx712jgekb", "uid://de20king28rr0", "uid://c34l574dlsje", "uid://b8422lbslingj", "uid://dgte83yyq36st", "uid://8ng2as3ct8qv", "uid://cxmv04r35emag", "uid://t3bu3188qlo8", "uid://cf2jt4onq048j", "uid://cxhm0i8wmwji4", "uid://bbqknpjnqy3ym", "uid://d5chjswamo74", "uid://c65pcxntsmjqy", "uid://b6tmf4m8sfxo7", "uid://bvom6ss0bnfnl", "uid://6bodhnof0r1e", "uid://ck84coifipr6d", "uid://bdul88e0nmpuo", "uid://vg6pdbix5lar", "uid://cpne3d3o1kb8m")
 spawn_path = NodePath("../LevelRoot")
 script = ExtResource("1_31l41")
 

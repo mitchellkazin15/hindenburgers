@@ -8,7 +8,7 @@ extends Node3D
 
 
 func add_digested_food(digested_food_val):
-	if not is_multiplayer_authority():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	_curr_digested_food_val = min(_curr_digested_food_val + digested_food_val, max_digested_food_capacity)
 	if is_full():

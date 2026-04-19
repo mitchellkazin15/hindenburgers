@@ -17,6 +17,11 @@ size = Vector3(3, 2, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_gqs0g"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cohlp"]
+properties/0/path = NodePath("CoinPurse:money_val")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
 [node name="Atm" type="StaticBody3D" unique_id=1282238622 node_paths=PackedStringArray("vault", "label")]
 script = ExtResource("1_77chn")
 vault = NodePath("CoinPurse")
@@ -66,3 +71,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0.6)
 alpha_cut = 1
 text = "ATM
 Balance: $?"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1308262027]
+replication_config = SubResource("SceneReplicationConfig_cohlp")

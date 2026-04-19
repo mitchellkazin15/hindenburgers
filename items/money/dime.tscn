@@ -33,7 +33,7 @@ mass = 0.1
 continuous_cd = true
 script = ExtResource("1_t264k")
 money_value = 10.0
-max_use_charge_time = 0.1
+max_use_charge_time = 0.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)

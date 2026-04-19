@@ -8,7 +8,7 @@ func _ready() -> void:
 	set_process(is_multiplayer_authority())
 	set_physics_process(is_multiplayer_authority())
 	set_process_input(is_multiplayer_authority())
-	if is_multiplayer_authority():
+	if MultiplayerManager.safe_is_multiplayer_authority(self):
 		body_exited.connect(_on_body_exited)
 
 
@@ -24,4 +24,4 @@ func _on_body_exited(body):
 	if body is RelativeRigidBody3D:
 		body.set_new_reference_frame(Vector3.ZERO, false)
 	if body is Character:
-		body.launched = true
+		body.set_launched()

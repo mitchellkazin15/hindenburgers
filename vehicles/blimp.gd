@@ -11,13 +11,12 @@ var is_boosting = false
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	super._integrate_forces(state)
-	if not being_driven or not is_multiplayer_authority():
+	if not being_driven or not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	var ground_plane_move = Vector2(move_direction.x, move_direction.z)
-	var blimp_forward = -global_basis.z
-	var accel_scalar = abs(move_direction.dot(blimp_forward)) * (stats.get_current_boost_acceleration_multiplier() if is_boosting else 1.0)
-	var drive_dir = move_direction.rotated(Vector3.UP, driver.rand_angle)
+	var blimp_forward = global_basis.z
+	var accel_scalar = stats.get_current_boost_acceleration_multiplier() if is_boosting else 1.0
+	var drive_dir = blimp_forward.rotated(Vector3.UP, driver.rand_angle) * clamp(sign(-move_input.y), -0.5, 1.0)
 	state.apply_central_force(mass * accel_scalar * stats.get_current_acceleration() * drive_dir)
 	var right = camera.global_basis.x
 	var rotation_direction = (right * move_input.x).normalized().rotated(Vector3.UP, driver.rand_angle)

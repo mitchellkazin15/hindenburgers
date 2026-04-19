@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SettingsFile" load_steps=2 format=3 uid="uid://br2mwr1ldf32k"]
+
+[ext_resource type="Script" uid="uid://clerr5mrpmiuy" path="res://autoloads/settings/settings_file.gd" id="1_qrcab"]
+
+[resource]
+script = ExtResource("1_qrcab")
+window_mode = 0
+mute = false
+master_volume_linear = 1.0
+music_volume_linear = 0.5
+sfx_volume_linear = 0.5

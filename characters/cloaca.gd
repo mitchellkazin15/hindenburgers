@@ -6,10 +6,9 @@ extends Node3D
 
 
 func poop():
-	if not is_multiplayer_authority():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
-	var poop = poop_scene.instantiate()
-	MultiplayerManager.add_node_to_spawner(poop, self.global_position)
+	var poop = MultiplayerManager.add_node_to_spawner(poop_scene.resource_path, self.global_position)
 	show_fart.rpc()
 
 

@@ -7,4 +7,5 @@ func _ready():
 
 
 func _on_button_pressed():
+	SaveUtilities.save_character_and_or_level(multiplayer.get_unique_id())
 	EventService.quit_game.emit()

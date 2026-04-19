@@ -16,12 +16,11 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if not is_multiplayer_authority() or spawn_cooldown_timer.time_left != 0.0:
+	if not MultiplayerManager.safe_is_multiplayer_authority(self) or spawn_cooldown_timer.time_left != 0.0:
 		return
 	for collider in get_overlapping_areas():
 		if collider is KnifeDamageArea3D and collider.get_parent().active:
-			var spawn = spawn_at_collision_scene.instantiate()
-			MultiplayerManager.add_node_to_spawner(spawn, collider.global_position)
+			var spawn = MultiplayerManager.add_node_to_spawner(spawn_at_collision_scene.resource_path, collider.global_position)
 			if spawn is RelativeRigidBody3D:
 				spawn.apply_relative_central_impulse(5.0 * (collider.global_position - self.global_position)  * spawn.mass)
 			spawn_cooldown_timer = get_tree().create_timer(spawn_cooldown_time)

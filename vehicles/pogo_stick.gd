@@ -15,8 +15,7 @@ func _ready() -> void:
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	super._integrate_forces(state)
-	if not being_driven or not is_multiplayer_authority():
+	if not being_driven or not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	var ground_plane_move = Vector3(move_direction.x, 0.0, move_direction.z).rotated(Vector3.UP, driver.rand_angle)
 	var pogo_forward = -global_basis.z

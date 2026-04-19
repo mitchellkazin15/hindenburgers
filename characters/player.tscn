@@ -29,6 +29,7 @@
 [ext_resource type="Script" uid="uid://dl01gpfyw3kru" path="res://characters/coin_purse.gd" id="19_ke0a4"]
 [ext_resource type="Texture2D" uid="uid://c1n1tn5fy70p0" path="res://assets/misc_sprites/using_icon.png" id="19_lit6r"]
 [ext_resource type="Script" uid="uid://blskd0vdwvhf4" path="res://ui/components/throw_charge_bar.gd" id="21_rjhu2"]
+[ext_resource type="Script" uid="uid://deej1qmwqgoo5" path="res://save_utilities/character_save_manager.gd" id="30_ys5vl"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
 friction = 0.75
@@ -109,10 +110,13 @@ properties/3/replication_mode = 2
 properties/4/path = NodePath("HUD/UseChargeBar/TextureProgressBar:value")
 properties/4/spawn = true
 properties/4/replication_mode = 2
+properties/5/path = NodePath("CoinPurse:money_val")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_b1u1o"]
 height = 0.5
-radius = 0.4
+radius = 0.2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lcfw7"]
 resource_local_to_scene = true
@@ -195,7 +199,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1708174973 node_paths=PackedStringArray("_camera_pivot")]
 transform = Transform3D(-1, 0, -8.742277e-08, 0, 0.9999999, 0, 8.742278e-08, 0, -0.9999999, 0, 0, -3.5)
-current = true
 script = ExtResource("3_j31ep")
 _camera_pivot = NodePath("..")
 
@@ -213,7 +216,7 @@ visibility_update_mode = 1
 [node name="CharacterStatManager" type="Node" parent="." unique_id=1265100376]
 script = ExtResource("5_n8jd0")
 base_stats = {
-"air_acceleration": 40.0,
+"air_acceleration": 20.0,
 "direction_angle_randomness_degrees": 0.0,
 "jump_impulse": 20.0,
 "max_throw_charge_time": 3.0,
@@ -355,6 +358,7 @@ texture_progress = ExtResource("19_3t8uj")
 
 [node name="ScreenScalerComponent" type="Node" parent="HUD/UseChargeBar" unique_id=193091116]
 script = ExtResource("11_eho78")
+preserve_y = false
 pivot_offset_x = 1.0
 pivot_offset_y = 1.0
 metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
@@ -450,3 +454,8 @@ alpha_cut = 1
 text = "name"
 font_size = 64
 outline_size = 16
+
+[node name="CharacterSaveManager" type="Node" parent="." unique_id=1127398813 node_paths=PackedStringArray("character")]
+script = ExtResource("30_ys5vl")
+character = NodePath("..")
+metadata/_custom_type_script = "uid://deej1qmwqgoo5"

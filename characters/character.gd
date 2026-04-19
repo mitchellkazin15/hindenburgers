@@ -17,7 +17,6 @@ signal locked_interaction_ended
 @export var hand : RemoteTransform3D
 @export var randomness_duration = 1.0
 
-const host_authority = 1
 var move_direction : Vector3
 var is_jumping = false
 var is_sprinting = false
@@ -26,58 +25,48 @@ var vehicle : Vehicle
 var held_item : HoldableItem = null
 var reset_input = false
 
-var speed = 20.0
-var jump_speed = 20.0
-var jump_lockout_time = 0.1
-var launched = false
-
 var randomness_timer : SceneTreeTimer
 var rand_speed = 0.0
 var rand_angle = 0.0
+var jump_lockout_time = 0.1
 var _jump_lock_timer : SceneTreeTimer
 var _can_jump = true
+var launched_timer : SceneTreeTimer
+var launched_time = 0.1
+var launched = false
 
 var throw_item_stopwatch : Stopwatch
 var use_item_stopwatch : Stopwatch
 
 
-func _enter_tree() -> void:
-	position = initial_position
-	set_multiplayer_authority(host_authority, true)
-	set_process(multiplayer.is_server())
-	set_physics_process(multiplayer.is_server())
-	set_process_input(multiplayer.is_server())
-
-
 func _ready() -> void:
 	super._ready()
 	randomness_timer = get_tree().create_timer(0.0)
+	_jump_lock_timer = get_tree().create_timer(0.0)
+	launched_timer = get_tree().create_timer(0.0)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	use_item_stopwatch = StopwatchManager.create_stopwatch()
 	throw_item_stopwatch = StopwatchManager.create_stopwatch()
 	use_item_stopwatch.stop()
 	throw_item_stopwatch.stop()
 	$Label3D.text = display_name
+	set_initial_values()
 
 
-@rpc("any_peer", "call_local", "reliable")
-func set_initial_values(pos, multiplayer_authority):
-	position = pos
-	set_multiplayer_authority(host_authority, true)
-	set_process(multiplayer.is_server())
-	set_physics_process(multiplayer.is_server())
-	set_process_input(multiplayer.is_server())
-	camera.set_multiplayer_authority(multiplayer_authority)
+func set_initial_values():
+	set_process(MultiplayerManager.safe_is_server())
+	set_physics_process(MultiplayerManager.safe_is_server())
+	set_process_input(MultiplayerManager.safe_is_server())
+	camera.set_multiplayer_authority(initial_multiplayer_authority)
 	camera.set_process(camera.is_multiplayer_authority())
 	camera.set_process_input(camera.is_multiplayer_authority())
-	camera.current = camera.is_multiplayer_authority()
-	input_controller.set_multiplayer_authority(multiplayer_authority)
+	camera.current = initial_multiplayer_authority == multiplayer.get_unique_id()
+	input_controller.set_multiplayer_authority(initial_multiplayer_authority)
 	input_controller.set_process(input_controller.is_multiplayer_authority())
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
 	if not camera.is_multiplayer_authority():
 		$HUD.hide()
 		$DrugManager/DrugScreenEffectQuad.hide()
-	synchronizer.set_multiplayer_authority(host_authority)
 	$Label3D.text = display_name
 
 
@@ -175,9 +164,13 @@ func throw_item():
 	throw_item_stopwatch.restart()
 
 
+func set_launched():
+	launched_timer = get_tree().create_timer(launched_time)
+	launched = true
+
+
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	super._integrate_forces(state)
-	if not is_multiplayer_authority():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	if reset_input:
 		reset()
@@ -186,7 +179,8 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		return
 	var collider = null;
 	if floor_shape_cast.get_collision_count() > 0:
-		launched = false
+		if launched_timer.time_left == 0.0:
+			launched = false
 		collider = floor_shape_cast.get_collider(0)
 	if randomness_timer.time_left == 0.0:
 		var speed_randomness = stats.get_current_speed_randomness()

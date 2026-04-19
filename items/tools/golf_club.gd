@@ -21,7 +21,7 @@ func start_use():
 
 
 func use(use_charge_time : float):
-	if not is_multiplayer_authority():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	freeze = false
 	if gravity_scale != 0:
@@ -54,7 +54,7 @@ func _on_hit(body):
 		return
 	if body is RelativeRigidBody3D and body != self and not body in bodies_hit_per_swing:
 		if body is Character:
-			body.launched = true
+			body.set_launched()
 			hit_strength *= 10.0
 		body.apply_relative_central_impulse((hit_strength * global_basis.x))
 		bodies_hit_per_swing.append(body)
