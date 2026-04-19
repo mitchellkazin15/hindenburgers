@@ -5,5 +5,5 @@ extends Node3D
 
 
 func _ready() -> void:
-	if multiplayer.is_server():
-		var spawn_node = MultiplayerManager.add_node_to_spawner(spawn_scene.resource_path, self.global_position)
+	if MultiplayerManager.safe_is_server():
+		var spawn_node = MultiplayerManager.add_node_to_spawner(spawn_scene.resource_path, self.global_position, self.global_rotation)

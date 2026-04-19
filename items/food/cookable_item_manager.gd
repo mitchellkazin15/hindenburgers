@@ -27,6 +27,8 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if not MultiplayerManager.safe_is_server():
+		return
 	if burnt:
 		return
 	var top_cooked = top_side_cook_timer.time_elapsed_sec > per_side_cook_time 

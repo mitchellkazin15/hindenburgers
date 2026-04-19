@@ -54,9 +54,9 @@ func _ready() -> void:
 
 
 func set_initial_values(pos, multiplayer_authority):
-	set_process(multiplayer.is_server())
-	set_physics_process(multiplayer.is_server())
-	set_process_input(multiplayer.is_server())
+	set_process(MultiplayerManager.safe_is_server())
+	set_physics_process(MultiplayerManager.safe_is_server())
+	set_process_input(MultiplayerManager.safe_is_server())
 	camera.set_multiplayer_authority(multiplayer_authority)
 	camera.set_process(camera.is_multiplayer_authority())
 	camera.set_process_input(camera.is_multiplayer_authority())
@@ -170,7 +170,6 @@ func set_launched():
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	super._integrate_forces(state)
 	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	if reset_input:

@@ -26,7 +26,7 @@ func spawn_player(player: Character):
 @rpc("any_peer", "call_local", "reliable")
 func update_per_peer_spawn_count(peer_id, new_count):
 	print("updated ", peer_id, " with count ", new_count)
-	if not multiplayer.is_server():
+	if not MultiplayerManager.safe_is_server():
 		return
 	print("expecting ", get_node(spawn_path).get_children().size())
 	per_peer_spawn_count_dict[peer_id] = new_count
@@ -65,6 +65,8 @@ func _custom_spawn_func(data: Dictionary) -> Node:
 		node.display_name = data["display_name"]
 	if data.has("position"):
 		node.position = data["position"]
+	if data.has("rotation"):
+		node.rotation = data["rotation"]
 	node.top_level = true
 	return node  # Spawner adds this to the scene automatically
 

@@ -52,7 +52,7 @@ func host_game():
 
 
 func remove_multiplayer_peer():
-	if multiplayer.is_server():
+	if MultiplayerManager.safe_is_server():
 		print("local server disconnected")
 		players = {}
 	multiplayer.multiplayer_peer = null
@@ -85,7 +85,7 @@ func _register_player(new_player_info):
 	var new_player_id = multiplayer.get_remote_sender_id()
 	players[new_player_id] = new_player_info
 	player_connected.emit(new_player_id, new_player_info)
-	if multiplayer.is_server() and EventService.state == EventService.GameState.IN_GAME:
+	if MultiplayerManager.safe_is_server() and EventService.state == EventService.GameState.IN_GAME:
 		EventService.load_in_progress_state_for_peer.emit(new_player_id)
 		EventService.spawn_new_player(new_player_id, players.size())
 
@@ -115,20 +115,30 @@ func _on_server_disconnected():
 
 
 func broadcast_queue_free(node : Node):
-	if not multiplayer.is_server():
+	if not MultiplayerManager.safe_is_server():
 		return
-	if node in RigidBodySyncManager.tracked_bodies:
+	if node is RelativeRigidBody3D and node in RigidBodySyncManager.tracked_bodies:
 		RigidBodySyncManager.tracked_bodies.erase(node)
-	node.queue_free()
+	if node.get_parent() == $/root/Main/MultiplayerBaseScene/LevelRoot:
+		node.queue_free()
+	else:
+		_queue_free_on_peers.rpc(node.get_path())
 
 
-func add_node_to_spawner(scene_path : String, position : Vector3) -> Node:
+@rpc("any_peer", "call_local", "reliable")
+func _queue_free_on_peers(node_path : String):
+	if has_node(node_path):
+		get_node(node_path).queue_free()
+
+
+func add_node_to_spawner(scene_path : String, position : Vector3, rotation = Vector3.ZERO) -> Node:
 	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	var spawner : BetterMultiplayerSpawner = $/root/Main/MultiplayerBaseScene/MultiplayerSpawner
 	return spawner.spawn({
 		"scene_file_path": scene_path,
 		"position": position,
+		"rotation": rotation,
 	})
 
 
@@ -136,8 +146,12 @@ func safe_is_multiplayer_authority(node : Node) -> bool:
 	return node.multiplayer.has_multiplayer_peer() and node.is_multiplayer_authority()
 
 
+func safe_is_server() -> bool:
+	return multiplayer.has_multiplayer_peer() and multiplayer.is_server()
+
+
 func _process(delta: float) -> void:
-	if not multiplayer.has_multiplayer_peer() or not multiplayer.is_server() or multiplayer.multiplayer_peer is OfflineMultiplayerPeer:
+	if not multiplayer.has_multiplayer_peer() or not MultiplayerManager.safe_is_server() or multiplayer.multiplayer_peer is OfflineMultiplayerPeer:
 		return
 	if stats_timer.time_left > 0.0:
 		return

@@ -10,14 +10,10 @@ func _ready():
 
 
 func _on_button_pressed():
-	if EventService.state == EventService.GameState.IN_GAME:
-		var character = EventService.find_player_by_peer(multiplayer.get_unique_id())
-		if character and character.has_node("CharacterSaveManager"):
-			var save_manager : CharacterSaveManager = character.get_node("CharacterSaveManager")
-			save_manager.save_character_values()
+	SaveUtilities.save_character_and_or_level(multiplayer.get_unique_id())
 	EventService.return_to_menu()
 	EventService.change_menu_overlay.emit(main_menu_path)
 	if disconnect_multiplayer:
-		if multiplayer.is_server():
+		if MultiplayerManager.safe_is_server():
 			EventService.clear_level_root()
 		MultiplayerManager.remove_multiplayer_peer()

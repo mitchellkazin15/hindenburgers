@@ -12,23 +12,16 @@ var auto_save_timer : SceneTreeTimer
 func _ready() -> void:
 	auto_save_timer = get_tree().create_timer(0.0)
 	send_save_file_vals_to_server()
-	MultiplayerManager.player_disconnected.connect(save_character_values)
 
 
 @rpc("any_peer", "call_local", "reliable")
 func load_character_values(serialized_val_list : Array):
-	if not multiplayer.is_server():
+	if not MultiplayerManager.safe_is_server():
 		return
 	var save_file : CharacterSaveFile = CharacterSaveFile.deserialize(serialized_val_list)
 	if character.has_node("CoinPurse"):
 		var purse : CoinPurse = character.get_node("CoinPurse")
 		purse.money_val = save_file.coin_purse_money_val
-
-
-func _on_player_disconnected(peer_id):
-	if peer_id != character.initial_multiplayer_authority:
-		return
-	save_character_values()
 
 
 func save_character_values():

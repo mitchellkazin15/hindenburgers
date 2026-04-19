@@ -13,7 +13,7 @@ func _physics_process(delta):
 	if EventService.state != EventService.GameState.IN_GAME:
 		tracked_bodies = []
 		return
-	if not multiplayer.is_server():
+	if not MultiplayerManager.safe_is_server():
 		return
 	if frames_since_last_sync % SYNC_RATIO_DIVISOR != 0:
 		frames_since_last_sync += 1
@@ -27,16 +27,20 @@ func _physics_process(delta):
 		if (invalidate_cached_states or 
 			(body.position.distance_squared_to(body._last_synced_position) > 0.001 or 
 			body.rotation.distance_squared_to(body._last_synced_rotation) > 0.001)):
-			states.append([
-				body.get_path(),
-				body.position,
-				body.rotation,
-			])
+			states.append(generate_state(body))
 			body._last_synced_position = body.position
 			body._last_synced_rotation = body.rotation
 	if states.size() > 0:
 		sync_states.rpc(states)
 	invalidate_cached_states = false
+
+
+func generate_state(body : RelativeRigidBody3D) -> Array:
+	return [
+		body.get_path(),
+		body.position,
+		body.rotation,
+	]
 
 
 @rpc("any_peer", "call_local", "unreliable_ordered")

@@ -40,7 +40,7 @@ func _on_changed_scene(scene_path : String):
 
 
 func _on_player_disconnected(peer_id):
-	if not multiplayer.has_multiplayer_peer() or not multiplayer.is_server() or state != GameState.IN_GAME:
+	if not multiplayer.has_multiplayer_peer() or not MultiplayerManager.safe_is_server() or state != GameState.IN_GAME:
 		return
 	var character = find_player_by_peer(peer_id)
 	character.end_locked_interaction.rpc()
@@ -93,7 +93,7 @@ func _start_game(info):
 	$/root/Main/MenuContainer.process_mode = Node.PROCESS_MODE_DISABLED
 	state = GameState.LOADING
 	MultiplayerManager.player_loaded.rpc()
-	if multiplayer.is_server():
+	if MultiplayerManager.safe_is_server():
 		call_deferred("_on_load_multiplayer_level")
 
 
@@ -127,14 +127,10 @@ func handle_in_game_menu_change():
 func _on_load_multiplayer_level():
 	print("loading level: ", multiplayer.get_unique_id())
 	clear_level_root()
-	var spawner : BetterMultiplayerSpawner = $/root/Main/MultiplayerBaseScene/MultiplayerSpawner
-	spawner.spawn({
-		"scene_file_path": "res://test_levels/level.tscn",
-	})
+	LevelSaveManager.load_level()
 	var peer_ids = MultiplayerManager.players.keys()
 	print(peer_ids)
 	for player_num in peer_ids.size():
-		#call_deferred("spawn_new_player", peer_ids[player_num], player_num)
 		spawn_new_player(peer_ids[player_num], player_num)
 	state = GameState.IN_GAME
 

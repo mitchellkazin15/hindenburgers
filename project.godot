@@ -25,6 +25,7 @@ PauseScreen="*uid://dtqv5k8vqbqpp"
 Settings="*uid://cf1i1fw5gorn3"
 SettingsScreen="*uid://cntsivp2ndb77"
 LoadingScreen="*uid://d33xqqrolb86a"
+LevelSaveManager="*uid://drka6pvw2cs6n"
 
 [display]
 

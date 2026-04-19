@@ -11,7 +11,6 @@ var is_boosting = false
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	super._integrate_forces(state)
 	if not being_driven or not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	var ground_plane_move = Vector2(move_direction.x, move_direction.z)
