@@ -26,7 +26,8 @@ func _physics_process(delta):
 			continue
 		if (invalidate_cached_states or 
 			(body.position.distance_squared_to(body._last_synced_position) > 0.001 or 
-			body.rotation.distance_squared_to(body._last_synced_rotation) > 0.001)):
+			body.rotation.distance_squared_to(body._last_synced_rotation) > 0.001)
+		):
 			states.append(generate_state(body))
 			body._last_synced_position = body.position
 			body._last_synced_rotation = body.rotation
@@ -45,7 +46,7 @@ func generate_state(body : RelativeRigidBody3D) -> Array:
 
 @rpc("any_peer", "call_local", "unreliable_ordered")
 func set_invalidate_cached_states():
-	print("invalidated cached body states!")
+	print("invalidated cached body states! ", multiplayer.get_unique_id())
 	invalidate_cached_states = true
 
 

@@ -30,8 +30,8 @@ func set_being_held(holder : Character):
 
 
 func release():
-	#reset_physics_interpolation()
-	prev_release_position = item_holder.global_position
+	if item_holder:
+		prev_release_position = item_holder.global_position
 	item_holder = null
 	being_held = false
 	add_child(old_collision_child)

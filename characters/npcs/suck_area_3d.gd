@@ -6,7 +6,7 @@ extends Area3D
 @export var suck_time = 2.0
 @export var eat_list : Array[String]
 
-var suck_item : RigidBody3D = null
+var suck_item : HoldableItem = null
 var suck_reset_timer : SceneTreeTimer
 var suck_reset_time = 0.5
 
@@ -29,8 +29,8 @@ func _on_body_entered(body):
 	if body is RelativeRigidBody3D and body != get_parent():
 		if not body is HoldableItem or body.being_held:
 			return
-		body.freeze
 		suck_item = body
+		suck_item.set_being_held(null)
 		var tween = get_tree().create_tween()
 		tween.tween_property(body, "global_position", mouth.global_position, suck_time)
 		tween.finished.connect(_on_suck_finished)
@@ -46,4 +46,5 @@ func _on_suck_finished():
 	else:
 		var spit_strength = (10.0 * mouth.global_basis.z + 10.0 * Vector3.UP) * suck_item.mass
 		suck_item.apply_relative_central_impulse(spit_strength)
+		suck_item.release()
 	suck_item = null

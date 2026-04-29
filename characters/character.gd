@@ -9,7 +9,7 @@ signal locked_interaction_ended
 @export var controllable = true
 @export var input_controller : CharacterPlayerInputController
 @export var synchronizer : MultiplayerSynchronizer
-@export var initial_multiplayer_authority : int
+@export var initial_multiplayer_authority : int = 1
 @export var initial_position : Vector3
 @export var display_name = ""
 @export var floor_shape_cast : ShapeCast3D
@@ -64,10 +64,11 @@ func set_initial_values():
 	input_controller.set_multiplayer_authority(initial_multiplayer_authority)
 	input_controller.set_process(input_controller.is_multiplayer_authority())
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
-	if not camera.is_multiplayer_authority():
+	if multiplayer.get_unique_id() == initial_multiplayer_authority:
 		$HUD.hide()
 		$DrugManager/DrugScreenEffectQuad.hide()
-	$Label3D.text = display_name
+	else:
+		$Label3D.text = display_name
 
 
 func reset():
