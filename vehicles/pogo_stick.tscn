@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://caqrbv2whvq2b" path="res://common_components/player_camera_3d.gd" id="3_y4o51"]
 [ext_resource type="Script" uid="uid://833764desipx" path="res://vehicles/enter_driving_area_3d.gd" id="4_im4xx"]
 [ext_resource type="Script" uid="uid://bn443o2wp6ivq" path="res://physics/reference_frame_area_3d.gd" id="4_ryp4v"]
+[ext_resource type="PackedScene" uid="uid://c1axrhnnqrqbk" path="res://items/metallic_item_hover_omni_light_3d.tscn" id="5_y4o51"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
 friction = 0.5
@@ -92,6 +93,8 @@ vehicle = NodePath("..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EnterDrivingArea3D" unique_id=1377534942]
 shape = SubResource("CapsuleShape3D_ryp4v")
 debug_color = Color(0.03858291, 0.65077674, 0, 0.41960785)
+
+[node name="OmniLight3D" parent="EnterDrivingArea3D" unique_id=425923836 instance=ExtResource("5_y4o51")]
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=2010175636]
 target_position = Vector3(0, -1.75, 0)

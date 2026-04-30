@@ -3,12 +3,18 @@
 [ext_resource type="Script" uid="uid://uaf6i15r345p" path="res://items/food/bun.gd" id="1_12bte"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_udog6"]
 [ext_resource type="PackedScene" uid="uid://buo6r3e7y8hjk" path="res://models/Bottom Bun.blend" id="3_udog6"]
+[ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="4_uu7pw"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_12bte"]
 height = 0.1
 radius = 0.3
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_uu7pw"]
+properties/0/path = NodePath(".:being_held")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [node name="BottomBun" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
@@ -32,3 +38,8 @@ metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
 shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("4_uu7pw")]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1096015433]
+replication_config = SubResource("SceneReplicationConfig_uu7pw")

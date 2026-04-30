@@ -163,11 +163,9 @@ func _physics_process(delta: float) -> void:
 	if not multiplayer.has_multiplayer_peer():
 		return
 	var spawner : BetterMultiplayerSpawner = $/root/Main/MultiplayerBaseScene/MultiplayerSpawner
+	# The bootstrap state push for joining peers is now driven from the
+	# server side in BetterMultiplayerSpawner.update_per_peer_spawn_count
+	# (see RigidBodySyncManager.push_full_state_to), so we no longer need
+	# the joining peer to schedule its own invalidate RPC here.
 	if state != GameState.IN_GAME and spawner.is_locally_synced() and find_player_by_peer(multiplayer.get_unique_id()):
 		state = GameState.IN_GAME
-		get_tree().create_timer(1.5).timeout.connect(_invalidate_cache)
-
-
-func _invalidate_cache():
-	print("sending invalidate from ", multiplayer.get_unique_id())
-	RigidBodySyncManager.set_invalidate_cached_states.rpc_id(1)

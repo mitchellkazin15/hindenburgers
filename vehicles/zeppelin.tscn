@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bgu41g83yv72j" path="res://models/chair.tscn" id="6_quy0k"]
 [ext_resource type="Script" uid="uid://833764desipx" path="res://vehicles/enter_driving_area_3d.gd" id="7_drf3n"]
 [ext_resource type="Script" uid="uid://bn443o2wp6ivq" path="res://physics/reference_frame_area_3d.gd" id="8_2878g"]
+[ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="9_2bcx7"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
 rough = true
@@ -93,6 +94,11 @@ material = SubResource("StandardMaterial3D_6ix3i")
 top_radius = 0.25
 bottom_radius = 0.25
 height = 10.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2bcx7"]
+properties/0/path = NodePath(".:being_driven")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [node name="Zeppelin" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("stats", "driver_seat", "camera", "vehicle_controller")]
 mass = 1000.0
@@ -220,6 +226,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.75, 5.5)
 shape = SubResource("BoxShape3D_5xue0")
 debug_color = Color(0.03858291, 0.65077674, 0, 0.41960785)
 
+[node name="OmniLight3D" parent="DriverChairOffset/EnterDrivingArea3D" unique_id=425923836 instance=ExtResource("9_2bcx7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.982897, 5.5646515)
+visible = true
+
 [node name="ReferenceFrameArea3D" type="Area3D" parent="." unique_id=1630329575 node_paths=PackedStringArray("reference_body")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.348808, 0)
 script = ExtResource("8_2878g")
@@ -247,3 +257,6 @@ mesh = SubResource("CylinderMesh_4xr8b")
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="Poles" unique_id=1449636014]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -25, -43)
 mesh = SubResource("CylinderMesh_4xr8b")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=408816602]
+replication_config = SubResource("SceneReplicationConfig_2bcx7")

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://clia0s6jdmf34" path="res://items/tools/spatula.gd" id="1_qikfw"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_brdvl"]
 [ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_d5n5e"]
+[ext_resource type="PackedScene" uid="uid://c1axrhnnqrqbk" path="res://items/metallic_item_hover_omni_light_3d.tscn" id="4_drkr3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qikfw"]
 size = Vector3(0.25, 0.05, 0.75)
@@ -20,6 +21,11 @@ radius = 0.75
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5u1aq"]
 size = Vector3(0.35, 0.2, 0.35)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_drkr3"]
+properties/0/path = NodePath(".:being_held")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [node name="Spatula" type="RigidBody3D" unique_id=1264862515]
 mass = 0.25
@@ -51,6 +57,8 @@ metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("4_drkr3")]
+
 [node name="SwingPivot" type="Node3D" parent="." unique_id=1085677876]
 
 [node name="BurgerFlipArea3D" type="Area3D" parent="." unique_id=572576884]
@@ -59,3 +67,6 @@ debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
 shape = SubResource("BoxShape3D_5u1aq")
 debug_color = Color(0.8135569, 0.40943807, 5.7756904e-07, 0.41960785)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=416777584]
+replication_config = SubResource("SceneReplicationConfig_drkr3")

@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_32g7s"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_g21kk"]
+[ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_g21kk"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_32g7s"]
 friction = 0.5
-bounce = 1.0
+bounce = 0.8
 
 [sub_resource type="Curve" id="Curve_g21kk"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.022499993, 0), 0.0, 0.0, 0, 0, Vector2(0.06999999, 1), 0.0, 0.0, 0, 0, Vector2(0.1375, 0), 0.0, 0.0, 0, 0, Vector2(0.2075, 1), 0.0, 0.0, 0, 0, Vector2(0.2625, 0), 0.0, 0.0, 0, 0, Vector2(0.3275, 1), 0.0, 0.0, 0, 0, Vector2(0.3775, 0), 0.0, 0.0, 0, 0, Vector2(0.41999996, 1), 0.0, 0.0, 0, 0, Vector2(0.5175, 0), 0.0, 0.0, 0, 0, Vector2(0.56, 1), 0.0, 0.0, 0, 0, Vector2(0.6425, 0), 0.0, 0.0, 0, 0, Vector2(0.67999995, 1), 0.0, 0.0, 0, 0, Vector2(0.78749996, 0), 0.0, 0.0, 0, 0, Vector2(0.8325, 1), 0.0, 0.0, 0, 0, Vector2(0.925, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -28,6 +29,11 @@ radius = 0.3
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 radius = 1.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_p6tkf"]
+properties/0/path = NodePath(".:being_held")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [node name="Basketball" type="RigidBody3D" unique_id=1832368976]
 mass = 0.1
@@ -53,3 +59,9 @@ metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
 shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_g21kk")]
+shadow_enabled = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1884917431]
+replication_config = SubResource("SceneReplicationConfig_p6tkf")

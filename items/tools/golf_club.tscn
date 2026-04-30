@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bx2ji7nbt02o1" path="res://items/tools/golf_club.gd" id="1_vqemh"]
 [ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_fk433"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_jnlyj"]
+[ext_resource type="PackedScene" uid="uid://c1axrhnnqrqbk" path="res://items/metallic_item_hover_omni_light_3d.tscn" id="4_d3jr8"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vqemh"]
 friction = 0.1
@@ -24,6 +25,11 @@ radius = 1.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_vqemh"]
 radius = 0.25
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_pc0x0"]
+properties/0/path = NodePath(".:being_held")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [node name="GolfClub" type="RigidBody3D" unique_id=1264862515]
 mass = 0.25
@@ -58,6 +64,8 @@ metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("4_d3jr8")]
+
 [node name="SwingPivot" type="Node3D" parent="." unique_id=1085677876]
 
 [node name="HitArea3D" type="Area3D" parent="." unique_id=2075252801]
@@ -66,3 +74,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0.95)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitArea3D" unique_id=1628954562]
 shape = SubResource("SphereShape3D_vqemh")
 debug_color = Color(0.98807985, 0, 0.3111137, 0.41960785)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1650328463]
+replication_config = SubResource("SceneReplicationConfig_pc0x0")

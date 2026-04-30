@@ -2,7 +2,7 @@ class_name CharacterPlayerInputController
 extends Node
 
 @export var character : Character
-@export var interacting_area : InteractingArea3D
+@export var interacting_raycast : InteractionRayCast3D
 @export var enabled = true
 
 
@@ -32,9 +32,9 @@ func _physics_process(delta: float) -> void:
 	move_direction = move_direction.normalized()
 	_handle_move_input.rpc_id(1, move_direction, is_jumping, is_sprinting)
 	if Input.is_action_just_pressed("interact"):
-		_handle_interact.rpc_id(1)
+		_handle_interact.rpc_id(1, interacting_raycast.global_rotation)
 	if Input.is_action_just_pressed("throw") or Input.is_action_just_released("throw"):
-		_handle_throw_input.rpc_id(1, Input.is_action_just_released("throw"))
+		_handle_throw_input.rpc_id(1, Input.is_action_just_released("throw"), -character.camera.global_basis.z)
 	if Input.is_action_just_pressed("reset"):
 		#reset_physics_interpolation()
 		_handle_reset_input.rpc_id(1)
@@ -50,16 +50,21 @@ func _handle_move_input(move_direction, is_jumping, is_sprinting):
 
 
 @rpc("authority", "call_local", "unreliable_ordered")
-func _handle_interact():
-	for area in interacting_area.get_overlapping_areas():
-		if area is InteractableArea3D:
-			area.interact(character)
+func _handle_interact(raycast_rotation : Vector3):
+	if character.locked_interaction:
+		character.end_locked_interaction.rpc()
+		return
+	interacting_raycast.global_rotation = raycast_rotation
+	interacting_raycast.force_raycast_update()
+	var interactable_area = interacting_raycast.get_interactable_area_collider()
+	if interactable_area:
+		interactable_area.interact(character)
 
 
 @rpc("authority", "call_local", "reliable")
-func _handle_throw_input(released : bool):
+func _handle_throw_input(released : bool, aim_dir : Vector3):
 	if released:
-		character.throw_item()
+		character.throw_item(aim_dir)
 	else:
 		character.start_throw_item()
 

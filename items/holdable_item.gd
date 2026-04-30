@@ -5,11 +5,11 @@ signal use_finished
 
 @export var unlock_rotation_on_use = false
 @export var max_use_charge_time = 1.0
+@export var being_held = false
 
 var item_holder : Character
 var prev_item_holder : Character
 var prev_release_position : Vector3
-var being_held = false
 var old_collision_child : CollisionShape3D
 
 

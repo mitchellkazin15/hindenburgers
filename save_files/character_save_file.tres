@@ -4,3 +4,4 @@
 
 [resource]
 script = ExtResource("1_7ysg0")
+coin_purse_money_val = 9753.0
