@@ -183,6 +183,10 @@ func set_launched():
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
+	if held_item == null or not is_instance_valid(held_item):
+		held_item = null
+		hand.remote_path = NodePath("")
+		holding_item = false
 	if reset_input:
 		reset()
 		return

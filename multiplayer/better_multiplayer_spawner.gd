@@ -72,7 +72,7 @@ func _peer_fully_spawned(peer_id) -> bool:
 
 
 func _custom_spawn_func(data: Dictionary) -> Node:
-	var node = load(data["scene_file_path"]).instantiate()
+	var node : Node = load(data["scene_file_path"]).instantiate()
 	if node is Character:
 		node.initial_position = data["position"]
 		node.initial_multiplayer_authority = data["authority"]
@@ -82,6 +82,7 @@ func _custom_spawn_func(data: Dictionary) -> Node:
 	if data.has("rotation"):
 		node.rotation = data["rotation"]
 	node.top_level = true
+	node.name = node.name
 	return node  # Spawner adds this to the scene automatically
 
 
