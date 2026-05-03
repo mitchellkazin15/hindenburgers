@@ -37,31 +37,34 @@ shape = SubResource("BoxShape3D_ekt7w")
 script = ExtResource("2_mek0c")
 metadata/_custom_type_script = "uid://dl01gpfyw3kru"
 
-[node name="DepositArea3D" type="Area3D" parent="." unique_id=150947277 node_paths=PackedStringArray("vault")]
+[node name="DepositArea3D" type="Area3D" parent="." unique_id=150947277 node_paths=PackedStringArray("vault", "label")]
 script = ExtResource("3_3oadc")
 vault = NodePath("../CoinPurse")
+label = NodePath("../DepositLabel3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DepositArea3D" unique_id=2061021011]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 0.5)
 shape = SubResource("SphereShape3D_gqs0g")
 debug_color = Color(0.86557174, 0.00058449985, 0.86300755, 0.41960785)
 
-[node name="WithdrawArea3D" type="Area3D" parent="." unique_id=2139069643 node_paths=PackedStringArray("vault")]
+[node name="WithdrawArea3D" type="Area3D" parent="." unique_id=2139069643 node_paths=PackedStringArray("vault", "label")]
 script = ExtResource("3_3oadc")
 transfer_type = 1
 vault = NodePath("../CoinPurse")
+label = NodePath("../WithdrawLabel3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WithdrawArea3D" unique_id=1730055407]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0.5)
 shape = SubResource("SphereShape3D_gqs0g")
 debug_color = Color(0.86557174, 0.00058449985, 0.86300755, 0.41960785)
 
-[node name="Label3D" type="Label3D" parent="." unique_id=2024437327]
+[node name="DepositLabel3D" type="Label3D" parent="." unique_id=2024437327]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 0.6)
 alpha_cut = 1
+modulate = Color(1.19419, 1.19419, 1.19419, 1)
 text = "Deposit"
 
-[node name="Label3D2" type="Label3D" parent="." unique_id=321314986]
+[node name="WithdrawLabel3D" type="Label3D" parent="." unique_id=321314986]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0.6)
 alpha_cut = 1
 text = "Withdraw"

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://xb45yux1xxsf" path="res://items/food/drugs/joint.gd" id="1_2hvar"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_lk0pb"]
+[ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_j563i"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 
@@ -114,6 +115,8 @@ metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/GrabItemArea3D" unique_id=2137353213]
 shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="OmniLight3D" parent="Node3D/GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_j563i")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=665638984]
 mesh = SubResource("CylinderMesh_g8u53")

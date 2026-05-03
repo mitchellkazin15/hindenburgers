@@ -5,7 +5,6 @@
 [ext_resource type="Script" uid="uid://b6nr4bwo0sewj" path="res://ui/components/quit_game_button.gd" id="3_dg1bm"]
 [ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="3_pcfgi"]
 [ext_resource type="Script" uid="uid://ch0vtm1q8hxxh" path="res://ui/resume_button.gd" id="4_pcfgi"]
-[ext_resource type="Script" uid="uid://43xpmuf1denx" path="res://ui/components/save_game_button.gd" id="5_1gduw"]
 [ext_resource type="Script" uid="uid://bn7peg4l5h3lf" path="res://ui/components/main_menu_button.gd" id="6_pcfgi"]
 [ext_resource type="Script" uid="uid://rrmpyei3laxx" path="res://ui/components/settings_menu_button.gd" id="8_1gduw"]
 [ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="9_1gduw"]
@@ -46,13 +45,6 @@ mouse_filter = 1
 theme = ExtResource("3_pcfgi")
 text = "resume"
 script = ExtResource("4_pcfgi")
-
-[node name="SaveGameButton" type="Button" parent="PauseMenu/VBoxContainer" unique_id=1936187661]
-layout_mode = 2
-theme = ExtResource("3_pcfgi")
-text = "save game"
-script = ExtResource("5_1gduw")
-metadata/_custom_type_script = "uid://43xpmuf1denx"
 
 [node name="MainMenuButton" type="Button" parent="PauseMenu/VBoxContainer" unique_id=931873646]
 layout_mode = 2

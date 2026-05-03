@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://h7um5s26s26s" path="res://items/money/coin.gd" id="1_02d61"]
 [ext_resource type="Texture2D" uid="uid://dxf8jwnnn3774" path="res://assets/misc_sprites/silver-coin.png" id="2_02d61"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="3_wsg5e"]
+[ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="4_y7whv"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dhovw"]
 size = Vector3(1, 0.05, 0.5)
@@ -23,6 +24,11 @@ size = Vector3(1, 0.05, 0.5)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 radius = 0.75
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wsg5e"]
+properties/0/path = NodePath(".:being_held")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [node name="FiveDollar" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
@@ -49,3 +55,8 @@ metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
 shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("4_y7whv")]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=167932444]
+replication_config = SubResource("SceneReplicationConfig_wsg5e")

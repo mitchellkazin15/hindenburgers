@@ -6,16 +6,18 @@ signal locked_interaction_ended
 @onready var rotation_pivot = $RotationPivot
 
 @export var camera : Camera3D
+@export var interact_raycast : InteractionRayCast3D
 @export var controllable = true
 @export var input_controller : CharacterPlayerInputController
 @export var synchronizer : MultiplayerSynchronizer
-@export var initial_multiplayer_authority : int
+@export var initial_multiplayer_authority : int = 1
 @export var initial_position : Vector3
 @export var display_name = ""
 @export var floor_shape_cast : ShapeCast3D
 @export var stats : CharacterStatManager
 @export var hand : RemoteTransform3D
 @export var randomness_duration = 1.0
+@export var holding_item = false
 
 var move_direction : Vector3
 var is_jumping = false
@@ -64,10 +66,17 @@ func set_initial_values():
 	input_controller.set_multiplayer_authority(initial_multiplayer_authority)
 	input_controller.set_process(input_controller.is_multiplayer_authority())
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
-	if not camera.is_multiplayer_authority():
+	interact_raycast.set_multiplayer_authority(initial_multiplayer_authority)
+	interact_raycast.set_physics_process(interact_raycast.is_multiplayer_authority())
+	$Label3D.text = display_name
+	if multiplayer.get_unique_id() != initial_multiplayer_authority:
 		$HUD.hide()
 		$DrugManager/DrugScreenEffectQuad.hide()
-	$Label3D.text = display_name
+		$Label3D.show()
+	else:
+		$HUD.show()
+		$DrugManager/DrugScreenEffectQuad.show()
+		$Label3D.hide()
 
 
 func reset():
@@ -113,6 +122,7 @@ func grab_item(item : HoldableItem):
 	hand.update_rotation = true
 	hand.rotation = Vector3.ZERO
 	held_item = item
+	holding_item = true
 	held_item.use_finished.connect(_on_use_finished)
 	return true
 
@@ -141,7 +151,7 @@ func start_throw_item():
 	throw_item_stopwatch.start()
 
 
-func throw_item():
+func throw_item(aim_dir : Vector3):
 	throw_item_stopwatch.stop()
 	if held_item == null:
 		throw_item_stopwatch.restart()
@@ -150,7 +160,7 @@ func throw_item():
 	hand.rotation = Vector3.ZERO
 	held_item.use_finished.disconnect(_on_use_finished)
 	held_item.release()
-	var throw_vec : Vector3 = ($RotationPivot.global_basis.z).normalized()
+	var throw_vec : Vector3 = (aim_dir + Vector3(0.0, 0.1, 0.0)).normalized()
 	if reference_frame_vel.length() == 0.0:
 		throw_vec += held_item.mass * Vector3(0.1, .5, 0.1) * linear_velocity
 	throw_vec = throw_vec.rotated(Vector3.UP, rand_angle)
@@ -161,6 +171,7 @@ func throw_item():
 	held_item.set_new_reference_frame(self.reference_frame_vel)
 	held_item.apply_central_impulse(throw_vec)
 	held_item = null
+	holding_item = false
 	throw_item_stopwatch.restart()
 
 
@@ -172,6 +183,10 @@ func set_launched():
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
+	if held_item == null or not is_instance_valid(held_item):
+		held_item = null
+		hand.remote_path = NodePath("")
+		holding_item = false
 	if reset_input:
 		reset()
 		return

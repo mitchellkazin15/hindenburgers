@@ -3,6 +3,10 @@ extends MultiplayerSpawner
 
 var per_peer_spawn_count_dict = {}
 var per_peer_spawn_ready_dict = {}
+# Server-only: tracks which peers we've already pushed a full RigidBody state
+# snapshot to. Prevents redundant pushes if a peer's spawn count later
+# fluctuates (e.g. when new entities spawn after the initial join).
+var _peers_state_pushed = {}
 var update_spawn_count_timer : SceneTreeTimer
 
 
@@ -30,7 +34,17 @@ func update_per_peer_spawn_count(peer_id, new_count):
 		return
 	print("expecting ", get_node(spawn_path).get_children().size())
 	per_peer_spawn_count_dict[peer_id] = new_count
-	sync_ready_dict.rpc(peer_id, _peer_fully_spawned(peer_id))
+	var is_fully_spawned = _peer_fully_spawned(peer_id)
+	sync_ready_dict.rpc(peer_id, is_fully_spawned)
+	# When a remote peer first finishes spawning everything the server has,
+	# push the authoritative position/rotation of every tracked rigid body
+	# to that peer. This is the bootstrap snapshot that gets idle bodies
+	# (notably stationary players) into the right place — they wouldn't
+	# otherwise show up in the regular delta sync until they moved.
+	if (is_fully_spawned and peer_id != 1
+		and not _peers_state_pushed.has(peer_id)):
+		_peers_state_pushed[peer_id] = true
+		RigidBodySyncManager.push_full_state_to(peer_id)
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -58,7 +72,7 @@ func _peer_fully_spawned(peer_id) -> bool:
 
 
 func _custom_spawn_func(data: Dictionary) -> Node:
-	var node = load(data["scene_file_path"]).instantiate()
+	var node : Node = load(data["scene_file_path"]).instantiate()
 	if node is Character:
 		node.initial_position = data["position"]
 		node.initial_multiplayer_authority = data["authority"]
@@ -68,6 +82,7 @@ func _custom_spawn_func(data: Dictionary) -> Node:
 	if data.has("rotation"):
 		node.rotation = data["rotation"]
 	node.top_level = true
+	node.name = node.name
 	return node  # Spawner adds this to the scene automatically
 
 

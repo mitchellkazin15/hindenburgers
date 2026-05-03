@@ -4,6 +4,15 @@ extends InteractableArea3D
 enum TranferType {DEPOSIT, WITHDRAW}
 @export var transfer_type : TranferType
 @export var vault : CoinPurse
+@export var label : Label3D
+
+
+func set_glow():
+	label.outline_modulate = Color(0.0, 0.5, 0.0, 1.0)
+
+
+func remove_glow():
+	label.outline_modulate = Color(0.0, 0.0, 0.0, 1.0)
 
 
 func interact(interacting_node: Node) -> void:

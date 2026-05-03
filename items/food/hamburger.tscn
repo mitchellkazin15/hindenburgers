@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bey5vv6enn4h0" path="res://items/food/hamburger.gd" id="1_syu0n"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_syu0n"]
+[ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_xsusi"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_q777v"]
 radius = 0.25
@@ -24,6 +25,11 @@ bottom_radius = 0.27
 height = 0.05
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_o1stp"]
+properties/0/path = NodePath(".:being_held")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [node name="Hamburger" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
@@ -52,3 +58,8 @@ metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
 shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_xsusi")]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=147434159]
+replication_config = SubResource("SceneReplicationConfig_o1stp")

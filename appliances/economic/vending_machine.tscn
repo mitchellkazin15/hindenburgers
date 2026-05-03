@@ -15,7 +15,7 @@ size = Vector3(2, 3, 1)
 size = Vector3(2, 3, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q35l4"]
-size = Vector3(3, 3, 2)
+size = Vector3(2.1, 3.1, 1.1)
 
 [node name="VendingMachine" type="StaticBody3D" unique_id=1282238622 node_paths=PackedStringArray("dispense_pos", "label")]
 script = ExtResource("1_m604e")
@@ -31,9 +31,10 @@ shape = SubResource("BoxShape3D_ekt7w")
 [node name="Node3D" type="Node3D" parent="." unique_id=1657139965]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.75)
 
-[node name="Area3D" type="Area3D" parent="." unique_id=150947277 node_paths=PackedStringArray("vending_machine")]
+[node name="Area3D" type="Area3D" parent="." unique_id=150947277 node_paths=PackedStringArray("vending_machine", "label")]
 script = ExtResource("2_ekt7w")
 vending_machine = NodePath("..")
+label = NodePath("../Label3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=2061021011]
 shape = SubResource("BoxShape3D_q35l4")

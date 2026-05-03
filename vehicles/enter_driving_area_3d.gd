@@ -2,6 +2,26 @@ class_name EnterDrivingArea3D
 extends InteractableArea3D
 
 @export var vehicle : Vehicle
+var light : OmniLight3D
+
+
+func _ready() -> void:
+	if has_node("OmniLight3D"):
+		light = get_node("OmniLight3D")
+		light.hide()
+
+
+func set_glow():
+	if vehicle.being_driven:
+		light.hide()
+		return
+	if light:
+		light.show()
+
+
+func remove_glow():
+	if light:
+		light.hide()
 
 
 func interact(interacting_node: Node) -> void:
