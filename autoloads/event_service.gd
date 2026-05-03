@@ -94,7 +94,7 @@ func _start_game(info):
 	state = GameState.LOADING
 	MultiplayerManager.player_loaded.rpc()
 	if MultiplayerManager.safe_is_server():
-		call_deferred("_on_load_multiplayer_level")
+		call_deferred("_on_load_multiplayer_level", info)
 
 
 func return_to_menu():
@@ -124,10 +124,10 @@ func handle_in_game_menu_change():
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
-func _on_load_multiplayer_level():
+func _on_load_multiplayer_level(game_info : Dictionary):
 	print("loading level: ", multiplayer.get_unique_id())
 	clear_level_root()
-	LevelSaveManager.load_level()
+	LevelSaveManager.load_level(game_info)
 	var peer_ids = MultiplayerManager.players.keys()
 	print(peer_ids)
 	for player_num in peer_ids.size():

@@ -31,6 +31,10 @@ LevelSaveManager="*uid://drka6pvw2cs6n"
 
 window/size/mode=4
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/terrain_3d/plugin.cfg")
+
 [global_group]
 
 player_spawn="Node3D whose position can be used to spawn a player"

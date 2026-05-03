@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c67nyo7qvg0ia"]
+
+[ext_resource type="Texture2D" uid="uid://2f2c5l0fmqck" path="res://assets/Tiles131_1K-PNG_Color.png" id="1_10ouy"]
+
+[resource]
+albedo_texture = ExtResource("1_10ouy")
+uv1_scale = Vector3(10, 10, 10)

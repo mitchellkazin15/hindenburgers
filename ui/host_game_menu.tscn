@@ -41,18 +41,25 @@ custom_minimum_size = Vector2(600, 80)
 layout_mode = 2
 placeholder_text = "Name"
 
-[node name="HostGameButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=448485311 node_paths=PackedStringArray("name_field", "lobby", "start_game_button")]
+[node name="HostGameButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=448485311 node_paths=PackedStringArray("name_field", "lobby", "start_game_buttons")]
 layout_mode = 2
 text = "start hosting"
 script = ExtResource("4_7wu37")
 name_field = NodePath("../NameFieldTextEdit")
 lobby = NodePath("../../MultiplayerLobby")
-start_game_button = NodePath("../StartGameButton")
+start_game_buttons = [NodePath("../StartNewGameButton"), NodePath("../LoadGameButton2")]
 
-[node name="StartGameButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1493427749]
+[node name="StartNewGameButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1493427749]
 visible = false
 layout_mode = 2
-text = "start game"
+text = "start new game"
+script = ExtResource("7_pr58h")
+new_game = true
+
+[node name="LoadGameButton2" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1326947512]
+visible = false
+layout_mode = 2
+text = "load game"
 script = ExtResource("7_pr58h")
 
 [node name="MainMenuButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1987326036]

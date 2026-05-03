@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://d2d7u3vxmhpsf"]
 
 [ext_resource type="PackedScene" uid="uid://8jwoiorxedsv" path="res://characters/npcs/customer.tscn" id="1_68ie7"]
-[ext_resource type="Material" uid="uid://blwatby8sbg5b" path="res://test_levels/dirt_material.tres" id="1_r28pc"]
+[ext_resource type="Material" uid="uid://blwatby8sbg5b" path="res://assets/dirt_material.tres" id="1_r28pc"]
 [ext_resource type="PackedScene" uid="uid://cxmv04r35emag" path="res://vehicles/blimp.tscn" id="2_41kie"]
 [ext_resource type="PackedScene" uid="uid://cx82doy6u2wvc" path="res://hazards/wind_box.tscn" id="2_ih737"]
 [ext_resource type="Script" uid="uid://cww7byljmt284" path="res://test_levels/player_spawn.gd" id="3_ih737"]
-[ext_resource type="Material" uid="uid://c246ja83fjkrm" path="res://test_levels/hangar_material.tres" id="4_8mm68"]
+[ext_resource type="Material" uid="uid://c246ja83fjkrm" path="res://assets/hangar_material.tres" id="4_8mm68"]
 [ext_resource type="PackedScene" uid="uid://bbqknpjnqy3ym" path="res://items/tools/spatula.tscn" id="4_41kie"]
 [ext_resource type="PackedScene" uid="uid://vg6pdbix5lar" path="res://items/food/bottom_bun.tscn" id="5_abttm"]
 [ext_resource type="PackedScene" uid="uid://djxhnlbuipq3u" path="res://hazards/air_mine.tscn" id="6_wo617"]

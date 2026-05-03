@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://de0b36uh5mps8"]
+
+[ext_resource type="Material" uid="uid://c67nyo7qvg0ia" path="res://assets/tiles.tres" id="1_8iis5"]
+[ext_resource type="Material" uid="uid://5a6ocv42f6x8" path="res://assets/brick.tres" id="2_8iis5"]
+[ext_resource type="Material" uid="uid://rls6f7eoqx12" path="res://hazards/air_mine_material_3d.tres" id="3_e8t6o"]
+[ext_resource type="Texture2D" uid="uid://dlh41gong8kn5" path="res://assets/PavingStones129_1K-PNG_Color.png" id="4_e8t6o"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lucs7"]
+albedo_texture = ExtResource("4_e8t6o")
+uv1_scale = Vector3(5, 5, 5)
+
+[node name="Restaurant" type="Node3D" unique_id=1552547282]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=146669981]
+use_collision = true
+
+[node name="Floor" type="CSGBox3D" parent="CSGCombiner3D" unique_id=999958263]
+size = Vector3(25, 1, 15)
+material = ExtResource("1_8iis5")
+
+[node name="FrontWall" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1435247227]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 8)
+size = Vector3(25, 10, 1)
+material = ExtResource("2_8iis5")
+
+[node name="BackWall" type="CSGBox3D" parent="CSGCombiner3D" unique_id=584647057]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, -8)
+size = Vector3(25, 10, 1)
+material = ExtResource("2_8iis5")
+
+[node name="SideWall" type="CSGBox3D" parent="CSGCombiner3D" unique_id=851753386]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 4.5, 0)
+size = Vector3(1, 10, 17)
+material = ExtResource("2_8iis5")
+
+[node name="SideWall2" type="CSGBox3D" parent="CSGCombiner3D" unique_id=373089477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.5, 0)
+size = Vector3(1, 10, 17)
+material = ExtResource("2_8iis5")
+
+[node name="Window" type="CSGBox3D" parent="CSGCombiner3D" unique_id=2041789574]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.5, 3)
+operation = 2
+size = Vector3(1.1, 3, 2)
+material = ExtResource("3_e8t6o")
+
+[node name="Window2" type="CSGBox3D" parent="CSGCombiner3D" unique_id=34635102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.5, -3)
+operation = 2
+size = Vector3(1.1, 3, 2)
+material = ExtResource("3_e8t6o")
+
+[node name="Window3" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1255459338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 4.5, 3)
+operation = 2
+size = Vector3(1.1, 3, 2)
+material = ExtResource("3_e8t6o")
+
+[node name="Window4" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1456835326]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 4.5, -3)
+operation = 2
+size = Vector3(1.1, 3, 2)
+material = ExtResource("3_e8t6o")
+
+[node name="Doorway" type="CSGBox3D" parent="CSGCombiner3D" unique_id=102268504]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 8)
+operation = 2
+size = Vector3(4, 4, 1.1)
+material = ExtResource("3_e8t6o")
+
+[node name="FrontWindow" type="CSGBox3D" parent="CSGCombiner3D" unique_id=205075680]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 4.5, 8)
+operation = 2
+size = Vector3(2, 3, 1.1)
+material = ExtResource("3_e8t6o")
+
+[node name="FrontWindow2" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1231978424]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 4.5, 8)
+operation = 2
+size = Vector3(2, 3, 1.1)
+material = ExtResource("3_e8t6o")
+
+[node name="FrontWindow3" type="CSGBox3D" parent="CSGCombiner3D" unique_id=599226275]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 4.5, 8)
+operation = 2
+size = Vector3(2, 3, 1.1)
+material = ExtResource("3_e8t6o")
+
+[node name="FrontWindow4" type="CSGBox3D" parent="CSGCombiner3D" unique_id=173949676]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 4.5, 8)
+operation = 2
+size = Vector3(2, 3, 1.1)
+material = ExtResource("3_e8t6o")
+
+[node name="Roof" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1082677184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+size = Vector3(27, 1, 17)
+material = SubResource("StandardMaterial3D_lucs7")

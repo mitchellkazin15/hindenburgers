@@ -18,6 +18,7 @@ func save_level():
 		return
 	if not base_level_saved:
 		_save_base_level_scene()
+		base_level_saved = true
 	var level_save = LevelSaveFile.new()
 	for body in RigidBodySyncManager.tracked_bodies:
 		if not body or not is_instance_valid(body):
@@ -37,15 +38,15 @@ func save_level():
 
 
 ## Remove any rigid bodies or auto spawners from base_level and load in saved body states
-func load_level():
+func load_level(game_info : Dictionary):
 	if not MultiplayerManager.safe_is_server():
 		return
 	print("loading saved level file")
 	var res_dir = DirAccess.open("res://")
 	var spawner : BetterMultiplayerSpawner = $/root/Main/MultiplayerBaseScene/MultiplayerSpawner
-	if not res_dir.file_exists(SAVED_BASE_LEVEL_FILE_PATH) or not res_dir.file_exists(SAVED_LEVEL_FILE_PATH):
+	if game_info["new_game"] or not res_dir.file_exists(SAVED_BASE_LEVEL_FILE_PATH) or not res_dir.file_exists(SAVED_LEVEL_FILE_PATH):
 		spawner.spawn({
-			"scene_file_path": "res://test_levels/level.tscn",
+			"scene_file_path": "res://test_levels/terrain_level.scn",
 		})
 		return
 	var saved_base_level = MultiplayerManager.add_node_to_spawner(SAVED_BASE_LEVEL_FILE_PATH, Vector3.ZERO)
@@ -59,6 +60,7 @@ func load_level():
 	for atm_path in saved_level.atm_money_vals.keys():
 		var atm : Atm = get_node(atm_path)
 		atm.vault.money_val = saved_level.atm_money_vals[atm_path]
+	save_level()
 
 
 func _save_base_level_scene():
@@ -80,5 +82,6 @@ func _physics_process(delta: float) -> void:
 		or EventService.state != EventService.GameState.IN_GAME
 	):
 		return
+	print("auto saving")
 	save_level()
 	auto_save_timer = get_tree().create_timer(auto_save_interval)

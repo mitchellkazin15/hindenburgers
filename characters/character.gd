@@ -221,7 +221,9 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		target_ground_plane_vel.y = 0.0
 		self.apply_relative_central_impulse(target_ground_plane_vel, Vector3(1.0, 0.0, 1.0))
 	if is_jumping and _can_jump and collider:
-		self.apply_central_impulse(stats.get_current_jump_impulse() * Vector3.UP)
+		var jump_impulse = stats.get_current_jump_impulse() * Vector3.UP
+		jump_impulse -= state.linear_velocity.y * mass * Vector3.UP
+		self.apply_central_impulse(jump_impulse)
 		_can_jump = false
 		_jump_lock_timer = get_tree().create_timer(jump_lockout_time)
 		_jump_lock_timer.timeout.connect(_on_jump_lock_timeout)
