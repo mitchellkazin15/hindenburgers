@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cg5wrb11ooj1l"
-path="res://.godot/imported/Ground068_1K-PNG_Color.png-4327eaa50c92ef8e0ea84b23c8f1cc37.ctex"
+uid="uid://c76vxcis7mkq4"
+path="res://.godot/imported/PavingStones036_1K-PNG_Color.png-881edee30e3d5b121715800e19a51a6a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Ground068_1K-PNG_Color.png"
-dest_files=["res://.godot/imported/Ground068_1K-PNG_Color.png-4327eaa50c92ef8e0ea84b23c8f1cc37.ctex"]
+source_file="res://assets/PavingStones036_1K-PNG_Color.png"
+dest_files=["res://.godot/imported/PavingStones036_1K-PNG_Color.png-881edee30e3d5b121715800e19a51a6a.ctex"]
 
 [params]
 

@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dmxs06dxhmlyf"
-path.s3tc="res://.godot/imported/PavingStones138_1K-PNG_Color.png-58b6d18650eeed0455c1172c53625dec.s3tc.ctex"
+path="res://.godot/imported/PavingStones138_1K-PNG_Color.png-58b6d18650eeed0455c1172c53625dec.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/PavingStones138_1K-PNG_Color.png"
-dest_files=["res://.godot/imported/PavingStones138_1K-PNG_Color.png-58b6d18650eeed0455c1172c53625dec.s3tc.ctex"]
+dest_files=["res://.godot/imported/PavingStones138_1K-PNG_Color.png-58b6d18650eeed0455c1172c53625dec.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
