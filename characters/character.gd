@@ -65,6 +65,7 @@ func set_initial_values():
 	camera.current = initial_multiplayer_authority == multiplayer.get_unique_id()
 	if camera.current:
 		$/root/Main/MultiplayerBaseScene/LevelRoot/Level/Terrain3D.set_camera(camera)
+		$/root/Main/MultiplayerBaseScene/LevelRoot/Level/Terrain3D.set_physics_process(true)
 	input_controller.set_multiplayer_authority(initial_multiplayer_authority)
 	input_controller.set_process(input_controller.is_multiplayer_authority())
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
