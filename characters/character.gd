@@ -63,6 +63,8 @@ func set_initial_values():
 	camera.set_process(camera.is_multiplayer_authority())
 	camera.set_process_input(camera.is_multiplayer_authority())
 	camera.current = initial_multiplayer_authority == multiplayer.get_unique_id()
+	if camera.current:
+		$/root/Main/MultiplayerBaseScene/LevelRoot/Level/Terrain3D.set_camera(camera)
 	input_controller.set_multiplayer_authority(initial_multiplayer_authority)
 	input_controller.set_process(input_controller.is_multiplayer_authority())
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
@@ -222,7 +224,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		self.apply_relative_central_impulse(target_ground_plane_vel, Vector3(1.0, 0.0, 1.0))
 	if is_jumping and _can_jump and collider:
 		var jump_impulse = stats.get_current_jump_impulse() * Vector3.UP
-		jump_impulse -= state.linear_velocity.y * mass * Vector3.UP
+		jump_impulse -= (state.linear_velocity.y - reference_frame_vel.y) * mass * Vector3.UP
 		self.apply_central_impulse(jump_impulse)
 		_can_jump = false
 		_jump_lock_timer = get_tree().create_timer(jump_lockout_time)
