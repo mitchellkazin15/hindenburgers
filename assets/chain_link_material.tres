@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dxsbuv8aoehps"]
+
+[ext_resource type="Texture2D" uid="uid://wdhjoksg0kh3" path="res://assets/chain-link-fence.png" id="1_v2u0c"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_color = Color(0.83033526, 0.83033514, 0.83033514, 1)
+albedo_texture = ExtResource("1_v2u0c")
+metallic = 1.0
+roughness = 0.0
+uv1_scale = Vector3(100, 25, 93.75)

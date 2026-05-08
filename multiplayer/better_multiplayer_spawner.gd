@@ -42,7 +42,8 @@ func update_per_peer_spawn_count(peer_id, new_count):
 	# (notably stationary players) into the right place — they wouldn't
 	# otherwise show up in the regular delta sync until they moved.
 	if (is_fully_spawned and peer_id != 1
-		and not _peers_state_pushed.has(peer_id)):
+		and not _peers_state_pushed.has(peer_id)
+	):
 		_peers_state_pushed[peer_id] = true
 		RigidBodySyncManager.push_full_state_to(peer_id)
 

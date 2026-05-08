@@ -121,7 +121,7 @@ script = ExtResource("4_darwc")
 base_stats = {
 "acceleration": 5.0,
 "boost_acceleration_multiplier": 1.1,
-"max_altitude": 250.0,
+"max_altitude": 200.0,
 "max_speed": 75.0,
 "righting_torque_scalar": 2000.0,
 "rising_acceleration": 7.0,

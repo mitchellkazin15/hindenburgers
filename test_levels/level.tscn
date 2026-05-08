@@ -619,6 +619,10 @@ transform = Transform3D(-0.9929096, -0.012782383, 0.11818267, -0.0115709575, 0.9
 transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, -85.28504, 14, -7.531588)
 payment = ExtResource("21_wqgis")
 
+[node name="DimeCustomer" parent="Customers" unique_id=1478030882 instance=ExtResource("1_68ie7")]
+transform = Transform3D(0.015271202, 0, -0.99988353, 0, 1, 0, 0.99988353, 0, 0.015271202, -114.917786, 31.091167, -0.00911808)
+payment = ExtResource("22_on3nk")
+
 [node name="DollarCustomer" parent="Customers" unique_id=436774049 instance=ExtResource("1_68ie7")]
 transform = Transform3D(0.99403733, 0, -0.10904016, 0, 1, 0, 0.10904016, 0, 0.99403733, -196.69228, 82.13488, -187.11304)
 payment = ExtResource("26_3shqq")
@@ -630,10 +634,6 @@ payment = ExtResource("26_mt3wb")
 [node name="TenDollarCustomer" parent="Customers" unique_id=1352900098 instance=ExtResource("1_68ie7")]
 transform = Transform3D(0.99403733, 0, -0.10904016, 0, 1, 0, 0.10904016, 0, 0.99403733, 103.162506, 299.28888, -1314.7803)
 payment = ExtResource("27_ginh7")
-
-[node name="DimeCustomer" parent="Customers" unique_id=1478030882 instance=ExtResource("1_68ie7")]
-transform = Transform3D(0.015271202, 0, -0.99988353, 0, 1, 0, 0.99988353, 0, 0.015271202, -114.917786, 31.091167, -0.00911808)
-payment = ExtResource("22_on3nk")
 
 [node name="FrolfBasket" parent="." unique_id=978543476 instance=ExtResource("31_xbktu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -158.23195, -0.25657344, -71.49646)

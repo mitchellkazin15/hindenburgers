@@ -50,8 +50,6 @@ func generate_state(body : RelativeRigidBody3D) -> Array:
 func push_full_state_to(peer_id : int) -> void:
 	if not MultiplayerManager.safe_is_server():
 		return
-	if peer_id == multiplayer.get_unique_id():
-		return
 	var states = []
 	for body in tracked_bodies:
 		if not is_instance_valid(body):
@@ -82,8 +80,6 @@ func sync_states_reliable(states: Array):
 
 
 func _apply_states(states: Array) -> void:
-	if EventService.state != EventService.GameState.IN_GAME:
-		return
 	for state in states:
 		var node_path = state[StateIndices.ID]
 		if not has_node(node_path):

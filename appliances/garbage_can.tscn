@@ -11,7 +11,7 @@ cap_top = false
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n8l78"]
 cull_mode = 2
-albedo_color = Color(0.65834, 0.65834, 0.6583398, 1)
+albedo_color = Color(0.80686986, 0.8068699, 0.80686986, 1)
 metallic = 0.79
 metallic_specular = 0.45
 roughness = 0.0

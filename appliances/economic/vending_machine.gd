@@ -15,6 +15,6 @@ func _ready() -> void:
 func dispense_item():
 	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
-	var item_node = MultiplayerManager.add_node_to_spawner(item.resource_path, dispense_pos.global_position)
+	var item_node = MultiplayerManager.add_node_to_spawner(item.resource_path, dispense_pos.global_position, dispense_pos.global_rotation)
 	if item_node is RelativeRigidBody3D:
 		item_node.apply_relative_central_impulse(5.0 * global_basis.z * item_node.mass)
