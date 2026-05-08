@@ -1,0 +1,309 @@
+[gd_scene format=3 uid="uid://cpy3522f3pi8h"]
+
+[ext_resource type="Script" uid="uid://dhk6r68k1gj48" path="res://vehicles/hot_air_balloon.gd" id="1_qunty"]
+[ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_3om4g"]
+[ext_resource type="Material" uid="uid://dketfkh7vnmjg" path="res://assets/hot_air_ballon_material.tres" id="2_d7vac"]
+[ext_resource type="Material" uid="uid://c246ja83fjkrm" path="res://assets/hangar_material.tres" id="4_jolvu"]
+[ext_resource type="Script" uid="uid://d3jst2uikhsxu" path="res://stats/blimp_stat_manager.gd" id="4_ofsl1"]
+[ext_resource type="Script" uid="uid://bn443o2wp6ivq" path="res://physics/reference_frame_area_3d.gd" id="5_jolvu"]
+[ext_resource type="Script" uid="uid://cxgmtkr0tnym4" path="res://common_components/button_area_3d.gd" id="6_0lj8x"]
+[ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="7_p4whq"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
+rough = true
+bounce = 0.25
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0lj8x"]
+size = Vector3(15, 11.010254, 15)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_p4whq"]
+height = 40.0
+radius = 7.5
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2f6gc"]
+radius = 7.5
+height = 25.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ura6j"]
+size = Vector3(1, 4, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d7vac"]
+size = Vector3(1, 4, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3om4g"]
+size = Vector3(1, 4, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ofsl1"]
+size = Vector3(1, 4, 15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_j7fa5"]
+material = ExtResource("2_3om4g")
+size = Vector3(15, 1, 15)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3103s"]
+material = ExtResource("2_3om4g")
+top_radius = 7.5
+bottom_radius = 7.5
+height = 40.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1ukgg"]
+material = ExtResource("2_d7vac")
+top_radius = 0.0
+bottom_radius = 7.5
+height = 20.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_e1gjr"]
+material = ExtResource("2_3om4g")
+size = Vector3(1, 4, 15)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jed7a"]
+material = ExtResource("2_3om4g")
+height = 15.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1nlre"]
+material = ExtResource("4_jolvu")
+top_radius = 3.0
+bottom_radius = 4.5
+height = 10.0
+
+[sub_resource type="Curve" id="Curve_66evt"]
+_data = [Vector2(0, 0.7501434), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_66evt"]
+curve = SubResource("Curve_66evt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ulxfr"]
+resource_local_to_scene = true
+lifetime_randomness = 0.25
+gravity = Vector3(0, 0, 0)
+scale_max = 5.0
+alpha_curve = SubResource("CurveTexture_66evt")
+turbulence_noise_scale = 0.642
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ay0pt"]
+transparency = 3
+alpha_hash_scale = 0.01
+alpha_antialiasing_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.54509807)
+
+[sub_resource type="SphereMesh" id="SphereMesh_1bayi"]
+material = SubResource("StandardMaterial3D_ay0pt")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_axuma"]
+size = Vector3(15, 15, 15)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ew8ff"]
+properties/0/path = NodePath(".:being_driven")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath("LiftOffButtonArea3D:is_pressed")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_eg75o"]
+height = 1.0
+radius = 2.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_u68v4"]
+material = ExtResource("2_d7vac")
+top_radius = 0.25
+bottom_radius = 0.25
+height = 0.5
+
+[node name="RocketShip" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("stats", "button")]
+mass = 1000.0
+physics_material_override = SubResource("PhysicsMaterial_5xue0")
+can_sleep = false
+continuous_cd = true
+angular_damp = 1.0
+script = ExtResource("1_qunty")
+stats = NodePath("BlimpStatManager")
+button = NodePath("LiftOffButtonArea3D")
+
+[node name="BottomCollisionShape3D" type="CollisionShape3D" parent="." unique_id=2069433592]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20.5, 0)
+shape = SubResource("BoxShape3D_0lj8x")
+
+[node name="BodyCollisionShape3D" type="CollisionShape3D" parent="." unique_id=689574104]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
+shape = SubResource("CylinderShape3D_p4whq")
+
+[node name="TopCollisionShape3D" type="CollisionShape3D" parent="." unique_id=1018094702]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 46.137695, 0)
+shape = SubResource("CapsuleShape3D_2f6gc")
+
+[node name="WallCollisionShape3D" type="CollisionShape3D" parent="." unique_id=2115993815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -13, 0)
+shape = SubResource("BoxShape3D_ura6j")
+
+[node name="WallCollisionShape3D2" type="CollisionShape3D" parent="." unique_id=198092887]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -13, 0)
+shape = SubResource("BoxShape3D_d7vac")
+
+[node name="WallCollisionShape3D3" type="CollisionShape3D" parent="." unique_id=1870046522]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -13, -7)
+shape = SubResource("BoxShape3D_3om4g")
+
+[node name="WallCollisionShape3D4" type="CollisionShape3D" parent="." unique_id=490845075]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -13, 7)
+shape = SubResource("BoxShape3D_ofsl1")
+
+[node name="Meshes" type="Node3D" parent="." unique_id=59626035]
+
+[node name="PlatformMeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=1977350045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.5, 0)
+mesh = SubResource("BoxMesh_j7fa5")
+
+[node name="RoofMeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=1130228345]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_j7fa5")
+
+[node name="BodyMeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=975695617]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
+mesh = SubResource("CylinderMesh_3103s")
+
+[node name="TopCapMeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=883086839]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0)
+mesh = SubResource("CylinderMesh_1ukgg")
+
+[node name="BottomWalls" type="Node3D" parent="Meshes" unique_id=2061892476]
+
+[node name="WallMeshInstance3D" type="MeshInstance3D" parent="Meshes/BottomWalls" unique_id=350113497]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -13, 0)
+mesh = SubResource("BoxMesh_e1gjr")
+
+[node name="WallMeshInstance3D2" type="MeshInstance3D" parent="Meshes/BottomWalls" unique_id=310038290]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -13, 0)
+mesh = SubResource("BoxMesh_e1gjr")
+
+[node name="WallMeshInstance3D3" type="MeshInstance3D" parent="Meshes/BottomWalls" unique_id=2126812676]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -13, -7)
+mesh = SubResource("BoxMesh_e1gjr")
+
+[node name="WallMeshInstance3D4" type="MeshInstance3D" parent="Meshes/BottomWalls" unique_id=746492010]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -13, 7)
+mesh = SubResource("BoxMesh_e1gjr")
+
+[node name="TopWalls" type="Node3D" parent="Meshes" unique_id=1409714197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 0)
+
+[node name="WallMeshInstance3D" type="MeshInstance3D" parent="Meshes/TopWalls" unique_id=1245886338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -13, 0)
+mesh = SubResource("BoxMesh_e1gjr")
+
+[node name="WallMeshInstance3D2" type="MeshInstance3D" parent="Meshes/TopWalls" unique_id=1309952352]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -13, 0)
+mesh = SubResource("BoxMesh_e1gjr")
+
+[node name="WallMeshInstance3D3" type="MeshInstance3D" parent="Meshes/TopWalls" unique_id=1377175283]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -13, -7)
+mesh = SubResource("BoxMesh_e1gjr")
+
+[node name="WallMeshInstance3D4" type="MeshInstance3D" parent="Meshes/TopWalls" unique_id=1301107936]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -13, 7)
+mesh = SubResource("BoxMesh_e1gjr")
+
+[node name="Pillars" type="Node3D" parent="Meshes" unique_id=373778701]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes/Pillars" unique_id=705707460]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -7.5, 6)
+mesh = SubResource("CylinderMesh_jed7a")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Meshes/Pillars" unique_id=998660997]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -7.5, 6)
+mesh = SubResource("CylinderMesh_jed7a")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Meshes/Pillars" unique_id=1689246838]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -7.5, -6)
+mesh = SubResource("CylinderMesh_jed7a")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Meshes/Pillars" unique_id=1836514129]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -7.5, -6)
+mesh = SubResource("CylinderMesh_jed7a")
+
+[node name="Boosters" type="Node3D" parent="Meshes" unique_id=307411268]
+
+[node name="BoosterMeshInstance3D" type="MeshInstance3D" parent="Meshes/Boosters" unique_id=676312972]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, -21, 4.5)
+mesh = SubResource("CylinderMesh_1nlre")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Meshes/Boosters/BoosterMeshInstance3D" unique_id=1466917430]
+amount = 100
+lifetime = 5.0
+visibility_aabb = AABB(-25, -25, -25, 50, 50, 50)
+process_material = SubResource("ParticleProcessMaterial_ulxfr")
+draw_pass_1 = SubResource("SphereMesh_1bayi")
+
+[node name="BoosterMeshInstance3D2" type="MeshInstance3D" parent="Meshes/Boosters" unique_id=1435850986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, -21, -4.5)
+mesh = SubResource("CylinderMesh_1nlre")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Meshes/Boosters/BoosterMeshInstance3D2" unique_id=48448141]
+amount = 100
+lifetime = 5.0
+visibility_aabb = AABB(-25, -25, -25, 50, 50, 50)
+process_material = SubResource("ParticleProcessMaterial_ulxfr")
+draw_pass_1 = SubResource("SphereMesh_1bayi")
+
+[node name="BoosterMeshInstance3D3" type="MeshInstance3D" parent="Meshes/Boosters" unique_id=1010295284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, -21, 4.5)
+mesh = SubResource("CylinderMesh_1nlre")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Meshes/Boosters/BoosterMeshInstance3D3" unique_id=1514142343]
+amount = 100
+lifetime = 5.0
+visibility_aabb = AABB(-25, -25, -25, 50, 50, 50)
+process_material = SubResource("ParticleProcessMaterial_ulxfr")
+draw_pass_1 = SubResource("SphereMesh_1bayi")
+
+[node name="BoosterMeshInstance3D4" type="MeshInstance3D" parent="Meshes/Boosters" unique_id=691008462]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, -21, -4.5)
+mesh = SubResource("CylinderMesh_1nlre")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Meshes/Boosters/BoosterMeshInstance3D4" unique_id=1865390990]
+amount = 100
+lifetime = 5.0
+visibility_aabb = AABB(-25, -25, -25, 50, 50, 50)
+process_material = SubResource("ParticleProcessMaterial_ulxfr")
+draw_pass_1 = SubResource("SphereMesh_1bayi")
+
+[node name="BlimpStatManager" type="Node" parent="." unique_id=1660235510]
+script = ExtResource("4_ofsl1")
+base_stats = {
+"acceleration": 5.0,
+"boost_acceleration_multiplier": 1.1,
+"max_altitude": 5000.0,
+"max_speed": 75.0,
+"righting_torque_scalar": 2000.0,
+"rising_acceleration": 20.0,
+"rotational_torque_scalar": 10.0
+}
+metadata/_custom_type_script = "uid://d3jst2uikhsxu"
+
+[node name="ReferenceFrameArea3D" type="Area3D" parent="." unique_id=1630329575 node_paths=PackedStringArray("reference_body")]
+script = ExtResource("5_jolvu")
+reference_body = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ReferenceFrameArea3D" unique_id=1097203293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.5, 0)
+shape = SubResource("BoxShape3D_axuma")
+debug_color = Color(0.56292003, 0.5592542, 0, 0.41960785)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1849319385]
+replication_config = SubResource("SceneReplicationConfig_ew8ff")
+
+[node name="LiftOffButtonArea3D" type="Area3D" parent="." unique_id=1715799909 node_paths=PackedStringArray("button_mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.75, 0)
+script = ExtResource("6_0lj8x")
+button_mesh = NodePath("ButtonMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LiftOffButtonArea3D" unique_id=1452897681]
+shape = SubResource("CylinderShape3D_eg75o")
+debug_color = Color(0, 0.64122826, 0.342561, 0.41960785)
+
+[node name="OmniLight3D" parent="LiftOffButtonArea3D" unique_id=425923836 instance=ExtResource("7_p4whq")]
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="LiftOffButtonArea3D" unique_id=3501363]
+mesh = SubResource("CylinderMesh_u68v4")
