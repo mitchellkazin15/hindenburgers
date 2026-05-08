@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cpy3522f3pi8h"]
 
-[ext_resource type="Script" uid="uid://dhk6r68k1gj48" path="res://vehicles/hot_air_balloon.gd" id="1_qunty"]
+[ext_resource type="Script" uid="uid://m08h7ubc4cvv" path="res://vehicles/rocket_ship.gd" id="1_d7vac"]
 [ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_3om4g"]
 [ext_resource type="Material" uid="uid://dketfkh7vnmjg" path="res://assets/hot_air_ballon_material.tres" id="2_d7vac"]
 [ext_resource type="Material" uid="uid://c246ja83fjkrm" path="res://assets/hangar_material.tres" id="4_jolvu"]
@@ -101,10 +101,22 @@ properties/0/replication_mode = 2
 properties/1/path = NodePath("LiftOffButtonArea3D:is_pressed")
 properties/1/spawn = true
 properties/1/replication_mode = 2
+properties/2/path = NodePath("ForwardRotateButtonArea3D:is_pressed")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("BackwardRotateButtonArea3D2:is_pressed")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath("LeftRotateButtonArea3D:is_pressed")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath("RightRotateButtonArea3D:is_pressed")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_eg75o"]
 height = 1.0
-radius = 2.5
+radius = 2.0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_u68v4"]
 material = ExtResource("2_d7vac")
@@ -112,15 +124,19 @@ top_radius = 0.25
 bottom_radius = 0.25
 height = 0.5
 
-[node name="RocketShip" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("stats", "button")]
+[node name="RocketShip" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("stats", "lift_button", "forward_button", "backward_button", "right_button", "left_button")]
 mass = 1000.0
 physics_material_override = SubResource("PhysicsMaterial_5xue0")
 can_sleep = false
 continuous_cd = true
 angular_damp = 1.0
-script = ExtResource("1_qunty")
+script = ExtResource("1_d7vac")
 stats = NodePath("BlimpStatManager")
-button = NodePath("LiftOffButtonArea3D")
+lift_button = NodePath("LiftOffButtonArea3D")
+forward_button = NodePath("ForwardRotateButtonArea3D")
+backward_button = NodePath("BackwardRotateButtonArea3D2")
+right_button = NodePath("RightRotateButtonArea3D")
+left_button = NodePath("LeftRotateButtonArea3D")
 
 [node name="BottomCollisionShape3D" type="CollisionShape3D" parent="." unique_id=2069433592]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20.5, 0)
@@ -306,4 +322,60 @@ debug_color = Color(0, 0.64122826, 0.342561, 0.41960785)
 [node name="OmniLight3D" parent="LiftOffButtonArea3D" unique_id=425923836 instance=ExtResource("7_p4whq")]
 
 [node name="ButtonMesh" type="MeshInstance3D" parent="LiftOffButtonArea3D" unique_id=3501363]
+mesh = SubResource("CylinderMesh_u68v4")
+
+[node name="ForwardRotateButtonArea3D" type="Area3D" parent="." unique_id=1464777328 node_paths=PackedStringArray("button_mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.75, 4.25)
+script = ExtResource("6_0lj8x")
+button_mesh = NodePath("ButtonMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForwardRotateButtonArea3D" unique_id=975062600]
+shape = SubResource("CylinderShape3D_eg75o")
+debug_color = Color(0, 0.64122826, 0.342561, 0.41960785)
+
+[node name="OmniLight3D" parent="ForwardRotateButtonArea3D" unique_id=1014492864 instance=ExtResource("7_p4whq")]
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="ForwardRotateButtonArea3D" unique_id=223609233]
+mesh = SubResource("CylinderMesh_u68v4")
+
+[node name="BackwardRotateButtonArea3D2" type="Area3D" parent="." unique_id=1447692100 node_paths=PackedStringArray("button_mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.75, -4.25)
+script = ExtResource("6_0lj8x")
+button_mesh = NodePath("ButtonMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BackwardRotateButtonArea3D2" unique_id=31814623]
+shape = SubResource("CylinderShape3D_eg75o")
+debug_color = Color(0, 0.64122826, 0.342561, 0.41960785)
+
+[node name="OmniLight3D" parent="BackwardRotateButtonArea3D2" unique_id=1381523852 instance=ExtResource("7_p4whq")]
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="BackwardRotateButtonArea3D2" unique_id=436493447]
+mesh = SubResource("CylinderMesh_u68v4")
+
+[node name="LeftRotateButtonArea3D" type="Area3D" parent="." unique_id=1568926117 node_paths=PackedStringArray("button_mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.25, -14.75, 0)
+script = ExtResource("6_0lj8x")
+button_mesh = NodePath("ButtonMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftRotateButtonArea3D" unique_id=603410792]
+shape = SubResource("CylinderShape3D_eg75o")
+debug_color = Color(0, 0.64122826, 0.342561, 0.41960785)
+
+[node name="OmniLight3D" parent="LeftRotateButtonArea3D" unique_id=542302872 instance=ExtResource("7_p4whq")]
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="LeftRotateButtonArea3D" unique_id=665869291]
+mesh = SubResource("CylinderMesh_u68v4")
+
+[node name="RightRotateButtonArea3D" type="Area3D" parent="." unique_id=1518420421 node_paths=PackedStringArray("button_mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.25, -14.75, 0)
+script = ExtResource("6_0lj8x")
+button_mesh = NodePath("ButtonMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightRotateButtonArea3D" unique_id=1912284801]
+shape = SubResource("CylinderShape3D_eg75o")
+debug_color = Color(0, 0.64122826, 0.342561, 0.41960785)
+
+[node name="OmniLight3D" parent="RightRotateButtonArea3D" unique_id=1480284335 instance=ExtResource("7_p4whq")]
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="RightRotateButtonArea3D" unique_id=1398096762]
 mesh = SubResource("CylinderMesh_u68v4")
