@@ -3,7 +3,6 @@ extends InteractableArea3D
 
 enum TranferType {DEPOSIT, WITHDRAW}
 @export var transfer_type : TranferType
-@export var vault : CoinPurse
 @export var label : Label3D
 
 
@@ -23,8 +22,8 @@ func interact(interacting_node: Node) -> void:
 		return
 	var purse : CoinPurse = character.get_node("CoinPurse")
 	if transfer_type == TranferType.DEPOSIT:
-		vault.add_money(purse.money_val)
+		AtmCoinPurse.add_money(purse.money_val)
 		purse.spend_money(purse.money_val)
 	elif transfer_type == TranferType.WITHDRAW:
-		purse.add_money(vault.money_val)
-		vault.spend_money(vault.money_val)
+		purse.add_money(AtmCoinPurse.money_val)
+		AtmCoinPurse.spend_money(AtmCoinPurse.money_val)

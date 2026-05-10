@@ -7,7 +7,7 @@ extends Vehicle
 @export var backward_button : ButtonArea3D
 @export var right_button : ButtonArea3D
 @export var left_button : ButtonArea3D
-@export var rotating_torque = 10.0
+@export var rotating_torque = 100.0
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:

@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="7_p4whq"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
-rough = true
+friction = 0.25
 bounce = 0.25
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0lj8x"]
@@ -35,6 +35,9 @@ size = Vector3(1, 4, 15)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ofsl1"]
 size = Vector3(1, 4, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jolvu"]
+size = Vector3(15, 1, 15)
 
 [sub_resource type="BoxMesh" id="BoxMesh_j7fa5"]
 material = ExtResource("2_3om4g")
@@ -165,6 +168,10 @@ shape = SubResource("BoxShape3D_3om4g")
 [node name="WallCollisionShape3D4" type="CollisionShape3D" parent="." unique_id=490845075]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -13, 7)
 shape = SubResource("BoxShape3D_ofsl1")
+
+[node name="RoofCollisionShape3D" type="CollisionShape3D" parent="." unique_id=1605768988]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_jolvu")
 
 [node name="Meshes" type="Node3D" parent="." unique_id=59626035]
 

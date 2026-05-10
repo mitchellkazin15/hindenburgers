@@ -2,6 +2,7 @@ class_name ReferenceFrameArea3D
 extends Area3D
 
 @export var reference_body : RigidBody3D
+@export var min_speed_to_launch = 10.0
 
 
 func _ready() -> void:
@@ -23,5 +24,5 @@ func _physics_process(delta: float) -> void:
 func _on_body_exited(body):
 	if body is RelativeRigidBody3D:
 		body.set_new_reference_frame(Vector3.ZERO, false)
-	if body is Character:
+	if body is Character and reference_body.linear_velocity.length() > min_speed_to_launch:
 		body.set_launched()

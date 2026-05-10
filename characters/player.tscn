@@ -26,7 +26,7 @@
 [ext_resource type="Script" uid="uid://b1ym6lrvhn5u7" path="res://stats/drug_visual_effect_stat_manager.gd" id="18_b0vde"]
 [ext_resource type="Texture2D" uid="uid://dvofyew6a27f3" path="res://assets/misc_sprites/grey-circular-loading-icon.png" id="18_qk7w8"]
 [ext_resource type="Texture2D" uid="uid://dsllaf36ufdat" path="res://assets/misc_sprites/circular-loading-icon.png" id="19_3t8uj"]
-[ext_resource type="Script" uid="uid://dl01gpfyw3kru" path="res://characters/coin_purse.gd" id="19_ke0a4"]
+[ext_resource type="Script" uid="uid://dl01gpfyw3kru" path="res://common_components/coin_purse.gd" id="19_ke0a4"]
 [ext_resource type="Texture2D" uid="uid://c1n1tn5fy70p0" path="res://assets/misc_sprites/using_icon.png" id="19_lit6r"]
 [ext_resource type="Script" uid="uid://blskd0vdwvhf4" path="res://ui/components/throw_charge_bar.gd" id="21_rjhu2"]
 [ext_resource type="Texture2D" uid="uid://c31smk3g4pyfp" path="res://assets/misc_sprites/cross_hair.png" id="24_3y70i"]

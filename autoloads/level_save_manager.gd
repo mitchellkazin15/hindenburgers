@@ -30,10 +30,7 @@ func save_level():
 			body.position,
 			body.rotation,
 	])
-	for child in $/root/Main/MultiplayerBaseScene/LevelRoot/Level.find_children("*Atm*"):
-		if child is Atm:
-			var atm : Atm = child
-			level_save.atm_money_vals[atm.get_path()] = atm.vault.money_val
+	level_save.atm_money_val = AtmCoinPurse.money_val
 	ResourceSaver.save(level_save, SAVED_LEVEL_FILE_PATH)
 
 
@@ -57,9 +54,7 @@ func load_level(game_info : Dictionary):
 			body[LevelSaveFile.StateIndices.POS],
 			body[LevelSaveFile.StateIndices.ROT],
 		)
-	for atm_path in saved_level.atm_money_vals.keys():
-		var atm : Atm = get_node(atm_path)
-		atm.vault.money_val = saved_level.atm_money_vals[atm_path]
+	AtmCoinPurse.money_val = saved_level.atm_money_val
 	save_level()
 
 

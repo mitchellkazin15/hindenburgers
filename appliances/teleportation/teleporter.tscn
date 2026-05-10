@@ -1,0 +1,220 @@
+[gd_scene format=3 uid="uid://hitdo8p1cj7v"]
+
+[ext_resource type="Script" uid="uid://esx8ityfw66p" path="res://appliances/teleportation/teleporter.gd" id="1_7x11x"]
+[ext_resource type="Script" uid="uid://c5jw5w5evf2dm" path="res://appliances/teleportation/teleportation_location.gd" id="2_2ngir"]
+[ext_resource type="Script" uid="uid://cx8siq2djir8e" path="res://appliances/teleportation/select_location_area_3d.gd" id="3_djf6m"]
+[ext_resource type="Script" uid="uid://toapqpe5c6p5" path="res://appliances/teleportation/teleporter_unlock_area_3d.gd" id="4_djf6m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xmkms"]
+albedo_color = Color(0.20511743, 0.20511743, 0.20511743, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xmkms"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_xmkms")
+size = Vector3(3, 4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ekt7w"]
+size = Vector3(3, 4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s1mvj"]
+size = Vector3(3, 0.25, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n8xy1"]
+size = Vector3(50, 50, 50)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_djf6m"]
+properties/0/path = NodePath(".:unlocked")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="Teleporter" type="StaticBody3D" unique_id=1282238622 node_paths=PackedStringArray("teleport_spawn", "location_list")]
+script = ExtResource("1_7x11x")
+teleport_spawn = NodePath("TeleportSpawn")
+location_list = NodePath("Locations")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=267010012]
+mesh = SubResource("BoxMesh_xmkms")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1119529796]
+shape = SubResource("BoxShape3D_ekt7w")
+
+[node name="TopLabel" type="Label3D" parent="." unique_id=613162460]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0.6)
+alpha_cut = 1
+text = "Teleporter"
+
+[node name="Locations" type="Node3D" parent="." unique_id=1238288409]
+
+[node name="Location1" type="Node3D" parent="Locations" unique_id=1554637815 node_paths=PackedStringArray("selection_area")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.51)
+script = ExtResource("2_2ngir")
+selection_area = NodePath("SelectLocationArea3D")
+
+[node name="SelectLocationArea3D" type="Area3D" parent="Locations/Location1" unique_id=1240128589 node_paths=PackedStringArray("label")]
+script = ExtResource("3_djf6m")
+label = NodePath("../LocationLabel3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Locations/Location1/SelectLocationArea3D" unique_id=1260825541]
+shape = SubResource("BoxShape3D_s1mvj")
+
+[node name="LocationLabel3D" type="Label3D" parent="Locations/Location1" unique_id=747093897]
+alpha_cut = 1
+text = "location 1"
+
+[node name="Location2" type="Node3D" parent="Locations" unique_id=759859811 node_paths=PackedStringArray("selection_area")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.51)
+script = ExtResource("2_2ngir")
+selection_area = NodePath("SelectLocationArea3D")
+
+[node name="SelectLocationArea3D" type="Area3D" parent="Locations/Location2" unique_id=1355321568 node_paths=PackedStringArray("label")]
+script = ExtResource("3_djf6m")
+label = NodePath("../LocationLabel3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Locations/Location2/SelectLocationArea3D" unique_id=690432057]
+shape = SubResource("BoxShape3D_s1mvj")
+
+[node name="LocationLabel3D" type="Label3D" parent="Locations/Location2" unique_id=1401478608]
+alpha_cut = 1
+text = "location 1"
+
+[node name="Location3" type="Node3D" parent="Locations" unique_id=1546438938 node_paths=PackedStringArray("selection_area")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0.51)
+script = ExtResource("2_2ngir")
+selection_area = NodePath("SelectLocationArea3D")
+
+[node name="SelectLocationArea3D" type="Area3D" parent="Locations/Location3" unique_id=1082202365 node_paths=PackedStringArray("label")]
+script = ExtResource("3_djf6m")
+label = NodePath("../LocationLabel3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Locations/Location3/SelectLocationArea3D" unique_id=454046017]
+shape = SubResource("BoxShape3D_s1mvj")
+
+[node name="LocationLabel3D" type="Label3D" parent="Locations/Location3" unique_id=780177997]
+alpha_cut = 1
+text = "location 1"
+
+[node name="Location4" type="Node3D" parent="Locations" unique_id=1489723110 node_paths=PackedStringArray("selection_area")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.51)
+script = ExtResource("2_2ngir")
+selection_area = NodePath("SelectLocationArea3D")
+
+[node name="SelectLocationArea3D" type="Area3D" parent="Locations/Location4" unique_id=870987787 node_paths=PackedStringArray("label")]
+script = ExtResource("3_djf6m")
+label = NodePath("../LocationLabel3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Locations/Location4/SelectLocationArea3D" unique_id=1655927734]
+shape = SubResource("BoxShape3D_s1mvj")
+
+[node name="LocationLabel3D" type="Label3D" parent="Locations/Location4" unique_id=93643194]
+alpha_cut = 1
+text = "location 1"
+
+[node name="Location5" type="Node3D" parent="Locations" unique_id=1620137356 node_paths=PackedStringArray("selection_area")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.51)
+script = ExtResource("2_2ngir")
+selection_area = NodePath("SelectLocationArea3D")
+
+[node name="SelectLocationArea3D" type="Area3D" parent="Locations/Location5" unique_id=1135117582 node_paths=PackedStringArray("label")]
+script = ExtResource("3_djf6m")
+label = NodePath("../LocationLabel3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Locations/Location5/SelectLocationArea3D" unique_id=770534741]
+shape = SubResource("BoxShape3D_s1mvj")
+
+[node name="LocationLabel3D" type="Label3D" parent="Locations/Location5" unique_id=1106481772]
+alpha_cut = 1
+text = "location 1"
+
+[node name="Location6" type="Node3D" parent="Locations" unique_id=1128323475 node_paths=PackedStringArray("selection_area")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.51)
+script = ExtResource("2_2ngir")
+selection_area = NodePath("SelectLocationArea3D")
+
+[node name="SelectLocationArea3D" type="Area3D" parent="Locations/Location6" unique_id=2067689081 node_paths=PackedStringArray("label")]
+script = ExtResource("3_djf6m")
+label = NodePath("../LocationLabel3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Locations/Location6/SelectLocationArea3D" unique_id=1251281653]
+shape = SubResource("BoxShape3D_s1mvj")
+
+[node name="LocationLabel3D" type="Label3D" parent="Locations/Location6" unique_id=1101963471]
+alpha_cut = 1
+text = "location 1"
+
+[node name="Location7" type="Node3D" parent="Locations" unique_id=842159121 node_paths=PackedStringArray("selection_area")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0.51)
+script = ExtResource("2_2ngir")
+selection_area = NodePath("SelectLocationArea3D")
+
+[node name="SelectLocationArea3D" type="Area3D" parent="Locations/Location7" unique_id=334229420 node_paths=PackedStringArray("label")]
+script = ExtResource("3_djf6m")
+label = NodePath("../LocationLabel3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Locations/Location7/SelectLocationArea3D" unique_id=999424806]
+shape = SubResource("BoxShape3D_s1mvj")
+
+[node name="LocationLabel3D" type="Label3D" parent="Locations/Location7" unique_id=607877413]
+alpha_cut = 1
+text = "location 1"
+
+[node name="Location8" type="Node3D" parent="Locations" unique_id=1243211118 node_paths=PackedStringArray("selection_area")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.51)
+script = ExtResource("2_2ngir")
+selection_area = NodePath("SelectLocationArea3D")
+
+[node name="SelectLocationArea3D" type="Area3D" parent="Locations/Location8" unique_id=1436804279 node_paths=PackedStringArray("label")]
+script = ExtResource("3_djf6m")
+label = NodePath("../LocationLabel3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Locations/Location8/SelectLocationArea3D" unique_id=1745247259]
+shape = SubResource("BoxShape3D_s1mvj")
+
+[node name="LocationLabel3D" type="Label3D" parent="Locations/Location8" unique_id=1169674459]
+alpha_cut = 1
+text = "location 1"
+
+[node name="Location9" type="Node3D" parent="Locations" unique_id=712899354 node_paths=PackedStringArray("selection_area")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0.51)
+script = ExtResource("2_2ngir")
+selection_area = NodePath("SelectLocationArea3D")
+
+[node name="SelectLocationArea3D" type="Area3D" parent="Locations/Location9" unique_id=634515631 node_paths=PackedStringArray("label")]
+script = ExtResource("3_djf6m")
+label = NodePath("../LocationLabel3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Locations/Location9/SelectLocationArea3D" unique_id=446497297]
+shape = SubResource("BoxShape3D_s1mvj")
+
+[node name="LocationLabel3D" type="Label3D" parent="Locations/Location9" unique_id=532730822]
+alpha_cut = 1
+text = "location 1"
+
+[node name="Location10" type="Node3D" parent="Locations" unique_id=1219794665 node_paths=PackedStringArray("selection_area")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0.51)
+script = ExtResource("2_2ngir")
+selection_area = NodePath("SelectLocationArea3D")
+
+[node name="SelectLocationArea3D" type="Area3D" parent="Locations/Location10" unique_id=262399225 node_paths=PackedStringArray("label")]
+script = ExtResource("3_djf6m")
+label = NodePath("../LocationLabel3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Locations/Location10/SelectLocationArea3D" unique_id=106325895]
+shape = SubResource("BoxShape3D_s1mvj")
+
+[node name="LocationLabel3D" type="Label3D" parent="Locations/Location10" unique_id=779101000]
+alpha_cut = 1
+text = "location 1"
+
+[node name="TeleportSpawn" type="Node3D" parent="." unique_id=1880806814]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="TeleporterUnlockArea3D" type="Area3D" parent="." unique_id=454574380 node_paths=PackedStringArray("teleporter")]
+script = ExtResource("4_djf6m")
+teleporter = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TeleporterUnlockArea3D" unique_id=178280314]
+shape = SubResource("BoxShape3D_n8xy1")
+debug_color = Color(0.62294865, 0.53350216, 0, 0.41960785)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1355211479]
+replication_config = SubResource("SceneReplicationConfig_djf6m")
