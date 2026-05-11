@@ -210,20 +210,24 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		tween.tween_property(self, "rand_angle", new_rand_angle, randomness_duration / 2.0)
 		randomness_timer = get_tree().create_timer(randomness_duration)
 	var speed = calculate_speed()
-	var modified_move_dir = global_basis.z * move_direction.z + global_basis.x * move_direction.x
+	var modified_move_dir = move_direction#global_basis.z * move_direction.z + global_basis.x * move_direction.x
 	if modified_move_dir != Vector3.ZERO:
-		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(modified_move_dir, Vector3.UP), min(10.0 * state.step, 1.0))
+		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(modified_move_dir, global_basis.y), min(10.0 * state.step, 1.0))
 	if is_sprinting:
 		speed *= stats.get_current_sprint_multiplier()
-	var target_ground_plane_vel : Vector3 = (speed * modified_move_dir)
-	target_ground_plane_vel = target_ground_plane_vel.rotated(global_basis.z, rand_angle)
+	var target_ground_plane_vel : Vector3 = modified_move_dir
+	target_ground_plane_vel = target_ground_plane_vel.rotated(global_basis.y, rand_angle)
+	target_ground_plane_vel *= speed
 	if launched:
-		target_ground_plane_vel.y = 0.0
+		target_ground_plane_vel -= state.linear_velocity
+		var up_component = global_basis.y * target_ground_plane_vel.dot(global_basis.y)
+		target_ground_plane_vel -= up_component
 		state.apply_central_force(target_ground_plane_vel.normalized() * stats.get_current_air_acceleration())
 	else:
-		target_ground_plane_vel -= linear_velocity
-		target_ground_plane_vel.y = 0.0
-		self.apply_relative_central_impulse(target_ground_plane_vel, Vector3(1.0, 0.0, 1.0))
+		target_ground_plane_vel -= state.linear_velocity
+		var up_component = global_basis.y * target_ground_plane_vel.dot(global_basis.y)
+		target_ground_plane_vel -= up_component
+		self.apply_relative_central_impulse(target_ground_plane_vel, target_ground_plane_vel.normalized())
 	if is_jumping and _can_jump and collider:
 		var jump_impulse = stats.get_current_jump_impulse() * global_basis.y
 		jump_impulse -= (state.linear_velocity.y - reference_frame_vel.y) * mass * global_basis.y

@@ -35,6 +35,29 @@ func _physics_process(delta: float) -> void:
 		var central_dir = rrb.global_position.direction_to(self.global_position)
 		rrb.apply_central_force(gravitational_acceleration * rrb.mass * rrb.original_gravity_scale * central_dir)
 		if rrb is Character:
+			var character : Character = rrb
 			var target_up = -central_dir
-			var rot = Quaternion(global_basis.y.normalized(), target_up)
-			rrb.global_basis = Basis(rot) * global_basis
+			var forward = -character.global_basis.z
+
+			# Strip the component of forward along target_up so it lies in
+			# the tangent plane.
+			forward = forward - target_up * forward.dot(target_up)
+
+			# If that collapses (character was facing exactly along target_up),
+			# pick any tangent direction as fallback.
+			if forward.length_squared() < 0.0001:
+				forward = character.global_basis.x.cross(target_up)
+
+			forward = forward.normalized()
+			character.look_at(character.global_position + forward, target_up)
+		#if rrb is Character:
+			#var character : Character = rrb
+			#var target_up = -central_dir
+			#var forward = -character.global_basis.z
+			#if forward.length_squared() < 0.0001:
+				#forward = character.global_basis.x.cross(target_up)
+				#forward = forward.normalized()
+			#if absf(forward.dot(target_up)) < 0.9999:
+				#character.look_at(character.global_position + forward, target_up)
+			#var rot = Quaternion(global_basis.y.normalized(), target_up)
+			#rrb.global_basis = Basis(rot) * global_basis

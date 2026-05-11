@@ -104,6 +104,7 @@ func return_to_menu():
 	$/root/Main/MenuContainer.show()
 	$/root/Main/MenuContainer.process_mode = Node.PROCESS_MODE_ALWAYS
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	TeleportationManager.teleporters = {}
 	PauseScreen.hide_menu()
 
 

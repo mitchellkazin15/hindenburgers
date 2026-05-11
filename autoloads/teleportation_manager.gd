@@ -15,3 +15,4 @@ func teleport_character(character : Character, new_index : int):
 	var new_tp_loc = teleporters[new_index]
 	if new_tp_loc.unlocked:
 		character.global_position = new_tp_loc.teleport_spawn.global_position
+		character.global_rotation = new_tp_loc.teleport_spawn.global_rotation
