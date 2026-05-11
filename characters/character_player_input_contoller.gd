@@ -28,7 +28,6 @@ func _physics_process(delta: float) -> void:
 	var forward = character.camera.global_basis.z
 	var right = character.camera.global_basis.x
 	var move_direction = forward * move_input.y + right * move_input.x
-	move_direction.y = 0.0
 	move_direction = move_direction.normalized()
 	_handle_move_input.rpc_id(1, move_direction, is_jumping, is_sprinting)
 	if Input.is_action_just_pressed("interact"):
@@ -36,7 +35,6 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("throw") or Input.is_action_just_released("throw"):
 		_handle_throw_input.rpc_id(1, Input.is_action_just_released("throw"), -character.camera.global_basis.z)
 	if Input.is_action_just_pressed("reset"):
-		#reset_physics_interpolation()
 		_handle_reset_input.rpc_id(1)
 	if Input.is_action_just_pressed("use_item") or Input.is_action_just_released("use_item"):
 		_handle_use_item_input.rpc_id(1, Input.is_action_just_released("use_item"))

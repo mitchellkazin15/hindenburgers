@@ -33,7 +33,7 @@
 [ext_resource type="Script" uid="uid://deej1qmwqgoo5" path="res://save_utilities/character_save_manager.gd" id="30_ys5vl"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
-friction = 0.75
+friction = 0.25
 rough = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wfnr8"]

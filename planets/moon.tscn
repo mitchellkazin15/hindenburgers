@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://csnhwe2ewxlqi"]
+
+[ext_resource type="Shader" uid="uid://bbsefurdvonii" path="res://planets/standard_with_tiling_rotation.gdshader" id="1_xytjv"]
+[ext_resource type="Texture2D" uid="uid://tfgko1vpni6h" path="res://assets/Rocks016_1K-PNG_Color.png" id="2_d76mh"]
+[ext_resource type="Script" uid="uid://bk7psrbgcdghb" path="res://planets/planet_gravity_area_3d.gd" id="3_umw3d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ndyn7"]
+render_priority = 0
+shader = ExtResource("1_xytjv")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_d76mh")
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(100, 100, 100)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/cell_size = 2.6400001221401204
+shader_parameter/rotation_strength = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_w1hsp"]
+radius = 2000.0
+
+[node name="Moon" type="Node3D" unique_id=1860884015]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=1668486767]
+use_collision = true
+
+[node name="MoonCSGSphere3D" type="CSGSphere3D" parent="CSGCombiner3D" unique_id=1731320273]
+radius = 974.6479
+radial_segments = 100
+rings = 100
+material = SubResource("ShaderMaterial_ndyn7")
+
+[node name="PlanetGravityArea3D" type="Area3D" parent="." unique_id=2006608179]
+script = ExtResource("3_umw3d")
+gravitational_acceleration = 2.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlanetGravityArea3D" unique_id=755818789]
+shape = SubResource("SphereShape3D_w1hsp")
+debug_color = Color(0.8155998, 0.0019710504, 0.97668153, 0.41960785)

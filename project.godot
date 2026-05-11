@@ -29,6 +29,10 @@ LevelSaveManager="*uid://drka6pvw2cs6n"
 AtmCoinPurse="*uid://dgdbolyfl5aeq"
 TeleportationManager="*uid://dqsl2wktt7v7f"
 
+[display]
+
+window/size/mode=4
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/terrain_3d/plugin.cfg")
