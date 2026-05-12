@@ -29,7 +29,6 @@ func _unhandled_input(event):
 	var forward = camera.global_basis.z
 	var right = camera.global_basis.x
 	var move_direction = forward * move_input.y
-	move_direction.y = 0.0
 	move_direction = move_direction.normalized()
 	var is_rising = Input.is_action_pressed("jump")
 	var is_boosting = Input.is_action_pressed("sprint")

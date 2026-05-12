@@ -17,8 +17,8 @@ radius = 0.2
 height = 1.5
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jq4cx"]
-radius = 0.2
-height = 0.8273926
+radius = 0.3
+height = 1.4836807
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_cprux"]
 material = ExtResource("3_8dt8y")
@@ -56,9 +56,6 @@ properties/0/replication_mode = 2
 [node name="Scooter" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("raycast", "driver_seat", "camera", "synchronizer", "vehicle_controller")]
 mass = 10.0
 physics_material_override = SubResource("PhysicsMaterial_5xue0")
-gravity_scale = 1.5
-center_of_mass_mode = 1
-center_of_mass = Vector3(0, -100, 0)
 can_sleep = false
 lock_rotation = true
 continuous_cd = true
@@ -75,7 +72,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2657157, 0)
 shape = SubResource("CapsuleShape3D_aib25")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1373225277]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -1, -0.25937927)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -1.0733361, -0.5311586)
 shape = SubResource("CapsuleShape3D_jq4cx")
 
 [node name="ScooterPlayerInputController" type="Node" parent="." unique_id=1437177279 node_paths=PackedStringArray("scooter", "camera")]
@@ -102,7 +99,7 @@ mesh = SubResource("BoxMesh_qkkcw")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -0.75)
 
 [node name="RayCast3D" type="RayCast3D" parent="RotationPivot" unique_id=2010175636]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.201, 0)
 target_position = Vector3(0, -0.75, 0)
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="RotationPivot" unique_id=1494236794]

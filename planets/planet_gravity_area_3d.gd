@@ -2,6 +2,7 @@ class_name PlanetGravityArea3D
 extends Area3D
 
 @export var gravitational_acceleration = 0.0
+@export var orient_speed = 20.0
 
 
 func _ready() -> void:
@@ -48,16 +49,14 @@ func _physics_process(delta: float) -> void:
 			if forward.length_squared() < 0.0001:
 				forward = character.global_basis.x.cross(target_up)
 
-			forward = forward.normalized()
-			character.look_at(character.global_position + forward, target_up)
-		#if rrb is Character:
-			#var character : Character = rrb
-			#var target_up = -central_dir
-			#var forward = -character.global_basis.z
-			#if forward.length_squared() < 0.0001:
-				#forward = character.global_basis.x.cross(target_up)
-				#forward = forward.normalized()
-			#if absf(forward.dot(target_up)) < 0.9999:
-				#character.look_at(character.global_position + forward, target_up)
-			#var rot = Quaternion(global_basis.y.normalized(), target_up)
-			#rrb.global_basis = Basis(rot) * global_basis
+			# What look_at would set the basis to, packaged as a value rather than applied.
+			var target_basis = Basis.looking_at(forward, target_up)
+
+			# Frame-rate-independent exponential approach. orient_speed ~ 5–10 feels good;
+			# higher = snappier. With this form, the character covers (1 - 1/e) ≈ 63%
+			# of the remaining error in 1/orient_speed seconds.
+			var t = 1.0 - exp(-orient_speed * delta)
+			character.global_basis = character.global_basis.slerp(target_basis, t)
+
+			#forward = forward.normalized()
+			#character.look_at(character.global_position + forward, target_up)
