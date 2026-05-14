@@ -23,14 +23,14 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if is_on_floor:
 		var can_jump = _jump_lock_timer.time_left == 0.0
 		var will_jump = can_jump and is_rising
-		var jump_power = 250.0 if will_jump else 50.0
+		var jump_power = 150.0 if will_jump else 15.0
 		if will_jump:
 			_jump_lock_timer = get_tree().create_timer(0.1)
 		if move_direction.length() > 0.0:
-			apply_central_impulse(20.0 * ground_plane_move + jump_power * Vector3.UP)
+			apply_central_impulse(10.0 * ground_plane_move + jump_power * Vector3.UP)
 		else:
 			apply_central_impulse(jump_power * Vector3.UP)
 	else:
-		apply_central_force(20.0 * move_direction)
+		apply_central_force(10.0 * move_direction)
 	if move_direction != Vector3.ZERO:
 		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(move_direction, Vector3.UP), min(10.0 * state.step, 1.0))

@@ -46,7 +46,7 @@ properties/0/replication_mode = 2
 [node name="PogoStick" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("driver_seat", "camera", "vehicle_controller")]
 mass = 10.0
 physics_material_override = SubResource("PhysicsMaterial_5xue0")
-gravity_scale = 5.0
+gravity_scale = 2.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -100, 0)
 can_sleep = false

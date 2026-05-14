@@ -19,6 +19,8 @@ signal locked_interaction_ended
 @export var randomness_duration = 1.0
 @export var holding_item = false
 
+var old_collision_child : CollisionShape3D
+
 var move_direction : Vector3
 var is_jumping = false
 var is_sprinting = false
@@ -100,6 +102,8 @@ func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
 	controllable = false
 	self.vehicle = vehicle
 	rotation_pivot.rotation = Vector3.ZERO
+	old_collision_child = $CollisionShape3D
+	remove_child(old_collision_child)
 	if change_camera:
 		camera.current = false
 	freeze = true
@@ -109,6 +113,7 @@ func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
 func end_locked_interaction():
 	locked_interaction = false
 	controllable = true
+	add_child(old_collision_child)
 	camera.current = camera.is_multiplayer_authority()
 	freeze = false
 	vehicle = null
