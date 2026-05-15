@@ -56,11 +56,9 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		desired_forward = global_basis.z
 
 	desired_forward = desired_forward - target_up * desired_forward.dot(target_up)
-	if desired_forward.length_squared() < 0.0001:
-		desired_forward = global_basis.x.cross(target_up)
 	desired_forward = desired_forward.normalized()
-
-	var target_basis = Basis.looking_at(-desired_forward, target_up)
+	var sign = -1.0 if move_input.y == 0.0 else sign(move_input.y)
+	var target_basis = Basis.looking_at(sign * desired_forward, target_up)
 	var t = 1.0 - exp(-3.0 * state.step)
 	global_basis = global_basis.slerp(target_basis, t)
 
