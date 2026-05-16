@@ -16,7 +16,6 @@ func _ready() -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func clear_drug_visual_effects():
-	print("clearing drug effects")
 	visual_stats.clear_all_temp_stats()
 
 

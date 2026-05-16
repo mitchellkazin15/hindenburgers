@@ -26,10 +26,16 @@ Settings="*uid://cf1i1fw5gorn3"
 SettingsScreen="*uid://cntsivp2ndb77"
 LoadingScreen="*uid://d33xqqrolb86a"
 LevelSaveManager="*uid://drka6pvw2cs6n"
+AtmCoinPurse="*uid://dgdbolyfl5aeq"
+TeleportationManager="*uid://dqsl2wktt7v7f"
 
 [display]
 
 window/size/mode=4
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/terrain_3d/plugin.cfg")
 
 [global_group]
 
@@ -110,6 +116,7 @@ common/physics_jitter_fix=0.0
 3d/physics_engine="Jolt Physics"
 jolt_physics_3d/simulation/velocity_steps=20
 jolt_physics_3d/simulation/position_steps=10
+jolt_physics_3d/simulation/continuous_cd_movement_threshold=0.25
 3d/solver/solver_iterations=32
 common/physics_interpolation=true
 

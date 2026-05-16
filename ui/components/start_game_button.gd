@@ -3,6 +3,7 @@ extends Button
 
 @export var lobby : MultiplayerLobby
 @export var character_selector : CharacterSelector
+@export var new_game = false
 
 
 func _ready():
@@ -10,6 +11,6 @@ func _ready():
 
 
 func _on_button_pressed():
-	var game_info = {}
+	var game_info = { "new_game": new_game }
 	print("trying to start on peers:\n", MultiplayerManager.players)
 	MultiplayerManager.start_game_for_peers.rpc(game_info)

@@ -1,0 +1,165 @@
+[gd_scene format=3 uid="uid://dbh28oma5u5fr"]
+
+[ext_resource type="Script" uid="uid://bxatw667hsngj" path="res://vehicles/scooter.gd" id="1_jq4cx"]
+[ext_resource type="Script" uid="uid://co11cbguwoykj" path="res://vehicles/scooter_player_input_controller.gd" id="2_qkkcw"]
+[ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="3_8dt8y"]
+[ext_resource type="Script" uid="uid://833764desipx" path="res://vehicles/enter_driving_area_3d.gd" id="4_oukr8"]
+[ext_resource type="Material" uid="uid://rls6f7eoqx12" path="res://hazards/air_mine_material_3d.tres" id="4_qkkcw"]
+[ext_resource type="PackedScene" uid="uid://c1axrhnnqrqbk" path="res://items/metallic_item_hover_omni_light_3d.tscn" id="5_6ai6r"]
+[ext_resource type="Script" uid="uid://caqrbv2whvq2b" path="res://common_components/player_camera_3d.gd" id="6_3vmrf"]
+[ext_resource type="Script" uid="uid://bn443o2wp6ivq" path="res://physics/reference_frame_area_3d.gd" id="7_vp2xk"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
+friction = 0.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_aib25"]
+radius = 0.2
+height = 1.5
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jq4cx"]
+radius = 0.3
+height = 1.4836807
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cprux"]
+material = ExtResource("3_8dt8y")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y4o51"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_y4o51"]
+material = SubResource("StandardMaterial3D_y4o51")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.75
+
+[sub_resource type="BoxMesh" id="BoxMesh_qkkcw"]
+material = ExtResource("3_8dt8y")
+size = Vector3(0.25, 0.1, 1.5)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_8dt8y"]
+material = ExtResource("4_qkkcw")
+top_radius = 0.15
+bottom_radius = 0.15
+height = 0.05
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qkkcw"]
+size = Vector3(1, 1.5, 2)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cprux"]
+properties/0/path = NodePath("RotationPivot:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8dt8y"]
+size = Vector3(1, 0.2, 0.2)
+
+[node name="Scooter" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("raycast", "left_raycast", "right_raycast", "driver_seat", "camera", "synchronizer", "vehicle_controller")]
+mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_5xue0")
+can_sleep = false
+lock_rotation = true
+continuous_cd = true
+angular_damp = 1.0
+script = ExtResource("1_jq4cx")
+raycast = NodePath("DownRayCast3D")
+left_raycast = NodePath("LeftRayCast3D2")
+right_raycast = NodePath("RightRayCast3D3")
+driver_seat = NodePath("DriverSeat")
+camera = NodePath("CameraPivot/Camera3D")
+synchronizer = NodePath("MultiplayerSynchronizer")
+vehicle_controller = NodePath("ScooterPlayerInputController")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1375530691]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2657157, 0)
+shape = SubResource("CapsuleShape3D_aib25")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1373225277]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -1, -0.531)
+shape = SubResource("CapsuleShape3D_jq4cx")
+
+[node name="ScooterPlayerInputController" type="Node" parent="." unique_id=1437177279 node_paths=PackedStringArray("scooter", "camera")]
+script = ExtResource("2_qkkcw")
+scooter = NodePath("..")
+camera = NodePath("../CameraPivot/Camera3D")
+enabled = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1923002084]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+mesh = SubResource("CylinderMesh_cprux")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=347135928]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("CylinderMesh_y4o51")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=891332543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -0.7)
+mesh = SubResource("BoxMesh_qkkcw")
+
+[node name="DriverSeat" type="RemoteTransform3D" parent="." unique_id=1617510300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.8)
+
+[node name="DownRayCast3D" type="RayCast3D" parent="." unique_id=2010175636]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+target_position = Vector3(0, -0.5, 0)
+
+[node name="LeftRayCast3D2" type="RayCast3D" parent="." unique_id=1418096022]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+target_position = Vector3(0.5, 0, 0)
+
+[node name="RightRayCast3D3" type="RayCast3D" parent="." unique_id=340939753]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+target_position = Vector3(-0.5, 0, 0)
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1494236794]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -1.1269836, 0)
+mesh = SubResource("CylinderMesh_8dt8y")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1320228040]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -1.1269836, -1.391583)
+mesh = SubResource("CylinderMesh_8dt8y")
+
+[node name="EnterDrivingArea3D" type="Area3D" parent="." unique_id=1610838353 node_paths=PackedStringArray("vehicle")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+script = ExtResource("4_oukr8")
+vehicle = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnterDrivingArea3D" unique_id=1377534942]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18370765, -0.5882399)
+shape = SubResource("BoxShape3D_qkkcw")
+debug_color = Color(0.03858291, 0.65077674, 0, 0.41960785)
+
+[node name="OmniLight3D" parent="EnterDrivingArea3D" unique_id=425923836 instance=ExtResource("5_6ai6r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.60169995)
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1052977174]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1282061281 node_paths=PackedStringArray("_camera_pivot")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 1, -5)
+script = ExtResource("6_3vmrf")
+_camera_pivot = NodePath("..")
+
+[node name="ReferenceFrameArea3D" type="Area3D" parent="." unique_id=322964498]
+script = ExtResource("7_vp2xk")
+metadata/_custom_type_script = "uid://bn443o2wp6ivq"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ReferenceFrameArea3D" unique_id=2115059388]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20834255, 0)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=413634069]
+replication_interval = 0.02
+delta_interval = 0.02
+replication_config = SubResource("SceneReplicationConfig_cprux")
+visibility_update_mode = 1
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=1262054901]
+update_rotation = false
+update_scale = false
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="." unique_id=1800846115]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.4953566, 0)
+visible = false
+shape = SubResource("BoxShape3D_8dt8y")
+target_position = Vector3(0, 0, 0)

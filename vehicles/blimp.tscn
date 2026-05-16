@@ -128,7 +128,7 @@ script = ExtResource("5_66evt")
 base_stats = {
 "acceleration": 5.0,
 "boost_acceleration_multiplier": 1.1,
-"max_altitude": 500.0,
+"max_altitude": 225.0,
 "max_speed": 75.0,
 "righting_torque_scalar": 2000.0,
 "rising_acceleration": 10.0,

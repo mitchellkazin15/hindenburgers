@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dgdbolyfl5aeq"]
+
+[ext_resource type="Script" uid="uid://dl01gpfyw3kru" path="res://common_components/coin_purse.gd" id="1_5muul"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_grpxl"]
+properties/0/path = NodePath(".:money_val")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="AtmCoinPurse" type="Node3D" unique_id=1792993253]
+script = ExtResource("1_5muul")
+metadata/_custom_type_script = "uid://dl01gpfyw3kru"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=68288713]
+replication_config = SubResource("SceneReplicationConfig_grpxl")

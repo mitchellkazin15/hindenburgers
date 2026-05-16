@@ -19,6 +19,8 @@ signal locked_interaction_ended
 @export var randomness_duration = 1.0
 @export var holding_item = false
 
+var old_collision_child : CollisionShape3D
+
 var move_direction : Vector3
 var is_jumping = false
 var is_sprinting = false
@@ -63,6 +65,9 @@ func set_initial_values():
 	camera.set_process(camera.is_multiplayer_authority())
 	camera.set_process_input(camera.is_multiplayer_authority())
 	camera.current = initial_multiplayer_authority == multiplayer.get_unique_id()
+	if camera.current:
+		$/root/Main/MultiplayerBaseScene/LevelRoot/Level/Terrain3D.set_camera(camera)
+		$/root/Main/MultiplayerBaseScene/LevelRoot/Level/Terrain3D.set_physics_process(true)
 	input_controller.set_multiplayer_authority(initial_multiplayer_authority)
 	input_controller.set_process(input_controller.is_multiplayer_authority())
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
@@ -97,6 +102,8 @@ func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
 	controllable = false
 	self.vehicle = vehicle
 	rotation_pivot.rotation = Vector3.ZERO
+	old_collision_child = $CollisionShape3D
+	remove_child(old_collision_child)
 	if change_camera:
 		camera.current = false
 	freeze = true
@@ -106,6 +113,7 @@ func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
 func end_locked_interaction():
 	locked_interaction = false
 	controllable = true
+	add_child(old_collision_child)
 	camera.current = camera.is_multiplayer_authority()
 	freeze = false
 	vehicle = null
@@ -163,7 +171,7 @@ func throw_item(aim_dir : Vector3):
 	var throw_vec : Vector3 = (aim_dir + Vector3(0.0, 0.1, 0.0)).normalized()
 	if reference_frame_vel.length() == 0.0:
 		throw_vec += held_item.mass * Vector3(0.1, .5, 0.1) * linear_velocity
-	throw_vec = throw_vec.rotated(Vector3.UP, rand_angle)
+	throw_vec = throw_vec.rotated(global_basis.y, rand_angle)
 	var charge_time = min(stats.get_current_max_throw_charge_time(), throw_item_stopwatch.time_elapsed_sec)
 	if charge_time < 0.25:
 		charge_time = 0.0
@@ -207,21 +215,28 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		tween.tween_property(self, "rand_angle", new_rand_angle, randomness_duration / 2.0)
 		randomness_timer = get_tree().create_timer(randomness_duration)
 	var speed = calculate_speed()
-	if move_direction != Vector3.ZERO:
-		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(move_direction, Vector3.UP), min(10.0 * state.step, 1.0))
+	var modified_move_dir = move_direction#global_basis.z * move_direction.z + global_basis.x * move_direction.x
+	if modified_move_dir != Vector3.ZERO:
+		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(modified_move_dir, global_basis.y), min(10.0 * state.step, 1.0))
 	if is_sprinting:
 		speed *= stats.get_current_sprint_multiplier()
-	var target_ground_plane_vel : Vector3 = (speed * move_direction)
-	target_ground_plane_vel = target_ground_plane_vel.rotated(Vector3.UP, rand_angle)
+	var target_ground_plane_vel : Vector3 = modified_move_dir
+	target_ground_plane_vel = target_ground_plane_vel.rotated(global_basis.y, rand_angle)
+	target_ground_plane_vel *= speed
 	if launched:
-		target_ground_plane_vel.y = 0.0
+		target_ground_plane_vel -= state.linear_velocity
+		var up_component = global_basis.y * target_ground_plane_vel.dot(global_basis.y)
+		target_ground_plane_vel -= up_component
 		state.apply_central_force(target_ground_plane_vel.normalized() * stats.get_current_air_acceleration())
 	else:
-		target_ground_plane_vel -= linear_velocity
-		target_ground_plane_vel.y = 0.0
-		self.apply_relative_central_impulse(target_ground_plane_vel, Vector3(1.0, 0.0, 1.0))
+		target_ground_plane_vel -= state.linear_velocity
+		var up_component = global_basis.y * target_ground_plane_vel.dot(global_basis.y)
+		target_ground_plane_vel -= up_component
+		self.apply_relative_central_impulse(target_ground_plane_vel, target_ground_plane_vel.normalized())
 	if is_jumping and _can_jump and collider:
-		self.apply_central_impulse(stats.get_current_jump_impulse() * Vector3.UP)
+		var jump_impulse = stats.get_current_jump_impulse() * global_basis.y
+		jump_impulse -= (state.linear_velocity.y - reference_frame_vel.y) * mass * global_basis.y
+		self.apply_central_impulse(jump_impulse)
 		_can_jump = false
 		_jump_lock_timer = get_tree().create_timer(jump_lockout_time)
 		_jump_lock_timer.timeout.connect(_on_jump_lock_timeout)
