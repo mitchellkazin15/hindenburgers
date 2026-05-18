@@ -21,7 +21,7 @@ func _physics_process(delta: float) -> void:
 		return
 	for body in $BurgerFlipArea3D.get_overlapping_bodies():
 		if body is RelativeRigidBody3D and body != self and not body is CookingBody:
-			body.apply_central_impulse(active_strength * Vector3.UP)
+			body.apply_central_impulse(active_strength * global_basis.y)
 			body.apply_torque_impulse(0.1 * active_strength * self.global_basis.x)
 			active = false
 

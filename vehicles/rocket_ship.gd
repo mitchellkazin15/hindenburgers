@@ -26,5 +26,5 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		state.apply_torque(rotating_torque * mass * global_basis.z)
 	if left_button.is_pressed:
 		state.apply_torque(-rotating_torque * mass * global_basis.z)
-	var righting_axis = global_basis.y.normalized().cross(Vector3.UP);
-	state.apply_torque(stats.get_current_righting_torque_scalar() * righting_axis)
+	#var righting_axis = global_basis.y.normalized().cross(Vector3.UP);
+	#state.apply_torque(stats.get_current_righting_torque_scalar() * righting_axis)
