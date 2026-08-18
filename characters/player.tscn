@@ -18,7 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://h4nbae34u0ik" path="res://assets/misc_sprites/bronze-coin.png" id="14_svrv0"]
 [ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="15_4rspn"]
 [ext_resource type="PackedScene" uid="uid://06g6idstgaj8" path="res://items/food/poop.tscn" id="15_vcag3"]
-[ext_resource type="Shader" uid="uid://q24qiyo4wl0f" path="res://shaders/screen_effects/shroom_effect.gdshader" id="16_h076o"]
+[ext_resource type="Shader" uid="uid://q24qiyo4wl0f" path="res://shaders/screen_effects/drug_effect.gdshader" id="16_h076o"]
 [ext_resource type="Script" uid="uid://cwugggetb1b7v" path="res://characters/drug_manager.gd" id="16_lcfw7"]
 [ext_resource type="Texture2D" uid="uid://c3k53aemop7ij" path="res://assets/misc_sprites/eating_icon.png" id="17_3t8uj"]
 [ext_resource type="Script" uid="uid://w04p051x2frh" path="res://ui/components/use_charge_bar.gd" id="17_qk7w8"]
@@ -118,10 +118,23 @@ properties/6/replication_mode = 2
 height = 0.5
 radius = 0.1
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3y70i"]
+noise_type = 2
+seed = 1234
+frequency = 0.009
+fractal_type = 3
+fractal_octaves = 6
+fractal_ping_pong_strength = 5.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mjkfq"]
+noise = SubResource("FastNoiseLite_3y70i")
+seamless = true
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lcfw7"]
 resource_local_to_scene = true
 render_priority = 100
 shader = ExtResource("16_h076o")
+shader_parameter/fractal_noise_texture = SubResource("NoiseTexture2D_mjkfq")
 shader_parameter/brightness = 4.7499999933364734e-08
 shader_parameter/contrast = 1.0
 shader_parameter/saturation = 1.0
@@ -444,7 +457,6 @@ character_stats = NodePath("../CharacterStatManager")
 visual_stats = NodePath("DrugVisualEffectStatManager")
 
 [node name="DrugScreenEffectQuad" type="MeshInstance3D" parent="DrugManager" unique_id=724448880]
-visible = false
 material_override = SubResource("ShaderMaterial_lcfw7")
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_b0vde")

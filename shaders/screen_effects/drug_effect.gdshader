@@ -5,6 +5,8 @@ render_mode  unshaded, depth_draw_never, depth_test_disabled;
 
 uniform sampler2D SCREEN_TEXTURE: hint_screen_texture, filter_linear_mipmap;
 
+uniform sampler2D fractal_noise_texture : repeat_enable, filter_linear;
+
 uniform float brightness : hint_range(-1, 1) = 0;
 uniform float contrast : hint_range(0, 3) = 1.0;
 uniform float saturation : hint_range(0, 3) = 1.0;
@@ -41,5 +43,5 @@ void fragment() {
 	blur_color /= blur_iterations;
 	vec4 screen_color = blur_color;
 	vec4 final_color = brightnessMatrix(brightness) * contrastMatrix(contrast) * saturationMatrix(saturation_color, saturation) * screen_color;
-	ALBEDO = final_color.rgb;
+	ALBEDO = final_color.rgb + 0.25 * texture(fractal_noise_texture, blur_uv).rgb;
 }
