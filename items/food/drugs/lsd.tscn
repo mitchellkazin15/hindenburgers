@@ -3,18 +3,35 @@
 [ext_resource type="Script" uid="uid://bb1deo5u31hi7" path="res://items/food/drugs/drug.gd" id="1_j5y3d"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_tdy41"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_30tgq"]
+[ext_resource type="Shader" uid="uid://keinufbgivd0" path="res://shaders/lsd_tab.gdshader" id="4_tdy41"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j5y3d"]
-size = Vector3(0.1, 0.05, 0.1)
+size = Vector3(0.15, 0.05, 0.15)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tdy41"]
-albedo_color = Color(0.4745098, 0.003921569, 1, 1)
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_tdy41"]
+noise_type = 2
+frequency = 0.0038
+fractal_type = 3
+fractal_octaves = 10
+fractal_gain = 0.8
+fractal_weighted_strength = 1.0
+fractal_ping_pong_strength = 10.0
+cellular_distance_function = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_30tgq"]
+noise = SubResource("FastNoiseLite_tdy41")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_30tgq"]
+render_priority = 0
+shader = ExtResource("4_tdy41")
+shader_parameter/fractal_noise_texture = SubResource("NoiseTexture2D_30tgq")
+shader_parameter/fractal_chromatic_shift_strength = 1.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_30tgq"]
-material = SubResource("StandardMaterial3D_tdy41")
-size = Vector3(0.1, 0.01, 0.1)
+material = SubResource("ShaderMaterial_30tgq")
+size = Vector3(0.15, 0.01, 0.15)
 
 [node name="Lsd" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
@@ -24,20 +41,21 @@ drug_effect_duration = 300.0
 drug_visual_effect_adders = {
 "blur_iterations": 0.0,
 "blur_power": 0.0,
-"brightness": 0.0,
-"contrast": 0.0,
-"fractal_chromatic_shift_strength": 0.1,
-"fractal_gain_amplitude": 0.4,
-"fractal_gain_frequency": 0.039,
+"brightness": 0.01,
+"contrast": -0.01,
+"fractal_chromatic_shift_strength": 0.2,
+"fractal_gain_amplitude": 0.05,
+"fractal_gain_frequency": 0.008,
 "fractal_lacunarity_amplitude": 1.0,
-"fractal_lacunarity_frequency": 0.014,
-"fractal_noise_distortion": 0.01,
+"fractal_lacunarity_frequency": 0.01,
+"fractal_noise_distortion": 0.001,
 "fractal_noise_iterations": 5.0,
 "fractal_noise_overlay_strength": 0.1,
-"fractal_ping_pong_strength_amplitude": 2.0,
-"fractal_ping_pong_strength_frequency": 0.023,
-"saturation": 0.0,
+"fractal_ping_pong_strength_amplitude": 3.0,
+"fractal_ping_pong_strength_frequency": 0.007,
+"saturation": 0.01,
 "saturation_color": 0.0,
+"trail_amount": 0.85,
 "x_wiggle_amp": 0.0,
 "x_wiggle_screen_freq": 0.0,
 "x_wiggle_time_freq": 0.0,

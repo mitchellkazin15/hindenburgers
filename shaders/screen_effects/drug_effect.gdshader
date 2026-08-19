@@ -4,6 +4,8 @@ render_mode  unshaded, depth_draw_never, depth_test_disabled;
 #include "res://shaders/screen_effects/screen_shader_utilities.gdshaderinc"
 
 uniform sampler2D SCREEN_TEXTURE: hint_screen_texture, filter_linear_mipmap;
+uniform sampler2D history_tex;
+uniform float trail_amount : hint_range(0.0, 0.99) = 0.85;
 
 uniform sampler2D fractal_noise_texture : repeat_enable, filter_linear;
 uniform float fractal_noise_distortion = 0.0;
@@ -52,7 +54,7 @@ void fragment() {
 	}
 	blur_color /= blur_iterations;
 	for (float i = 0.0; i < fractal_noise_iterations; i++) {
-		blur_color += texture(SCREEN_TEXTURE, blur_uv + (i * fractal_noise_distortion * fractal_grad / fractal_noise_iterations));
+		blur_color += texture(SCREEN_TEXTURE, blur_uv + (i * fractal_noise_distortion * fractal_grad));
 	}
 	blur_color /= fractal_noise_iterations;
 	vec4 screen_color = blur_color;
@@ -66,5 +68,7 @@ void fragment() {
 	shift_color.g = fractal_chromatic_shift_strength * clamp(1.0 - abs(2.0 * luminance - 1.0), 0.0, 1.0);
 	shift_color.b = fractal_chromatic_shift_strength * clamp(2.0 * luminance - 1.0, 0.0, 1.0);
 
-	ALBEDO = final_color.rgb + fractal_noise_overlay_strength * shift_color;
+	vec3 current = final_color.rgb + fractal_noise_overlay_strength * shift_color;
+	vec4 history = texture(history_tex, UV);
+    ALBEDO = mix(current.rgb, history.rgb, trail_amount);
 }

@@ -4,6 +4,12 @@ extends Node3D
 @export var character_stats : CharacterStatManager
 @export var visual_stats : DrugVisualEffectStatManager
 
+@onready var history_a := $SubViewportA
+@onready var history_b := $SubViewportB
+@export var test_rect : ColorRect
+
+var use_a = true
+
 var shader : ShaderMaterial
 var fractal_noise_texture : NoiseTexture2D
 var fractal_noise : FastNoiseLite
@@ -45,17 +51,26 @@ func _on_visual_stat_update(stat_name : String):
 		var float_color = curr_stat
 		var int_color = int(float_color)
 		shader.set_shader_parameter(stat_name, Color(int_color))
-		return
 	elif stat_name in DrugVisualEffectStatManager.SHADER_PARAMS_NAMES:
 		shader.set_shader_parameter(stat_name, curr_stat)
 
 
-func _process(delta):
+func _physics_process(delta):
 	_accum += delta
 	total_accum += delta
 	if _accum >= noise_update_interval:
 		_accum -= noise_update_interval
 		_update_noise_params()
+	history_a.size = get_viewport().size
+	history_b.size = get_viewport().size
+	var read_from := history_b if use_a else history_a
+	var write_to := history_a if use_a else history_b
+	shader.set_shader_parameter("history_tex", read_from.get_texture())
+	# write_to just holds a copy of what the quad rendered this frame (main viewport's texture)
+	write_to.get_node("ColorRect").material.set_shader_parameter("source", get_viewport().get_texture())
+	test_rect.material.set_shader_parameter("source", get_viewport().get_texture())
+	use_a = !use_a
+
 
 func _update_noise_params():
 	fractal_noise.fractal_ping_pong_strength = (6.0 + 
