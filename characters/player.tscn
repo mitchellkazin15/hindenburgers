@@ -123,8 +123,8 @@ noise_type = 2
 seed = 1234
 frequency = 0.009
 fractal_type = 3
-fractal_octaves = 6
 fractal_ping_pong_strength = 5.0
+cellular_distance_function = 1
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mjkfq"]
 noise = SubResource("FastNoiseLite_3y70i")
@@ -135,6 +135,10 @@ resource_local_to_scene = true
 render_priority = 100
 shader = ExtResource("16_h076o")
 shader_parameter/fractal_noise_texture = SubResource("NoiseTexture2D_mjkfq")
+shader_parameter/fractal_noise_distortion = 0.0
+shader_parameter/fractal_noise_iterations = 1.0
+shader_parameter/fractal_noise_overlay_strength = 0.0
+shader_parameter/fractal_chromatic_shift_strength = 0.0
 shader_parameter/brightness = 4.7499999933364734e-08
 shader_parameter/contrast = 1.0
 shader_parameter/saturation = 1.0
@@ -457,6 +461,7 @@ character_stats = NodePath("../CharacterStatManager")
 visual_stats = NodePath("DrugVisualEffectStatManager")
 
 [node name="DrugScreenEffectQuad" type="MeshInstance3D" parent="DrugManager" unique_id=724448880]
+visible = false
 material_override = SubResource("ShaderMaterial_lcfw7")
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_b0vde")
@@ -465,9 +470,19 @@ mesh = SubResource("QuadMesh_b0vde")
 script = ExtResource("18_b0vde")
 base_stats = {
 "blur_iterations": 1.0,
-"blur_power": 1.0,
+"blur_power": 0.0,
 "brightness": 0.0,
 "contrast": 1.0,
+"fractal_chromatic_shift_strength": 0.0,
+"fractal_gain_amplitude": 0.0,
+"fractal_gain_frequency": 0.0,
+"fractal_lacunarity_amplitude": 0.0,
+"fractal_lacunarity_frequency": 0.0,
+"fractal_noise_distortion": 0.0,
+"fractal_noise_iterations": 1.0,
+"fractal_noise_overlay_strength": 0.0,
+"fractal_ping_pong_strength_amplitude": 0.0,
+"fractal_ping_pong_strength_frequency": 0.0,
 "saturation": 1.0,
 "saturation_color": 4294967295,
 "x_wiggle_amp": 0.0,
