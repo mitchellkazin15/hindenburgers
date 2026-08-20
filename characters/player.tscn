@@ -18,7 +18,6 @@
 [ext_resource type="Texture2D" uid="uid://h4nbae34u0ik" path="res://assets/misc_sprites/bronze-coin.png" id="14_svrv0"]
 [ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="15_4rspn"]
 [ext_resource type="PackedScene" uid="uid://06g6idstgaj8" path="res://items/food/poop.tscn" id="15_vcag3"]
-[ext_resource type="Shader" uid="uid://q24qiyo4wl0f" path="res://shaders/screen_effects/drug_effect.gdshader" id="16_h076o"]
 [ext_resource type="Script" uid="uid://cwugggetb1b7v" path="res://characters/drug_manager.gd" id="16_lcfw7"]
 [ext_resource type="Texture2D" uid="uid://c3k53aemop7ij" path="res://assets/misc_sprites/eating_icon.png" id="17_3t8uj"]
 [ext_resource type="Script" uid="uid://w04p051x2frh" path="res://ui/components/use_charge_bar.gd" id="17_qk7w8"]
@@ -30,6 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://c1n1tn5fy70p0" path="res://assets/misc_sprites/using_icon.png" id="19_lit6r"]
 [ext_resource type="Script" uid="uid://blskd0vdwvhf4" path="res://ui/components/throw_charge_bar.gd" id="21_rjhu2"]
 [ext_resource type="Texture2D" uid="uid://c31smk3g4pyfp" path="res://assets/misc_sprites/cross_hair.png" id="24_3y70i"]
+[ext_resource type="Material" uid="uid://c6j0o22elogp7" path="res://shaders/screen_effects/drug_effect_shader.tres" id="29_mjkfq"]
 [ext_resource type="Shader" uid="uid://b4l7hkvxemb64" path="res://shaders/screen_passthrough.gdshader" id="30_mjkfq"]
 [ext_resource type="Script" uid="uid://deej1qmwqgoo5" path="res://save_utilities/character_save_manager.gd" id="30_ys5vl"]
 
@@ -123,45 +123,15 @@ radius = 0.1
 resource_local_to_scene = true
 shader = ExtResource("30_mjkfq")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_3y70i"]
-noise_type = 2
-seed = 1234
-fractal_type = 3
-fractal_ping_pong_strength = 5.0
-cellular_distance_function = 1
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mjkfq"]
-noise = SubResource("FastNoiseLite_3y70i")
-seamless = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lcfw7"]
-resource_local_to_scene = true
-render_priority = 100
-shader = ExtResource("16_h076o")
-shader_parameter/trail_amount = 0.0
-shader_parameter/fractal_noise_texture = SubResource("NoiseTexture2D_mjkfq")
-shader_parameter/fractal_noise_distortion = 0.0
-shader_parameter/fractal_noise_iterations = 1.0
-shader_parameter/fractal_noise_overlay_strength = 0.0
-shader_parameter/fractal_chromatic_shift_strength = 0.0
-shader_parameter/brightness = 4.7499999933364734e-08
-shader_parameter/contrast = 1.0
-shader_parameter/saturation = 1.0
-shader_parameter/saturation_color = Color(1, 1, 1, 1)
-shader_parameter/x_wiggle_amp = 0.0
-shader_parameter/x_wiggle_screen_freq = 1.0
-shader_parameter/x_wiggle_time_freq = 1.0
-shader_parameter/y_wiggle_amp = 0.0
-shader_parameter/y_wiggle_screen_freq = 1.0
-shader_parameter/y_wiggle_time_freq = 1.0
-shader_parameter/blur_iterations = 1.0
-shader_parameter/blur_power = 0.0
-
 [sub_resource type="QuadMesh" id="QuadMesh_b0vde"]
 flip_faces = true
 size = Vector2(2, 2)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d3tvb"]
+shader = ExtResource("30_mjkfq")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5f4cm"]
+resource_local_to_scene = true
 shader = ExtResource("30_mjkfq")
 
 [node name="Player" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "interact_raycast", "input_controller", "synchronizer", "floor_shape_cast", "stats", "hand")]
@@ -454,6 +424,7 @@ script = ExtResource("11_eho78")
 metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
 
 [node name="ColorRect" type="ColorRect" parent="HUD" unique_id=1586192443]
+visible = false
 material = SubResource("ShaderMaterial_mjkfq")
 offset_right = 305.0
 offset_bottom = 225.0
@@ -468,15 +439,27 @@ colon = NodePath("../Colon")
 script = ExtResource("7_j31ep")
 cloaca = NodePath("../RotationPivot/Cloaca")
 
-[node name="DrugManager" type="Node3D" parent="." unique_id=1039279980 node_paths=PackedStringArray("character_stats", "visual_stats", "test_rect")]
+[node name="DrugManager" type="Node3D" parent="." unique_id=1039279980 node_paths=PackedStringArray("character_stats", "visual_stats")]
 script = ExtResource("16_lcfw7")
 character_stats = NodePath("../CharacterStatManager")
 visual_stats = NodePath("DrugVisualEffectStatManager")
-test_rect = NodePath("../HUD/ColorRect")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="DrugManager" unique_id=637173651]
+layer = 2
+
+[node name="ColorRect" type="ColorRect" parent="DrugManager/CanvasLayer" unique_id=1242888474]
+material = ExtResource("29_mjkfq")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(1, 1, 1, 0)
 
 [node name="DrugScreenEffectQuad" type="MeshInstance3D" parent="DrugManager" unique_id=724448880]
 visible = false
-material_override = SubResource("ShaderMaterial_lcfw7")
+material_override = ExtResource("29_mjkfq")
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_b0vde")
 
@@ -515,7 +498,7 @@ render_target_clear_mode = 1
 render_target_update_mode = 4
 
 [node name="ColorRect" type="ColorRect" parent="DrugManager/SubViewportA" unique_id=835617168]
-material = SubResource("ShaderMaterial_5f4cm")
+material = SubResource("ShaderMaterial_d3tvb")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

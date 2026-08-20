@@ -1,11 +1,15 @@
-shader_type spatial;
-render_mode  unshaded, depth_draw_never, depth_test_disabled;
+shader_type canvas_item;
+render_mode unshaded;
 
 #include "res://shaders/screen_effects/screen_shader_utilities.gdshaderinc"
 
-uniform sampler2D SCREEN_TEXTURE: hint_screen_texture, filter_linear_mipmap;
-uniform sampler2D history_tex;
-uniform float trail_amount : hint_range(0.0, 0.99) = 0.85;
+// Canvas items draw AFTER the 3D post-processing stack (glow, tonemap, sRGB
+// encode), so SCREEN_TEXTURE here is display-referred -- the same space as the
+// history buffer, which is a copy of the finished viewport texture. Keeping both
+// sides of the trail blend in one space is what makes the feedback loop stable.
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear;
+uniform sampler2D history_tex : filter_linear, repeat_disable;
+uniform float trail_amount = 0.0;
 
 uniform sampler2D fractal_noise_texture : repeat_enable, filter_linear;
 uniform float fractal_noise_distortion = 0.0;
@@ -30,36 +34,40 @@ uniform float y_wiggle_time_freq = 1.0;
 uniform float blur_iterations = 1.0;
 uniform float blur_power = 1.0;
 
-void vertex(){
-	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
-}
-
 void fragment() {
+	// Wiggle the sample position.
 	float x_pos = SCREEN_UV.x + x_wiggle_amp * sin(PI * SCREEN_UV.x) * sin(x_wiggle_screen_freq * SCREEN_UV.x + x_wiggle_time_freq * TIME);
 	float y_pos = SCREEN_UV.y + y_wiggle_amp * sin(PI * SCREEN_UV.y) * sin(y_wiggle_screen_freq * SCREEN_UV.y + y_wiggle_time_freq * TIME);
-	vec2 uv = vec2(x_pos, y_pos);
-	vec2 blur_uv = uv;
-	vec2 blur_dir = vec2(0.5, 0.5) - blur_uv;
-	vec2 blur = blur_dir * blur_power * 0.01;
-	vec4 blur_color = vec4(0.0);
-	vec2 texel_size = 1.0 / VIEWPORT_SIZE;
+	vec2 blur_uv = vec2(x_pos, y_pos);
+	vec2 blur = (vec2(0.5) - blur_uv) * blur_power * 0.01;
+
+	// Gradient of the noise field, used to push the distorted sample offsets around.
+	vec2 texel_size = SCREEN_PIXEL_SIZE;
 	float fractal_x_grad = texture(fractal_noise_texture, blur_uv + vec2(texel_size.x, 0.0)).r -
 		texture(fractal_noise_texture, blur_uv - vec2(texel_size.x, 0.0)).r;
-	float fractal_y_grad = texture(fractal_noise_texture, blur_uv + vec2(0.0, texel_size.x)).r -
-		texture(fractal_noise_texture, blur_uv - vec2(0.0, texel_size.x)).r;
+	float fractal_y_grad = texture(fractal_noise_texture, blur_uv + vec2(0.0, texel_size.y)).r -
+		texture(fractal_noise_texture, blur_uv - vec2(0.0, texel_size.y)).r;
 	vec2 fractal_grad = vec2(fractal_x_grad, fractal_y_grad);
+
+	// Radial blur toward screen center.
+	vec4 blur_color = vec4(0.0);
 	for (float i = 0.0; i < blur_iterations; i++) {
 		blur_color += texture(SCREEN_TEXTURE, blur_uv);
 		blur_uv += blur;
 	}
 	blur_color /= blur_iterations;
+
+	// Noise-distorted samples. Accumulate from zero so this stays unity gain --
+	// starting from blur_color gave (N+1)/N brightness, i.e. 2x at N == 1.
+	vec4 noise_color = vec4(0.0);
 	for (float i = 0.0; i < fractal_noise_iterations; i++) {
-		blur_color += texture(SCREEN_TEXTURE, blur_uv + (i * fractal_noise_distortion * fractal_grad));
+		noise_color += texture(SCREEN_TEXTURE, blur_uv + (i * fractal_noise_distortion * fractal_grad));
 	}
-	blur_color /= fractal_noise_iterations;
-	vec4 screen_color = blur_color;
-	vec4 final_color = brightnessMatrix(brightness) * contrastMatrix(contrast) * saturationMatrix(saturation_color, saturation) * screen_color;
-	
+	blur_color = noise_color / fractal_noise_iterations;
+
+	vec4 final_color = brightnessMatrix(brightness) * contrastMatrix(contrast) * saturationMatrix(saturation_color, saturation) * blur_color;
+
+	// Tint based on where this pixel lands in the noise field.
 	vec3 noise_sample = texture(fractal_noise_texture, blur_uv).rgb;
 	float luminance = dot(noise_sample, vec3(0.299, 0.587, 0.114));
 
@@ -69,6 +77,6 @@ void fragment() {
 	shift_color.b = fractal_chromatic_shift_strength * clamp(2.0 * luminance - 1.0, 0.0, 1.0);
 
 	vec3 current = final_color.rgb + fractal_noise_overlay_strength * shift_color;
-	vec4 history = texture(history_tex, UV);
-    ALBEDO = mix(current.rgb, history.rgb, trail_amount);
+	vec3 history = texture(history_tex, SCREEN_UV).rgb;
+	COLOR = vec4(mix(current, history, clamp(trail_amount, 0.0, 0.975)), 1.0);
 }

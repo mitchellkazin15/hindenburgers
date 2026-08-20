@@ -76,11 +76,11 @@ func set_initial_values():
 	$Label3D.text = display_name
 	if multiplayer.get_unique_id() != initial_multiplayer_authority:
 		$HUD.hide()
-		$DrugManager/DrugScreenEffectQuad.hide()
+		$DrugManager/CanvasLayer.hide()
 		$Label3D.show()
 	else:
 		$HUD.show()
-		$DrugManager/DrugScreenEffectQuad.show()
+		$DrugManager/CanvasLayer.show()
 		$Label3D.hide()
 
 

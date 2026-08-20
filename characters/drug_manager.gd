@@ -6,8 +6,6 @@ extends Node3D
 
 @onready var history_a := $SubViewportA
 @onready var history_b := $SubViewportB
-@export var test_rect : ColorRect
-
 var use_a = true
 
 var shader : ShaderMaterial
@@ -20,12 +18,15 @@ var total_accum = 0.0
 
 
 func _ready() -> void:
-	shader = $DrugScreenEffectQuad.material_override
+	shader = $CanvasLayer/ColorRect.material
 	fractal_noise_texture = shader.get_shader_parameter("fractal_noise_texture")
 	fractal_noise = fractal_noise_texture.noise
 	visual_stats.stat_updated.connect(_on_visual_stat_update)
-	# Call once on startup to set base values
-	_on_visual_stat_update("")
+	# StatManager._ready() emits every stat before this node has connected, so the
+	# initial values are missed. Push them by hand. (_on_visual_stat_update("")
+	# matched no stat and silently did nothing.)
+	for stat_name in visual_stats.base_stats.keys():
+		_on_visual_stat_update(stat_name)
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -56,6 +57,14 @@ func _on_visual_stat_update(stat_name : String):
 
 
 func _physics_process(delta):
+	# Only the locally controlled character runs the screen effect; character.gd
+	# hides this CanvasLayer on remote peers.
+	# Do NOT gate on multiplayer authority here: DrugManager's authority is never
+	# assigned (character.gd only sets it on camera/input_controller/interact_raycast),
+	# and MultiplayerManager.safe_is_multiplayer_authority() returns false outright
+	# when there is no peer at all, which killed this in single player.
+	if not $CanvasLayer.visible:
+		return
 	_accum += delta
 	total_accum += delta
 	if _accum >= noise_update_interval:
@@ -66,9 +75,8 @@ func _physics_process(delta):
 	var read_from := history_b if use_a else history_a
 	var write_to := history_a if use_a else history_b
 	shader.set_shader_parameter("history_tex", read_from.get_texture())
-	# write_to just holds a copy of what the quad rendered this frame (main viewport's texture)
+	# write_to holds a copy of the finished frame, read back as history next frame.
 	write_to.get_node("ColorRect").material.set_shader_parameter("source", get_viewport().get_texture())
-	test_rect.material.set_shader_parameter("source", get_viewport().get_texture())
 	use_a = !use_a
 
 

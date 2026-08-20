@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://cetvkhqp7tx0b" path="res://ui/components/screen_scaler_component.gd" id="9_1gduw"]
 
 [node name="PauseScreen" type="CanvasLayer" unique_id=1628201489]
+layer = 3
 script = ExtResource("1_4lxnp")
 
 [node name="PauseMenu" type="Control" parent="." unique_id=361356309 node_paths=PackedStringArray("secondary_focus", "initial_focus")]

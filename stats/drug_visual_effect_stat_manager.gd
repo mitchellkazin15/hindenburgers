@@ -23,7 +23,8 @@ const EXAMPLE_DICT = { # Do NOT update values in this script and expect stats to
 	"fractal_gain_amplitude": 0.0,
 	"fractal_ping_pong_strength_frequency": 0.0,
 	"fractal_lacunarity_frequency": 0.0,
-	"fractal_gain_frequency": 0.0
+	"fractal_gain_frequency": 0.0,
+	"trail_amount": 0.0
 }
 
 const SHADER_PARAMS_NAMES = [
@@ -42,7 +43,8 @@ const SHADER_PARAMS_NAMES = [
 	"fractal_noise_distortion",
 	"fractal_noise_iterations",
 	"fractal_noise_overlay_strength",
-	"fractal_chromatic_shift_strength"
+	"fractal_chromatic_shift_strength",
+	"trail_amount"
 ]
 
 ## Dict of stat_name -> base val.

@@ -1,0 +1,30 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c6j0o22elogp7"]
+
+[ext_resource type="Shader" uid="uid://q24qiyo4wl0f" path="res://shaders/screen_effects/drug_effect.gdshader" id="1_5j1s8"]
+[ext_resource type="FastNoiseLite" uid="uid://dbexlcd2o1iql" path="res://shaders/screen_effects/lsd_fractal_noise.tres" id="2_uookf"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mjkfq"]
+noise = ExtResource("2_uookf")
+seamless = true
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_5j1s8")
+shader_parameter/trail_amount = 0.4990000237025
+shader_parameter/fractal_noise_texture = SubResource("NoiseTexture2D_mjkfq")
+shader_parameter/fractal_noise_distortion = 0.0
+shader_parameter/fractal_noise_iterations = 1.0
+shader_parameter/fractal_noise_overlay_strength = 0.0
+shader_parameter/fractal_chromatic_shift_strength = 0.0
+shader_parameter/brightness = 4.7499999933364734e-08
+shader_parameter/contrast = 1.0
+shader_parameter/saturation = 1.0
+shader_parameter/saturation_color = Color(1, 1, 1, 1)
+shader_parameter/x_wiggle_amp = 0.0
+shader_parameter/x_wiggle_screen_freq = 1.0
+shader_parameter/x_wiggle_time_freq = 1.0
+shader_parameter/y_wiggle_amp = 0.0
+shader_parameter/y_wiggle_screen_freq = 1.0
+shader_parameter/y_wiggle_time_freq = 1.0
+shader_parameter/blur_iterations = 1.0
+shader_parameter/blur_power = 0.0

@@ -1,0 +1,8 @@
+[gd_resource type="FastNoiseLite" format=3 uid="uid://dbexlcd2o1iql"]
+
+[resource]
+noise_type = 2
+seed = 1234
+fractal_type = 3
+fractal_ping_pong_strength = 5.0
+cellular_distance_function = 1
