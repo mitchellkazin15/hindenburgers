@@ -43,7 +43,7 @@ shader_parameter/second_velocity = Vector2(0.1, 0)
 
 [node name="SettingsMenu" type="CanvasLayer" unique_id=951224500 node_paths=PackedStringArray("initial_tab")]
 process_mode = 4
-layer = 2
+layer = 4
 script = ExtResource("1_k80kj")
 initial_tab = NodePath("TabContainer/AudioSettings")
 

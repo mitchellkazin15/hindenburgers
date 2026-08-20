@@ -39,7 +39,7 @@ void fragment() {
 	float x_pos = SCREEN_UV.x + x_wiggle_amp * sin(PI * SCREEN_UV.x) * sin(x_wiggle_screen_freq * SCREEN_UV.x + x_wiggle_time_freq * TIME);
 	float y_pos = SCREEN_UV.y + y_wiggle_amp * sin(PI * SCREEN_UV.y) * sin(y_wiggle_screen_freq * SCREEN_UV.y + y_wiggle_time_freq * TIME);
 	vec2 blur_uv = vec2(x_pos, y_pos);
-	vec2 blur = (vec2(0.5) - blur_uv) * blur_power * 0.01;
+	vec2 blur = (vec2(0.5) - blur_uv) * blur_power;// * 0.01;
 
 	// Gradient of the noise field, used to push the distorted sample offsets around.
 	vec2 texel_size = SCREEN_PIXEL_SIZE;
@@ -57,13 +57,11 @@ void fragment() {
 	}
 	blur_color /= blur_iterations;
 
-	// Noise-distorted samples. Accumulate from zero so this stays unity gain --
-	// starting from blur_color gave (N+1)/N brightness, i.e. 2x at N == 1.
-	vec4 noise_color = vec4(0.0);
+	//vec4 noise_color = vec4(0.0);
 	for (float i = 0.0; i < fractal_noise_iterations; i++) {
-		noise_color += texture(SCREEN_TEXTURE, blur_uv + (i * fractal_noise_distortion * fractal_grad));
+		blur_color += texture(SCREEN_TEXTURE, blur_uv + (i * fractal_noise_distortion * fractal_grad));
 	}
-	blur_color = noise_color / fractal_noise_iterations;
+	blur_color /= max(fractal_noise_iterations, 1.0);
 
 	vec4 final_color = brightnessMatrix(brightness) * contrastMatrix(contrast) * saturationMatrix(saturation_color, saturation) * blur_color;
 

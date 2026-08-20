@@ -78,12 +78,13 @@ height = 0.3
 mass = 0.1
 continuous_cd = true
 script = ExtResource("1_2hvar")
-drug_effect_duration = 60.0
+drug_effect_duration = 180.0
 drug_visual_effect_adders = {
 "brightness": 0.0,
 "contrast": 0.0,
-"saturation": 0.0,
+"saturation": 0.001,
 "saturation_color": -167776000.0,
+"trail_amount": 0.1,
 "x_wiggle_amp": 0.01,
 "x_wiggle_screen_freq": 0.0,
 "x_wiggle_time_freq": 0.0,

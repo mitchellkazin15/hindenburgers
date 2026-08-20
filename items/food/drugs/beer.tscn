@@ -38,10 +38,10 @@ properties/0/replication_mode = 2
 mass = 0.1
 continuous_cd = true
 script = ExtResource("1_tmcrh")
-drug_effect_duration = 180.0
+drug_effect_duration = 120.0
 drug_visual_effect_adders = {
 "blur_iterations": 1.0,
-"blur_power": 0.01,
+"blur_power": 0.001,
 "brightness": 0.0,
 "contrast": 0.0,
 "saturation": 0.0,

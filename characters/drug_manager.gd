@@ -16,6 +16,12 @@ var noise_update_interval := 0.05
 var _accum := 0.0
 var total_accum = 0.0
 
+## trail_amount is authored as history retention per frame at this framerate.
+## _process() rescales it by the real frame time so the trail decays over a fixed
+## number of seconds instead of a fixed number of frames.
+const TRAIL_REFERENCE_FPS := 30.0
+var _trail_amount := 0.0
+
 
 func _ready() -> void:
 	shader = $CanvasLayer/ColorRect.material
@@ -52,11 +58,20 @@ func _on_visual_stat_update(stat_name : String):
 		var float_color = curr_stat
 		var int_color = int(float_color)
 		shader.set_shader_parameter(stat_name, Color(int_color))
+	elif stat_name == "trail_amount":
+		# Cached, not pushed: _process() converts it to a per-frame factor.
+		# Clamped because these stats stack additively, and a retention above 1.0
+		# turns the feedback loop into a runaway that saturates to white.
+		_trail_amount = clampf(curr_stat, 0.0, 0.99)
 	elif stat_name in DrugVisualEffectStatManager.SHADER_PARAMS_NAMES:
 		shader.set_shader_parameter(stat_name, curr_stat)
 
 
-func _physics_process(delta):
+# Must be _process, not _physics_process: the history swap has to happen exactly
+# once per RENDERED frame to preserve the one-frame delay, and delta here is the
+# real frame time. In _physics_process delta is the fixed tick, so the rescale
+# below would collapse to pow(x, 1.0) and do nothing.
+func _process(delta):
 	# Only the locally controlled character runs the screen effect; character.gd
 	# hides this CanvasLayer on remote peers.
 	# Do NOT gate on multiplayer authority here: DrugManager's authority is never
@@ -75,6 +90,10 @@ func _physics_process(delta):
 	var read_from := history_b if use_a else history_a
 	var write_to := history_a if use_a else history_b
 	shader.set_shader_parameter("history_tex", read_from.get_texture())
+	# a = k^delta keeps a^frames dependent on elapsed time only. maxf() guards a
+	# zero delta, which would give pow(x, 0) == 1.0 and freeze the frame for a tick.
+	shader.set_shader_parameter("trail_amount",
+		pow(_trail_amount, maxf(delta, 0.0001) * TRAIL_REFERENCE_FPS))
 	# write_to holds a copy of the finished frame, read back as history next frame.
 	write_to.get_node("ColorRect").material.set_shader_parameter("source", get_viewport().get_texture())
 	use_a = !use_a
