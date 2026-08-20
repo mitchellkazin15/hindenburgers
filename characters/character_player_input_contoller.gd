@@ -28,7 +28,6 @@ func _physics_process(delta: float) -> void:
 	var forward = character.camera.global_basis.z
 	var right = character.camera.global_basis.x
 	var move_direction = forward * move_input.y + right * move_input.x
-	move_direction = move_direction.normalized()
 	_handle_move_input.rpc_id(1, move_direction, is_jumping, is_sprinting)
 	if Input.is_action_just_pressed("interact"):
 		_handle_interact.rpc_id(1, interacting_raycast.global_rotation)

@@ -39,11 +39,13 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	var is_on_floor = raycast.is_colliding() and _jump_lock_timer.time_left == 0.0
 	if not is_on_floor:
 		if left_raycast.is_colliding():
-			state.apply_torque_impulse(25.0 * global_basis.z)
-			state.apply_impulse(10.0 * global_basis.x)
+			state.apply_torque_impulse(100.0 * global_basis.z)
+			state.apply_central_impulse(100.0 * global_basis.x)
 		elif right_raycast.is_colliding():
-			state.apply_torque_impulse(-25.0 * global_basis.z)
-			state.apply_impulse(-10.0 * global_basis.x)
+			state.apply_torque_impulse(-100.0 * global_basis.z)
+			state.apply_central_impulse(-100.0 * global_basis.x)
+		elif $DownRayCast3D2.is_colliding() and _jump_lock_timer.time_left == 0.0:
+			state.apply_central_impulse(-50.0 * global_basis.y)
 		else:
 			state.apply_torque(-air_torque * move_input.y * global_basis.x)
 			state.apply_torque(air_torque * move_input.x * global_basis.z)

@@ -11,6 +11,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
 friction = 0.0
+absorbent = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_aib25"]
 radius = 0.2
@@ -48,8 +49,6 @@ height = 0.05
 [sub_resource type="BoxShape3D" id="BoxShape3D_qkkcw"]
 size = Vector3(1, 1.5, 2)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cprux"]
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_8dt8y"]
 size = Vector3(1, 0.2, 0.2)
 
@@ -66,7 +65,7 @@ left_raycast = NodePath("LeftRayCast3D2")
 right_raycast = NodePath("RightRayCast3D3")
 driver_seat = NodePath("DriverSeat")
 camera = NodePath("CameraPivot/Camera3D")
-synchronizer = NodePath("MultiplayerSynchronizer")
+synchronizer = NodePath("")
 vehicle_controller = NodePath("ScooterPlayerInputController")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1375530691]
@@ -101,6 +100,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.8)
 [node name="DownRayCast3D" type="RayCast3D" parent="." unique_id=2010175636]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 target_position = Vector3(0, -0.5, 0)
+
+[node name="DownRayCast3D2" type="RayCast3D" parent="." unique_id=459615914]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+debug_shape_custom_color = Color(1, 0.9843137, 0, 1)
 
 [node name="LeftRayCast3D2" type="RayCast3D" parent="." unique_id=1418096022]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -144,12 +147,6 @@ metadata/_custom_type_script = "uid://bn443o2wp6ivq"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ReferenceFrameArea3D" unique_id=2115059388]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20834255, 0)
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=413634069]
-replication_interval = 0.02
-delta_interval = 0.02
-replication_config = SubResource("SceneReplicationConfig_cprux")
-visibility_update_mode = 1
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=1262054901]
 update_rotation = false
