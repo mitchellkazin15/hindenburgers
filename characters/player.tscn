@@ -119,14 +119,6 @@ properties/6/replication_mode = 2
 height = 0.5
 radius = 0.1
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mjkfq"]
-resource_local_to_scene = true
-shader = ExtResource("30_mjkfq")
-
-[sub_resource type="QuadMesh" id="QuadMesh_b0vde"]
-flip_faces = true
-size = Vector2(2, 2)
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d3tvb"]
 shader = ExtResource("30_mjkfq")
 
@@ -423,12 +415,6 @@ texture = ExtResource("24_3y70i")
 script = ExtResource("11_eho78")
 metadata/_custom_type_script = "uid://cetvkhqp7tx0b"
 
-[node name="ColorRect" type="ColorRect" parent="HUD" unique_id=1586192443]
-visible = false
-material = SubResource("ShaderMaterial_mjkfq")
-offset_right = 305.0
-offset_bottom = 225.0
-
 [node name="Stomach" type="Node3D" parent="." unique_id=462579980 node_paths=PackedStringArray("colon")]
 script = ExtResource("6_h1q25")
 digestion_tick_val = 1.0
@@ -456,12 +442,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 color = Color(1, 1, 1, 0)
-
-[node name="DrugScreenEffectQuad" type="MeshInstance3D" parent="DrugManager" unique_id=724448880]
-visible = false
-material_override = ExtResource("29_mjkfq")
-extra_cull_margin = 16384.0
-mesh = SubResource("QuadMesh_b0vde")
 
 [node name="DrugVisualEffectStatManager" type="Node" parent="DrugManager" unique_id=232980101]
 script = ExtResource("18_b0vde")

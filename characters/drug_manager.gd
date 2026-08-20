@@ -16,9 +16,6 @@ var noise_update_interval := 0.05
 var _accum := 0.0
 var total_accum = 0.0
 
-## trail_amount is authored as history retention per frame at this framerate.
-## _process() rescales it by the real frame time so the trail decays over a fixed
-## number of seconds instead of a fixed number of frames.
 const TRAIL_REFERENCE_FPS := 30.0
 var _trail_amount := 0.0
 
@@ -28,9 +25,6 @@ func _ready() -> void:
 	fractal_noise_texture = shader.get_shader_parameter("fractal_noise_texture")
 	fractal_noise = fractal_noise_texture.noise
 	visual_stats.stat_updated.connect(_on_visual_stat_update)
-	# StatManager._ready() emits every stat before this node has connected, so the
-	# initial values are missed. Push them by hand. (_on_visual_stat_update("")
-	# matched no stat and silently did nothing.)
 	for stat_name in visual_stats.base_stats.keys():
 		_on_visual_stat_update(stat_name)
 
@@ -59,25 +53,12 @@ func _on_visual_stat_update(stat_name : String):
 		var int_color = int(float_color)
 		shader.set_shader_parameter(stat_name, Color(int_color))
 	elif stat_name == "trail_amount":
-		# Cached, not pushed: _process() converts it to a per-frame factor.
-		# Clamped because these stats stack additively, and a retention above 1.0
-		# turns the feedback loop into a runaway that saturates to white.
 		_trail_amount = clampf(curr_stat, 0.0, 0.99)
 	elif stat_name in DrugVisualEffectStatManager.SHADER_PARAMS_NAMES:
 		shader.set_shader_parameter(stat_name, curr_stat)
 
 
-# Must be _process, not _physics_process: the history swap has to happen exactly
-# once per RENDERED frame to preserve the one-frame delay, and delta here is the
-# real frame time. In _physics_process delta is the fixed tick, so the rescale
-# below would collapse to pow(x, 1.0) and do nothing.
 func _process(delta):
-	# Only the locally controlled character runs the screen effect; character.gd
-	# hides this CanvasLayer on remote peers.
-	# Do NOT gate on multiplayer authority here: DrugManager's authority is never
-	# assigned (character.gd only sets it on camera/input_controller/interact_raycast),
-	# and MultiplayerManager.safe_is_multiplayer_authority() returns false outright
-	# when there is no peer at all, which killed this in single player.
 	if not $CanvasLayer.visible:
 		return
 	_accum += delta
