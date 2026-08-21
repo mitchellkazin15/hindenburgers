@@ -31,6 +31,7 @@ func save_level():
 			body.rotation,
 	])
 	level_save.atm_money_val = AtmCoinPurse.money_val
+	level_save.teleporter_unlocks_dict = TeleportationManager.generate_unlock_save_dict()
 	ResourceSaver.save(level_save, SAVED_LEVEL_FILE_PATH)
 
 
@@ -46,8 +47,8 @@ func load_level(game_info : Dictionary):
 			"scene_file_path": "res://test_levels/terrain_level.scn",
 		})
 		return
-	var saved_base_level = MultiplayerManager.add_node_to_spawner(SAVED_BASE_LEVEL_FILE_PATH, Vector3.ZERO)
 	var saved_level : LevelSaveFile = ResourceLoader.load(SAVED_LEVEL_FILE_PATH, "LevelSaveFile", 0)
+	var saved_base_level = MultiplayerManager.add_node_to_spawner(SAVED_BASE_LEVEL_FILE_PATH, Vector3.ZERO)
 	for body in saved_level.rigid_body_states:
 		MultiplayerManager.add_node_to_spawner(
 			body[LevelSaveFile.StateIndices.SCENE_PATH],
@@ -55,6 +56,7 @@ func load_level(game_info : Dictionary):
 			body[LevelSaveFile.StateIndices.ROT],
 		)
 	AtmCoinPurse.money_val = saved_level.atm_money_val
+	TeleportationManager.load_teleporter_unlocks(saved_level.teleporter_unlocks_dict)
 	save_level()
 
 

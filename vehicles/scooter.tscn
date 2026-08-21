@@ -52,7 +52,7 @@ size = Vector3(1, 1.5, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_8dt8y"]
 size = Vector3(1, 0.2, 0.2)
 
-[node name="Scooter" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("raycast", "left_raycast", "right_raycast", "driver_seat", "camera", "synchronizer", "vehicle_controller")]
+[node name="Scooter" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("raycast", "left_raycast", "right_raycast", "driver_seat", "camera", "vehicle_controller")]
 mass = 10.0
 physics_material_override = SubResource("PhysicsMaterial_5xue0")
 can_sleep = false
@@ -68,7 +68,6 @@ right_raycast = NodePath("RightRayCast3D3")
 ride_offset = 0.75
 driver_seat = NodePath("DriverSeat")
 camera = NodePath("CameraPivot/Camera3D")
-synchronizer = NodePath("")
 vehicle_controller = NodePath("ScooterPlayerInputController")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1375530691]
