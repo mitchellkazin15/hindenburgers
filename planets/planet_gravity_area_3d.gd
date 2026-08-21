@@ -15,8 +15,7 @@ func _on_body_entered(body):
 		return
 	var rrb : RelativeRigidBody3D = body
 	rrb.gravity_scale = 0.0
-	#if rrb is Character:
-		#rrb.lock_rotation = false
+	rrb.planet_gravity_accel = gravitational_acceleration
 
 
 func _on_body_exited(body):
@@ -24,6 +23,7 @@ func _on_body_exited(body):
 		return
 	var rrb : RelativeRigidBody3D = body
 	rrb.gravity_scale = rrb.original_gravity_scale
+	rrb.planet_gravity_accel = 0.0
 	if rrb is Character:
 		var character : Character = rrb
 		character.tween_basis(Basis.IDENTITY)
