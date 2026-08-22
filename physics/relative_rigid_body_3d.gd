@@ -5,6 +5,7 @@ extends RigidBody3D
 
 var reference_frame_vel = Vector3.ZERO
 var original_gravity_scale : float
+var planet_gravity_accel = 0.0
 
 var _last_synced_position : Vector3 = Vector3.ZERO
 var _last_synced_rotation : Vector3 = Vector3.ZERO

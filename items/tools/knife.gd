@@ -15,8 +15,7 @@ func use(use_charge_time : float):
 		prev_grav_scale = gravity_scale
 	gravity_scale = 0
 	active = true
-	var tween = get_tree().create_tween()
-	tween.tween_property(self, "rotation", rotation + Vector3(PI / 2.0, 0.0, 0.0), 0.1)
+	var tween = swing_about_local_x(PI / 2.0, 0.1)
 	tween.finished.connect(_on_swing_finished)
 
 

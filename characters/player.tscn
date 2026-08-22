@@ -18,7 +18,6 @@
 [ext_resource type="Texture2D" uid="uid://h4nbae34u0ik" path="res://assets/misc_sprites/bronze-coin.png" id="14_svrv0"]
 [ext_resource type="Theme" uid="uid://bf7uhdplx8doi" path="res://ui/themes/menu_theme.tres" id="15_4rspn"]
 [ext_resource type="PackedScene" uid="uid://06g6idstgaj8" path="res://items/food/poop.tscn" id="15_vcag3"]
-[ext_resource type="Shader" uid="uid://q24qiyo4wl0f" path="res://shaders/screen_effects/shroom_effect.gdshader" id="16_h076o"]
 [ext_resource type="Script" uid="uid://cwugggetb1b7v" path="res://characters/drug_manager.gd" id="16_lcfw7"]
 [ext_resource type="Texture2D" uid="uid://c3k53aemop7ij" path="res://assets/misc_sprites/eating_icon.png" id="17_3t8uj"]
 [ext_resource type="Script" uid="uid://w04p051x2frh" path="res://ui/components/use_charge_bar.gd" id="17_qk7w8"]
@@ -30,6 +29,8 @@
 [ext_resource type="Texture2D" uid="uid://c1n1tn5fy70p0" path="res://assets/misc_sprites/using_icon.png" id="19_lit6r"]
 [ext_resource type="Script" uid="uid://blskd0vdwvhf4" path="res://ui/components/throw_charge_bar.gd" id="21_rjhu2"]
 [ext_resource type="Texture2D" uid="uid://c31smk3g4pyfp" path="res://assets/misc_sprites/cross_hair.png" id="24_3y70i"]
+[ext_resource type="Material" uid="uid://c6j0o22elogp7" path="res://shaders/screen_effects/drug_effect_shader.tres" id="29_mjkfq"]
+[ext_resource type="Shader" uid="uid://b4l7hkvxemb64" path="res://shaders/screen_passthrough.gdshader" id="30_mjkfq"]
 [ext_resource type="Script" uid="uid://deej1qmwqgoo5" path="res://save_utilities/character_save_manager.gd" id="30_ys5vl"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
@@ -116,28 +117,14 @@ properties/6/replication_mode = 2
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_b1u1o"]
 height = 0.5
-radius = 0.1
+radius = 0.15
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lcfw7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d3tvb"]
+shader = ExtResource("30_mjkfq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5f4cm"]
 resource_local_to_scene = true
-render_priority = 100
-shader = ExtResource("16_h076o")
-shader_parameter/brightness = 4.7499999933364734e-08
-shader_parameter/contrast = 1.0
-shader_parameter/saturation = 1.0
-shader_parameter/saturation_color = Color(1, 1, 1, 1)
-shader_parameter/x_wiggle_amp = 0.0
-shader_parameter/x_wiggle_screen_freq = 1.0
-shader_parameter/x_wiggle_time_freq = 1.0
-shader_parameter/y_wiggle_amp = 0.0
-shader_parameter/y_wiggle_screen_freq = 1.0
-shader_parameter/y_wiggle_time_freq = 1.0
-shader_parameter/blur_iterations = 1.0
-shader_parameter/blur_power = 1.0
-
-[sub_resource type="QuadMesh" id="QuadMesh_b0vde"]
-flip_faces = true
-size = Vector2(2, 2)
+shader = ExtResource("30_mjkfq")
 
 [node name="Player" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "interact_raycast", "input_controller", "synchronizer", "floor_shape_cast", "stats", "hand")]
 physics_material_override = SubResource("PhysicsMaterial_mdkfl")
@@ -443,21 +430,39 @@ script = ExtResource("16_lcfw7")
 character_stats = NodePath("../CharacterStatManager")
 visual_stats = NodePath("DrugVisualEffectStatManager")
 
-[node name="DrugScreenEffectQuad" type="MeshInstance3D" parent="DrugManager" unique_id=724448880]
-visible = false
-material_override = SubResource("ShaderMaterial_lcfw7")
-extra_cull_margin = 16384.0
-mesh = SubResource("QuadMesh_b0vde")
+[node name="CanvasLayer" type="CanvasLayer" parent="DrugManager" unique_id=637173651]
+layer = 2
+
+[node name="ColorRect" type="ColorRect" parent="DrugManager/CanvasLayer" unique_id=1242888474]
+material = ExtResource("29_mjkfq")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(1, 1, 1, 0)
 
 [node name="DrugVisualEffectStatManager" type="Node" parent="DrugManager" unique_id=232980101]
 script = ExtResource("18_b0vde")
 base_stats = {
 "blur_iterations": 1.0,
-"blur_power": 1.0,
+"blur_power": 0.0,
 "brightness": 0.0,
 "contrast": 1.0,
+"fractal_chromatic_shift_strength": 0.0,
+"fractal_gain_amplitude": 0.0,
+"fractal_gain_frequency": 0.0,
+"fractal_lacunarity_amplitude": 0.0,
+"fractal_lacunarity_frequency": 0.0,
+"fractal_noise_distortion": 0.0,
+"fractal_noise_iterations": 0.0,
+"fractal_noise_overlay_strength": 0.0,
+"fractal_ping_pong_strength_amplitude": 0.0,
+"fractal_ping_pong_strength_frequency": 0.0,
 "saturation": 1.0,
 "saturation_color": 4294967295,
+"trail_amount": 0.0,
 "x_wiggle_amp": 0.0,
 "x_wiggle_screen_freq": 0.5,
 "x_wiggle_time_freq": 0.1,
@@ -466,6 +471,32 @@ base_stats = {
 "y_wiggle_time_freq": 0.1
 }
 metadata/_custom_type_script = "uid://b1ym6lrvhn5u7"
+
+[node name="SubViewportA" type="SubViewport" parent="DrugManager" unique_id=2101761690]
+disable_3d = true
+render_target_clear_mode = 1
+render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="DrugManager/SubViewportA" unique_id=835617168]
+material = SubResource("ShaderMaterial_d3tvb")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportB" type="SubViewport" parent="DrugManager" unique_id=1295605037]
+disable_3d = true
+render_target_clear_mode = 1
+render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="DrugManager/SubViewportB" unique_id=1516805323]
+material = SubResource("ShaderMaterial_5f4cm")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="CoinPurse" type="Node3D" parent="." unique_id=1319970382]
 script = ExtResource("19_ke0a4")

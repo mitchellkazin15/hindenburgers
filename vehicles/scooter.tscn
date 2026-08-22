@@ -11,14 +11,15 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5xue0"]
 friction = 0.0
+absorbent = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_aib25"]
 radius = 0.2
 height = 1.5
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jq4cx"]
-radius = 0.3
-height = 1.4836807
+radius = 0.2
+height = 1.720356
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_cprux"]
 material = ExtResource("3_8dt8y")
@@ -41,22 +42,17 @@ size = Vector3(0.25, 0.1, 1.5)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_8dt8y"]
 material = ExtResource("4_qkkcw")
-top_radius = 0.15
-bottom_radius = 0.15
+top_radius = 0.18
+bottom_radius = 0.18
 height = 0.05
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qkkcw"]
 size = Vector3(1, 1.5, 2)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cprux"]
-properties/0/path = NodePath("RotationPivot:rotation")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_8dt8y"]
 size = Vector3(1, 0.2, 0.2)
 
-[node name="Scooter" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("raycast", "left_raycast", "right_raycast", "driver_seat", "camera", "synchronizer", "vehicle_controller")]
+[node name="Scooter" type="RigidBody3D" unique_id=1992139785 node_paths=PackedStringArray("raycast", "left_raycast", "right_raycast", "driver_seat", "camera", "vehicle_controller")]
 mass = 10.0
 physics_material_override = SubResource("PhysicsMaterial_5xue0")
 can_sleep = false
@@ -65,11 +61,13 @@ continuous_cd = true
 angular_damp = 1.0
 script = ExtResource("1_jq4cx")
 raycast = NodePath("DownRayCast3D")
+speed = 10.0
+air_torque = 5.0
 left_raycast = NodePath("LeftRayCast3D2")
 right_raycast = NodePath("RightRayCast3D3")
+ride_offset = 0.75
 driver_seat = NodePath("DriverSeat")
 camera = NodePath("CameraPivot/Camera3D")
-synchronizer = NodePath("MultiplayerSynchronizer")
 vehicle_controller = NodePath("ScooterPlayerInputController")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1375530691]
@@ -77,7 +75,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2657157, 0)
 shape = SubResource("CapsuleShape3D_aib25")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1373225277]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -1, -0.531)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -1, -0.64933765)
 shape = SubResource("CapsuleShape3D_jq4cx")
 
 [node name="ScooterPlayerInputController" type="Node" parent="." unique_id=1437177279 node_paths=PackedStringArray("scooter", "camera")]
@@ -102,8 +100,7 @@ mesh = SubResource("BoxMesh_qkkcw")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.8)
 
 [node name="DownRayCast3D" type="RayCast3D" parent="." unique_id=2010175636]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-target_position = Vector3(0, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1411576, 0)
 
 [node name="LeftRayCast3D2" type="RayCast3D" parent="." unique_id=1418096022]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -114,11 +111,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 target_position = Vector3(-0.5, 0, 0)
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1494236794]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -1.1269836, 0)
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -1.2, 0)
 mesh = SubResource("CylinderMesh_8dt8y")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1320228040]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -1.1269836, -1.391583)
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -1.2, -1.392)
 mesh = SubResource("CylinderMesh_8dt8y")
 
 [node name="EnterDrivingArea3D" type="Area3D" parent="." unique_id=1610838353 node_paths=PackedStringArray("vehicle")]
@@ -147,12 +144,6 @@ metadata/_custom_type_script = "uid://bn443o2wp6ivq"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ReferenceFrameArea3D" unique_id=2115059388]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20834255, 0)
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=413634069]
-replication_interval = 0.02
-delta_interval = 0.02
-replication_config = SubResource("SceneReplicationConfig_cprux")
-visibility_update_mode = 1
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=1262054901]
 update_rotation = false

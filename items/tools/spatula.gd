@@ -21,7 +21,7 @@ func _physics_process(delta: float) -> void:
 		return
 	for body in $BurgerFlipArea3D.get_overlapping_bodies():
 		if body is RelativeRigidBody3D and body != self and not body is CookingBody:
-			body.apply_central_impulse(active_strength * Vector3.UP)
+			body.apply_central_impulse(active_strength * global_basis.y)
 			body.apply_torque_impulse(0.1 * active_strength * self.global_basis.x)
 			active = false
 
@@ -36,9 +36,8 @@ func use(use_charge_time : float):
 	gravity_scale = 0
 	var charge_time = min(max_use_charge_time, use_charge_time)
 	active_strength = per_sec_use_strength * charge_time
-	var tween = get_tree().create_tween()
 	var final_rotation = (-PI / 2.0) * (charge_time / max_use_charge_time)
-	tween.tween_property(self, "rotation", rotation + Vector3(final_rotation, 0.0, 0.0), 0.1)
+	swing_about_local_x(final_rotation, 0.1)
 	burger_flip_timer = get_tree().create_timer(swing_duration)
 	burger_flip_timer.timeout.connect(_on_swing_finished)
 

@@ -46,3 +46,20 @@ func start_use():
 ## Meant to be overridden
 func use(use_charge_time : float):
 	pass
+
+
+## Smoothly swings the item [param angle] radians about its own X axis, in global
+## space, so the swing direction is the same no matter how the holder is oriented
+## (upright, sideways, or on the underside of a planet).
+## Interpolates with quaternion slerp rather than Euler angles, so it can never
+## take the long way round at a wrap boundary. Returns the Tween so callers can
+## connect to [signal Tween.finished].
+func swing_about_local_x(angle : float, duration : float) -> Tween:
+	var start_quat := global_basis.orthonormalized().get_rotation_quaternion()
+	var end_basis := global_basis.rotated(global_basis.x.normalized(), angle)
+	var end_quat := end_basis.orthonormalized().get_rotation_quaternion()
+	var tween := get_tree().create_tween()
+	tween.tween_method(
+		func(t : float): global_basis = Basis(start_quat.slerp(end_quat, t)),
+		0.0, 1.0, duration)
+	return tween

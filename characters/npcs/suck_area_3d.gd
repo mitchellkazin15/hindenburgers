@@ -44,7 +44,7 @@ func _on_suck_finished():
 	if suck_item is EdibleItem and suck_item.get_scene_file_path() in eat_list:
 		suck_item.eat(customer)
 	else:
-		var spit_strength = (10.0 * mouth.global_basis.z + 10.0 * Vector3.UP) * suck_item.mass
+		var spit_strength = (10.0 * mouth.global_basis.z + 10.0 * global_basis.y) * suck_item.mass
 		suck_item.apply_relative_central_impulse(spit_strength)
 		suck_item.release()
 	suck_item = null

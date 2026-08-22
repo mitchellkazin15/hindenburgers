@@ -34,6 +34,8 @@ var rand_speed = 0.0
 var rand_angle = 0.0
 var jump_lockout_time = 0.1
 var _jump_lock_timer : SceneTreeTimer
+var air_control_time = 0.5
+var _air_control_timer : SceneTreeTimer
 var _can_jump = true
 var launched_timer : SceneTreeTimer
 var launched_time = 0.1
@@ -42,11 +44,15 @@ var launched = false
 var throw_item_stopwatch : Stopwatch
 var use_item_stopwatch : Stopwatch
 
+var start_basis : Basis
+var to_basis : Basis
+
 
 func _ready() -> void:
 	super._ready()
 	randomness_timer = get_tree().create_timer(0.0)
 	_jump_lock_timer = get_tree().create_timer(0.0)
+	_air_control_timer = get_tree().create_timer(0.0)
 	launched_timer = get_tree().create_timer(0.0)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	use_item_stopwatch = StopwatchManager.create_stopwatch()
@@ -76,11 +82,11 @@ func set_initial_values():
 	$Label3D.text = display_name
 	if multiplayer.get_unique_id() != initial_multiplayer_authority:
 		$HUD.hide()
-		$DrugManager/DrugScreenEffectQuad.hide()
+		$DrugManager/CanvasLayer.hide()
 		$Label3D.show()
 	else:
 		$HUD.show()
-		$DrugManager/DrugScreenEffectQuad.show()
+		$DrugManager/CanvasLayer.show()
 		$Label3D.hide()
 
 
@@ -90,11 +96,15 @@ func reset():
 		end_locked_interaction()
 	freeze = true
 	position = initial_position
-	rotation = Vector3.ZERO
 	set_new_reference_frame(Vector3.ZERO)
 	freeze = false
 	reset_input = false
 	$DrugManager.clear_drug_visual_effects.rpc()
+	call_deferred("_post_reset")
+
+
+func _post_reset():
+	rotation = Vector3.ZERO
 
 
 func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
@@ -188,6 +198,16 @@ func set_launched():
 	launched = true
 
 
+func tween_basis(to_basis : Basis):
+	self.start_basis = basis
+	self.to_basis = to_basis
+	create_tween().tween_method(_interpolate_basis, 0.0, 1.0, 0.5)
+
+
+func _interpolate_basis(weight):
+	basis = start_basis.slerp(to_basis, weight)
+
+
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
@@ -205,6 +225,12 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		if launched_timer.time_left == 0.0:
 			launched = false
 		collider = floor_shape_cast.get_collider(0)
+		if _air_control_timer.timeout.is_connected(_on_air_control_timeout) and _can_jump:
+			_air_control_timer.time_left = 0.0
+			_air_control_timer.timeout.disconnect(_on_air_control_timeout)
+	if not collider and _air_control_timer.time_left == 0.0:
+		_air_control_timer = get_tree().create_timer(air_control_time)
+		_air_control_timer.timeout.connect(_on_air_control_timeout)
 	if randomness_timer.time_left == 0.0:
 		var speed_randomness = stats.get_current_speed_randomness()
 		var new_rand_speed = max(0.0, randf_range(-speed_randomness, speed_randomness))
@@ -215,12 +241,14 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		tween.tween_property(self, "rand_angle", new_rand_angle, randomness_duration / 2.0)
 		randomness_timer = get_tree().create_timer(randomness_duration)
 	var speed = calculate_speed()
-	var modified_move_dir = move_direction#global_basis.z * move_direction.z + global_basis.x * move_direction.x
-	if modified_move_dir != Vector3.ZERO:
-		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(modified_move_dir, global_basis.y), min(10.0 * state.step, 1.0))
 	if is_sprinting:
 		speed *= stats.get_current_sprint_multiplier()
-	var target_ground_plane_vel : Vector3 = modified_move_dir
+	var target_ground_plane_vel : Vector3 = move_direction
+	if move_direction != Vector3.ZERO:
+		var move_dir_up_component = move_direction.dot(global_basis.y) * global_basis.y
+		target_ground_plane_vel -= move_dir_up_component
+		target_ground_plane_vel = target_ground_plane_vel.normalized()
+		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(target_ground_plane_vel, global_basis.y), min(10.0 * state.step, 1.0))
 	target_ground_plane_vel = target_ground_plane_vel.rotated(global_basis.y, rand_angle)
 	target_ground_plane_vel *= speed
 	if launched:
@@ -240,6 +268,8 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		_can_jump = false
 		_jump_lock_timer = get_tree().create_timer(jump_lockout_time)
 		_jump_lock_timer.timeout.connect(_on_jump_lock_timeout)
+		_air_control_timer = get_tree().create_timer(air_control_time)
+		_air_control_timer.timeout.connect(_on_air_control_timeout)
 
 
 func calculate_speed():
@@ -250,3 +280,7 @@ func calculate_speed():
 
 func _on_jump_lock_timeout():
 	_can_jump = true
+
+
+func _on_air_control_timeout():
+	launched = true
