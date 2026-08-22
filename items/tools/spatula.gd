@@ -36,9 +36,8 @@ func use(use_charge_time : float):
 	gravity_scale = 0
 	var charge_time = min(max_use_charge_time, use_charge_time)
 	active_strength = per_sec_use_strength * charge_time
-	var tween = get_tree().create_tween()
 	var final_rotation = (-PI / 2.0) * (charge_time / max_use_charge_time)
-	tween.tween_property(self, "global_rotation", global_rotation.rotated(global_basis.x, final_rotation), 0.1)
+	swing_about_local_x(final_rotation, 0.1)
 	burger_flip_timer = get_tree().create_timer(swing_duration)
 	burger_flip_timer.timeout.connect(_on_swing_finished)
 
