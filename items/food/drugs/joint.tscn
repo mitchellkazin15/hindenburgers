@@ -84,7 +84,7 @@ drug_visual_effect_adders = {
 "contrast": 0.0,
 "saturation": 0.001,
 "saturation_color": -167776000.0,
-"trail_amount": 0.1,
+"trail_amount": 0.05,
 "x_wiggle_amp": 0.01,
 "x_wiggle_screen_freq": 0.0,
 "x_wiggle_time_freq": 0.0,

@@ -226,7 +226,11 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 			launched = false
 		collider = floor_shape_cast.get_collider(0)
 		if _air_control_timer.timeout.is_connected(_on_air_control_timeout) and _can_jump:
+			_air_control_timer.time_left = 0.0
 			_air_control_timer.timeout.disconnect(_on_air_control_timeout)
+	if not collider and _air_control_timer.time_left == 0.0:
+		_air_control_timer = get_tree().create_timer(air_control_time)
+		_air_control_timer.timeout.connect(_on_air_control_timeout)
 	if randomness_timer.time_left == 0.0:
 		var speed_randomness = stats.get_current_speed_randomness()
 		var new_rand_speed = max(0.0, randf_range(-speed_randomness, speed_randomness))
