@@ -15,6 +15,10 @@ run/main_scene="uid://d68awp30sg5d"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[audio]
+
+driver/enable_input=true
+
 [autoload]
 
 EventService="*uid://c5mhetl76gyya"

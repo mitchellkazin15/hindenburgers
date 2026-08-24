@@ -71,6 +71,10 @@ func get_sfx_volume_linear():
 	return current_settings.sfx_volume_linear
 
 
+func get_mic_threshold_db():
+	return current_settings.mic_threshold_db
+
+
 func get_default_window_mode():
 	return default_settings.window_mode
 
@@ -89,3 +93,7 @@ func get_default_music_volume_linear():
 
 func get_default_sfx_volume_linear():
 	return default_settings.sfx_volume_linear
+
+
+func get_default_mic_threshold_db():
+	return default_settings.mic_threshold_db

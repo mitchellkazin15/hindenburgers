@@ -51,6 +51,7 @@ func remove_node(instance: AudioStreamPlayer3D):
 
 
 func _on_settings_update(settings : SettingsFile):
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), settings.current_settings.mute)
 	if not bgm_player:
 		return
 	bgm_player.volume_db = Settings.get_true_music_volume_db(bgm_player_base_volume_linear)

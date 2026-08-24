@@ -24,6 +24,7 @@ var setting_state : SettingsState
 @onready var master_volume_slider = $TabContainer/AudioSettings/Menu/MasterVolumeContainer/HSlider
 @onready var music_volume_slider = $TabContainer/AudioSettings/Menu/MusicVolumeContainer/HSlider
 @onready var sfx_volume_slider = $TabContainer/AudioSettings/Menu/SFXVolumeContainer/HSlider
+@onready var mic_threshold_slider = $TabContainer/AudioSettings/Menu/MicThresholdContainer/HSlider
 
 var return_focus : Control
 
@@ -72,7 +73,8 @@ func settings_changed():
 		mute_check_button.button_pressed != Settings.get_muted() or
 		not is_equal_approx(master_volume_slider.value, Settings.get_master_volume_linear()) or
 		not is_equal_approx(music_volume_slider.value, Settings.get_music_volume_linear()) or
-		not is_equal_approx(sfx_volume_slider.value, Settings.get_sfx_volume_linear())
+		not is_equal_approx(sfx_volume_slider.value, Settings.get_sfx_volume_linear()) or
+		not is_equal_approx(mic_threshold_slider.value, Settings.get_mic_threshold_db())
 	)
 
 
@@ -82,6 +84,7 @@ func display_current_settings():
 	master_volume_slider.value = Settings.get_master_volume_linear()
 	music_volume_slider.value = Settings.get_music_volume_linear()
 	sfx_volume_slider.value = Settings.get_sfx_volume_linear()
+	mic_threshold_slider.value = Settings.get_mic_threshold_db()
 
 
 func apply_new_settings():
@@ -91,6 +94,7 @@ func apply_new_settings():
 	settings_file.master_volume_linear = master_volume_slider.value
 	settings_file.music_volume_linear = music_volume_slider.value
 	settings_file.sfx_volume_linear = sfx_volume_slider.value
+	settings_file.mic_threshold_db = mic_threshold_slider.value
 	Settings.save_new_settings(settings_file)
 	back_button.text = "OK"
 	setting_state = SettingsState.APPLIED
@@ -103,6 +107,7 @@ func restore_default_settings():
 	master_volume_slider.value = Settings.get_default_master_volume_linear()
 	music_volume_slider.value = Settings.get_default_music_volume_linear()
 	sfx_volume_slider.value = Settings.get_default_sfx_volume_linear()
+	mic_threshold_slider.value = Settings.get_default_mic_threshold_db()
 
 
 func _on_back_button_pressed():

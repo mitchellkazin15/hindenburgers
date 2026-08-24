@@ -32,6 +32,8 @@
 [ext_resource type="Material" uid="uid://c6j0o22elogp7" path="res://shaders/screen_effects/drug_effect_shader.tres" id="29_mjkfq"]
 [ext_resource type="Shader" uid="uid://b4l7hkvxemb64" path="res://shaders/screen_passthrough.gdshader" id="30_mjkfq"]
 [ext_resource type="Script" uid="uid://deej1qmwqgoo5" path="res://save_utilities/character_save_manager.gd" id="30_ys5vl"]
+[ext_resource type="Script" uid="uid://5kpyp6lfjd2l" path="res://characters/multiplayer_audio_stream_player_3d.gd" id="33_5f4cm"]
+[ext_resource type="Script" uid="uid://c03l70p6igujp" path="res://characters/multiplayer_audio_listener_3d.gd" id="33_d3tvb"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
 friction = 0.25
@@ -147,6 +149,14 @@ shape = SubResource("CapsuleShape3D_wfnr8")
 
 [node name="RotationPivot" type="Node3D" parent="." unique_id=664917725]
 
+[node name="MultiplayerAudioListener3D" type="AudioListener3D" parent="RotationPivot" unique_id=1932508746]
+doppler_tracking = 2
+script = ExtResource("33_d3tvb")
+
+[node name="MultiplayerAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="RotationPivot" unique_id=393931058]
+doppler_tracking = 2
+script = ExtResource("33_5f4cm")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RotationPivot" unique_id=1739057790]
 mesh = SubResource("CapsuleMesh_px5sl")
 
@@ -191,7 +201,7 @@ script = ExtResource("3_j31ep")
 _camera_pivot = NodePath("..")
 
 [node name="InteractionRayCast3D" type="RayCast3D" parent="CameraPivot" unique_id=1499631466 node_paths=PackedStringArray("character")]
-target_position = Vector3(0, 0, 3.5)
+target_position = Vector3(0, 0, 4)
 collide_with_areas = true
 collide_with_bodies = false
 debug_shape_custom_color = Color(0, 1, 0, 1)

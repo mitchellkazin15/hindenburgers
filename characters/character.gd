@@ -79,15 +79,19 @@ func set_initial_values():
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
 	interact_raycast.set_multiplayer_authority(initial_multiplayer_authority)
 	interact_raycast.set_physics_process(interact_raycast.is_multiplayer_authority())
+	$RotationPivot/MultiplayerAudioStreamPlayer3D.set_multiplayer_authority(initial_multiplayer_authority)
+	$RotationPivot/MultiplayerAudioStreamPlayer3D.initialize_multiplayer_audio()
 	$Label3D.text = display_name
 	if multiplayer.get_unique_id() != initial_multiplayer_authority:
 		$HUD.hide()
 		$DrugManager/CanvasLayer.hide()
 		$Label3D.show()
+		$RotationPivot/MultiplayerAudioListener3D.clear_current()
 	else:
 		$HUD.show()
 		$DrugManager/CanvasLayer.show()
 		$Label3D.hide()
+		$RotationPivot/MultiplayerAudioListener3D.make_current()
 
 
 func reset():
@@ -121,9 +125,12 @@ func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
 
 @rpc("any_peer", "call_local", "reliable")
 func end_locked_interaction():
+	if not locked_interaction:
+		return
 	locked_interaction = false
 	controllable = true
-	add_child(old_collision_child)
+	if MultiplayerManager.safe_is_multiplayer_authority(self):
+		add_child(old_collision_child)
 	camera.current = camera.is_multiplayer_authority()
 	freeze = false
 	vehicle = null
