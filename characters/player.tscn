@@ -326,8 +326,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
+offset_left = -132.0
 offset_top = -40.0
+offset_right = -92.0
 grow_horizontal = 0
 grow_vertical = 0
 script = ExtResource("17_qk7w8")
@@ -370,9 +371,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -109.0
+offset_left = -41.0
 offset_top = -40.0
-offset_right = -69.0
+offset_right = -1.0
 grow_horizontal = 0
 grow_vertical = 0
 script = ExtResource("21_rjhu2")
@@ -380,7 +381,7 @@ character = NodePath("../..")
 progress_bar = NodePath("TextureProgressBar")
 
 [node name="ThrowingIcon" type="Sprite2D" parent="HUD/ThrowChargeBar" unique_id=2065417964]
-position = Vector2(-15, 8)
+position = Vector2(9, 8)
 texture = ExtResource("17_qp1es")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="HUD/ThrowChargeBar" unique_id=1467749165]
@@ -390,9 +391,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -87.0
+offset_left = -63.0
 offset_top = -64.0
-offset_right = -23.0
+offset_right = 1.0
 grow_horizontal = 0
 grow_vertical = 0
 fill_mode = 4

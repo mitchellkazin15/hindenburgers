@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [audio]
 
+buses/default_bus_layout="uid://igofp3cm1tbg"
 driver/enable_input=true
 
 [autoload]
@@ -26,6 +27,7 @@ MultiplayerManager="*uid://gbedovc7j4vw"
 StopwatchManager="*uid://bghgvnasj8o5g"
 RigidBodySyncManager="*uid://daeeso1gae7yk"
 PauseScreen="*uid://dtqv5k8vqbqpp"
+SoundManager="*uid://difcjioucb37q"
 Settings="*uid://cf1i1fw5gorn3"
 SettingsScreen="*uid://cntsivp2ndb77"
 LoadingScreen="*uid://d33xqqrolb86a"

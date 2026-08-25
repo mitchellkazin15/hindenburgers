@@ -23,7 +23,7 @@ func load_settings():
 		DirAccess.copy_absolute(DEFAULT_SETTINGS_PATH, SAVED_SETTINGS_PATH)
 	current_settings = ResourceLoader.load(SAVED_SETTINGS_PATH, "SettingsFile", 0)
 	DisplayServer.window_set_mode(SettingsFile.WindowMode.values()[current_settings.window_mode])
-	new_settings.emit
+	new_settings.emit()
 
 
 func save_new_settings(new_settings):

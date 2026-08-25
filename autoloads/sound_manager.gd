@@ -34,24 +34,24 @@ func stop_bgm():
 func _loop_bgm():
 	bgm_player.play()
 
-
-func play_sfx(owner: Node2D, stream: AudioStream, base_volume_linear: float = 1.0, max_distance: float = 1e100, random_pitch_shift = 0.0):
-	var instance = AudioStreamPlayer3D.new()
-	instance.stream = stream
-	instance.finished.connect(remove_node.bind(instance))
-	instance.volume_db = Settings.get_true_sfx_volume_db(base_volume_linear)
-	instance.max_distance = max_distance
-	instance.pitch_scale = 1.0 + randf_range(-random_pitch_shift, random_pitch_shift)
-	owner.add_child(instance)
-	instance.play()
+#
+#func play_sfx(owner: Node2D, stream: AudioStream, base_volume_linear: float = 1.0, max_distance: float = 1e100, random_pitch_shift = 0.0):
+	#var instance = AudioStreamPlayer3D.new()
+	#instance.stream = stream
+	#instance.finished.connect(remove_node.bind(instance))
+	#instance.volume_db = Settings.get_true_sfx_volume_db(base_volume_linear)
+	#instance.max_distance = max_distance
+	#instance.pitch_scale = 1.0 + randf_range(-random_pitch_shift, random_pitch_shift)
+	#owner.add_child(instance)
+	#instance.play()
 
 
 func remove_node(instance: AudioStreamPlayer3D):
 	instance.queue_free()
 
 
-func _on_settings_update(settings : SettingsFile):
-	AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), settings.current_settings.mute)
+func _on_settings_update():
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), Settings.current_settings.mute)
 	if not bgm_player:
 		return
 	bgm_player.volume_db = Settings.get_true_music_volume_db(bgm_player_base_volume_linear)

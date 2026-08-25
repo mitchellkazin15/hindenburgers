@@ -8,30 +8,42 @@ var playback : AudioStreamGeneratorPlayback = null
 
 
 func initialize_multiplayer_audio() -> void:
-	var mics = AudioServer.get_input_device_list()
-	print(mics)
 	if MultiplayerManager.safe_is_multiplayer_authority(self):
 		stream = AudioStreamMicrophone.new()
 		bus = &"Record"
-		if multiplayer.get_unique_id() > 1:
-			print("applying lofi")
-			var distortion = AudioEffectDistortion.new()
-			distortion.mode = AudioEffectDistortion.MODE_LOFI
-			distortion.drive = 1.0
-			AudioServer.add_bus_effect(AudioServer.get_bus_index(bus), distortion)
-			var distortion2 = AudioEffectDistortion.new()
-			distortion2.mode = AudioEffectDistortion.MODE_OVERDRIVE
-			distortion2.drive = 1.0
-			AudioServer.add_bus_effect(AudioServer.get_bus_index(bus), distortion2)
-			
-			print(AudioServer.get_bus_effect_count(AudioServer.get_bus_index(bus)))
+		var bus_idx = AudioServer.get_bus_index(bus)
 		play()
-		capture = AudioServer.get_bus_effect(AudioServer.get_bus_index(bus), 0)
+		# Capture Effect should be set as the very last effect in the "Record" bus in the editor
+		capture = AudioServer.get_bus_effect(bus_idx, AudioServer.get_bus_effect_count(bus_idx) - 1)
 	else:
 		stream = AudioStreamGenerator.new()
 		bus = &"Master"
 		play()
 		playback = get_stream_playback()
+
+
+@rpc("any_peer", "call_local", "reliable")
+func add_megaphone_effect():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self) or capture == null:
+		return
+	var bus_idx = AudioServer.get_bus_index(bus)
+	var lofi : AudioEffectDistortion = AudioServer.get_bus_effect(bus_idx, 0)
+	AudioServer.set_bus_mute(bus_idx, false)
+	lofi.drive = 0.75
+	lofi.pre_gain = 3.0
+	lofi.post_gain = 10.0
+
+
+@rpc("any_peer", "call_local", "reliable")
+func remove_megaphone_effect():
+	if not MultiplayerManager.safe_is_multiplayer_authority(self) or capture == null:
+		return
+	var bus_idx = AudioServer.get_bus_index(bus)
+	var lofi : AudioEffectDistortion = AudioServer.get_bus_effect(bus_idx, 0)
+	AudioServer.set_bus_mute(bus_idx, true)
+	lofi.drive = 0.0
+	lofi.pre_gain = 0.0
+	lofi.post_gain = 0.0
 
 
 @rpc("any_peer", "call_remote", "reliable")
