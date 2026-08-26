@@ -154,6 +154,7 @@ doppler_tracking = 2
 script = ExtResource("33_d3tvb")
 
 [node name="MultiplayerAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="RotationPivot" unique_id=393931058]
+attenuation_model = 1
 doppler_tracking = 2
 script = ExtResource("33_5f4cm")
 

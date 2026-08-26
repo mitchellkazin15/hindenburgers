@@ -24,18 +24,22 @@ func initialize_multiplayer_audio() -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func add_megaphone_effect():
+	attenuation_model = AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE
 	if not MultiplayerManager.safe_is_multiplayer_authority(self) or capture == null:
 		return
 	var bus_idx = AudioServer.get_bus_index(bus)
 	var lofi : AudioEffectDistortion = AudioServer.get_bus_effect(bus_idx, 0)
 	AudioServer.set_bus_mute(bus_idx, false)
-	lofi.drive = 0.75
-	lofi.pre_gain = 3.0
-	lofi.post_gain = 10.0
+	lofi.drive = 0.35
+	lofi.pre_gain = 0.0
+	lofi.post_gain = 6.0
+	var reverb : AudioEffectReverb = AudioServer.get_bus_effect(bus_idx, 1)
+	reverb.wet = 0.25
 
 
 @rpc("any_peer", "call_local", "reliable")
 func remove_megaphone_effect():
+	attenuation_model = AudioStreamPlayer3D.ATTENUATION_INVERSE_SQUARE_DISTANCE
 	if not MultiplayerManager.safe_is_multiplayer_authority(self) or capture == null:
 		return
 	var bus_idx = AudioServer.get_bus_index(bus)
@@ -44,6 +48,8 @@ func remove_megaphone_effect():
 	lofi.drive = 0.0
 	lofi.pre_gain = 0.0
 	lofi.post_gain = 0.0
+	var reverb : AudioEffectReverb = AudioServer.get_bus_effect(bus_idx, 1)
+	reverb.wet = 0.0
 
 
 @rpc("any_peer", "call_remote", "reliable")

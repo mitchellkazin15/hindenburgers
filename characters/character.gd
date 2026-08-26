@@ -125,8 +125,6 @@ func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
 
 @rpc("any_peer", "call_local", "reliable")
 func end_locked_interaction():
-	if not locked_interaction:
-		return
 	locked_interaction = false
 	controllable = true
 	if MultiplayerManager.safe_is_multiplayer_authority(self):
