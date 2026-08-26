@@ -257,7 +257,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	target_ground_plane_vel = target_ground_plane_vel.rotated(global_basis.y, rand_angle)
 	target_ground_plane_vel *= speed
 	if launched:
-		target_ground_plane_vel -= state.linear_velocity
+		target_ground_plane_vel -= (state.linear_velocity - reference_frame_vel)
 		var up_component = global_basis.y * target_ground_plane_vel.dot(global_basis.y)
 		target_ground_plane_vel -= up_component
 		state.apply_central_force(target_ground_plane_vel.normalized() * stats.get_current_air_acceleration())
@@ -265,10 +265,11 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		target_ground_plane_vel -= state.linear_velocity
 		var up_component = global_basis.y * target_ground_plane_vel.dot(global_basis.y)
 		target_ground_plane_vel -= up_component
-		self.apply_relative_central_impulse(target_ground_plane_vel, target_ground_plane_vel.normalized() * Vector3.ONE, state)
+		var frame_vel_flat = reference_frame_vel - global_basis.y * reference_frame_vel.dot(global_basis.y)
+		state.apply_central_impulse(target_ground_plane_vel + mass * frame_vel_flat)
 	if is_jumping and _can_jump and collider:
 		var jump_impulse = stats.get_current_jump_impulse() * global_basis.y
-		jump_impulse -= (state.linear_velocity.y - reference_frame_vel.y) * mass * global_basis.y
+		jump_impulse -= (state.linear_velocity - reference_frame_vel).dot(global_basis.y) * mass * global_basis.y
 		self.apply_central_impulse(jump_impulse)
 		_can_jump = false
 		_jump_lock_timer = get_tree().create_timer(jump_lockout_time)

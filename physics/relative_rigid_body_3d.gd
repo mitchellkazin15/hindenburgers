@@ -38,8 +38,8 @@ func set_new_reference_frame(frame_vel : Vector3, apply_impulse = true):
 	reference_frame_vel = frame_vel
 
 
-func apply_relative_central_impulse(impulse : Vector3, relative_multiplier = Vector3.ONE, state: PhysicsDirectBodyState3D = null):
-	var final_impulse : Vector3 = impulse + mass * reference_frame_vel * relative_multiplier
+func apply_relative_central_impulse(impulse : Vector3, state: PhysicsDirectBodyState3D = null):
+	var final_impulse : Vector3 = impulse + mass * reference_frame_vel
 	if state:
 		state.apply_central_impulse(final_impulse)
 	else:
