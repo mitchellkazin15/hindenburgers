@@ -6,8 +6,8 @@ var audio_player : MultiplayerAudioStreamPlayer3D = null
 
 func set_being_held(holder : Character):
 	super.set_being_held(holder)
-	if holder.has_node("RotationPivot/MultiplayerAudioStreamPlayer3D"):
-		audio_player = holder.get_node("RotationPivot/MultiplayerAudioStreamPlayer3D")
+	if item_holder and item_holder.has_node("RotationPivot/MultiplayerAudioStreamPlayer3D"):
+		audio_player = item_holder.get_node("RotationPivot/MultiplayerAudioStreamPlayer3D")
 		audio_player.add_megaphone_effect.rpc()
 
 

@@ -36,7 +36,7 @@
 [ext_resource type="Script" uid="uid://c03l70p6igujp" path="res://characters/multiplayer_audio_listener_3d.gd" id="33_d3tvb"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
-friction = 0.25
+friction = 0.5
 rough = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wfnr8"]

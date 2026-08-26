@@ -265,7 +265,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		target_ground_plane_vel -= state.linear_velocity
 		var up_component = global_basis.y * target_ground_plane_vel.dot(global_basis.y)
 		target_ground_plane_vel -= up_component
-		self.apply_relative_central_impulse(target_ground_plane_vel, target_ground_plane_vel.normalized())
+		self.apply_relative_central_impulse(target_ground_plane_vel, target_ground_plane_vel.normalized() * Vector3.ONE, state)
 	if is_jumping and _can_jump and collider:
 		var jump_impulse = stats.get_current_jump_impulse() * global_basis.y
 		jump_impulse -= (state.linear_velocity.y - reference_frame_vel.y) * mass * global_basis.y
