@@ -1,7 +1,7 @@
 class_name CharacterSaveManager
 extends Node
 
-const SAVED_CHARACTER_FILE_PATH = "res://save_files/character_save_file.tres"
+const SAVED_CHARACTER_FILE_PATH = SavePaths.CHARACTER
 
 @export var character : Character
 @export var auto_save_interval = 10.0
@@ -31,14 +31,14 @@ func save_character_values():
 	if character.has_node("CoinPurse"):
 		var purse : CoinPurse = character.get_node("CoinPurse")
 		character_save.coin_purse_money_val = purse.money_val
+	SavePaths.ensure_dir()
 	ResourceSaver.save(character_save, SAVED_CHARACTER_FILE_PATH)
 
 
 func send_save_file_vals_to_server():
 	if multiplayer.get_unique_id() != character.initial_multiplayer_authority:
 		return
-	var res_dir = DirAccess.open("res://")
-	if not res_dir.file_exists(SAVED_CHARACTER_FILE_PATH):
+	if not FileAccess.file_exists(SAVED_CHARACTER_FILE_PATH):
 		return
 	var character_save_file : CharacterSaveFile = ResourceLoader.load(SAVED_CHARACTER_FILE_PATH, "CharacterSaveFile", 0)
 	load_character_values.rpc_id(1, character_save_file.serialize())

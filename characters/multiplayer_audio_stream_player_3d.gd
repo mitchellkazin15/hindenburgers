@@ -9,6 +9,9 @@ var playback : AudioStreamGeneratorPlayback = null
 
 func initialize_multiplayer_audio() -> void:
 	if MultiplayerManager.safe_is_multiplayer_authority(self):
+		if AudioServer.input_device == "Default":
+			print("leaving no mic")
+			return
 		stream = AudioStreamMicrophone.new()
 		bus = &"Record"
 		var bus_idx = AudioServer.get_bus_index(bus)

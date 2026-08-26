@@ -81,7 +81,12 @@ func _change_settings_overlay_state(show : bool):
 
 
 func clear_level_root():
-	for child in $/root/Main/MultiplayerBaseScene/LevelRoot.get_children():
+	var level_root = $/root/Main/MultiplayerBaseScene/LevelRoot
+	for child in level_root.get_children():
+		# queue_free() on its own is deferred, so the old nodes are still in the tree
+		# when the next level is spawned. Godot then renames the incoming node to dodge
+		# the collision and $LevelRoot/Level keeps resolving to the node being freed.
+		level_root.remove_child(child)
 		child.queue_free()
 
 
