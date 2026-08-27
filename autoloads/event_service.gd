@@ -104,6 +104,11 @@ func _start_game(info):
 
 func return_to_menu():
 	state = GameState.MENU
+	# The teleporter registry is being emptied below, so leaving the level nodes alive
+	# would put the two out of step - and a leftover Character keeps find_player_by_peer()
+	# succeeding, which flips state straight back to IN_GAME in _physics_process.
+	clear_level_root()
+	LevelSaveManager.level_loaded = false
 	$/root/Main/Background.show()
 	$/root/Main/Background.process_mode = Node.PROCESS_MODE_ALWAYS
 	$/root/Main/MenuContainer.show()

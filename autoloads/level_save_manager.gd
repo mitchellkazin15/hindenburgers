@@ -4,18 +4,37 @@ const SAVED_LEVEL_FILE_PATH = SavePaths.LEVEL
 const SAVED_BASE_LEVEL_FILE_PATH = SavePaths.BASE_LEVEL
 
 @export var auto_save_interval = 33.33
+## Turn off while hand-editing a save file, so a background instance cannot write
+## over the edit before the next run reads it.
+@export var auto_save_enabled = true
 
 var auto_save_timer : SceneTreeTimer
 var base_level_saved = false
+## False until load_level() has actually put a level in LevelRoot this session.
+## Guards save_level() - see the comment there.
+var level_loaded = false
 
 
 func _ready() -> void:
 	auto_save_timer = get_tree().create_timer(0.0)
+	SavePaths.ensure_dir()
 
 
 func save_level():
 	if not MultiplayerManager.safe_is_server():
 		return
+	# Refuse to write before a level has been loaded. Whatever is in memory right now is
+	# either nothing or debris from a previous session, and writing it would destroy the
+	# save on disk before load_level() ever reads it - including any hand edits.
+	if not level_loaded:
+		print("skipped a level save: no level loaded yet (state=", EventService.state, ")")
+		return
+	if OS.is_debug_build():
+		var stack = get_stack()
+		var caller = "?" if stack.size() < 2 else "%s:%d" % [stack[1]["source"], stack[1]["line"]]
+		print("saving level from ", caller, " state=", EventService.state,
+			" atm=", AtmCoinPurse.money_val,
+			" unlocks=", TeleportationManager.generate_unlock_save_dict())
 	if not base_level_saved:
 		_save_base_level_scene()
 		base_level_saved = true
@@ -31,9 +50,21 @@ func save_level():
 			body.position,
 			body.rotation,
 	])
+	print("saving stuff")
 	level_save.atm_money_val = AtmCoinPurse.money_val
 	level_save.teleporter_unlocks_dict = TeleportationManager.generate_unlock_save_dict()
 	ResourceSaver.save(level_save, SAVED_LEVEL_FILE_PATH)
+	print("wrote save ", ProjectSettings.globalize_path(SAVED_LEVEL_FILE_PATH))
+
+
+## " (last modified Ns ago)" - if this reads as seconds when the edit was made minutes
+## ago, something rewrote the file in between. A background instance of the game still
+## running is the usual culprit: its auto save fires every auto_save_interval seconds.
+func _file_age_note(path : String) -> String:
+	if not FileAccess.file_exists(path):
+		return " (missing)"
+	var age_sec = Time.get_unix_time_from_system() - FileAccess.get_modified_time(path)
+	return " (last modified %ds ago)" % int(age_sec)
 
 
 ## Remove any rigid bodies or auto spawners from base_level and load in saved body states
@@ -48,8 +79,14 @@ func load_level(game_info : Dictionary):
 		spawner.spawn({
 			"scene_file_path": "res://test_levels/terrain_level.scn",
 		})
+		level_loaded = true
 		return
 	var saved_level : LevelSaveFile = ResourceLoader.load(SAVED_LEVEL_FILE_PATH, "LevelSaveFile", 0)
+	print("read save ", ProjectSettings.globalize_path(SAVED_LEVEL_FILE_PATH),
+		" atm=", saved_level.atm_money_val,
+		" unlocks=", saved_level.teleporter_unlocks_dict,
+		" bodies=", saved_level.rigid_body_states.size(),
+		_file_age_note(SAVED_LEVEL_FILE_PATH))
 	var saved_base_level = MultiplayerManager.add_node_to_spawner(SAVED_BASE_LEVEL_FILE_PATH, Vector3.ZERO)
 	for body in saved_level.rigid_body_states:
 		MultiplayerManager.add_node_to_spawner(
@@ -57,6 +94,10 @@ func load_level(game_info : Dictionary):
 			body[LevelSaveFile.StateIndices.POS],
 			body[LevelSaveFile.StateIndices.ROT],
 		)
+	print("loading stuff")
+	print(saved_level)
+	print(saved_level.atm_money_val)
+	print(saved_level.teleporter_unlocks_dict)
 	AtmCoinPurse.money_val = saved_level.atm_money_val
 	TeleportationManager.load_teleporter_unlocks(saved_level.teleporter_unlocks_dict)
 	# The level we just spawned came straight out of SAVED_BASE_LEVEL_FILE_PATH, so it
@@ -65,6 +106,7 @@ func load_level(game_info : Dictionary):
 	# BetterMultiplayerSpawner._custom_spawn_func streams it rather than reading it in
 	# one go. Rewriting it underneath them truncates the file mid-parse.
 	base_level_saved = true
+	level_loaded = true
 	save_level()
 	# This whole function runs on the main thread in one go. Anything past a couple of
 	# seconds and ENet on the other end starts treating the host as gone, so it is worth
@@ -134,6 +176,7 @@ func _physics_process(delta: float) -> void:
 		or not MultiplayerManager.safe_is_server() 
 		or auto_save_timer.time_left != 0.0 
 		or EventService.state != EventService.GameState.IN_GAME
+		or not auto_save_enabled
 	):
 		return
 	print("auto saving")
