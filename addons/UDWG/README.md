@@ -7,6 +7,7 @@ A Godot 4.x plugin that adds a FileSystem-like dock for browsing and managing fi
 - Browse the user:// directory structure in a tree view
 - File operations:
   - Open files directly in the editor/inspector
+  - Save Inspector edits back to the user:// file
   - Rename files and folders
   - Delete files (moves to trash)
   - Copy file paths
@@ -26,6 +27,21 @@ A Godot 4.x plugin that adds a FileSystem-like dock for browsing and managing fi
 - Click the arrow next to folders to expand/collapse them
 - Double-click files to open them in the appropriate editor
 - Use the Refresh button to update the view
+
+### Saving edits
+
+Resources under `user://` are not part of the project filesystem. This dock loads them
+with `CACHE_MODE_IGNORE`, so the editor never tracks them as unsaved and **Ctrl+S and
+Save All will not write them** - edits made in the Inspector live only in memory until
+you save them here.
+
+1. Double-click a `.tres` or `.res` file to open it in the Inspector
+2. Edit its properties as usual
+3. Press **Save** in this dock (or right-click a file and choose *Save Inspector Changes*)
+
+The label next to the buttons shows which file Save will write to. The button saves
+whatever `user://` resource the Inspector is currently showing, falling back to the last
+file opened from this dock.
 
 ### File Operations
 - Right-click any file or folder to show the context menu with options:

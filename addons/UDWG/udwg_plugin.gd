@@ -3,19 +3,46 @@ extends EditorPlugin
 
 var dock: VBoxContainer
 var tree: Tree
+var toolbar: HBoxContainer
 var refresh_button: Button
+var save_button: Button
+var status_label: Label
 var popup_menu: PopupMenu
 var selected_item: TreeItem
 var selected_path: String
+
+## The resource most recently opened in the Inspector from this dock, and where it came
+## from. user:// resources are loaded with CACHE_MODE_IGNORE and are not part of the
+## project filesystem, so the editor never lists them as unsaved and Ctrl+S / Save All
+## cannot reach them. The Save button is the only way to get Inspector edits onto disk.
+var edited_resource: Resource
+var edited_path: String
 
 func _enter_tree() -> void:
 	dock = VBoxContainer.new()
 	dock.set_name("UserDir")
 
+	toolbar = HBoxContainer.new()
+	dock.add_child(toolbar)
+
 	refresh_button = Button.new()
 	refresh_button.set_text("Refresh")
 	refresh_button.connect("pressed", _refresh_tree)
-	dock.add_child(refresh_button)
+	toolbar.add_child(refresh_button)
+
+	save_button = Button.new()
+	save_button.set_text("Save")
+	save_button.set_tooltip_text(
+		"Write the resource open in the Inspector back to its user:// file.\n"
+		+ "user:// resources are not part of the project, so the editor's own save never touches them.")
+	save_button.connect("pressed", _save_edited_resource)
+	toolbar.add_child(save_button)
+
+	status_label = Label.new()
+	status_label.set_h_size_flags(Control.SIZE_EXPAND_FILL)
+	status_label.set_text_overrun_behavior(TextServer.OVERRUN_TRIM_ELLIPSIS)
+	dock.add_child(status_label)
+	_set_edited_resource(null, "")
 
 	tree = Tree.new()
 	tree.set_columns(1)
@@ -33,6 +60,7 @@ func _enter_tree() -> void:
 	popup_menu = PopupMenu.new()
 	popup_menu.connect("id_pressed", _on_popup_menu_item_selected)
 	popup_menu.add_item("Open in Inspector", 0)
+	popup_menu.add_item("Save Inspector Changes", 4)
 	popup_menu.add_separator()
 	popup_menu.add_item("Copy Path", 1)
 	popup_menu.add_separator()
@@ -149,13 +177,74 @@ func _on_item_activated() -> void:
 							old_resource.take_over_path("")  # Remove from cache
 					# Now load fresh from disk
 					var resource = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
-					if resource:
-						# Re-assign the path so the resource knows where to save
-						resource.resource_path = path
-						# Mark it as changed so Godot will prompt to save
+					if not resource:
+						printerr("UDWG: could not load ", path)
+						return
+					# Re-assign the path so the resource knows where to save
+					resource.resource_path = path
+					_set_edited_resource(resource, path)
 					EditorInterface.edit_resource(resource)
 				"tscn":
 					EditorInterface.open_scene_from_path(path)
+
+## Tracks which user:// resource the Save button acts on, and reflects it in the dock.
+func _set_edited_resource(resource: Resource, path: String) -> void:
+	edited_resource = resource
+	edited_path = path
+	if not is_instance_valid(status_label):
+		return
+	if resource == null:
+		status_label.set_text("No user:// resource open")
+		status_label.set_tooltip_text("Double-click a .tres or .res file above to edit it.")
+	else:
+		status_label.set_text("Editing: " + path.get_file())
+		status_label.set_tooltip_text("Save writes to " + path)
+	if is_instance_valid(save_button):
+		save_button.set_disabled(resource == null)
+
+
+## Prefer whatever the Inspector is actually showing, so the button saves what the user
+## is looking at rather than whatever was opened last. Falls back to the tracked resource
+## when the Inspector is on something else (a node, or a res:// resource).
+func _resource_to_save() -> Resource:
+	var inspected := EditorInterface.get_inspector().get_edited_object() as Resource
+	if inspected != null and inspected.resource_path.begins_with("user://"):
+		return inspected
+	if is_instance_valid(edited_resource):
+		return edited_resource
+	return null
+
+
+func _save_edited_resource() -> void:
+	var resource := _resource_to_save()
+	if resource == null:
+		_show_message("Nothing to save", "Open a user:// resource from this dock first.")
+		return
+	var path := resource.resource_path
+	if not path.begins_with("user://"):
+		path = edited_path
+	if not path.begins_with("user://"):
+		_show_message("Nothing to save", "That resource does not live under user://.")
+		return
+	var err := ResourceSaver.save(resource, path)
+	if err != OK:
+		printerr("UDWG: failed to save ", path, ": ", error_string(err))
+		_show_message("Save failed", "%s\n\n%s" % [path, error_string(err)])
+		return
+	print("UDWG: saved ", ProjectSettings.globalize_path(path))
+	_set_edited_resource(resource, path)
+	_refresh_tree()
+
+
+func _show_message(title: String, text: String) -> void:
+	var dialog := AcceptDialog.new()
+	dialog.title = title
+	dialog.dialog_text = text
+	dialog.connect("confirmed", dialog.queue_free)
+	dialog.connect("canceled", dialog.queue_free)
+	EditorInterface.get_base_control().add_child(dialog)
+	dialog.popup_centered()
+
 
 func _on_item_mouse_selected(_position: Vector2, mouse_button_index: int) -> void:
 	if mouse_button_index == MOUSE_BUTTON_RIGHT:
@@ -177,6 +266,8 @@ func _on_popup_menu_item_selected(id: int) -> void:
 			_rename_item()
 		3:  # Delete
 			_delete_item()
+		4:  # Save Inspector Changes
+			_save_edited_resource()
 
 func _rename_item() -> void:
 	if not selected_item or not selected_path:
@@ -203,6 +294,8 @@ func _rename_item() -> void:
 				# Attempt rename
 				var err = dir.rename(old_name, new_name)
 				if err == OK:
+					if selected_path == edited_path:
+						_set_edited_resource(edited_resource, _new_path)
 					_refresh_tree()
 					print_debug("Renamed %s to %s" % [old_name, new_name])
 				else:
@@ -233,6 +326,8 @@ func _delete_item() -> void:
 				var err = dir.remove(selected_path.get_file())
 				if err != OK:
 					printerr("Failed to delete file: ", error_string(err))
+			if selected_path == edited_path:
+				_set_edited_resource(null, "")
 			_refresh_tree()
 	)
 	
