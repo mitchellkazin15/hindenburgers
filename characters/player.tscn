@@ -157,6 +157,7 @@ script = ExtResource("33_d3tvb")
 attenuation_model = 1
 doppler_tracking = 2
 script = ExtResource("33_5f4cm")
+voice_sample_rate = 12000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RotationPivot" unique_id=1739057790]
 mesh = SubResource("CapsuleMesh_px5sl")

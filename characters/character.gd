@@ -50,6 +50,7 @@ var to_basis : Basis
 
 func _ready() -> void:
 	super._ready()
+	add_to_group("players")
 	randomness_timer = get_tree().create_timer(0.0)
 	_jump_lock_timer = get_tree().create_timer(0.0)
 	_air_control_timer = get_tree().create_timer(0.0)
