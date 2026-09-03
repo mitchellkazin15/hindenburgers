@@ -1,3 +1,59 @@
 [gd_scene format=3 uid="uid://c60ntyofe0dr1"]
 
-[node name="PaSystem" type="Node3D" unique_id=140785370]
+[ext_resource type="Script" uid="uid://cxgmtkr0tnym4" path="res://common_components/button_area_3d.gd" id="1_vl54c"]
+[ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="2_k3mlg"]
+[ext_resource type="Material" uid="uid://dketfkh7vnmjg" path="res://assets/hot_air_ballon_material.tres" id="3_5rnai"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6j4r"]
+albedo_color = Color(0.28118682, 0.28118688, 0.2811868, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p5g5h"]
+material = SubResource("StandardMaterial3D_h6j4r")
+size = Vector3(1, 1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qjf2g"]
+cull_mode = 2
+albedo_color = Color(0.49943948, 0.49943954, 0.49943948, 1)
+metallic = 0.5
+roughness = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_x7m1b"]
+material = SubResource("StandardMaterial3D_qjf2g")
+top_radius = 0.2
+bottom_radius = 0.05
+height = 0.5
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_rggh0"]
+height = 0.2
+radius = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rgc1x"]
+material = ExtResource("3_5rnai")
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.2
+
+[node name="PaSystem" type="Node3D" unique_id=1590772352]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=253261005]
+mesh = SubResource("BoxMesh_p5g5h")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1078612222]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.2, 0.25)
+mesh = SubResource("CylinderMesh_x7m1b")
+
+[node name="ButtonArea3D" type="Area3D" parent="." unique_id=201165554 node_paths=PackedStringArray("button_mesh")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.2, -0.2, 0.12)
+script = ExtResource("1_vl54c")
+button_mesh = NodePath("ButtonMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ButtonArea3D" unique_id=345658981]
+shape = SubResource("CylinderShape3D_rggh0")
+debug_color = Color(0, 0.64122826, 0.342561, 0.41960785)
+
+[node name="OmniLight3D" parent="ButtonArea3D" unique_id=425923836 instance=ExtResource("2_k3mlg")]
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="ButtonArea3D" unique_id=2146979723]
+mesh = SubResource("CylinderMesh_rgc1x")
