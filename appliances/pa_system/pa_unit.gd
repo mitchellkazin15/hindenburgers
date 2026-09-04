@@ -11,6 +11,7 @@ var character_indices : Dictionary[Character, int] = {}
 
 func _ready() -> void:
 	sync_stream = audio_player.stream
+	audio_player.play()
 	PaSystemManager.register_pa_unit(self)
 
 
@@ -26,6 +27,7 @@ func _physics_process(delta: float) -> void:
 			character_indices[character] = character_indices.keys().size()
 			sync_stream.set_sync_stream(character_indices[character], character.audio_player.stream)
 		if character.global_position.distance_to(self.global_position) <= listen_range:
-			sync_stream.set_sync_stream_volume(character_indices[character], 0.0)
+			sync_stream.set_sync_stream_volume(character_indices[character], linear_to_db(1.0))
+			print("volume should be non-zero")
 		else:
 			sync_stream.set_sync_stream_volume(character_indices[character], -80.0)

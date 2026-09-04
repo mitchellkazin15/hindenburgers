@@ -19,6 +19,7 @@ func set_all_streams():
 		var i = 1
 		for input_pa_unit in pa_units:
 			if output_pa_unit == input_pa_unit:
+				print("continuing: same pa system")
 				continue
 			output_pa_unit.sync_stream.set_sync_stream(AudioStreamSynchronized.MAX_STREAMS - i, input_pa_unit.sync_stream)
 			i += 1

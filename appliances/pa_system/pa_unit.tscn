@@ -58,6 +58,7 @@ bottom_radius = 0.1
 height = 0.2
 
 [sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_poo8k"]
+resource_local_to_scene = true
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_poo8k"]
 properties/0/path = NodePath("ButtonArea3D:is_pressed")
