@@ -34,6 +34,7 @@ LoadingScreen="*uid://d33xqqrolb86a"
 LevelSaveManager="*uid://drka6pvw2cs6n"
 AtmCoinPurse="*uid://dgdbolyfl5aeq"
 TeleportationManager="*uid://dqsl2wktt7v7f"
+PaSystemManager="*uid://bkbn1truauot8"
 
 [display]
 
@@ -46,6 +47,7 @@ enabled=PackedStringArray("res://addons/UDWG/plugin.cfg", "res://addons/terrain_
 [global_group]
 
 player_spawn="Node3D whose position can be used to spawn a player"
+players=""
 
 [input]
 

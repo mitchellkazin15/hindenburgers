@@ -146,6 +146,8 @@ func _nearby_peer_ids() -> Array[int]:
 	var my_pos := global_position
 	var my_id := get_multiplayer_authority()
 	for node in get_tree().get_nodes_in_group("players"):
+		if not node is Character:
+			continue
 		var character := node as Character
 		if character == null or character.initial_multiplayer_authority == my_id:
 			continue

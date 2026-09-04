@@ -128,7 +128,7 @@ shader = ExtResource("30_mjkfq")
 resource_local_to_scene = true
 shader = ExtResource("30_mjkfq")
 
-[node name="Player" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "interact_raycast", "input_controller", "synchronizer", "floor_shape_cast", "stats", "hand")]
+[node name="Player" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "interact_raycast", "input_controller", "synchronizer", "audio_listener", "audio_player", "floor_shape_cast", "stats", "hand")]
 physics_material_override = SubResource("PhysicsMaterial_mdkfl")
 gravity_scale = 5.0
 can_sleep = false
@@ -139,6 +139,8 @@ camera = NodePath("CameraPivot/Camera3D")
 interact_raycast = NodePath("CameraPivot/InteractionRayCast3D")
 input_controller = NodePath("PlayerInputComponent")
 synchronizer = NodePath("MultiplayerSynchronizer")
+audio_listener = NodePath("RotationPivot/MultiplayerAudioListener3D")
+audio_player = NodePath("RotationPivot/MultiplayerAudioStreamPlayer3D")
 floor_shape_cast = NodePath("ShapeCast3D")
 stats = NodePath("CharacterStatManager")
 hand = NodePath("RotationPivot/HandRemoteTransform3D")
@@ -153,7 +155,7 @@ shape = SubResource("CapsuleShape3D_wfnr8")
 doppler_tracking = 2
 script = ExtResource("33_d3tvb")
 
-[node name="MultiplayerAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="RotationPivot" unique_id=393931058]
+[node name="MultiplayerAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="RotationPivot" unique_id=393931058 groups=["players"]]
 attenuation_model = 1
 doppler_tracking = 2
 script = ExtResource("33_5f4cm")

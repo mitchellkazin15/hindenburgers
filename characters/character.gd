@@ -10,6 +10,8 @@ signal locked_interaction_ended
 @export var controllable = true
 @export var input_controller : CharacterPlayerInputController
 @export var synchronizer : MultiplayerSynchronizer
+@export var audio_listener : MultiplayerAudioListener3D
+@export var audio_player : MultiplayerAudioStreamPlayer3D
 @export var initial_multiplayer_authority : int = 1
 @export var initial_position : Vector3
 @export var display_name = ""
@@ -80,19 +82,19 @@ func set_initial_values():
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
 	interact_raycast.set_multiplayer_authority(initial_multiplayer_authority)
 	interact_raycast.set_physics_process(interact_raycast.is_multiplayer_authority())
-	$RotationPivot/MultiplayerAudioStreamPlayer3D.set_multiplayer_authority(initial_multiplayer_authority)
-	$RotationPivot/MultiplayerAudioStreamPlayer3D.initialize_multiplayer_audio()
+	audio_player.set_multiplayer_authority(initial_multiplayer_authority)
+	audio_player.initialize_multiplayer_audio()
 	$Label3D.text = display_name
 	if multiplayer.get_unique_id() != initial_multiplayer_authority:
 		$HUD.hide()
 		$DrugManager/CanvasLayer.hide()
 		$Label3D.show()
-		$RotationPivot/MultiplayerAudioListener3D.clear_current()
+		audio_listener.clear_current()
 	else:
 		$HUD.show()
 		$DrugManager/CanvasLayer.show()
 		$Label3D.hide()
-		$RotationPivot/MultiplayerAudioListener3D.make_current()
+		audio_listener.make_current()
 
 
 func reset():

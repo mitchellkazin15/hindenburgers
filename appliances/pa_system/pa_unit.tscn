@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://c60ntyofe0dr1"]
 
+[ext_resource type="Script" uid="uid://bxg46tqonjdur" path="res://appliances/pa_system/pa_unit.gd" id="1_k3mlg"]
 [ext_resource type="Script" uid="uid://cxgmtkr0tnym4" path="res://common_components/button_area_3d.gd" id="1_vl54c"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="2_k3mlg"]
 [ext_resource type="Material" uid="uid://dketfkh7vnmjg" path="res://assets/hot_air_ballon_material.tres" id="3_5rnai"]
@@ -25,6 +26,27 @@ height = 0.5
 cap_top = false
 cap_bottom = false
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_poo8k"]
+noise_type = 2
+frequency = 0.05
+fractal_octaves = 1
+fractal_gain = 1.0
+cellular_jitter = 0.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4ic7o"]
+noise = SubResource("FastNoiseLite_poo8k")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a10l7"]
+metallic = 1.0
+metallic_specular = 1.0
+roughness_texture = SubResource("NoiseTexture2D_4ic7o")
+
+[sub_resource type="SphereMesh" id="SphereMesh_iqwvw"]
+material = SubResource("StandardMaterial3D_a10l7")
+radius = 0.2
+height = 0.2
+is_hemisphere = true
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_rggh0"]
 height = 0.2
 radius = 0.2
@@ -35,7 +57,17 @@ top_radius = 0.1
 bottom_radius = 0.1
 height = 0.2
 
-[node name="PaSystem" type="Node3D" unique_id=1590772352]
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_poo8k"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_poo8k"]
+properties/0/path = NodePath("ButtonArea3D:is_pressed")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="PaUnit" type="Node3D" unique_id=1590772352 node_paths=PackedStringArray("button", "audio_player")]
+script = ExtResource("1_k3mlg")
+button = NodePath("ButtonArea3D")
+audio_player = NodePath("AudioStreamPlayer3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=253261005]
 mesh = SubResource("BoxMesh_p5g5h")
@@ -43,6 +75,10 @@ mesh = SubResource("BoxMesh_p5g5h")
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1078612222]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.2, 0.25)
 mesh = SubResource("CylinderMesh_x7m1b")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=751001854]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.2, -0.2, 0)
+mesh = SubResource("SphereMesh_iqwvw")
 
 [node name="ButtonArea3D" type="Area3D" parent="." unique_id=201165554 node_paths=PackedStringArray("button_mesh")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.2, -0.2, 0.12)
@@ -57,3 +93,10 @@ debug_color = Color(0, 0.64122826, 0.342561, 0.41960785)
 
 [node name="ButtonMesh" type="MeshInstance3D" parent="ButtonArea3D" unique_id=2146979723]
 mesh = SubResource("CylinderMesh_rgc1x")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=902905425]
+stream = SubResource("AudioStreamSynchronized_poo8k")
+bus = &"Speakers"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1161562137]
+replication_config = SubResource("SceneReplicationConfig_poo8k")
