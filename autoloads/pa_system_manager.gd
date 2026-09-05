@@ -16,7 +16,7 @@ func unregister_pa_unit(pa_unit : PaUnit) -> void:
 ## microphones; every unit plays what other units pick up regardless of its own button.
 func is_broadcast_source(world_position : Vector3) -> bool:
 	for unit in pa_units:
-		if unit.is_broadcasting() and unit.covers(world_position):
+		if unit.is_broadcasting() and unit.covers_input(world_position):
 			return true
 	return false
 
@@ -25,7 +25,7 @@ func is_broadcast_source(world_position : Vector3) -> bool:
 ## A unit never replays someone standing in its own radius - they are already heard directly.
 func has_listener_unit(listener_position : Vector3, speaker_position : Vector3) -> bool:
 	for unit in pa_units:
-		if unit.covers(listener_position) and not unit.covers(speaker_position):
+		if unit.covers_output(listener_position) and not unit.covers_output(speaker_position):
 			return true
 	return false
 
@@ -35,5 +35,5 @@ func relay_voice(speaker_id : int, speaker_position : Vector3, frames : PackedVe
 	if not is_broadcast_source(speaker_position):
 		return
 	for unit in pa_units:
-		if not unit.covers(speaker_position):
+		if not unit.covers_output(speaker_position):
 			unit.push_voice(speaker_id, frames, mix_rate)

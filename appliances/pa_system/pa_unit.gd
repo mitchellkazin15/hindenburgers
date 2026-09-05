@@ -4,7 +4,8 @@ extends Node3D
 @export var button : ButtonArea3D
 ## Settings donor and mount point: per-speaker players copy its bus/attenuation and parent to it.
 @export var audio_player : AudioStreamPlayer3D
-@export var listen_range = 50.0
+@export var input_range = 5.0
+@export var listen_range = 100.0
 ## Seconds of voice each per-speaker generator buffers before it starts dropping frames.
 ## Matches AudioStreamGenerator's default, which the character-side voice path already uses.
 @export var voice_buffer_length = 0.5
@@ -25,8 +26,12 @@ func is_broadcasting() -> bool:
 	return button.is_pressed
 
 
-func covers(world_position : Vector3) -> bool:
+func covers_output(world_position : Vector3) -> bool:
 	return global_position.distance_to(world_position) <= listen_range
+
+
+func covers_input(world_position : Vector3) -> bool:
+	return global_position.distance_to(world_position) <= input_range
 
 
 ## Plays one speaker's voice out of this unit, spinning up their player on first use.

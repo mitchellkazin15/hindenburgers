@@ -23,12 +23,17 @@ extends AudioStreamPlayer3D
 ## megaphone/normal audio is actually audible at, or nearby players will be culled
 ## from hearing you before the volume drops to silence.
 @export var max_voice_distance := 100.0
+var original_max_voice_distance 
 
 const PCM16_MAX := 32767.0
 
 var capture : AudioEffectCapture = null
 var playback : AudioStreamGeneratorPlayback = null
 var _capture_rate : float = 44100.0
+
+
+func _ready() -> void:
+	original_max_voice_distance = max_voice_distance
 
 
 func initialize_multiplayer_audio() -> void:
@@ -68,6 +73,7 @@ func add_megaphone_effect():
 	lofi.post_gain = 6.0
 	var reverb : AudioEffectReverb = AudioServer.get_bus_effect(bus_idx, 1)
 	reverb.wet = 0.25
+	max_voice_distance *= 2.0
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -83,6 +89,7 @@ func remove_megaphone_effect():
 	lofi.post_gain = 0.0
 	var reverb : AudioEffectReverb = AudioServer.get_bus_effect(bus_idx, 1)
 	reverb.wet = 0.0
+	max_voice_distance = original_max_voice_distance
 
 
 ## pcm16 is mono 16-bit PCM, already resampled to voice_sample_rate by the sender
