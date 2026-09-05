@@ -16,6 +16,8 @@ resource_name = "Capture"
 [sub_resource type="AudioEffectDistortion" id="AudioEffectDistortion_g28q7"]
 resource_name = "Distortion"
 mode = 2
+pre_gain = 6.0
+keep_hf_hz = 20500.0
 drive = 0.5
 post_gain = 6.0
 

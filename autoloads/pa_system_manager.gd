@@ -1,26 +1,39 @@
 extends Node
 
-var pa_units : Array[PaUnit]
-var all_streams_set = false
+var pa_units : Array[PaUnit] = []
 
 
-func register_pa_unit(pa_unit : PaUnit):
-	pa_units.append(pa_unit)
-	all_streams_set = false
+func register_pa_unit(pa_unit : PaUnit) -> void:
+	if not pa_units.has(pa_unit):
+		pa_units.append(pa_unit)
 
 
-func _physics_process(delta: float) -> void:
-	if not all_streams_set:
-		set_all_streams()
+func unregister_pa_unit(pa_unit : PaUnit) -> void:
+	pa_units.erase(pa_unit)
 
 
-func set_all_streams():
-	for output_pa_unit in pa_units:
-		var i = 1
-		for input_pa_unit in pa_units:
-			if output_pa_unit == input_pa_unit:
-				print("continuing: same pa system")
-				continue
-			output_pa_unit.sync_stream.set_sync_stream(AudioStreamSynchronized.MAX_STREAMS - i, input_pa_unit.sync_stream)
-			i += 1
-	all_streams_set = true
+## True if a unit with its button pressed picks this position up. Only pressed units are
+## microphones; every unit plays what other units pick up regardless of its own button.
+func is_broadcast_source(world_position : Vector3) -> bool:
+	for unit in pa_units:
+		if unit.is_broadcasting() and unit.covers(world_position):
+			return true
+	return false
+
+
+## True if some unit would play a speaker at speaker_position out to listener_position.
+## A unit never replays someone standing in its own radius - they are already heard directly.
+func has_listener_unit(listener_position : Vector3, speaker_position : Vector3) -> bool:
+	for unit in pa_units:
+		if unit.covers(listener_position) and not unit.covers(speaker_position):
+			return true
+	return false
+
+
+## Plays a speaker's voice out of every unit that another unit picked them up for.
+func relay_voice(speaker_id : int, speaker_position : Vector3, frames : PackedVector2Array, mix_rate : float) -> void:
+	if not is_broadcast_source(speaker_position):
+		return
+	for unit in pa_units:
+		if not unit.covers(speaker_position):
+			unit.push_voice(speaker_id, frames, mix_rate)

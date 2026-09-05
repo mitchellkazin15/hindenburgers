@@ -90,14 +90,25 @@ func remove_megaphone_effect():
 ## noticeable than the latency spikes reliable delivery would add when retransmitting.
 @rpc("any_peer", "call_remote", "unreliable_ordered")
 func send_audio_data(pcm16 : PackedByteArray):
-	if playback == null:
-		return
+	var frames := _from_pcm16(pcm16)
+	if playback != null and playback.can_push_buffer(frames.size()):
+		for frame in frames:
+			playback.push_frame(frame)
+	# PA units are ordinary local nodes, so each client works out the relay itself - the
+	# sender doesn't have to say anything about them.
+	PaSystemManager.relay_voice(get_multiplayer_authority(), global_position, frames, voice_sample_rate)
+
+
+## Decodes a received mono PCM16 payload into the stereo frames the character's own playback
+## and any relaying PA unit both push. Decoded once here so the relay doesn't redo the work.
+func _from_pcm16(pcm16 : PackedByteArray) -> PackedVector2Array:
 	var sample_count := pcm16.size() / 2
-	if not playback.can_push_buffer(sample_count):
-		return
+	var frames := PackedVector2Array()
+	frames.resize(sample_count)
 	for i in range(sample_count):
 		var sample := pcm16.decode_s16(i * 2) / PCM16_MAX
-		playback.push_frame(Vector2(sample, sample))
+		frames[i] = Vector2(sample, sample)
+	return frames
 
 
 func _physics_process(delta: float) -> void:
@@ -140,17 +151,20 @@ func _to_pcm16(buffer : PackedVector2Array) -> PackedByteArray:
 
 ## IDs of peers whose character is within max_voice_distance of this speaker. Used
 ## instead of the old blind .rpc() broadcast to every connected peer, which made
-## total voice traffic scale with player_count^2.
+## total voice traffic scale with player_count^2. When a pressed PA unit picks this speaker
+## up, peers at a unit that would relay them are added too, however far apart the two are.
 func _nearby_peer_ids() -> Array[int]:
 	var ids : Array[int] = []
 	var my_pos := global_position
 	var my_id := get_multiplayer_authority()
+	var on_pa := PaSystemManager.is_broadcast_source(my_pos)
 	for node in get_tree().get_nodes_in_group("players"):
 		if not node is Character:
 			continue
 		var character := node as Character
 		if character == null or character.initial_multiplayer_authority == my_id:
 			continue
-		if character.global_position.distance_to(my_pos) <= max_voice_distance:
+		var in_earshot := character.global_position.distance_to(my_pos) <= max_voice_distance
+		if in_earshot or (on_pa and PaSystemManager.has_listener_unit(character.global_position, my_pos)):
 			ids.append(character.initial_multiplayer_authority)
 	return ids

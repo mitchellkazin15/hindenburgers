@@ -57,9 +57,6 @@ top_radius = 0.1
 bottom_radius = 0.1
 height = 0.2
 
-[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_poo8k"]
-resource_local_to_scene = true
-
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_poo8k"]
 properties/0/path = NodePath("ButtonArea3D:is_pressed")
 properties/0/spawn = true
@@ -96,7 +93,6 @@ debug_color = Color(0, 0.64122826, 0.342561, 0.41960785)
 mesh = SubResource("CylinderMesh_rgc1x")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=902905425]
-stream = SubResource("AudioStreamSynchronized_poo8k")
 bus = &"Speakers"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1161562137]
