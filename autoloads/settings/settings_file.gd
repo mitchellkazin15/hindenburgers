@@ -18,3 +18,4 @@ enum WindowMode {
 @export_range(0.0, 1.0, 0.001) var master_volume_linear : float = 1.0
 @export_range(0.0, 1.0, 0.001) var music_volume_linear : float = 0.5
 @export_range(0.0, 1.0, 0.001) var sfx_volume_linear : float = 0.5
+@export_range(-80.0, 0.0, 0.1) var mic_threshold_db : float = -30.0

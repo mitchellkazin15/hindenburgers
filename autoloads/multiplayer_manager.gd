@@ -9,6 +9,15 @@ const PORT = 12782 # Multiply by 10 and look up Unicode by decimal value :)
 const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost
 const MAX_CONNECTIONS = 16
 
+# ENet gives up on a peer that has not answered for a few seconds (its defaults are
+# 5s minimum, 30s maximum). Loading a saved level blocks the host's main thread well
+# past that, so the client's ENet decides the server is gone, multiplayer.server_disconnected
+# fires, and the client quietly drops back to the menu with nothing logged as an error.
+# Widen the window so a load hitch on either end cannot kill the connection.
+const PEER_TIMEOUT_LIMIT = 32
+const PEER_TIMEOUT_MIN_MS = 20000
+const PEER_TIMEOUT_MAX_MS = 60000
+
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
 var players = {}
@@ -77,6 +86,7 @@ func player_loaded():
 # This allows transfer of all desired data for each player, not only the unique ID.
 func _on_player_connected(id):
 	print("new player")
+	_widen_peer_timeout(id)
 	_register_player.rpc_id(id, player_info)
 
 
@@ -98,8 +108,23 @@ func _on_player_disconnected(id):
 
 func _on_connected_ok():
 	var peer_id = multiplayer.get_unique_id()
+	_widen_peer_timeout(1)
 	players[peer_id] = player_info
 	player_connected.emit(peer_id, player_info)
+
+
+## See PEER_TIMEOUT_* above. Safe to call with an id that is not connected.
+func _widen_peer_timeout(peer_id : int) -> void:
+	if not multiplayer.has_multiplayer_peer():
+		return
+	var enet_peer := multiplayer.multiplayer_peer as ENetMultiplayerPeer
+	if enet_peer == null:
+		return
+	var packet_peer : ENetPacketPeer = enet_peer.get_peer(peer_id)
+	if packet_peer == null:
+		push_warning("no enet peer %d to set a timeout on" % peer_id)
+		return
+	packet_peer.set_timeout(PEER_TIMEOUT_LIMIT, PEER_TIMEOUT_MIN_MS, PEER_TIMEOUT_MAX_MS)
 
 
 func _on_connected_fail():

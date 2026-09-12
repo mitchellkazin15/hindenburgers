@@ -9,7 +9,6 @@ var unlocks : Dictionary[int, bool]
 func register_teleporter(teleporter : Teleporter):
 	assert(not teleporter.teleporter_index in teleporters.keys())
 	teleporters[teleporter.teleporter_index] = teleporter
-	print("unlocks", unlocks)
 	if teleporter.teleporter_index in unlocks.keys():
 		teleporter.unlocked = unlocks[teleporter.teleporter_index]
 	assert(teleporters.keys().size() <= MAX_TELEPORTERS)
@@ -23,10 +22,13 @@ func teleport_character(character : Character, new_index : int):
 
 
 func load_teleporter_unlocks(unlocks_dict : Dictionary[int, bool]):
-	print("teleporter", teleporters)
 	unlocks = unlocks_dict
 	for i in unlocks_dict.keys():
-		print("unlocking ", teleporters[i])
+		# A hand-edited save can name a teleporter this level does not have. Say so
+		# instead of failing on an invalid index, which would abort the rest of the load.
+		if not teleporters.has(i):
+			push_warning("save file has unlock state for teleporter %d, which is not in this level" % i)
+			continue
 		teleporters[i].unlocked = unlocks_dict[i]
 
 

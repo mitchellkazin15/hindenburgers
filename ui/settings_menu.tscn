@@ -162,6 +162,26 @@ focus_neighbor_bottom = NodePath("../../../../../ControlButtonsContainer/ApplyBu
 max_value = 1.0
 step = 0.001
 
+[node name="MicThresholdContainer" type="HBoxContainer" parent="TabContainer/AudioSettings/Menu" unique_id=849531740]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/AudioSettings/Menu/MicThresholdContainer" unique_id=1487386311]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Mic Threshold"
+
+[node name="HSlider" type="HSlider" parent="TabContainer/AudioSettings/Menu/MicThresholdContainer" unique_id=1740374114]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 2.0
+focus_neighbor_bottom = NodePath("../../../../../ControlButtonsContainer/ApplyButton")
+min_value = -80.0
+max_value = 0.0
+step = 0.1
+value = -30.0
+
 [node name="DisplaySettings" type="Button" parent="TabContainer" unique_id=1499529589]
 layout_mode = 2
 focus_neighbor_top = NodePath("../../ControlButtonsContainer/ApplyButton")

@@ -10,6 +10,8 @@ signal locked_interaction_ended
 @export var controllable = true
 @export var input_controller : CharacterPlayerInputController
 @export var synchronizer : MultiplayerSynchronizer
+@export var audio_listener : MultiplayerAudioListener3D
+@export var audio_player : MultiplayerAudioStreamPlayer3D
 @export var initial_multiplayer_authority : int = 1
 @export var initial_position : Vector3
 @export var display_name = ""
@@ -19,7 +21,7 @@ signal locked_interaction_ended
 @export var randomness_duration = 1.0
 @export var holding_item = false
 
-var old_collision_child : CollisionShape3D
+var old_collision_child : CollisionShape3D = null
 
 var move_direction : Vector3
 var is_jumping = false
@@ -50,6 +52,7 @@ var to_basis : Basis
 
 func _ready() -> void:
 	super._ready()
+	add_to_group("players")
 	randomness_timer = get_tree().create_timer(0.0)
 	_jump_lock_timer = get_tree().create_timer(0.0)
 	_air_control_timer = get_tree().create_timer(0.0)
@@ -79,15 +82,19 @@ func set_initial_values():
 	input_controller.set_process_input(input_controller.is_multiplayer_authority())
 	interact_raycast.set_multiplayer_authority(initial_multiplayer_authority)
 	interact_raycast.set_physics_process(interact_raycast.is_multiplayer_authority())
+	audio_player.set_multiplayer_authority(initial_multiplayer_authority)
+	audio_player.initialize_multiplayer_audio()
 	$Label3D.text = display_name
 	if multiplayer.get_unique_id() != initial_multiplayer_authority:
 		$HUD.hide()
 		$DrugManager/CanvasLayer.hide()
 		$Label3D.show()
+		audio_listener.clear_current()
 	else:
 		$HUD.show()
 		$DrugManager/CanvasLayer.show()
 		$Label3D.hide()
+		audio_listener.make_current()
 
 
 func reset():
@@ -123,7 +130,9 @@ func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
 func end_locked_interaction():
 	locked_interaction = false
 	controllable = true
-	add_child(old_collision_child)
+	if MultiplayerManager.safe_is_multiplayer_authority(self) and old_collision_child:
+		add_child(old_collision_child)
+		old_collision_child = null
 	camera.current = camera.is_multiplayer_authority()
 	freeze = false
 	vehicle = null
@@ -252,7 +261,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	target_ground_plane_vel = target_ground_plane_vel.rotated(global_basis.y, rand_angle)
 	target_ground_plane_vel *= speed
 	if launched:
-		target_ground_plane_vel -= state.linear_velocity
+		target_ground_plane_vel -= (state.linear_velocity - reference_frame_vel)
 		var up_component = global_basis.y * target_ground_plane_vel.dot(global_basis.y)
 		target_ground_plane_vel -= up_component
 		state.apply_central_force(target_ground_plane_vel.normalized() * stats.get_current_air_acceleration())
@@ -260,10 +269,11 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		target_ground_plane_vel -= state.linear_velocity
 		var up_component = global_basis.y * target_ground_plane_vel.dot(global_basis.y)
 		target_ground_plane_vel -= up_component
-		self.apply_relative_central_impulse(target_ground_plane_vel, target_ground_plane_vel.normalized())
+		var frame_vel_flat = reference_frame_vel - global_basis.y * reference_frame_vel.dot(global_basis.y)
+		state.apply_central_impulse(target_ground_plane_vel + mass * frame_vel_flat)
 	if is_jumping and _can_jump and collider:
 		var jump_impulse = stats.get_current_jump_impulse() * global_basis.y
-		jump_impulse -= (state.linear_velocity.y - reference_frame_vel.y) * mass * global_basis.y
+		jump_impulse -= (state.linear_velocity - reference_frame_vel).dot(global_basis.y) * mass * global_basis.y
 		self.apply_central_impulse(jump_impulse)
 		_can_jump = false
 		_jump_lock_timer = get_tree().create_timer(jump_lockout_time)

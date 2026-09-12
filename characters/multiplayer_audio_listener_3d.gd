@@ -1,0 +1,2 @@
+class_name MultiplayerAudioListener3D
+extends AudioListener3D

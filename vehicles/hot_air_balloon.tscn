@@ -70,7 +70,7 @@ mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_5xue0")
 gravity_scale = 0.5
 center_of_mass_mode = 1
-center_of_mass = Vector3(0, -13, 0)
+center_of_mass = Vector3(0, -6, 0)
 can_sleep = false
 continuous_cd = true
 angular_damp = 1.0
@@ -121,7 +121,7 @@ script = ExtResource("4_darwc")
 base_stats = {
 "acceleration": 5.0,
 "boost_acceleration_multiplier": 1.1,
-"max_altitude": 200.0,
+"max_altitude": 300.0,
 "max_speed": 75.0,
 "righting_torque_scalar": 2000.0,
 "rising_acceleration": 7.0,

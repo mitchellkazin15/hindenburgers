@@ -3,8 +3,8 @@ extends Node
 signal new_settings
 
 const DEFAULT_SETTINGS_PATH = "res://autoloads/settings/default_settings.tres"
-const SAVE_FILES_PATH = "res://save_files/"
-const SAVED_SETTINGS_PATH = "res://save_files/current_settings.tres"
+const SAVE_FILES_PATH = SavePaths.SAVE_DIR
+const SAVED_SETTINGS_PATH = SavePaths.SETTINGS
 
 var current_settings : SettingsFile
 var default_settings : SettingsFile
@@ -16,17 +16,16 @@ func _ready():
 
 
 func load_settings():
-	var res_dir = DirAccess.open("res://")
-	if not res_dir.dir_exists(SAVE_FILES_PATH):
-		res_dir.make_dir(SAVE_FILES_PATH)
-	if not res_dir.file_exists(SAVED_SETTINGS_PATH):
+	SavePaths.ensure_dir()
+	if not FileAccess.file_exists(SAVED_SETTINGS_PATH):
 		DirAccess.copy_absolute(DEFAULT_SETTINGS_PATH, SAVED_SETTINGS_PATH)
 	current_settings = ResourceLoader.load(SAVED_SETTINGS_PATH, "SettingsFile", 0)
 	DisplayServer.window_set_mode(SettingsFile.WindowMode.values()[current_settings.window_mode])
-	new_settings.emit
+	new_settings.emit()
 
 
 func save_new_settings(new_settings):
+	SavePaths.ensure_dir()
 	ResourceSaver.save(new_settings, SAVED_SETTINGS_PATH)
 	load_settings()
 
@@ -71,6 +70,10 @@ func get_sfx_volume_linear():
 	return current_settings.sfx_volume_linear
 
 
+func get_mic_threshold_db():
+	return current_settings.mic_threshold_db
+
+
 func get_default_window_mode():
 	return default_settings.window_mode
 
@@ -89,3 +92,7 @@ func get_default_music_volume_linear():
 
 func get_default_sfx_volume_linear():
 	return default_settings.sfx_volume_linear
+
+
+func get_default_mic_threshold_db():
+	return default_settings.mic_threshold_db

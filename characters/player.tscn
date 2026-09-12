@@ -32,9 +32,11 @@
 [ext_resource type="Material" uid="uid://c6j0o22elogp7" path="res://shaders/screen_effects/drug_effect_shader.tres" id="29_mjkfq"]
 [ext_resource type="Shader" uid="uid://b4l7hkvxemb64" path="res://shaders/screen_passthrough.gdshader" id="30_mjkfq"]
 [ext_resource type="Script" uid="uid://deej1qmwqgoo5" path="res://save_utilities/character_save_manager.gd" id="30_ys5vl"]
+[ext_resource type="Script" uid="uid://5kpyp6lfjd2l" path="res://characters/multiplayer_audio_stream_player_3d.gd" id="33_5f4cm"]
+[ext_resource type="Script" uid="uid://c03l70p6igujp" path="res://characters/multiplayer_audio_listener_3d.gd" id="33_d3tvb"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
-friction = 0.25
+friction = 0.5
 rough = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wfnr8"]
@@ -126,7 +128,7 @@ shader = ExtResource("30_mjkfq")
 resource_local_to_scene = true
 shader = ExtResource("30_mjkfq")
 
-[node name="Player" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "interact_raycast", "input_controller", "synchronizer", "floor_shape_cast", "stats", "hand")]
+[node name="Player" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "interact_raycast", "input_controller", "synchronizer", "audio_listener", "audio_player", "floor_shape_cast", "stats", "hand")]
 physics_material_override = SubResource("PhysicsMaterial_mdkfl")
 gravity_scale = 5.0
 can_sleep = false
@@ -137,6 +139,8 @@ camera = NodePath("CameraPivot/Camera3D")
 interact_raycast = NodePath("CameraPivot/InteractionRayCast3D")
 input_controller = NodePath("PlayerInputComponent")
 synchronizer = NodePath("MultiplayerSynchronizer")
+audio_listener = NodePath("RotationPivot/MultiplayerAudioListener3D")
+audio_player = NodePath("RotationPivot/MultiplayerAudioStreamPlayer3D")
 floor_shape_cast = NodePath("ShapeCast3D")
 stats = NodePath("CharacterStatManager")
 hand = NodePath("RotationPivot/HandRemoteTransform3D")
@@ -146,6 +150,17 @@ metadata/_custom_type_script = "uid://7dmdctw0ys25"
 shape = SubResource("CapsuleShape3D_wfnr8")
 
 [node name="RotationPivot" type="Node3D" parent="." unique_id=664917725]
+
+[node name="MultiplayerAudioListener3D" type="AudioListener3D" parent="RotationPivot" unique_id=1932508746]
+doppler_tracking = 2
+script = ExtResource("33_d3tvb")
+
+[node name="MultiplayerAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="RotationPivot" unique_id=393931058 groups=["players"]]
+attenuation_model = 1
+doppler_tracking = 2
+script = ExtResource("33_5f4cm")
+voice_sample_rate = 12000
+max_voice_distance = 150.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RotationPivot" unique_id=1739057790]
 mesh = SubResource("CapsuleMesh_px5sl")
@@ -191,7 +206,7 @@ script = ExtResource("3_j31ep")
 _camera_pivot = NodePath("..")
 
 [node name="InteractionRayCast3D" type="RayCast3D" parent="CameraPivot" unique_id=1499631466 node_paths=PackedStringArray("character")]
-target_position = Vector3(0, 0, 3.5)
+target_position = Vector3(0, 0, 4)
 collide_with_areas = true
 collide_with_bodies = false
 debug_shape_custom_color = Color(0, 1, 0, 1)
@@ -316,8 +331,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
+offset_left = -132.0
 offset_top = -40.0
+offset_right = -92.0
 grow_horizontal = 0
 grow_vertical = 0
 script = ExtResource("17_qk7w8")
@@ -360,9 +376,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -109.0
+offset_left = -41.0
 offset_top = -40.0
-offset_right = -69.0
+offset_right = -1.0
 grow_horizontal = 0
 grow_vertical = 0
 script = ExtResource("21_rjhu2")
@@ -370,7 +386,7 @@ character = NodePath("../..")
 progress_bar = NodePath("TextureProgressBar")
 
 [node name="ThrowingIcon" type="Sprite2D" parent="HUD/ThrowChargeBar" unique_id=2065417964]
-position = Vector2(-15, 8)
+position = Vector2(9, 8)
 texture = ExtResource("17_qp1es")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="HUD/ThrowChargeBar" unique_id=1467749165]
@@ -380,9 +396,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -87.0
+offset_left = -63.0
 offset_top = -64.0
-offset_right = -23.0
+offset_right = 1.0
 grow_horizontal = 0
 grow_vertical = 0
 fill_mode = 4

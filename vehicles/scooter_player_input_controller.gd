@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 	)
 	var forward = camera.global_basis.z
 	var right = camera.global_basis.x
-	var move_direction = forward * move_input.y
+	var move_direction = forward * move_input.y + right * move_input.x
 	var is_rising = Input.is_action_pressed("jump")
 	var is_boosting = Input.is_action_pressed("sprint")
 	var reset_input = Input.is_action_just_pressed("reset")
