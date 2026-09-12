@@ -49,7 +49,7 @@ drug_visual_effect_adders = {
 "fractal_lacunarity_amplitude": 1.0,
 "fractal_lacunarity_frequency": 0.01,
 "fractal_noise_distortion": 0.001,
-"fractal_noise_iterations": 5.0,
+"fractal_noise_iterations": 10.0,
 "fractal_noise_overlay_strength": 0.1,
 "fractal_ping_pong_strength_amplitude": 3.0,
 "fractal_ping_pong_strength_frequency": 0.007,
