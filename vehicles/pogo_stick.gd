@@ -1,6 +1,9 @@
 class_name PogoStick
 extends Vehicle
 
+@export var jump_power = 100.0
+@export var air_accel = 15.0
+@export var jump_lock_time = 0.2
 
 var move_input : Vector2 = Vector2.ZERO
 var move_direction : Vector3 = Vector3.ZERO
@@ -23,14 +26,10 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if is_on_floor:
 		var can_jump = _jump_lock_timer.time_left == 0.0
 		var will_jump = can_jump and is_rising
-		var jump_power = 150.0 if will_jump else 15.0
 		if will_jump:
-			_jump_lock_timer = get_tree().create_timer(0.1)
-		if move_direction.length() > 0.0:
+			_jump_lock_timer = get_tree().create_timer(jump_lock_time)
 			apply_central_impulse(10.0 * ground_plane_move + jump_power * Vector3.UP)
-		else:
-			apply_central_impulse(jump_power * Vector3.UP)
 	else:
-		apply_central_force(10.0 * move_direction)
+		apply_central_force(air_accel * move_direction)
 	if move_direction != Vector3.ZERO:
 		$RotationPivot.rotation.y = lerp_angle($RotationPivot.rotation.y, global_basis.z.signed_angle_to(move_direction, Vector3.UP), min(10.0 * state.step, 1.0))

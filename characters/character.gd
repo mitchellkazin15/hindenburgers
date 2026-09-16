@@ -63,6 +63,7 @@ func _ready() -> void:
 	use_item_stopwatch.stop()
 	throw_item_stopwatch.stop()
 	$Label3D.text = display_name
+	$HealthComponent.died.connect(_on_death)
 	set_initial_values()
 
 
@@ -112,6 +113,10 @@ func reset():
 
 func _post_reset():
 	rotation = Vector3.ZERO
+
+
+func _on_death():
+	lock_rotation = false
 
 
 func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):

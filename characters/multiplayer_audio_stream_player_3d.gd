@@ -23,6 +23,9 @@ extends AudioStreamPlayer3D
 ## megaphone/normal audio is actually audible at, or nearby players will be culled
 ## from hearing you before the volume drops to silence.
 @export var max_voice_distance := 100.0
+@export var mouth : Mouth
+
+
 var original_max_voice_distance 
 
 const PCM16_MAX := 32767.0
@@ -96,7 +99,8 @@ func remove_megaphone_effect():
 ## (see _to_pcm16 below). Unreliable/ordered: a dropped voice packet is far less
 ## noticeable than the latency spikes reliable delivery would add when retransmitting.
 @rpc("any_peer", "call_remote", "unreliable_ordered")
-func send_audio_data(pcm16 : PackedByteArray):
+func send_audio_data(pcm16 : PackedByteArray, peak_power_db : float):
+	mouth.set_mouth_open(peak_power_db)
 	var frames := _from_pcm16(pcm16)
 	if playback != null and playback.can_push_buffer(frames.size()):
 		for frame in frames:
@@ -130,9 +134,10 @@ func _physics_process(delta: float) -> void:
 	var peak_db := linear_to_db(peak) if peak > 0.0 else -80.0
 	if peak_db <= Settings.get_mic_threshold_db():
 		return
+	mouth.set_mouth_open(peak_db)
 	var pcm16 := _to_pcm16(buffer)
 	for peer_id in _nearby_peer_ids():
-		send_audio_data.rpc_id(peer_id, pcm16)
+		send_audio_data.rpc_id(peer_id, pcm16, peak_db)
 
 
 ## Mixes the captured stereo buffer to mono, resamples it from the engine's native

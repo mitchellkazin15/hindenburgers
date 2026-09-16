@@ -2,8 +2,8 @@ class_name Knife
 extends HoldableItem
 
 @export var per_sec_use_strength = 1.25
+@export var damage_area : DamageArea3D
 
-var active = false
 var prev_grav_scale
 
 
@@ -14,7 +14,7 @@ func use(use_charge_time : float):
 	if gravity_scale != 0:
 		prev_grav_scale = gravity_scale
 	gravity_scale = 0
-	active = true
+	damage_area.active = true
 	var tween = swing_about_local_x(PI / 2.0, 0.1)
 	tween.finished.connect(_on_swing_finished)
 
@@ -23,5 +23,5 @@ func _on_swing_finished():
 	gravity_scale = prev_grav_scale
 	if being_held:
 		freeze = true
-	active = false
+	damage_area.active = false
 	use_finished.emit()

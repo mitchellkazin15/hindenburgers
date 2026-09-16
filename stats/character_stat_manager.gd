@@ -9,7 +9,8 @@ const EXAMPLE_DICT = { # Do NOT update values in this script and expect stats to
 	"speed_randomness": 0.0,
 	"direction_angle_randomness_degrees": 0.0,
 	"throw_strength": 0.0,
-	"max_throw_charge_time": 0.0
+	"max_throw_charge_time": 0.0,
+	"max_health": 0.0
 } 
 
 ## Dict of stat_name -> base val.
@@ -51,3 +52,7 @@ func get_current_throw_strength():
 
 func get_current_max_throw_charge_time():
 	return _get_modified_stat("max_throw_charge_time")
+
+
+func get_current_max_health():
+	return _get_modified_stat("max_health")
