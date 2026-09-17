@@ -24,6 +24,7 @@ func _on_body_exited(body):
 	var rrb : RelativeRigidBody3D = body
 	rrb.gravity_scale = rrb.original_gravity_scale
 	rrb.planet_gravity_accel = 0.0
+	rrb.world_up = Vector3.UP
 	if rrb is Character:
 		var character : Character = rrb
 		character.tween_basis(Basis.IDENTITY)
@@ -36,10 +37,11 @@ func _physics_process(delta: float) -> void:
 		var rrb : RelativeRigidBody3D = body
 		var central_dir = rrb.global_position.direction_to(self.global_position)
 		rrb.apply_central_force(gravitational_acceleration * rrb.mass * rrb.original_gravity_scale * central_dir)
+		rrb.world_up = -central_dir
 		if not rrb is Character:
 			continue
 		var character : Character = rrb
-		var target_up = -central_dir
+		var target_up = character.world_up
 		var forward = -character.global_basis.z
 
 		# Strip the component of forward along target_up so it lies in

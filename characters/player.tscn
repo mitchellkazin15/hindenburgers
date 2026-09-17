@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://blhwlpupg10as" path="res://assets/misc_sprites/status_bar_yellow.png" id="7_eho78"]
 [ext_resource type="Script" uid="uid://b2bswxfec002i" path="res://characters/colon.gd" id="7_j31ep"]
 [ext_resource type="Texture2D" uid="uid://dlvp5j4ifqfae" path="res://assets/misc_sprites/status_bar_grey.png" id="8_8sqrr"]
+[ext_resource type="Script" uid="uid://ck5jchthfsyq3" path="res://common_components/camera_pivot.gd" id="8_864dh"]
 [ext_resource type="Script" uid="uid://cq8ek1005uy4v" path="res://characters/poop_bar.gd" id="10_6rrl0"]
 [ext_resource type="Texture2D" uid="uid://b8u5nnf5ska18" path="res://assets/misc_sprites/status_bar_brown.png" id="10_8sqrr"]
 [ext_resource type="Script" uid="uid://t3fva4gratva" path="res://ui/components/health_bar.gd" id="11_5mswt"]
@@ -227,8 +228,11 @@ script = ExtResource("2_h1q25")
 character = NodePath("..")
 interacting_raycast = NodePath("../CameraPivot/InteractionRayCast3D")
 
-[node name="CameraPivot" type="Node3D" parent="." unique_id=1271864586]
+[node name="CameraPivot" type="Node3D" parent="." unique_id=212091878 node_paths=PackedStringArray("follow_body")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+script = ExtResource("8_864dh")
+follow_body = NodePath("..")
+metadata/_custom_type_script = "uid://ck5jchthfsyq3"
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1708174973 node_paths=PackedStringArray("_camera_pivot")]
 transform = Transform3D(-1, 0, -8.742277e-08, 0, 0.9999999, 0, 8.742278e-08, 0, -0.9999999, 0, 0, -3.5)

@@ -22,6 +22,7 @@ signal locked_interaction_ended
 @export var holding_item = false
 
 var move_direction : Vector3
+var is_dead = false
 var is_jumping = false
 var is_sprinting = false
 var locked_interaction = false
@@ -118,6 +119,7 @@ func _post_reset():
 func _on_death():
 	being_held = false
 	lock_rotation = false
+	is_dead = true
 
 
 func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
@@ -155,7 +157,7 @@ func grab_item(item : HoldableItem):
 		hand.rotation = Vector3.ZERO
 	else:
 		print("setting rotation: ", item.global_rotation)
-		hand.rotation = item.global_rotation
+		hand.rotation = item.global_rotation - rotation_pivot.global_rotation
 	hand.position = base_hand_pos + item.hold_offset
 	hand.remote_path = item.get_path()
 	hand.update_rotation = true
@@ -219,6 +221,8 @@ func set_launched():
 
 
 func tween_basis(to_basis : Basis):
+	if is_dead:
+		return
 	self.start_basis = basis
 	self.to_basis = to_basis
 	create_tween().tween_method(_interpolate_basis, 0.0, 1.0, 0.5)
@@ -229,7 +233,7 @@ func _interpolate_basis(weight):
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	if not MultiplayerManager.safe_is_multiplayer_authority(self):
+	if not MultiplayerManager.safe_is_multiplayer_authority(self) or is_dead:
 		return
 	if held_item == null or not is_instance_valid(held_item):
 		held_item = null
