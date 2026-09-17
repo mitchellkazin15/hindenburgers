@@ -39,6 +39,8 @@
 [ext_resource type="Script" uid="uid://5kpyp6lfjd2l" path="res://characters/multiplayer_audio_stream_player_3d.gd" id="33_5f4cm"]
 [ext_resource type="Script" uid="uid://c03l70p6igujp" path="res://characters/multiplayer_audio_listener_3d.gd" id="33_d3tvb"]
 [ext_resource type="Script" uid="uid://b34b4624lj078" path="res://common_components/health_component.gd" id="35_nbheu"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="40_6mya6"]
+[ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="41_864dh"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdkfl"]
 friction = 0.5
@@ -144,6 +146,9 @@ shader = ExtResource("30_mjkfq")
 resource_local_to_scene = true
 shader = ExtResource("30_mjkfq")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_6pff7"]
+radius = 2.0
+
 [node name="Player" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "interact_raycast", "input_controller", "synchronizer", "audio_listener", "audio_player", "floor_shape_cast", "stats", "hand")]
 physics_material_override = SubResource("PhysicsMaterial_mdkfl")
 gravity_scale = 5.0
@@ -160,6 +165,9 @@ audio_player = NodePath("RotationPivot/MultiplayerAudioStreamPlayer3D")
 floor_shape_cast = NodePath("ShapeCast3D")
 stats = NodePath("CharacterStatManager")
 hand = NodePath("RotationPivot/HandRemoteTransform3D")
+being_held = true
+reset_rotation_when_grabbed = false
+hold_offset = Vector3(0, 0.5, 0.5)
 metadata/_custom_type_script = "uid://7dmdctw0ys25"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=303792128]
@@ -518,3 +526,14 @@ outline_size = 16
 script = ExtResource("30_ys5vl")
 character = NodePath("..")
 metadata/_custom_type_script = "uid://deej1qmwqgoo5"
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=2096384153 node_paths=PackedStringArray("item")]
+script = ExtResource("40_6mya6")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=559605658]
+shape = SubResource("SphereShape3D_6pff7")
+debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
+
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("41_864dh")]

@@ -1,5 +1,5 @@
 class_name Character
-extends RelativeRigidBody3D
+extends HoldableItem
 
 signal locked_interaction_ended
 
@@ -21,8 +21,6 @@ signal locked_interaction_ended
 @export var randomness_duration = 1.0
 @export var holding_item = false
 
-var old_collision_child : CollisionShape3D = null
-
 var move_direction : Vector3
 var is_jumping = false
 var is_sprinting = false
@@ -30,6 +28,7 @@ var locked_interaction = false
 var vehicle : Vehicle
 var held_item : HoldableItem = null
 var reset_input = false
+var base_hand_pos : Vector3
 
 var randomness_timer : SceneTreeTimer
 var rand_speed = 0.0
@@ -53,6 +52,7 @@ var to_basis : Basis
 func _ready() -> void:
 	super._ready()
 	add_to_group("players")
+	base_hand_pos = hand.position
 	randomness_timer = get_tree().create_timer(0.0)
 	_jump_lock_timer = get_tree().create_timer(0.0)
 	_air_control_timer = get_tree().create_timer(0.0)
@@ -116,6 +116,7 @@ func _post_reset():
 
 
 func _on_death():
+	being_held = false
 	lock_rotation = false
 
 
@@ -150,9 +151,14 @@ func grab_item(item : HoldableItem):
 		return false
 	use_item_stopwatch.restart()
 	throw_item_stopwatch.restart()
+	if item.reset_rotation_when_grabbed:
+		hand.rotation = Vector3.ZERO
+	else:
+		print("setting rotation: ", item.global_rotation)
+		hand.rotation = item.global_rotation
+	hand.position = base_hand_pos + item.hold_offset
 	hand.remote_path = item.get_path()
 	hand.update_rotation = true
-	hand.rotation = Vector3.ZERO
 	held_item = item
 	holding_item = true
 	held_item.use_finished.connect(_on_use_finished)

@@ -49,13 +49,13 @@ physics_material_override = SubResource("PhysicsMaterial_omi1t")
 continuous_cd = true
 script = ExtResource("1_8xgoi")
 food_val = 1.0
+reset_rotation_when_grabbed = false
+hold_offset = Vector3(0, 0, 0.25)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
 shape = SubResource("CylinderShape3D_8xgoi")
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1101755714]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
 
 [node name="TopMesh" type="MeshInstance3D" parent="Node3D" unique_id=183999302]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
