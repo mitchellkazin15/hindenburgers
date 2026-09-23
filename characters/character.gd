@@ -20,6 +20,7 @@ signal locked_interaction_ended
 @export var hand : RemoteTransform3D
 @export var randomness_duration = 1.0
 @export var holding_item = false
+@export var health : HealthComponent
 
 var move_direction : Vector3
 var is_dead = false
@@ -64,7 +65,7 @@ func _ready() -> void:
 	use_item_stopwatch.stop()
 	throw_item_stopwatch.stop()
 	$Label3D.text = display_name
-	$HealthComponent.died.connect(_on_death)
+	health.died.connect(_on_death)
 	set_initial_values()
 
 
@@ -120,6 +121,14 @@ func _on_death():
 	being_held = false
 	lock_rotation = false
 	is_dead = true
+
+
+func revive():
+	release()
+	being_held = true
+	lock_rotation = true
+	is_dead = false
+	health.apply_percentage_healing(50.0)
 
 
 func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):

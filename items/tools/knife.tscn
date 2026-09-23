@@ -67,6 +67,7 @@ debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 [node name="KnifeDamageArea3D" type="Area3D" parent="." unique_id=705711118]
 script = ExtResource("4_pjlok")
 damage = 10.0
+impulse_strength_on_damage = 2.0
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="KnifeDamageArea3D" unique_id=282260634]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.05)

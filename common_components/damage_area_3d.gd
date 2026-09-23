@@ -11,6 +11,7 @@ extends Area3D
 			damage_body(body)
 
 @export var damage_on_activation = true
+@export var impulse_strength_on_damage = 0.0
 
 
 func _ready() -> void:
@@ -23,10 +24,13 @@ func _on_body_entered(body):
 
 func damage_body(body):
 	if (not MultiplayerManager.safe_is_multiplayer_authority(self) or 
-		not active or
-		not body or 
-		not body.has_node("HealthComponent")
+		not active
 	):
+		return
+	if body is RelativeRigidBody3D:
+		var rrb : RelativeRigidBody3D = body
+		body.apply_impulse(impulse_strength_on_damage * global_position.direction_to(body.global_position))
+	if not body or not body.has_node("HealthComponent"):
 		return
 	var health_component : HealthComponent = body.get_node("HealthComponent")
 	health_component.apply_damage(damage)

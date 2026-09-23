@@ -8,10 +8,29 @@ var tracked_bodies: Array[RelativeRigidBody3D] = []
 var frames_since_last_sync = 1
 var invalidate_cached_states = false
 
+## Client-side only: bodies being eased toward the last state the server sent.
+var _smoothed_bodies : Dictionary = {}
+
+
+# Per rendered frame, not per tick. Autoloads sit ahead of the main scene, so
+# bodies are already smoothed by the time CameraPivot reads them this frame.
+func _process(delta):
+	if _smoothed_bodies.is_empty():
+		return
+	var stale : Array = []
+	for body in _smoothed_bodies:
+		if not is_instance_valid(body):
+			stale.append(body)
+			continue
+		body.advance_network_smoothing(delta)
+	for body in stale:
+		_smoothed_bodies.erase(body)
+
 
 func _physics_process(delta):
 	if EventService.state != EventService.GameState.IN_GAME:
 		tracked_bodies = []
+		_smoothed_bodies.clear()
 		return
 	if not MultiplayerManager.safe_is_server():
 		return
@@ -76,16 +95,24 @@ func sync_states(states: Array):
 # peer joins). Regular per-frame deltas should keep using sync_states.
 @rpc("authority", "call_remote", "reliable")
 func sync_states_reliable(states: Array):
-	_apply_states(states)
+	# First thing a joining peer sees; nothing to ease from.
+	_apply_states(states, true)
 
 
-func _apply_states(states: Array) -> void:
+func _apply_states(states: Array, snap := false) -> void:
 	for state in states:
 		var node_path = state[StateIndices.ID]
 		if not has_node(node_path):
 			push_warning("RigidBodySyncManager: no node at path %s" % [node_path])
 			continue
 		var body : Node3D = get_node(node_path)
-		if body and is_instance_valid(body):
+		if not body or not is_instance_valid(body):
+			continue
+		if body is RelativeRigidBody3D:
+			var rrb : RelativeRigidBody3D = body
+			rrb.set_network_transform(state[StateIndices.POS], state[StateIndices.ROT], snap)
+			if rrb.net_smoothing:
+				_smoothed_bodies[rrb] = true
+		else:
 			body.position = state[StateIndices.POS]
 			body.rotation = state[StateIndices.ROT]

@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://0pq4espdm63y"]
+
+[ext_resource type="Material" uid="uid://bvm6ancuj47un" path="res://assets/wood_material.tres" id="1_y4wqi"]
+[ext_resource type="Script" uid="uid://cwmyq12eu3b7c" path="res://appliances/revive_area_3d.gd" id="2_1c775"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1c775"]
+material = ExtResource("1_y4wqi")
+size = Vector3(4, 0.5, 0.75)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tfyy1"]
+size = Vector3(4, 0.5, 0.75)
+
+[sub_resource type="PrismMesh" id="PrismMesh_tfyy1"]
+material = ExtResource("1_y4wqi")
+left_to_right = 0.0
+size = Vector3(3, 0.5, 0.5)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_vug6j"]
+data = PackedVector3Array(-1.5, 0.25, 0.25, 1.5, -0.25, 0.25, -1.5, -0.25, 0.25, -1.5, 0.25, -0.25, -1.5, -0.25, -0.25, 1.5, -0.25, -0.25, -1.5, 0.25, 0.25, -1.5, 0.25, -0.25, 1.5, -0.25, 0.25, -1.5, 0.25, -0.25, 1.5, -0.25, -0.25, 1.5, -0.25, 0.25, -1.5, 0.25, -0.25, -1.5, 0.25, 0.25, -1.5, -0.25, -0.25, -1.5, 0.25, 0.25, -1.5, -0.25, 0.25, -1.5, -0.25, -0.25, -1.5, -0.25, 0.25, 1.5, -0.25, 0.25, -1.5, -0.25, -0.25, 1.5, -0.25, 0.25, 1.5, -0.25, -0.25, -1.5, -0.25, -0.25)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_bg3hv"]
+data = PackedVector3Array(-1.5, 0.25, 0.25, 1.5, -0.25, 0.25, -1.5, -0.25, 0.25, -1.5, 0.25, -0.25, -1.5, -0.25, -0.25, 1.5, -0.25, -0.25, -1.5, 0.25, 0.25, -1.5, 0.25, -0.25, 1.5, -0.25, 0.25, -1.5, 0.25, -0.25, 1.5, -0.25, -0.25, 1.5, -0.25, 0.25, -1.5, 0.25, -0.25, -1.5, 0.25, 0.25, -1.5, -0.25, -0.25, -1.5, 0.25, 0.25, -1.5, -0.25, 0.25, -1.5, -0.25, -0.25, -1.5, -0.25, 0.25, 1.5, -0.25, 0.25, -1.5, -0.25, -0.25, 1.5, -0.25, 0.25, 1.5, -0.25, -0.25, -1.5, -0.25, -0.25)
+
+[sub_resource type="PrismMesh" id="PrismMesh_vug6j"]
+material = ExtResource("1_y4wqi")
+left_to_right = 1.0
+size = Vector3(1, 0.5, 0.5)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ovq2f"]
+data = PackedVector3Array(0.5, 0.25, 0.25, 0.5, -0.25, 0.25, -0.5, -0.25, 0.25, 0.5, 0.25, -0.25, -0.5, -0.25, -0.25, 0.5, -0.25, -0.25, 0.5, 0.25, 0.25, 0.5, 0.25, -0.25, 0.5, -0.25, 0.25, 0.5, 0.25, -0.25, 0.5, -0.25, -0.25, 0.5, -0.25, 0.25, 0.5, 0.25, -0.25, 0.5, 0.25, 0.25, -0.5, -0.25, -0.25, 0.5, 0.25, 0.25, -0.5, -0.25, 0.25, -0.5, -0.25, -0.25, -0.5, -0.25, 0.25, 0.5, -0.25, 0.25, -0.5, -0.25, -0.25, 0.5, -0.25, 0.25, 0.5, -0.25, -0.25, -0.5, -0.25, -0.25)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_cs53y"]
+data = PackedVector3Array(0.5, 0.25, 0.25, 0.5, -0.25, 0.25, -0.5, -0.25, 0.25, 0.5, 0.25, -0.25, -0.5, -0.25, -0.25, 0.5, -0.25, -0.25, 0.5, 0.25, 0.25, 0.5, 0.25, -0.25, 0.5, -0.25, 0.25, 0.5, 0.25, -0.25, 0.5, -0.25, -0.25, 0.5, -0.25, 0.25, 0.5, 0.25, -0.25, 0.5, 0.25, 0.25, -0.5, -0.25, -0.25, 0.5, 0.25, 0.25, -0.5, -0.25, 0.25, -0.5, -0.25, -0.25, -0.5, -0.25, 0.25, 0.5, -0.25, 0.25, -0.5, -0.25, -0.25, 0.5, -0.25, 0.25, 0.5, -0.25, -0.25, -0.5, -0.25, -0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kix8u"]
+size = Vector3(5, 2, 2.5)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_84ayk"]
+lifetime_randomness = 0.5
+particle_flag_align_y = true
+angle_min = -179.99998
+angle_max = 180.00002
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+angular_velocity_min = -408.11002
+angular_velocity_max = 209.02998
+radial_velocity_min = 0.99997765
+radial_velocity_max = 2.9999776
+gravity = Vector3(0, -0.9, 0)
+color = Color(1, 0, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkrue"]
+vertex_color_use_as_albedo = true
+metallic = 0.5
+roughness = 0.5
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_bodja"]
+material = SubResource("StandardMaterial3D_fkrue")
+size = Vector2(0.05, 0.05)
+
+[node name="ReviveMachine" type="StaticBody3D" unique_id=342828560]
+
+[node name="CoffinBase" type="MeshInstance3D" parent="." unique_id=1704338686]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25049132, 0, 0)
+mesh = SubResource("BoxMesh_1c775")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1411193411]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25049132, 0, 0)
+shape = SubResource("BoxShape3D_tfyy1")
+
+[node name="BottomLeft" type="MeshInstance3D" parent="." unique_id=1510840040]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.7504913, 0, 0.625)
+mesh = SubResource("PrismMesh_tfyy1")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=369266771]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.7504913, 0, 0.625)
+shape = SubResource("ConcavePolygonShape3D_vug6j")
+
+[node name="BottomRight" type="MeshInstance3D" parent="." unique_id=1495131888]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.7504913, 0, -0.625)
+mesh = SubResource("PrismMesh_tfyy1")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=946832528]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.7504913, 0, -0.625)
+shape = SubResource("ConcavePolygonShape3D_bg3hv")
+
+[node name="TopLeft" type="MeshInstance3D" parent="." unique_id=494675696]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -1.2495086, 0, 0.625)
+mesh = SubResource("PrismMesh_vug6j")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=1408962353]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -1.2495086, 0, 0.625)
+shape = SubResource("ConcavePolygonShape3D_ovq2f")
+
+[node name="TopRight" type="MeshInstance3D" parent="." unique_id=314690175]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -1.2495086, 0, -0.625)
+mesh = SubResource("PrismMesh_vug6j")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="." unique_id=1747400675]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -1.2495086, 0, -0.625)
+shape = SubResource("ConcavePolygonShape3D_cs53y")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1502596534]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 1, 0)
+billboard = 1
+text = "Revive"
+
+[node name="ReviveArea3D" type="Area3D" parent="." unique_id=249461046 node_paths=PackedStringArray("revive_pos", "revive_particles")]
+script = ExtResource("2_1c775")
+revive_pos = NodePath("../RevivePosition")
+revive_particles = NodePath("../RevivePosition/GPUParticles3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ReviveArea3D" unique_id=946377346]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.7025385, 0)
+shape = SubResource("BoxShape3D_kix8u")
+debug_color = Color(0.68870574, 0.49927473, 5.7756904e-07, 0.41960785)
+
+[node name="RevivePosition" type="Node3D" parent="." unique_id=284350985]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0964005, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="RevivePosition" unique_id=1346555747]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+emitting = false
+amount = 200
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_84ayk")
+draw_pass_1 = SubResource("QuadMesh_bodja")

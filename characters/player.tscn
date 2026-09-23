@@ -150,7 +150,7 @@ shader = ExtResource("30_mjkfq")
 [sub_resource type="SphereShape3D" id="SphereShape3D_6pff7"]
 radius = 2.0
 
-[node name="Player" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "interact_raycast", "input_controller", "synchronizer", "audio_listener", "audio_player", "floor_shape_cast", "stats", "hand")]
+[node name="Player" type="RigidBody3D" unique_id=1089567296 node_paths=PackedStringArray("camera", "interact_raycast", "input_controller", "synchronizer", "audio_listener", "audio_player", "floor_shape_cast", "stats", "hand", "health")]
 physics_material_override = SubResource("PhysicsMaterial_mdkfl")
 gravity_scale = 5.0
 can_sleep = false
@@ -166,6 +166,7 @@ audio_player = NodePath("RotationPivot/MultiplayerAudioStreamPlayer3D")
 floor_shape_cast = NodePath("ShapeCast3D")
 stats = NodePath("CharacterStatManager")
 hand = NodePath("RotationPivot/HandRemoteTransform3D")
+health = NodePath("HealthComponent")
 being_held = true
 reset_rotation_when_grabbed = false
 hold_offset = Vector3(0, 0.5, 0.5)
