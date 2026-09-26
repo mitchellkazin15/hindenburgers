@@ -165,8 +165,7 @@ func grab_item(item : HoldableItem):
 	if item.reset_rotation_when_grabbed:
 		hand.rotation = Vector3.ZERO
 	else:
-		#hand.rotation = item.global_rotation - rotation_pivot.global_rotation
-		hand.basis = item.basis
+		hand.global_basis = item.global_basis
 	hand.position = base_hand_pos + item.hold_offset
 	hand.remote_path = item.get_path()
 	hand.update_rotation = true
