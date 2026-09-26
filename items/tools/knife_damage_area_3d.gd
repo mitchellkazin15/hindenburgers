@@ -1,2 +1,0 @@
-class_name KnifeDamageArea3D
-extends Area3D

@@ -1,5 +1,5 @@
 class_name Character
-extends RelativeRigidBody3D
+extends HoldableItem
 
 signal locked_interaction_ended
 
@@ -20,16 +20,17 @@ signal locked_interaction_ended
 @export var hand : RemoteTransform3D
 @export var randomness_duration = 1.0
 @export var holding_item = false
-
-var old_collision_child : CollisionShape3D = null
+@export var health : HealthComponent
 
 var move_direction : Vector3
+var is_dead = false
 var is_jumping = false
 var is_sprinting = false
 var locked_interaction = false
 var vehicle : Vehicle
 var held_item : HoldableItem = null
 var reset_input = false
+var base_hand_pos : Vector3
 
 var randomness_timer : SceneTreeTimer
 var rand_speed = 0.0
@@ -53,6 +54,7 @@ var to_basis : Basis
 func _ready() -> void:
 	super._ready()
 	add_to_group("players")
+	base_hand_pos = hand.position
 	randomness_timer = get_tree().create_timer(0.0)
 	_jump_lock_timer = get_tree().create_timer(0.0)
 	_air_control_timer = get_tree().create_timer(0.0)
@@ -63,6 +65,7 @@ func _ready() -> void:
 	use_item_stopwatch.stop()
 	throw_item_stopwatch.stop()
 	$Label3D.text = display_name
+	health.died.connect(_on_death)
 	set_initial_values()
 
 
@@ -114,6 +117,20 @@ func _post_reset():
 	rotation = Vector3.ZERO
 
 
+func _on_death():
+	being_held = false
+	lock_rotation = false
+	is_dead = true
+
+
+func revive():
+	release()
+	being_held = true
+	lock_rotation = true
+	is_dead = false
+	health.apply_percentage_healing(50.0)
+
+
 func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
 	locked_interaction = true
 	controllable = false
@@ -145,9 +162,13 @@ func grab_item(item : HoldableItem):
 		return false
 	use_item_stopwatch.restart()
 	throw_item_stopwatch.restart()
+	if item.reset_rotation_when_grabbed:
+		hand.rotation = Vector3.ZERO
+	else:
+		hand.global_basis = item.global_basis
+	hand.position = base_hand_pos + item.hold_offset
 	hand.remote_path = item.get_path()
 	hand.update_rotation = true
-	hand.rotation = Vector3.ZERO
 	held_item = item
 	holding_item = true
 	held_item.use_finished.connect(_on_use_finished)
@@ -208,6 +229,8 @@ func set_launched():
 
 
 func tween_basis(to_basis : Basis):
+	if is_dead:
+		return
 	self.start_basis = basis
 	self.to_basis = to_basis
 	create_tween().tween_method(_interpolate_basis, 0.0, 1.0, 0.5)
@@ -218,7 +241,7 @@ func _interpolate_basis(weight):
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	if not MultiplayerManager.safe_is_multiplayer_authority(self):
+	if not MultiplayerManager.safe_is_multiplayer_authority(self) or is_dead:
 		return
 	if held_item == null or not is_instance_valid(held_item):
 		held_item = null

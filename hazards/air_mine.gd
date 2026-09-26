@@ -2,7 +2,7 @@ class_name AirMine
 extends StaticBody3D
 
 @export var explosion_power = 100000000.0
-@export var reset_time = 10.0
+@export var reset_time = 2.0
 
 var reset_timer : SceneTreeTimer
 

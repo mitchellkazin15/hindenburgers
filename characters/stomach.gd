@@ -5,6 +5,7 @@ extends Node3D
 @export var digestion_tick_val = 10.0
 @export var digestion_period_sec = 30.0
 @export var colon : Colon
+@export var health_component : HealthComponent
 @export var _curr_food_val = 0.0
 
 var digestion_timer : SceneTreeTimer
@@ -47,4 +48,7 @@ func _physics_process(delta: float) -> void:
 func handle_digestion_tick():
 	if not colon.is_full():
 		var digested_val = _digest_food()
-		colon.add_digested_food(digested_val)
+		if not health_component or health_component.is_full_health():
+			colon.add_digested_food(digested_val)
+		else:
+			health_component.apply_healing(digested_val)

@@ -26,14 +26,18 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_body_entered(body):
-	if body is RelativeRigidBody3D and body != get_parent():
-		if not body is HoldableItem or body.being_held:
-			return
-		suck_item = body
-		suck_item.set_being_held(null)
-		var tween = get_tree().create_tween()
-		tween.tween_property(body, "global_position", mouth.global_position, suck_time)
-		tween.finished.connect(_on_suck_finished)
+	if (suck_item != null or
+		not body is RelativeRigidBody3D or 
+		body == get_parent() or 
+		not body is HoldableItem or 
+		body.being_held
+	):
+		return
+	suck_item = body
+	suck_item.set_being_held(null)
+	var tween = get_tree().create_tween()
+	tween.tween_property(body, "global_position", mouth.global_position, suck_time)
+	tween.finished.connect(_on_suck_finished)
 
 
 func _on_suck_finished():
