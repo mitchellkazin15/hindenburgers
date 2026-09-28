@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://buo6r3e7y8hjk" path="res://models/Bottom Bun.blend" id="3_udog6"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="4_uu7pw"]
 [ext_resource type="Script" uid="uid://xskvjkcfnvd3" path="res://common_components/stackable_item_area_3d.gd" id="5_e178p"]
-[ext_resource type="Script" path="res://items/effects/food_effect.gd" id="fx_1"]
-[ext_resource type="Script" path="res://items/effects/consume_effect.gd" id="fx_2"]
+[ext_resource type="Script" uid="uid://btbr6m1b8djm1" path="res://items/effects/food_effect.gd" id="fx_1"]
+[ext_resource type="Script" uid="uid://dtvlp2p7ki3dq" path="res://items/effects/consume_effect.gd" id="fx_2"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_12bte"]
 height = 0.1
@@ -62,7 +62,7 @@ debug_color = Color(0.8804736, 0.00037522733, 0.82654047, 0.41960785)
 
 [node name="FoodEffect" type="Node" parent="." unique_id=1256299927]
 script = ExtResource("fx_1")
-food_val = 5.0
+food_val = 1.0
 
 [node name="ConsumeEffect" type="Node" parent="." unique_id=1729473090]
 script = ExtResource("fx_2")
