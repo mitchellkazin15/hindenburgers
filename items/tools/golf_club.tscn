@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://cf2jt4onq048j"]
 
-[ext_resource type="Script" uid="uid://bx2ji7nbt02o1" path="res://items/tools/golf_club.gd" id="1_vqemh"]
+[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_vqemh"]
 [ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_fk433"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_jnlyj"]
 [ext_resource type="PackedScene" uid="uid://c1axrhnnqrqbk" path="res://items/metallic_item_hover_omni_light_3d.tscn" id="4_d3jr8"]
+[ext_resource type="Script" path="res://items/effects/hand_wind_up_effect.gd" id="fx_1"]
+[ext_resource type="Script" path="res://items/effects/swing_effect.gd" id="fx_2"]
+[ext_resource type="Script" path="res://items/effects/hit_impulse_effect.gd" id="fx_3"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vqemh"]
 friction = 0.1
@@ -37,7 +40,6 @@ mass = 0.25
 physics_material_override = SubResource("PhysicsMaterial_vqemh")
 continuous_cd = true
 script = ExtResource("1_vqemh")
-per_sec_use_strength = 3.0
 unlock_rotation_on_use = true
 max_use_charge_time = 2.5
 
@@ -78,3 +80,18 @@ debug_color = Color(0.98807985, 0, 0.3111137, 0.41960785)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1650328463]
 replication_config = SubResource("SceneReplicationConfig_pc0x0")
+
+[node name="HandWindUpEffect" type="Node" parent="." unique_id=353226505]
+script = ExtResource("fx_1")
+
+[node name="SwingEffect" type="Node" parent="." unique_id=217829554]
+script = ExtResource("fx_2")
+swing_angle = 3.1415927
+swing_axis = Vector3(0, 0, 1)
+scale_angle_with_charge = true
+active_duration = 0.4
+
+[node name="HitImpulseEffect" type="Node" parent="." unique_id=2007695083 node_paths=PackedStringArray("hit_area")]
+script = ExtResource("fx_3")
+hit_area = NodePath("../HitArea3D")
+per_sec_use_strength = 3.0

@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://b6tmf4m8sfxo7"]
 
-[ext_resource type="Script" uid="uid://h7um5s26s26s" path="res://items/money/coin.gd" id="1_dhovw"]
+[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_dhovw"]
 [ext_resource type="Texture2D" uid="uid://h4nbae34u0ik" path="res://assets/misc_sprites/bronze-coin.png" id="2_30ag0"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="3_q888q"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="4_30ag0"]
+[ext_resource type="Script" path="res://items/effects/money_effect.gd" id="fx_1"]
+[ext_resource type="Script" path="res://items/effects/consume_effect.gd" id="fx_2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dhovw"]
 size = Vector3(1, 0.05, 0.5)
@@ -34,7 +36,6 @@ properties/0/replication_mode = 2
 mass = 0.1
 continuous_cd = true
 script = ExtResource("1_dhovw")
-money_value = 100.0
 max_use_charge_time = 0.0
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=183999302]
@@ -60,3 +61,10 @@ debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1650123014]
 replication_config = SubResource("SceneReplicationConfig_q888q")
+
+[node name="MoneyEffect" type="Node" parent="." unique_id=405948437]
+script = ExtResource("fx_1")
+money_value = 100.0
+
+[node name="ConsumeEffect" type="Node" parent="." unique_id=1218271461]
+script = ExtResource("fx_2")

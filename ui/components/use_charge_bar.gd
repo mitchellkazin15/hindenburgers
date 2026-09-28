@@ -17,7 +17,7 @@ func _process(delta: float) -> void:
 	if not character.held_item:
 		value = 0.0
 		return
-	sync_icon.rpc(character.held_item is EdibleItem)
+	sync_icon.rpc(character.held_item.has_effect(FoodEffect) or character.held_item.has_effect(DrugVisualEffect))
 	var max_charge = character.held_item.max_use_charge_time
 	var curr_charge = character.use_item_stopwatch.time_elapsed_sec
 	value = 100.0 * min(curr_charge, max_charge) / max_charge

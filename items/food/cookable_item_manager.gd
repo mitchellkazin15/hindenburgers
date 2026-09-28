@@ -4,7 +4,7 @@ extends Node3D
 @onready var top_raycast = $TopRayCast3D
 @onready var bottom_raycast = $BottomRayCast3D
 
-@export var cookable_item : EdibleItem
+@export var cookable_item : HoldableItem
 @export var top_mesh : MeshInstance3D
 @export var bottom_mesh : MeshInstance3D
 @export var per_side_cook_time = 30.0

@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://bngdwlncnykh8"]
 
-[ext_resource type="Script" uid="uid://bneo6jjfb0oxo" path="res://items/toys/megaphone.gd" id="1_uqw3s"]
+[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_uqw3s"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_2bwu2"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_n41ym"]
+[ext_resource type="Script" path="res://items/effects/megaphone_voice_effect.gd" id="fx_1"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cwd31"]
 friction = 0.5
@@ -88,3 +89,6 @@ debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2110557105]
 replication_config = SubResource("SceneReplicationConfig_cwd31")
+
+[node name="MegaphoneVoiceEffect" type="Node" parent="." unique_id=1414558872]
+script = ExtResource("fx_1")

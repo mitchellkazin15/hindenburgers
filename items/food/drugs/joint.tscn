@@ -1,8 +1,12 @@
 [gd_scene format=3 uid="uid://bdf1caegn8tx6"]
 
-[ext_resource type="Script" uid="uid://xb45yux1xxsf" path="res://items/food/drugs/joint.gd" id="1_2hvar"]
+[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_2hvar"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_lk0pb"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_j563i"]
+[ext_resource type="Script" path="res://items/effects/smoke_effect.gd" id="fx_1"]
+[ext_resource type="Script" path="res://items/effects/drug_visual_effect.gd" id="fx_2"]
+[ext_resource type="Script" path="res://items/effects/temporary_character_stat_effect.gd" id="fx_3"]
+[ext_resource type="Script" path="res://items/effects/consume_effect.gd" id="fx_4"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 
@@ -78,30 +82,6 @@ height = 0.3
 mass = 0.1
 continuous_cd = true
 script = ExtResource("1_2hvar")
-drug_effect_duration = 180.0
-drug_visual_effect_adders = {
-"brightness": 0.0,
-"contrast": 0.0,
-"saturation": 0.001,
-"saturation_color": -167776000.0,
-"trail_amount": 0.05,
-"x_wiggle_amp": 0.01,
-"x_wiggle_screen_freq": 0.0,
-"x_wiggle_time_freq": 0.0,
-"y_wiggle_amp": 0.0,
-"y_wiggle_screen_freq": 0.0,
-"y_wiggle_time_freq": 0.0
-}
-drug_character_effect_adders = {
-"air_acceleration": 0.0,
-"direction_angle_randomness_degrees": 2.0,
-"jump_impulse": -1.0,
-"speed": -0.5,
-"speed_randomness": 0.0,
-"sprint_multiplier": 0.0
-}
-food_val = 0.0
-uses = 5.0
 max_use_charge_time = 0.0
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1553384249]
@@ -139,3 +119,41 @@ draw_pass_1 = SubResource("SphereMesh_4tevw")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.15)
 shape = SubResource("CapsuleShape3D_cl1i1")
+
+[node name="SmokeEffect" type="Node" parent="." unique_id=1563757144 node_paths=PackedStringArray("emissive_mesh", "particles")]
+script = ExtResource("fx_1")
+emissive_mesh = NodePath("../Node3D/WeedMesh")
+particles = NodePath("../Node3D/GPUParticles3D")
+
+[node name="DrugVisualEffect" type="Node" parent="." unique_id=329405081]
+script = ExtResource("fx_2")
+effect_duration = 180.0
+stat_adders = {
+"brightness": 0.0,
+"contrast": 0.0,
+"saturation": 0.001,
+"saturation_color": -167776000.0,
+"trail_amount": 0.05,
+"x_wiggle_amp": 0.01,
+"x_wiggle_screen_freq": 0.0,
+"x_wiggle_time_freq": 0.0,
+"y_wiggle_amp": 0.0,
+"y_wiggle_screen_freq": 0.0,
+"y_wiggle_time_freq": 0.0
+}
+
+[node name="TemporaryCharacterStatEffect" type="Node" parent="." unique_id=767828936]
+script = ExtResource("fx_3")
+effect_duration = 180.0
+stat_adders = {
+"air_acceleration": 0.0,
+"direction_angle_randomness_degrees": 2.0,
+"jump_impulse": -1.0,
+"speed": -0.5,
+"speed_randomness": 0.0,
+"sprint_multiplier": 0.0
+}
+
+[node name="ConsumeEffect" type="Node" parent="." unique_id=252022385]
+script = ExtResource("fx_4")
+uses = 5.0

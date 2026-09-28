@@ -8,6 +8,10 @@ extends HoldableItem
 var prev_grav_scale
 
 
+func _init() -> void:
+	assert(false, "Knife is deprecated. Use HoldableItem with ItemEffect children instead.")
+
+
 func use(use_charge_time : float):
 	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return

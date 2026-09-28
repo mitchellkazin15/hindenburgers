@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://cxhm0i8wmwji4"]
 
-[ext_resource type="Script" uid="uid://cvqyxkv08uhsk" path="res://items/tools/knife.gd" id="1_jricu"]
+[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_jricu"]
 [ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_pjlok"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="3_bwkjd"]
 [ext_resource type="PackedScene" uid="uid://c1axrhnnqrqbk" path="res://items/metallic_item_hover_omni_light_3d.tscn" id="4_bwkjd"]
 [ext_resource type="Script" uid="uid://bd6vj3ugmxr13" path="res://common_components/damage_area_3d.gd" id="4_pjlok"]
+[ext_resource type="Script" path="res://items/effects/damage_area_effect.gd" id="fx_1"]
+[ext_resource type="Script" path="res://items/effects/swing_effect.gd" id="fx_2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qikfw"]
 size = Vector3(0.1, 0.5, 0.15)
@@ -30,11 +32,10 @@ properties/0/path = NodePath(".:being_held")
 properties/0/spawn = true
 properties/0/replication_mode = 2
 
-[node name="Knife" type="RigidBody3D" unique_id=1264862515 node_paths=PackedStringArray("damage_area")]
+[node name="Knife" type="RigidBody3D" unique_id=1264862515]
 mass = 0.25
 continuous_cd = true
 script = ExtResource("1_jricu")
-damage_area = NodePath("KnifeDamageArea3D")
 unlock_rotation_on_use = true
 max_use_charge_time = 2.0
 
@@ -75,3 +76,10 @@ shape = SubResource("BoxShape3D_qikfw")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=599441776]
 replication_config = SubResource("SceneReplicationConfig_iwudx")
+
+[node name="DamageAreaEffect" type="Node" parent="." unique_id=539294321 node_paths=PackedStringArray("damage_area")]
+script = ExtResource("fx_1")
+damage_area = NodePath("../KnifeDamageArea3D")
+
+[node name="SwingEffect" type="Node" parent="." unique_id=1433520235]
+script = ExtResource("fx_2")

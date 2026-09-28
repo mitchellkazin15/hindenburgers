@@ -10,6 +10,10 @@ var start_use_tween : Tween
 var bodies_hit_per_swing = []
 
 
+func _init() -> void:
+	assert(false, "GolfClub is deprecated. Use HoldableItem with ItemEffect children instead.")
+
+
 func _ready() -> void:
 	super._ready()
 	$HitArea3D.body_entered.connect(_on_hit)

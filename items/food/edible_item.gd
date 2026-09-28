@@ -7,6 +7,10 @@ extends HoldableItem
 var _amount_used = 0
 
 
+func _init() -> void:
+	assert(false, "EdibleItem is deprecated. Use HoldableItem with ItemEffect children instead.")
+
+
 func use(use_charge_time : float):
 	if use_charge_time < max_use_charge_time:
 		return

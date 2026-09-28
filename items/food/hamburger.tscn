@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://de20king28rr0"]
 
-[ext_resource type="Script" uid="uid://bey5vv6enn4h0" path="res://items/food/hamburger.gd" id="1_syu0n"]
+[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_syu0n"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_syu0n"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_xsusi"]
+[ext_resource type="Script" path="res://items/effects/food_effect.gd" id="fx_1"]
+[ext_resource type="Script" path="res://items/effects/consume_effect.gd" id="fx_2"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_q777v"]
 radius = 0.25
@@ -35,7 +37,6 @@ properties/0/replication_mode = 2
 mass = 0.1
 continuous_cd = true
 script = ExtResource("1_syu0n")
-food_val = 25.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
@@ -63,3 +64,10 @@ debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=147434159]
 replication_config = SubResource("SceneReplicationConfig_o1stp")
+
+[node name="FoodEffect" type="Node" parent="." unique_id=728129817]
+script = ExtResource("fx_1")
+food_val = 25.0
+
+[node name="ConsumeEffect" type="Node" parent="." unique_id=645575083]
+script = ExtResource("fx_2")

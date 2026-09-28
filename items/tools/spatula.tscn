@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://bbqknpjnqy3ym"]
 
-[ext_resource type="Script" uid="uid://clia0s6jdmf34" path="res://items/tools/spatula.gd" id="1_qikfw"]
+[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_qikfw"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_brdvl"]
 [ext_resource type="Material" uid="uid://olhcqnvlka11" path="res://assets/grey_metal_material.tres" id="2_d5n5e"]
 [ext_resource type="PackedScene" uid="uid://c1axrhnnqrqbk" path="res://items/metallic_item_hover_omni_light_3d.tscn" id="4_drkr3"]
+[ext_resource type="Script" path="res://items/effects/flip_area_effect.gd" id="fx_1"]
+[ext_resource type="Script" path="res://items/effects/swing_effect.gd" id="fx_2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qikfw"]
 size = Vector3(0.25, 0.05, 0.75)
@@ -70,3 +72,13 @@ debug_color = Color(0.8135569, 0.40943807, 5.7756904e-07, 0.41960785)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=416777584]
 replication_config = SubResource("SceneReplicationConfig_drkr3")
+
+[node name="FlipAreaEffect" type="Node" parent="." unique_id=341661618 node_paths=PackedStringArray("flip_area")]
+script = ExtResource("fx_1")
+flip_area = NodePath("../BurgerFlipArea3D")
+
+[node name="SwingEffect" type="Node" parent="." unique_id=1010335871]
+script = ExtResource("fx_2")
+swing_angle = -1.5707964
+scale_angle_with_charge = true
+active_duration = 0.25

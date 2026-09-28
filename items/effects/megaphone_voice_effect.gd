@@ -1,0 +1,16 @@
+class_name MegaphoneVoiceEffect
+extends ItemEffect
+
+var audio_player : MultiplayerAudioStreamPlayer3D = null
+
+
+func on_held(holder : Character):
+	if holder and holder.has_node("RotationPivot/MultiplayerAudioStreamPlayer3D"):
+		audio_player = holder.get_node("RotationPivot/MultiplayerAudioStreamPlayer3D")
+		audio_player.add_megaphone_effect.rpc()
+
+
+func on_released():
+	if audio_player:
+		audio_player.remove_megaphone_effect.rpc()
+		audio_player = null

@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://d0oig1sb4fhi6" path="res://common_components/base_stacked_item.gd" id="1_06pnv"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_rexp8"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_2duyq"]
+[ext_resource type="Script" uid="uid://btbr6m1b8djm1" path="res://items/effects/food_effect.gd" id="fx_1"]
+[ext_resource type="Script" uid="uid://dtvlp2p7ki3dq" path="res://items/effects/consume_effect.gd" id="fx_2"]
 
 [node name="BaseStackedItem" type="RigidBody3D" unique_id=525152961 node_paths=PackedStringArray("grab_item_area")]
 mass = 0.001
@@ -17,3 +19,10 @@ item = NodePath("..")
 metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 
 [node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_2duyq")]
+
+[node name="FoodEffect" type="Node" parent="." unique_id=2008620067]
+script = ExtResource("fx_1")
+food_val = 0.0
+
+[node name="ConsumeEffect" type="Node" parent="." unique_id=1447091029]
+script = ExtResource("fx_2")

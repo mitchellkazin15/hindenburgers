@@ -1,9 +1,13 @@
 [gd_scene format=3 uid="uid://mi6drwxajht8"]
 
-[ext_resource type="Script" uid="uid://bb1deo5u31hi7" path="res://items/food/drugs/drug.gd" id="1_tmcrh"]
+[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_tmcrh"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_kmgj0"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_8tae2"]
 [ext_resource type="Material" uid="uid://n1fhwxwjigfs" path="res://assets/beer_glass.tres" id="4_yf1ca"]
+[ext_resource type="Script" path="res://items/effects/drug_visual_effect.gd" id="fx_1"]
+[ext_resource type="Script" path="res://items/effects/temporary_character_stat_effect.gd" id="fx_2"]
+[ext_resource type="Script" path="res://items/effects/food_effect.gd" id="fx_3"]
+[ext_resource type="Script" path="res://items/effects/consume_effect.gd" id="fx_4"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 
@@ -38,29 +42,6 @@ properties/0/replication_mode = 2
 mass = 0.1
 continuous_cd = true
 script = ExtResource("1_tmcrh")
-drug_effect_duration = 120.0
-drug_visual_effect_adders = {
-"blur_iterations": 1.0,
-"blur_power": 0.001,
-"brightness": 0.0,
-"contrast": 0.0,
-"saturation": 0.0,
-"saturation_color": 0.0,
-"x_wiggle_amp": 0.01,
-"x_wiggle_screen_freq": 0.0,
-"x_wiggle_time_freq": 0.1,
-"y_wiggle_amp": 0.01,
-"y_wiggle_screen_freq": 0.0,
-"y_wiggle_time_freq": 0.1
-}
-drug_character_effect_adders = {
-"air_acceleration": 0.0,
-"direction_angle_randomness_degrees": 5.0,
-"jump_impulse": 0.0,
-"speed": -1.0,
-"speed_randomness": 1.0,
-"sprint_multiplier": 0.0
-}
 max_use_charge_time = 0.0
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1553384249]
@@ -95,3 +76,39 @@ shape = SubResource("CylinderShape3D_2ykj7")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1548199389]
 replication_config = SubResource("SceneReplicationConfig_r3l6t")
+
+[node name="DrugVisualEffect" type="Node" parent="." unique_id=2045851715]
+script = ExtResource("fx_1")
+effect_duration = 120.0
+stat_adders = {
+"blur_iterations": 1.0,
+"blur_power": 0.001,
+"brightness": 0.0,
+"contrast": 0.0,
+"saturation": 0.0,
+"saturation_color": 0.0,
+"x_wiggle_amp": 0.01,
+"x_wiggle_screen_freq": 0.0,
+"x_wiggle_time_freq": 0.1,
+"y_wiggle_amp": 0.01,
+"y_wiggle_screen_freq": 0.0,
+"y_wiggle_time_freq": 0.1
+}
+
+[node name="TemporaryCharacterStatEffect" type="Node" parent="." unique_id=613015116]
+script = ExtResource("fx_2")
+effect_duration = 120.0
+stat_adders = {
+"air_acceleration": 0.0,
+"direction_angle_randomness_degrees": 5.0,
+"jump_impulse": 0.0,
+"speed": -1.0,
+"speed_randomness": 1.0,
+"sprint_multiplier": 0.0
+}
+
+[node name="FoodEffect" type="Node" parent="." unique_id=1144777459]
+script = ExtResource("fx_3")
+
+[node name="ConsumeEffect" type="Node" parent="." unique_id=772557972]
+script = ExtResource("fx_4")

@@ -4,6 +4,10 @@ extends HoldableItem
 var audio_player : MultiplayerAudioStreamPlayer3D = null
 
 
+func _init() -> void:
+	assert(false, "Megaphone is deprecated. Use HoldableItem with ItemEffect children instead.")
+
+
 func set_being_held(holder : Character):
 	super.set_being_held(holder)
 	if item_holder and item_holder.has_node("RotationPivot/MultiplayerAudioStreamPlayer3D"):

@@ -4,6 +4,10 @@ extends Drug
 var material : StandardMaterial3D
 
 
+func _init() -> void:
+	assert(false, "Joint is deprecated. Use HoldableItem with ItemEffect children instead.")
+
+
 func _ready() -> void:
 	super._ready()
 	material = $Node3D/WeedMesh.mesh.material

@@ -8,6 +8,10 @@ extends EdibleItem
 @export var drug_character_effect_multipliers = CharacterStatManager.EXAMPLE_DICT
 
 
+func _init() -> void:
+	assert(false, "Drug is deprecated. Use HoldableItem with ItemEffect children instead.")
+
+
 func use(use_charge_time : float):
 	if use_charge_time < max_use_charge_time:
 		return

@@ -1,5 +1,5 @@
 class_name BaseStackedItem
-extends EdibleItem
+extends HoldableItem
 
 @export var grab_item_area : GrabItemArea3D
 

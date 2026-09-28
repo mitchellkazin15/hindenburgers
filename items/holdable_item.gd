@@ -32,9 +32,13 @@ func set_being_held(holder : Character):
 		remove_child(child)
 	item_holder = holder
 	prev_item_holder = item_holder
+	for effect in get_effects():
+		effect.on_held(holder)
 
 
 func release():
+	for effect in get_effects():
+		effect.on_released()
 	if item_holder:
 		prev_release_position = item_holder.global_position
 	item_holder = null
@@ -44,14 +48,38 @@ func release():
 	freeze = false
 
 
-## Meant to be overridden
 func start_use():
-	pass
+	for effect in get_effects():
+		effect.start_effect(item_holder)
 
 
-## Meant to be overridden
 func use(use_charge_time : float):
-	pass
+	apply_effects(item_holder, use_charge_time)
+
+
+func apply_effects(user : Node3D, use_charge_time : float = INF) -> bool:
+	var effects := get_effects()
+	for effect in effects:
+		if not effect.can_apply(user, use_charge_time):
+			return false
+	for effect in effects:
+		effect.apply_effect(user, use_charge_time)
+	return true
+
+
+func get_effects() -> Array[ItemEffect]:
+	var effects : Array[ItemEffect] = []
+	for child in get_children():
+		if child is ItemEffect:
+			effects.append(child)
+	return effects
+
+
+func has_effect(effect_type : Script) -> bool:
+	for effect in get_effects():
+		if is_instance_of(effect, effect_type):
+			return true
+	return false
 
 
 ## Smoothly swings the item [param angle] radians about its own X axis, in global
@@ -61,8 +89,12 @@ func use(use_charge_time : float):
 ## take the long way round at a wrap boundary. Returns the Tween so callers can
 ## connect to [signal Tween.finished].
 func swing_about_local_x(angle : float, duration : float) -> Tween:
+	return swing_about_local_axis(Vector3.RIGHT, angle, duration)
+
+
+func swing_about_local_axis(local_axis : Vector3, angle : float, duration : float) -> Tween:
 	var start_quat := global_basis.orthonormalized().get_rotation_quaternion()
-	var end_basis := global_basis.rotated(global_basis.x.normalized(), angle)
+	var end_basis := global_basis.rotated((global_basis * local_axis).normalized(), angle)
 	var end_quat := end_basis.orthonormalized().get_rotation_quaternion()
 	var tween := get_tree().create_tween()
 	tween.tween_method(

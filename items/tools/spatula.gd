@@ -10,6 +10,10 @@ var active_strength = 0.0
 var burger_flip_timer : SceneTreeTimer
 
 
+func _init() -> void:
+	assert(false, "Spatula is deprecated. Use HoldableItem with ItemEffect children instead.")
+
+
 func _ready() -> void:
 	super._ready()
 	burger_flip_timer = get_tree().create_timer(0.0)

@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://dc5nx712jgekb"]
 
-[ext_resource type="Script" uid="uid://bey5vv6enn4h0" path="res://items/food/hamburger.gd" id="1_8xgoi"]
+[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_8xgoi"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_v0pk6"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_273pt"]
 [ext_resource type="Script" uid="uid://vmre4c0wvlfa" path="res://items/food/cookable_item_manager.gd" id="3_v0pk6"]
 [ext_resource type="PackedScene" uid="uid://de20king28rr0" path="res://items/food/hamburger.tscn" id="4_omi1t"]
 [ext_resource type="Script" uid="uid://xskvjkcfnvd3" path="res://common_components/stackable_item_area_3d.gd" id="6_8hama"]
+[ext_resource type="Script" path="res://items/effects/food_effect.gd" id="fx_1"]
+[ext_resource type="Script" path="res://items/effects/consume_effect.gd" id="fx_2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_omi1t"]
 rough = true
@@ -53,7 +55,6 @@ mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_omi1t")
 continuous_cd = true
 script = ExtResource("1_8xgoi")
-food_val = 1.0
 reset_rotation_when_grabbed = false
 hold_offset = Vector3(0, 0, 0.25)
 
@@ -109,3 +110,10 @@ transfer_nodes = [NodePath("../CollisionShape3D"), NodePath("../TopMesh"), NodeP
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StackableItemArea3D" unique_id=745844764]
 shape = SubResource("CylinderShape3D_pexdy")
 debug_color = Color(0.8804736, 0.00037522733, 0.82654047, 0.41960785)
+
+[node name="FoodEffect" type="Node" parent="." unique_id=115159539]
+script = ExtResource("fx_1")
+food_val = 1.0
+
+[node name="ConsumeEffect" type="Node" parent="." unique_id=386264580]
+script = ExtResource("fx_2")

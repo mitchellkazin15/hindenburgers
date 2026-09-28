@@ -1,2 +1,2 @@
 class_name Bun
-extends EdibleItem
+extends HoldableItem
