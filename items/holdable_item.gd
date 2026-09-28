@@ -12,21 +12,24 @@ signal use_finished
 var item_holder : Character
 var prev_item_holder : Character
 var prev_release_position : Vector3
-var old_collision_child : CollisionShape3D
+var old_collision_children : Array[CollisionShape3D] = []
 
 
 func _ready() -> void:
 	set_process(is_multiplayer_authority())
 	set_physics_process(is_multiplayer_authority())
 	set_process_input(is_multiplayer_authority())
+	for child in get_children():
+		if child is CollisionShape3D:
+			old_collision_children.append(child)
 	super._ready()
 
 
 func set_being_held(holder : Character):
 	being_held = true
 	freeze = true
-	old_collision_child = $CollisionShape3D
-	remove_child(old_collision_child)
+	for child in old_collision_children:
+		remove_child(child)
 	item_holder = holder
 	prev_item_holder = item_holder
 
@@ -36,7 +39,8 @@ func release():
 		prev_release_position = item_holder.global_position
 	item_holder = null
 	being_held = false
-	add_child(old_collision_child)
+	for child in old_collision_children:
+		add_child(child)
 	freeze = false
 
 

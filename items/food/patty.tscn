@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_273pt"]
 [ext_resource type="Script" uid="uid://vmre4c0wvlfa" path="res://items/food/cookable_item_manager.gd" id="3_v0pk6"]
 [ext_resource type="PackedScene" uid="uid://de20king28rr0" path="res://items/food/hamburger.tscn" id="4_omi1t"]
+[ext_resource type="Script" uid="uid://xskvjkcfnvd3" path="res://common_components/stackable_item_area_3d.gd" id="6_8hama"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_omi1t"]
 rough = true
@@ -43,6 +44,10 @@ properties/0/path = NodePath(".:being_held")
 properties/0/spawn = true
 properties/0/replication_mode = 2
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pexdy"]
+height = 0.13
+radius = 0.2
+
 [node name="Patty" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_omi1t")
@@ -55,30 +60,28 @@ hold_offset = Vector3(0, 0, 0.25)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
 shape = SubResource("CylinderShape3D_8xgoi")
 
-[node name="Node3D" type="Node3D" parent="." unique_id=1101755714]
-
-[node name="TopMesh" type="MeshInstance3D" parent="Node3D" unique_id=183999302]
+[node name="TopMesh" type="MeshInstance3D" parent="." unique_id=183999302]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
 mesh = SubResource("CylinderMesh_n3gac")
 
-[node name="BottomMesh" type="MeshInstance3D" parent="Node3D" unique_id=1144435748]
+[node name="BottomMesh" type="MeshInstance3D" parent="." unique_id=1144435748]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.025, 0)
 mesh = SubResource("CylinderMesh_omi1t")
 
-[node name="GrabItemArea3D" type="Area3D" parent="Node3D" unique_id=961604140 node_paths=PackedStringArray("item")]
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
 script = ExtResource("2_v0pk6")
-item = NodePath("../..")
+item = NodePath("..")
 metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/GrabItemArea3D" unique_id=2137353213]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
 shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
-[node name="OmniLight3D" parent="Node3D/GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_273pt")]
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_273pt")]
 
-[node name="CookableItemManager" type="Node3D" parent="Node3D" unique_id=2069913007 node_paths=PackedStringArray("cookable_item", "top_mesh", "bottom_mesh")]
+[node name="CookableItemManager" type="Node3D" parent="." unique_id=2069913007 node_paths=PackedStringArray("cookable_item", "top_mesh", "bottom_mesh")]
 script = ExtResource("3_v0pk6")
-cookable_item = NodePath("../..")
+cookable_item = NodePath("..")
 top_mesh = NodePath("../TopMesh")
 bottom_mesh = NodePath("../BottomMesh")
 per_side_cook_time = 10.0
@@ -87,11 +90,22 @@ cooked_item_scene = ExtResource("4_omi1t")
 cooked_color = Color(0.4485801, 0.19241041, 0, 1)
 burnt_color = Color(0.08468992, 0.08468992, 0.08468992, 1)
 
-[node name="TopRayCast3D" type="RayCast3D" parent="Node3D/CookableItemManager" unique_id=1928008187]
+[node name="TopRayCast3D" type="RayCast3D" parent="CookableItemManager" unique_id=1928008187]
 target_position = Vector3(0, 0.2, 0)
 
-[node name="BottomRayCast3D" type="RayCast3D" parent="Node3D/CookableItemManager" unique_id=1448784500]
+[node name="BottomRayCast3D" type="RayCast3D" parent="CookableItemManager" unique_id=1448784500]
 target_position = Vector3(0, -0.2, 0)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=16743911]
 replication_config = SubResource("SceneReplicationConfig_8hama")
+
+[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=539840842 node_paths=PackedStringArray("original_body", "transfer_nodes")]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("6_8hama")
+original_body = NodePath("..")
+transfer_nodes = [NodePath("../CollisionShape3D"), NodePath("../TopMesh"), NodePath("../BottomMesh"), NodePath("../GrabItemArea3D")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StackableItemArea3D" unique_id=745844764]
+shape = SubResource("CylinderShape3D_pexdy")
+debug_color = Color(0.8804736, 0.00037522733, 0.82654047, 0.41960785)

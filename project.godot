@@ -118,6 +118,11 @@ use_item={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="physics_object"
+3d_physics/layer_2="stackable_area"
+
 [physics]
 
 common/physics_jitter_fix=0.0

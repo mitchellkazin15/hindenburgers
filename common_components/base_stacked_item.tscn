@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b67k3e05dhopj"]
+
+[ext_resource type="Script" uid="uid://d0oig1sb4fhi6" path="res://common_components/base_stacked_item.gd" id="1_06pnv"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_rexp8"]
+[ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_2duyq"]
+
+[node name="BaseStackedItem" type="RigidBody3D" unique_id=525152961 node_paths=PackedStringArray("grab_item_area")]
+mass = 0.001
+script = ExtResource("1_06pnv")
+grab_item_area = NodePath("GrabItemArea3D")
+hold_offset = Vector3(0, 0, 0.3)
+metadata/_custom_type_script = "uid://cglmrmpbm6ssh"
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=685373286 node_paths=PackedStringArray("item")]
+script = ExtResource("2_rexp8")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_2duyq")]

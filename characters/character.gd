@@ -136,8 +136,8 @@ func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
 	controllable = false
 	self.vehicle = vehicle
 	rotation_pivot.rotation = Vector3.ZERO
-	old_collision_child = $CollisionShape3D
-	remove_child(old_collision_child)
+	for child in old_collision_children:
+		remove_child(child)
 	if change_camera:
 		camera.current = false
 	freeze = true
@@ -147,9 +147,9 @@ func set_locked_interacting(change_camera : bool, vehicle : Vehicle = null):
 func end_locked_interaction():
 	locked_interaction = false
 	controllable = true
-	if MultiplayerManager.safe_is_multiplayer_authority(self) and old_collision_child:
-		add_child(old_collision_child)
-		old_collision_child = null
+	if MultiplayerManager.safe_is_multiplayer_authority(self) and old_collision_children:
+		for child in old_collision_children:
+			add_child(child)
 	camera.current = camera.is_multiplayer_authority()
 	freeze = false
 	vehicle = null
