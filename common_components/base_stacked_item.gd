@@ -5,12 +5,14 @@ extends HoldableItem
 @export var stack_item_area : StackableItemArea3D
 
 var effects : Array[ItemEffect] = []
+var stack_count = 0
 
 
 @rpc("any_peer", "call_local", "reliable")
 func replicate_stack(path : NodePath, server_position, server_rotation):
 	if not has_node(path):
 		return
+	stack_count += 1
 	var node = get_node(path)
 	if node is GrabItemArea3D or node is StackableItemArea3D:
 		var area_parent = grab_item_area if node is GrabItemArea3D else stack_item_area
@@ -35,6 +37,7 @@ func handle_reparent(new_parent, node : Node, server_position, server_rotation):
 			node.global_position = server_position
 			node.global_rotation = server_rotation
 	node.owner = new_parent
+	stack_item_area.transfer_nodes.append(node)
 
 
 func merge_effects(new_effect: ItemEffect, server_position, server_rotation):
