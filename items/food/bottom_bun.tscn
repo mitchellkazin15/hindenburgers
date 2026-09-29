@@ -54,7 +54,7 @@ collision_layer = 2
 collision_mask = 2
 script = ExtResource("5_e178p")
 original_body = NodePath("..")
-transfer_nodes = [NodePath("../Bottom Bun2"), NodePath("../CollisionShape3D"), NodePath("../GrabItemArea3D")]
+transfer_nodes = [NodePath("../Bottom Bun2"), NodePath("../CollisionShape3D"), NodePath("../GrabItemArea3D"), NodePath("../FoodEffect"), NodePath("../ConsumeEffect")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StackableItemArea3D" unique_id=265665070]
 shape = SubResource("CylinderShape3D_pp2b7")

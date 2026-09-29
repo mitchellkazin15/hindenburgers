@@ -3,7 +3,9 @@ extends Node
 
 @export var requires_full_charge = true
 
-@onready var item : HoldableItem = get_parent()
+@onready var item : HoldableItem:
+	get:
+		return get_parent()
 
 
 func can_apply(_user : Node3D, use_charge_time : float) -> bool:
