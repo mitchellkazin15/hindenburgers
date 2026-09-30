@@ -26,6 +26,7 @@ func replicate_stack(path : NodePath, server_position, server_rotation):
 		return
 	else:
 		handle_reparent(self, node, server_position, server_rotation)
+		stack_item_area.transfer_nodes.append(node)
 
 
 func handle_reparent(new_parent, node : Node, server_position, server_rotation):
@@ -37,7 +38,6 @@ func handle_reparent(new_parent, node : Node, server_position, server_rotation):
 			node.global_position = server_position
 			node.global_rotation = server_rotation
 	node.owner = new_parent
-	stack_item_area.transfer_nodes.append(node)
 
 
 func merge_effects(new_effect: ItemEffect, server_position, server_rotation):
@@ -49,3 +49,4 @@ func merge_effects(new_effect: ItemEffect, server_position, server_rotation):
 		consume_effect.uses = min(consume_effect.uses, new_effect.uses)
 	else:
 		handle_reparent(self, new_effect, server_position, server_rotation)
+		stack_item_area.transfer_nodes.append(new_effect)

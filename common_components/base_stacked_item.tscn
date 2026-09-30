@@ -7,11 +7,17 @@
 [ext_resource type="Script" uid="uid://btbr6m1b8djm1" path="res://items/effects/food_effect.gd" id="fx_1"]
 [ext_resource type="Script" uid="uid://dtvlp2p7ki3dq" path="res://items/effects/consume_effect.gd" id="fx_2"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3ctyb"]
+properties/0/path = NodePath(".:being_held")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
 [node name="BaseStackedItem" type="RigidBody3D" unique_id=525152961 node_paths=PackedStringArray("grab_item_area", "stack_item_area")]
 mass = 0.001
 script = ExtResource("1_06pnv")
 grab_item_area = NodePath("GrabItemArea3D")
 stack_item_area = NodePath("StackableItemArea3D")
+reset_rotation_when_grabbed = false
 hold_offset = Vector3(0, 0, 0.3)
 metadata/_custom_type_script = "uid://cglmrmpbm6ssh"
 
@@ -29,9 +35,13 @@ food_val = 0.0
 [node name="ConsumeEffect" type="Node" parent="." unique_id=1447091029]
 script = ExtResource("fx_2")
 
-[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=395564727]
+[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=395564727 node_paths=PackedStringArray("transfer_nodes")]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("6_3ctyb")
+transfer_nodes = [NodePath("../GrabItemArea3D"), NodePath("../FoodEffect"), NodePath("../ConsumeEffect")]
 can_stack_same_type = true
 metadata/_custom_type_script = "uid://xskvjkcfnvd3"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=127390362]
+replication_config = SubResource("SceneReplicationConfig_3ctyb")
