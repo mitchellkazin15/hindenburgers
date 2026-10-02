@@ -8,8 +8,6 @@ extends ItemEffect
 ## If 0, the swing finishes when the swing tween ends
 @export var active_duration = 0.0
 
-var prev_grav_scale
-
 
 func _init() -> void:
 	requires_full_charge = false
@@ -21,9 +19,6 @@ func can_apply(user : Node3D, use_charge_time : float) -> bool:
 
 func apply_effect(_user : Node3D, use_charge_time : float):
 	item.freeze = false
-	if item.gravity_scale != 0:
-		prev_grav_scale = item.gravity_scale
-	item.gravity_scale = 0
 	var angle = swing_angle
 	if scale_angle_with_charge:
 		angle *= get_charge_time(use_charge_time) / item.max_use_charge_time
@@ -35,7 +30,6 @@ func apply_effect(_user : Node3D, use_charge_time : float):
 
 
 func _on_swing_finished():
-	item.gravity_scale = prev_grav_scale
 	if item.being_held:
 		item.freeze = true
 	item.use_finished.emit()

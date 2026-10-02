@@ -4,8 +4,9 @@
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_tdy41"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_30tgq"]
 [ext_resource type="Shader" uid="uid://keinufbgivd0" path="res://shaders/lsd_tab.gdshader" id="4_tdy41"]
-[ext_resource type="Script" path="res://items/effects/drug_visual_effect.gd" id="fx_1"]
-[ext_resource type="Script" path="res://items/effects/consume_effect.gd" id="fx_2"]
+[ext_resource type="Script" uid="uid://xskvjkcfnvd3" path="res://common_components/stackable_item_area_3d.gd" id="7_sfur3"]
+[ext_resource type="Script" uid="uid://04q6hqwsqm1v" path="res://items/effects/drug_visual_effect.gd" id="fx_1"]
+[ext_resource type="Script" uid="uid://dtvlp2p7ki3dq" path="res://items/effects/consume_effect.gd" id="fx_2"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 
@@ -35,25 +36,26 @@ shader_parameter/fractal_chromatic_shift_strength = 1.0
 material = SubResource("ShaderMaterial_30tgq")
 size = Vector3(0.15, 0.01, 0.15)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_gfvoa"]
+size = Vector3(0.1, 0.08, 0.1)
+
 [node name="Lsd" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
 continuous_cd = true
 script = ExtResource("1_j5y3d")
 max_use_charge_time = 0.0
 
-[node name="Node3D" type="Node3D" parent="." unique_id=1553384249]
-
-[node name="GrabItemArea3D" type="Area3D" parent="Node3D" unique_id=961604140 node_paths=PackedStringArray("item")]
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 script = ExtResource("2_tdy41")
-item = NodePath("../..")
+item = NodePath("..")
 metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/GrabItemArea3D" unique_id=2137353213]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
 shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
-[node name="OmniLight3D" parent="Node3D/GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_30tgq")]
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_30tgq")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
 shape = SubResource("BoxShape3D_j5y3d")
@@ -92,3 +94,12 @@ stat_adders = {
 
 [node name="ConsumeEffect" type="Node" parent="." unique_id=253108602]
 script = ExtResource("fx_2")
+
+[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=373809]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("7_sfur3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StackableItemArea3D" unique_id=1959324989]
+shape = SubResource("BoxShape3D_gfvoa")
+debug_color = Color(0.8804736, 0.00037522733, 0.82654047, 0.41960785)

@@ -82,12 +82,6 @@ func has_effect(effect_type : Script) -> bool:
 	return false
 
 
-## Smoothly swings the item [param angle] radians about its own X axis, in global
-## space, so the swing direction is the same no matter how the holder is oriented
-## (upright, sideways, or on the underside of a planet).
-## Interpolates with quaternion slerp rather than Euler angles, so it can never
-## take the long way round at a wrap boundary. Returns the Tween so callers can
-## connect to [signal Tween.finished].
 func swing_about_local_x(angle : float, duration : float) -> Tween:
 	return swing_about_local_axis(Vector3.RIGHT, angle, duration)
 

@@ -3,10 +3,11 @@
 [ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_cs4cm"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_hty2s"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_gro6i"]
-[ext_resource type="Script" path="res://items/effects/drug_visual_effect.gd" id="fx_1"]
-[ext_resource type="Script" path="res://items/effects/temporary_character_stat_effect.gd" id="fx_2"]
-[ext_resource type="Script" path="res://items/effects/food_effect.gd" id="fx_3"]
-[ext_resource type="Script" path="res://items/effects/consume_effect.gd" id="fx_4"]
+[ext_resource type="Script" uid="uid://xskvjkcfnvd3" path="res://common_components/stackable_item_area_3d.gd" id="8_22lwu"]
+[ext_resource type="Script" uid="uid://04q6hqwsqm1v" path="res://items/effects/drug_visual_effect.gd" id="fx_1"]
+[ext_resource type="Script" uid="uid://mr73t4co020q" path="res://items/effects/temporary_character_stat_effect.gd" id="fx_2"]
+[ext_resource type="Script" uid="uid://btbr6m1b8djm1" path="res://items/effects/food_effect.gd" id="fx_3"]
+[ext_resource type="Script" uid="uid://dtvlp2p7ki3dq" path="res://items/effects/consume_effect.gd" id="fx_4"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 
@@ -32,36 +33,38 @@ height = 0.05
 height = 0.25
 radius = 0.05
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_aasuh"]
+height = 0.3
+radius = 0.065
+
 [node name="Shroom" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
 continuous_cd = true
 script = ExtResource("1_cs4cm")
 max_use_charge_time = 0.0
 
-[node name="Node3D" type="Node3D" parent="." unique_id=1553384249]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
-
-[node name="GrabItemArea3D" type="Area3D" parent="Node3D" unique_id=961604140 node_paths=PackedStringArray("item")]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0.0018502101)
 script = ExtResource("2_hty2s")
-item = NodePath("../..")
+item = NodePath("..")
 metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/GrabItemArea3D" unique_id=2137353213]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
 shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
-[node name="OmniLight3D" parent="Node3D/GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_gro6i")]
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_gro6i")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=665638984]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=665638984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0018502101)
 mesh = SubResource("CylinderMesh_g8u53")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=721624815]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=721624815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0.0018502101)
 mesh = SubResource("CylinderMesh_isjp1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0.1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0.0018502101)
 shape = SubResource("CylinderShape3D_2ykj7")
 
 [node name="DrugVisualEffect" type="Node" parent="." unique_id=266466498]
@@ -100,3 +103,13 @@ script = ExtResource("fx_3")
 
 [node name="ConsumeEffect" type="Node" parent="." unique_id=875995849]
 script = ExtResource("fx_4")
+
+[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=1406919014]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("8_22lwu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StackableItemArea3D" unique_id=813889038]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023917213, 0)
+shape = SubResource("CylinderShape3D_aasuh")
+debug_color = Color(0.8804736, 0.00037522733, 0.82654047, 0.41960785)

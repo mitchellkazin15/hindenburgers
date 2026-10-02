@@ -5,8 +5,10 @@
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="3_rmtq4"]
 [ext_resource type="PackedScene" uid="uid://c1axrhnnqrqbk" path="res://items/metallic_item_hover_omni_light_3d.tscn" id="4_764w1"]
 [ext_resource type="Script" uid="uid://bd6vj3ugmxr13" path="res://common_components/damage_area_3d.gd" id="5_5wtha"]
-[ext_resource type="Script" path="res://items/effects/damage_area_effect.gd" id="fx_1"]
-[ext_resource type="Script" path="res://items/effects/swing_effect.gd" id="fx_2"]
+[ext_resource type="Script" uid="uid://bqnjiwhdx8m8t" path="res://items/effects/hand_wind_up_effect.gd" id="8_764w1"]
+[ext_resource type="Script" uid="uid://xskvjkcfnvd3" path="res://common_components/stackable_item_area_3d.gd" id="9_5wtha"]
+[ext_resource type="Script" uid="uid://hvnnb4vsvkf7" path="res://items/effects/damage_area_effect.gd" id="fx_1"]
+[ext_resource type="Script" uid="uid://bufeovu8hdcq2" path="res://items/effects/swing_effect.gd" id="fx_2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qikfw"]
 size = Vector3(0.1, 1.2, 0.15)
@@ -31,12 +33,17 @@ properties/0/path = NodePath(".:being_held")
 properties/0/spawn = true
 properties/0/replication_mode = 2
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_727ug"]
+height = 1.25
+radius = 0.11
+
 [node name="Sword" type="RigidBody3D" unique_id=1264862515]
 mass = 0.75
 continuous_cd = true
 script = ExtResource("1_vicxo")
 unlock_rotation_on_use = true
 max_use_charge_time = 3.0
+hold_offset = Vector3(0, 0, 0.25)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6134031, 0.045972228)
@@ -62,9 +69,6 @@ debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
 [node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("4_764w1")]
 
-[node name="SwingPivot" type="Node3D" parent="." unique_id=1085677876]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.013589203, -0.013696134)
-
 [node name="KnifeDamageArea3D" type="Area3D" parent="." unique_id=705711118]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2134031, 0.045972228)
 script = ExtResource("5_5wtha")
@@ -86,3 +90,22 @@ damage_area = NodePath("../KnifeDamageArea3D")
 script = ExtResource("fx_2")
 swing_angle = 2.5
 swing_duration = 0.25
+
+[node name="HandWindUpEffect" type="Node" parent="." unique_id=1650292547]
+script = ExtResource("8_764w1")
+wind_up_rotation = Vector3(-0.5, 0, 0)
+wind_up_position_offset = Vector3(0, 0.75, 0)
+reset_on_use_finished = false
+
+[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=1287775629 node_paths=PackedStringArray("additional_transfer_list")]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("9_5wtha")
+additional_transfer_list = [NodePath("../KnifeDamageArea3D")]
+can_stack_same_type = true
+override_reset_rotation_when_grabbed = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StackableItemArea3D" unique_id=496006202]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0.6051309, 0.04128003)
+shape = SubResource("CylinderShape3D_727ug")
+debug_color = Color(0.8804736, 0.00037522733, 0.82654047, 0.41960785)

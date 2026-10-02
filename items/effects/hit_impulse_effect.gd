@@ -19,6 +19,10 @@ func _ready() -> void:
 	item.use_finished.connect(_on_use_finished)
 
 
+func on_reparent():
+	item.use_finished.connect(_on_use_finished)
+
+
 func apply_effect(_user : Node3D, use_charge_time : float):
 	bodies_hit_per_swing = []
 	hit_area_active = true

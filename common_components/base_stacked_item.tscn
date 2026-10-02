@@ -4,8 +4,6 @@
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_rexp8"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_2duyq"]
 [ext_resource type="Script" uid="uid://xskvjkcfnvd3" path="res://common_components/stackable_item_area_3d.gd" id="6_3ctyb"]
-[ext_resource type="Script" uid="uid://btbr6m1b8djm1" path="res://items/effects/food_effect.gd" id="fx_1"]
-[ext_resource type="Script" uid="uid://dtvlp2p7ki3dq" path="res://items/effects/consume_effect.gd" id="fx_2"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3ctyb"]
 properties/0/path = NodePath(".:being_held")
@@ -17,6 +15,7 @@ mass = 0.001
 script = ExtResource("1_06pnv")
 grab_item_area = NodePath("GrabItemArea3D")
 stack_item_area = NodePath("StackableItemArea3D")
+max_use_charge_time = 0.0
 reset_rotation_when_grabbed = false
 hold_offset = Vector3(0, 0, 0.3)
 metadata/_custom_type_script = "uid://cglmrmpbm6ssh"
@@ -28,18 +27,10 @@ metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 
 [node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_2duyq")]
 
-[node name="FoodEffect" type="Node" parent="." unique_id=2008620067]
-script = ExtResource("fx_1")
-food_val = 0.0
-
-[node name="ConsumeEffect" type="Node" parent="." unique_id=1447091029]
-script = ExtResource("fx_2")
-
-[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=395564727 node_paths=PackedStringArray("transfer_nodes")]
+[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=395564727]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("6_3ctyb")
-transfer_nodes = [NodePath("../GrabItemArea3D"), NodePath("../FoodEffect"), NodePath("../ConsumeEffect")]
 can_stack_same_type = true
 metadata/_custom_type_script = "uid://xskvjkcfnvd3"
 

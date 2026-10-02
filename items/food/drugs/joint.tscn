@@ -3,10 +3,11 @@
 [ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_2hvar"]
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="2_lk0pb"]
 [ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="3_j563i"]
-[ext_resource type="Script" path="res://items/effects/smoke_effect.gd" id="fx_1"]
-[ext_resource type="Script" path="res://items/effects/drug_visual_effect.gd" id="fx_2"]
-[ext_resource type="Script" path="res://items/effects/temporary_character_stat_effect.gd" id="fx_3"]
-[ext_resource type="Script" path="res://items/effects/consume_effect.gd" id="fx_4"]
+[ext_resource type="Script" uid="uid://xskvjkcfnvd3" path="res://common_components/stackable_item_area_3d.gd" id="8_tkvv5"]
+[ext_resource type="Script" uid="uid://0ds7budf3jq6" path="res://items/effects/smoke_effect.gd" id="fx_1"]
+[ext_resource type="Script" uid="uid://04q6hqwsqm1v" path="res://items/effects/drug_visual_effect.gd" id="fx_2"]
+[ext_resource type="Script" uid="uid://mr73t4co020q" path="res://items/effects/temporary_character_stat_effect.gd" id="fx_3"]
+[ext_resource type="Script" uid="uid://dtvlp2p7ki3dq" path="res://items/effects/consume_effect.gd" id="fx_4"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_22q5j"]
 
@@ -78,35 +79,39 @@ rings = 8
 radius = 0.1
 height = 0.3
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ijss1"]
+radius = 0.11
+height = 0.35
+
 [node name="Joint" type="RigidBody3D" unique_id=1264862515]
 mass = 0.1
 continuous_cd = true
 script = ExtResource("1_2hvar")
 max_use_charge_time = 0.0
+hold_offset = Vector3(0, 0, 0.1)
 
-[node name="Node3D" type="Node3D" parent="." unique_id=1553384249]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.1)
-
-[node name="GrabItemArea3D" type="Area3D" parent="Node3D" unique_id=961604140 node_paths=PackedStringArray("item")]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=961604140 node_paths=PackedStringArray("item")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.027559303)
 script = ExtResource("2_lk0pb")
-item = NodePath("../..")
+item = NodePath("..")
 metadata/_custom_type_script = "uid://dfi80sfc6gjg"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/GrabItemArea3D" unique_id=2137353213]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=2137353213]
 shape = SubResource("SphereShape3D_22q5j")
 debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 
-[node name="OmniLight3D" parent="Node3D/GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_j563i")]
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("3_j563i")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=665638984]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=665638984]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -0.027559303)
 mesh = SubResource("CylinderMesh_g8u53")
 
-[node name="WeedMesh" type="MeshInstance3D" parent="Node3D" unique_id=1424790860]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.1, -4.371139e-09)
+[node name="WeedMesh" type="MeshInstance3D" parent="." unique_id=1424790860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0724407)
 mesh = SubResource("SphereMesh_bitrs")
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="Node3D" unique_id=446727920]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=446727920]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -0.027559303)
 emitting = false
 amount = 50
 lifetime = 3.0
@@ -117,13 +122,13 @@ process_material = SubResource("ParticleProcessMaterial_2hvar")
 draw_pass_1 = SubResource("SphereMesh_4tevw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1782607150]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.15)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.0032037497)
 shape = SubResource("CapsuleShape3D_cl1i1")
 
 [node name="SmokeEffect" type="Node" parent="." unique_id=1563757144 node_paths=PackedStringArray("emissive_mesh", "particles")]
 script = ExtResource("fx_1")
-emissive_mesh = NodePath("../Node3D/WeedMesh")
-particles = NodePath("../Node3D/GPUParticles3D")
+emissive_mesh = NodePath("../WeedMesh")
+particles = NodePath("../GPUParticles3D")
 
 [node name="DrugVisualEffect" type="Node" parent="." unique_id=329405081]
 script = ExtResource("fx_2")
@@ -157,3 +162,14 @@ stat_adders = {
 [node name="ConsumeEffect" type="Node" parent="." unique_id=252022385]
 script = ExtResource("fx_4")
 uses = 5.0
+
+[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=1117980163 node_paths=PackedStringArray("additional_transfer_list")]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("8_tkvv5")
+additional_transfer_list = [NodePath("../GPUParticles3D")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StackableItemArea3D" unique_id=1125713488]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_ijss1")
+debug_color = Color(0.8804736, 0.00037522733, 0.82654047, 0.41960785)

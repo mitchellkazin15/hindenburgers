@@ -28,6 +28,10 @@ func on_released():
 	pass
 
 
+func on_reparent():
+	pass
+
+
 func get_charge_time(use_charge_time : float) -> float:
 	return min(item.max_use_charge_time, use_charge_time)
 

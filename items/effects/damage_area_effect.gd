@@ -12,6 +12,10 @@ func _ready() -> void:
 	item.use_finished.connect(_on_use_finished)
 
 
+func on_reparent():
+	item.use_finished.connect(_on_use_finished)
+
+
 func apply_effect(_user : Node3D, use_charge_time : float):
 	damage_area.active = true
 	damage_area.damage_ratio = get_charge_ratio(use_charge_time)

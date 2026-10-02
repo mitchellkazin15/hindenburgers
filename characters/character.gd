@@ -110,6 +110,7 @@ func reset():
 	freeze = false
 	reset_input = false
 	$DrugManager.clear_drug_visual_effects.rpc()
+	stats.clear_all_temp_stats()
 	call_deferred("_post_reset")
 
 

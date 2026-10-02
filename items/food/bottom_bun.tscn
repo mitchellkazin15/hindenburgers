@@ -49,12 +49,11 @@ debug_color = Color(8.1822276e-07, 0.63558996, 0.41916415, 0.41960785)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1096015433]
 replication_config = SubResource("SceneReplicationConfig_uu7pw")
 
-[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=315939361 node_paths=PackedStringArray("original_body", "transfer_nodes")]
+[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=315939361 node_paths=PackedStringArray("additional_transfer_list")]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("5_e178p")
-original_body = NodePath("..")
-transfer_nodes = [NodePath("../Bottom Bun2"), NodePath("../CollisionShape3D"), NodePath("../GrabItemArea3D"), NodePath("../FoodEffect"), NodePath("../ConsumeEffect")]
+additional_transfer_list = [NodePath("../Bottom Bun2")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StackableItemArea3D" unique_id=265665070]
 shape = SubResource("CylinderShape3D_pp2b7")
