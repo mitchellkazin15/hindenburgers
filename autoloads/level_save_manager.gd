@@ -45,11 +45,10 @@ func save_level():
 			continue
 		if body is Character:
 			continue
-		level_save.rigid_body_states.append([
-			body.scene_file_path,
-			body.position,
-			body.rotation,
-	])
+		var state = [body.scene_file_path, body.position, body.rotation]
+		if body is BaseStackedItem:
+			state.append(body.get_stack_data())
+		level_save.rigid_body_states.append(state)
 	print("saving stuff")
 	level_save.atm_money_val = AtmCoinPurse.money_val
 	level_save.teleporter_unlocks_dict = TeleportationManager.generate_unlock_save_dict()
@@ -93,6 +92,7 @@ func load_level(game_info : Dictionary):
 			body[LevelSaveFile.StateIndices.SCENE_PATH],
 			body[LevelSaveFile.StateIndices.POS],
 			body[LevelSaveFile.StateIndices.ROT],
+			body[LevelSaveFile.StateIndices.STACK_DATA] if body.size() > LevelSaveFile.StateIndices.STACK_DATA else [],
 		)
 	print("loading stuff")
 	print(saved_level)

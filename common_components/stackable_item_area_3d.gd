@@ -35,6 +35,8 @@ func _on_area_entered(area):
 	var stacked_body : BaseStackedItem
 	if stackable_area.parent_body.being_held:
 		return
+	if parent_body.is_queued_for_deletion() or stackable_area.parent_body.is_queued_for_deletion():
+		return
 	if parent_body is BaseStackedItem and not stackable_area.parent_body is BaseStackedItem:
 		# node transfer will be handled by other areas callback
 		return
@@ -53,19 +55,7 @@ func _on_area_entered(area):
 		# At this point both items are already stacks.
 		# This item has a strictly larger stack so node transfer will be handled by other areas callback
 		return
-	stacked_body.merge_item_values.rpc(parent_body.get_path(), self.get_path())
-	transfer_nodes(stacked_body)
-
-
-func transfer_nodes(stacked_body : BaseStackedItem):
-	for node : Node in get_transfer_list():
-		if node is Node3D:
-			stacked_body.replicate_stack.rpc(node.get_path(), node.global_position, node.global_rotation)
-		else:
-			stacked_body.replicate_stack.rpc(node.get_path(), null, null)
-		if node is CollisionShape3D:
-			stacked_body.old_collision_children.append(node)
-	stacked_body.replicate_stack.rpc(self.get_path(), self.global_position, self.global_rotation)
+	stacked_body.add_to_stack(stacked_body.get_stack_data_for(parent_body))
 	MultiplayerManager.broadcast_queue_free(parent_body)
 
 

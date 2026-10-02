@@ -46,6 +46,9 @@ func update_per_peer_spawn_count(peer_id, new_count):
 	):
 		_peers_state_pushed[peer_id] = true
 		RigidBodySyncManager.push_full_state_to(peer_id)
+		for node in get_node(spawn_path).get_children():
+			if node is BaseStackedItem:
+				node.sync_stack_to_peer(peer_id)
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -82,6 +85,8 @@ func _custom_spawn_func(data: Dictionary) -> Node:
 		node.position = data["position"]
 	if data.has("rotation"):
 		node.rotation = data["rotation"]
+	if data.has("stack_data") and node is BaseStackedItem:
+		node.pending_stack_data = data["stack_data"]
 	node.top_level = true
 	node.name = node.name
 	return node  # Spawner adds this to the scene automatically

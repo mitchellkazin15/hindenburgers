@@ -156,15 +156,18 @@ func _queue_free_on_peers(node_path : String):
 		get_node(node_path).queue_free()
 
 
-func add_node_to_spawner(scene_path : String, position : Vector3, rotation = Vector3.ZERO) -> Node:
+func add_node_to_spawner(scene_path : String, position : Vector3, rotation = Vector3.ZERO, stack_data = []) -> Node:
 	if not MultiplayerManager.safe_is_multiplayer_authority(self):
 		return
 	var spawner : BetterMultiplayerSpawner = $/root/Main/MultiplayerBaseScene/MultiplayerSpawner
-	return spawner.spawn({
+	var data = {
 		"scene_file_path": scene_path,
 		"position": position,
 		"rotation": rotation,
-	})
+	}
+	if stack_data:
+		data["stack_data"] = stack_data
+	return spawner.spawn(data)
 
 
 func safe_is_multiplayer_authority(node : Node) -> bool:
