@@ -16,8 +16,9 @@ func merge_item_values(item_path : NodePath, item_stackable_area_path : NodePath
 	mass += item.mass
 	unlock_rotation_on_use = unlock_rotation_on_use or item.unlock_rotation_on_use
 	reset_rotation_when_grabbed = reset_rotation_when_grabbed or (stackable_area.override_reset_rotation_when_grabbed and item.reset_rotation_when_grabbed)
-	stack_item_area.additional_transfer_list.append_array(stackable_area.additional_transfer_list)
-	print("appending: ", stackable_area.additional_transfer_list)
+	for node in stackable_area.additional_transfer_list:
+		if not node in stack_item_area.additional_transfer_list:
+			stack_item_area.additional_transfer_list.append(node)
 
 
 @rpc("any_peer", "call_local", "reliable")

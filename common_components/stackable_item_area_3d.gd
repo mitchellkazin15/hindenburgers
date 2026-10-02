@@ -53,7 +53,7 @@ func _on_area_entered(area):
 		# At this point both items are already stacks.
 		# This item has a strictly larger stack so node transfer will be handled by other areas callback
 		return
-	stacked_body.merge_item_values.rpc(parent_body.get_path(), stackable_area.get_path())
+	stacked_body.merge_item_values.rpc(parent_body.get_path(), self.get_path())
 	transfer_nodes(stacked_body)
 
 
@@ -80,5 +80,4 @@ func get_transfer_list() -> Array[Node]:
 			):
 				transfer_list.append(child)
 	transfer_list.append_array(additional_transfer_list)
-	print("transferring ", transfer_list)
 	return transfer_list

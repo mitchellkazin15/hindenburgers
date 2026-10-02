@@ -16,6 +16,10 @@ func _ready() -> void:
 	item.use_finished.connect(_on_use_finished)
 
 
+func on_reparent():
+	item.use_finished.connect(_on_use_finished)
+
+
 func _physics_process(_delta: float) -> void:
 	if not MultiplayerManager.safe_is_multiplayer_authority(item) or not active:
 		return

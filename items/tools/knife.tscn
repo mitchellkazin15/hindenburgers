@@ -5,8 +5,9 @@
 [ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="3_bwkjd"]
 [ext_resource type="PackedScene" uid="uid://c1axrhnnqrqbk" path="res://items/metallic_item_hover_omni_light_3d.tscn" id="4_bwkjd"]
 [ext_resource type="Script" uid="uid://bd6vj3ugmxr13" path="res://common_components/damage_area_3d.gd" id="4_pjlok"]
-[ext_resource type="Script" path="res://items/effects/damage_area_effect.gd" id="fx_1"]
-[ext_resource type="Script" path="res://items/effects/swing_effect.gd" id="fx_2"]
+[ext_resource type="Script" uid="uid://xskvjkcfnvd3" path="res://common_components/stackable_item_area_3d.gd" id="8_klei7"]
+[ext_resource type="Script" uid="uid://hvnnb4vsvkf7" path="res://items/effects/damage_area_effect.gd" id="fx_1"]
+[ext_resource type="Script" uid="uid://bufeovu8hdcq2" path="res://items/effects/swing_effect.gd" id="fx_2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qikfw"]
 size = Vector3(0.1, 0.5, 0.15)
@@ -31,6 +32,10 @@ radius = 0.75
 properties/0/path = NodePath(".:being_held")
 properties/0/spawn = true
 properties/0/replication_mode = 2
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4i8d6"]
+height = 0.55
+radius = 0.11
 
 [node name="Knife" type="RigidBody3D" unique_id=1264862515]
 mass = 0.25
@@ -83,3 +88,15 @@ damage_area = NodePath("../KnifeDamageArea3D")
 
 [node name="SwingEffect" type="Node" parent="." unique_id=1433520235]
 script = ExtResource("fx_2")
+
+[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=1038201843 node_paths=PackedStringArray("additional_transfer_list")]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("8_klei7")
+additional_transfer_list = [NodePath("../KnifeDamageArea3D")]
+override_reset_rotation_when_grabbed = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StackableItemArea3D" unique_id=1327208569]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0.24375951, 0.04128003)
+shape = SubResource("CylinderShape3D_4i8d6")
+debug_color = Color(0.8804736, 0.00037522733, 0.82654047, 0.41960785)

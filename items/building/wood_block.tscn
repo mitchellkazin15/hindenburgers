@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://d0s7ub4eg0tf7"]
+
+[ext_resource type="Script" uid="uid://c4dpgof6ca7yj" path="res://items/holdable_item.gd" id="1_1o144"]
+[ext_resource type="Texture2D" uid="uid://dnage26rgtvor" path="res://assets/Planks037A_1K-PNG_Color.png" id="2_cnsaw"]
+[ext_resource type="Script" uid="uid://dfi80sfc6gjg" path="res://items/grab_item_area_3d.gd" id="3_r5y0t"]
+[ext_resource type="PackedScene" uid="uid://br2na6kmeexni" path="res://items/item_hover_omni_light_3d.tscn" id="4_2nj5v"]
+[ext_resource type="Script" uid="uid://xskvjkcfnvd3" path="res://common_components/stackable_item_area_3d.gd" id="5_2nj5v"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2nj5v"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ys2gk"]
+albedo_texture = ExtResource("2_cnsaw")
+
+[sub_resource type="BoxMesh" id="BoxMesh_r5y0t"]
+material = SubResource("StandardMaterial3D_ys2gk")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mlax1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mkisc"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ps7no"]
+properties/0/path = NodePath(".:being_held")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bfu3h"]
+size = Vector3(1.05, 1.05, 1.05)
+
+[node name="WoodBlock" type="RigidBody3D" unique_id=1700880383]
+mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_2nj5v")
+script = ExtResource("1_1o144")
+max_use_charge_time = 100.0
+reset_rotation_when_grabbed = false
+hold_offset = Vector3(0, 0, 1)
+metadata/_custom_type_script = "uid://c4dpgof6ca7yj"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=999873549]
+mesh = SubResource("BoxMesh_r5y0t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=206710139]
+shape = SubResource("BoxShape3D_mlax1")
+
+[node name="GrabItemArea3D" type="Area3D" parent="." unique_id=1254431399 node_paths=PackedStringArray("item")]
+script = ExtResource("3_r5y0t")
+item = NodePath("..")
+metadata/_custom_type_script = "uid://dfi80sfc6gjg"
+
+[node name="OmniLight3D" parent="GrabItemArea3D" unique_id=425923836 instance=ExtResource("4_2nj5v")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabItemArea3D" unique_id=1112618244]
+shape = SubResource("BoxShape3D_mkisc")
+debug_color = Color(0, 0.6461515, 0.25106063, 0.41960785)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1262962775]
+replication_config = SubResource("SceneReplicationConfig_ps7no")
+
+[node name="StackableItemArea3D" type="Area3D" parent="." unique_id=2077397951]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("5_2nj5v")
+can_stack_same_type = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StackableItemArea3D" unique_id=1420286719]
+shape = SubResource("BoxShape3D_bfu3h")
+debug_color = Color(0.9330819, 2.4161636e-05, 0.6481654, 0.41960785)
