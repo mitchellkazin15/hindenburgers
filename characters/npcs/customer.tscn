@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://wq2hn4rr7qf1" path="res://stats/character_stat_manager.gd" id="5_pmaai"]
 [ext_resource type="Script" uid="uid://bthslr67752nd" path="res://characters/cloaca.gd" id="6_l5cv3"]
 [ext_resource type="PackedScene" uid="uid://c65pcxntsmjqy" path="res://items/money/penny.tscn" id="7_bd3p1"]
+[ext_resource type="Script" uid="uid://cnlvrqg6dtafv" path="res://characters/npcs/take_order_area_3d.gd" id="8_jqa2g"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wfnr8"]
 
@@ -31,6 +32,9 @@ radius = 0.4
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_0kpea"]
 height = 2.25
 radius = 0.9
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l5cv3"]
+size = Vector3(1.5, 1, 1.5)
 
 [node name="Customer" type="RigidBody3D" unique_id=1116672603]
 lock_rotation = true
@@ -70,8 +74,6 @@ target_position = Vector3(0, -0.8, 0)
 script = ExtResource("3_4tcmh")
 customer = NodePath("..")
 mouth = NodePath("../Mouth")
-suck_time = 1.0
-eat_list = Array[String](["res://items/food/hamburger.tscn"])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SuckArea3D" unique_id=1732774292]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 1.5)
@@ -98,3 +100,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -1)
 script = ExtResource("6_l5cv3")
 poop_scene = ExtResource("7_bd3p1")
 metadata/_custom_type_script = "uid://bthslr67752nd"
+
+[node name="OrderLabel3D" type="Label3D" parent="." unique_id=2011311117]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+billboard = 1
+text = "Take Order"
+font_size = 48
+
+[node name="TakeOrderItemArea3D" type="Area3D" parent="." unique_id=2129451498 node_paths=PackedStringArray("customer", "label")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+script = ExtResource("8_jqa2g")
+customer = NodePath("..")
+label = NodePath("../OrderLabel3D")
+metadata/_custom_type_script = "uid://cnlvrqg6dtafv"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TakeOrderItemArea3D" unique_id=410655764]
+shape = SubResource("BoxShape3D_l5cv3")
+debug_color = Color(0, 0.64574325, 0.26016828, 0.41960785)

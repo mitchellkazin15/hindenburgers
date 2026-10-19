@@ -3,8 +3,7 @@ extends Area3D
 
 @export var customer : Customer
 @export var mouth : Node3D
-@export var suck_time = 2.0
-@export var eat_list : Array[String]
+@export var suck_time = 0.75
 
 var suck_item : HoldableItem = null
 var suck_reset_timer : SceneTreeTimer
@@ -45,9 +44,7 @@ func _on_suck_finished():
 		return
 	suck_item.freeze = false
 	suck_reset_timer = get_tree().create_timer(suck_reset_time)
-	if suck_item.has_effect(FoodEffect) and suck_item.get_scene_file_path() in eat_list:
-		suck_item.apply_effects(customer)
-	else:
+	if not customer.consume_item(suck_item):
 		var spit_strength = (10.0 * mouth.global_basis.z + 10.0 * global_basis.y) * suck_item.mass
 		suck_item.apply_relative_central_impulse(spit_strength)
 		suck_item.release()
