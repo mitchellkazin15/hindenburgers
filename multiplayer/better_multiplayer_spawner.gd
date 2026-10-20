@@ -49,6 +49,8 @@ func update_per_peer_spawn_count(peer_id, new_count):
 		for node in get_node(spawn_path).get_children():
 			if node is BaseStackedItem:
 				node.sync_stack_to_peer(peer_id)
+		for customer in get_tree().get_nodes_in_group("customers"):
+			customer.sync_order_to_peer(peer_id)
 
 
 @rpc("any_peer", "call_local", "reliable")

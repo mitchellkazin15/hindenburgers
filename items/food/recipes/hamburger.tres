@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Recipe" format=3 uid="uid://c7q3c8mcy4lh2"]
+
+[ext_resource type="Script" uid="uid://bo2xnvq7aij51" path="res://items/food/recipe.gd" id="1_recipe"]
+[ext_resource type="Script" uid="uid://cvvkqorslojrf" path="res://items/food/recipe_ingredient.gd" id="2_ingredient"]
+[ext_resource type="PackedScene" uid="uid://vg6pdbix5lar" path="res://items/food/bottom_bun.tscn" id="3_bun"]
+[ext_resource type="PackedScene" uid="uid://dc5nx712jgekb" path="res://items/food/patty.tscn" id="4_patty"]
+
+[sub_resource type="Resource" id="RecipeIngredient_bun"]
+script = ExtResource("2_ingredient")
+scene = ExtResource("3_bun")
+
+[sub_resource type="Resource" id="RecipeIngredient_patty"]
+script = ExtResource("2_ingredient")
+scene = ExtResource("4_patty")
+required_state = {
+"cook_state": "cooked"
+}
+
+[resource]
+script = ExtResource("1_recipe")
+display_name = "Hamburger"
+ingredients = Array[ExtResource("2_ingredient")]([SubResource("RecipeIngredient_bun"), SubResource("RecipeIngredient_patty"), SubResource("RecipeIngredient_bun")])

@@ -10,32 +10,45 @@ var stack_count = 0
 var stacked_scenes = []
 var stacked_scene_positions = []
 var stacked_scene_rotations = []
+## One state Dictionary per stacked scene (see HoldableItem.get_item_state), captured when it was added
+var stacked_states = []
 var pending_stack_data = []
 
 
 func _ready() -> void:
 	super._ready()
 	if pending_stack_data:
-		rebuild_stack(pending_stack_data[0], pending_stack_data[1], pending_stack_data[2])
+		var pending_states = pending_stack_data[3] if pending_stack_data.size() > 3 else []
+		rebuild_stack(pending_stack_data[0], pending_stack_data[1], pending_stack_data[2], pending_states)
 		pending_stack_data = []
 
 
 func get_stack_data() -> Array:
-	return [stacked_scenes.duplicate(), stacked_scene_positions.duplicate(), stacked_scene_rotations.duplicate()]
+	return [
+		stacked_scenes.duplicate(),
+		stacked_scene_positions.duplicate(),
+		stacked_scene_rotations.duplicate(),
+		stacked_states.duplicate(true),
+	]
 
 
-## Server only. Returns [scenes, positions, rotations] of [param item] relative to this stack
+## Server only. Returns [scenes, positions, rotations, states] of [param item] relative to this stack
 func get_stack_data_for(item : HoldableItem) -> Array:
 	var to_local := global_transform.affine_inverse() * item.global_transform
 	if not item is BaseStackedItem:
-		return [[item.scene_file_path], [to_local.origin], [to_local.basis.orthonormalized().get_euler()]]
+		return [
+			[item.scene_file_path],
+			[to_local.origin],
+			[to_local.basis.orthonormalized().get_euler()],
+			[item.get_item_state()],
+		]
 	var positions = []
 	var rotations = []
 	for i in item.stacked_scenes.size():
 		var entry_transform = to_local * Transform3D(Basis.from_euler(item.stacked_scene_rotations[i]), item.stacked_scene_positions[i])
 		positions.append(entry_transform.origin)
 		rotations.append(entry_transform.basis.orthonormalized().get_euler())
-	return [item.stacked_scenes.duplicate(), positions, rotations]
+	return [item.stacked_scenes.duplicate(), positions, rotations, item.stacked_states.duplicate(true)]
 
 
 ## Server only
@@ -44,27 +57,34 @@ func add_to_stack(stack_data : Array):
 		stacked_scenes + stack_data[0],
 		stacked_scene_positions + stack_data[1],
 		stacked_scene_rotations + stack_data[2],
+		stacked_states + stack_data[3],
 	)
 
 
 ## Server only
 func sync_stack_to_peer(peer_id : int):
-	rebuild_stack.rpc_id(peer_id, stacked_scenes, stacked_scene_positions, stacked_scene_rotations)
+	rebuild_stack.rpc_id(peer_id, stacked_scenes, stacked_scene_positions, stacked_scene_rotations, stacked_states)
 
 
 ## Instantiates every stacked scene this stack doesn't have yet and absorbs its nodes.
 ## Every peer builds the stack the same way, so node names match across peers.
+## States are taken from the server rather than re-derived, since the source item is gone by now.
 @rpc("authority", "call_local", "reliable")
-func rebuild_stack(scenes : Array, positions : Array, rotations : Array):
+func rebuild_stack(scenes : Array, positions : Array, rotations : Array, states : Array):
 	for i in range(stacked_scenes.size(), scenes.size()):
-		_absorb_scene(scenes[i], Transform3D(Basis.from_euler(rotations[i]), positions[i]))
+		var state : Dictionary = states[i] if i < states.size() else {}
+		_absorb_scene(scenes[i], Transform3D(Basis.from_euler(rotations[i]), positions[i]), state)
 		stacked_scenes.append(scenes[i])
 		stacked_scene_positions.append(positions[i])
 		stacked_scene_rotations.append(rotations[i])
+		stacked_states.append(state)
 
 
-func _absorb_scene(scene_path : String, item_transform : Transform3D):
+func _absorb_scene(scene_path : String, item_transform : Transform3D, state : Dictionary):
 	var item : HoldableItem = load(scene_path).instantiate()
+	for child in item.get_children():
+		if child.has_method("apply_item_state"):
+			child.apply_item_state(state)
 	var stackable_area : StackableItemArea3D = null
 	for child in item.get_children():
 		if child is StackableItemArea3D:

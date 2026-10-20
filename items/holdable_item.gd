@@ -75,6 +75,16 @@ func get_effects() -> Array[ItemEffect]:
 	return effects
 
 
+## State recorded when this item is added to a stack (e.g. cook_state).
+## Children that define get_item_state() contribute their keys.
+func get_item_state() -> Dictionary:
+	var state := {}
+	for child in get_children():
+		if child.has_method("get_item_state"):
+			state.merge(child.get_item_state())
+	return state
+
+
 func has_effect(effect_type : Script) -> bool:
 	for effect in get_effects():
 		if is_instance_of(effect, effect_type):

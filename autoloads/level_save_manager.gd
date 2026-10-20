@@ -2,6 +2,7 @@ extends Node
 
 const SAVED_LEVEL_FILE_PATH = SavePaths.LEVEL
 const SAVED_BASE_LEVEL_FILE_PATH = SavePaths.BASE_LEVEL
+const CUSTOMER_SCENE_PATH = "res://characters/npcs/customer.tscn"
 
 @export var auto_save_interval = 33.33
 ## Turn off while hand-editing a save file, so a background instance cannot write
@@ -10,6 +11,10 @@ const SAVED_BASE_LEVEL_FILE_PATH = SavePaths.BASE_LEVEL
 
 var auto_save_timer : SceneTreeTimer
 var base_level_saved = false
+## Set when the base scene on disk is still in an older layout and has to be repacked
+## on a later save. Repacking during load is avoided because clients may still be
+## reading the base scene.
+var _base_repack_pending := false
 ## False until load_level() has actually put a level in LevelRoot this session.
 ## Guards save_level() - see the comment there.
 var level_loaded = false
@@ -20,7 +25,7 @@ func _ready() -> void:
 	SavePaths.ensure_dir()
 
 
-func save_level():
+func save_level(allow_base_repack := true):
 	if not MultiplayerManager.safe_is_server():
 		return
 	# Refuse to write before a level has been loaded. Whatever is in memory right now is
@@ -35,11 +40,13 @@ func save_level():
 		print("saving level from ", caller, " state=", EventService.state,
 			" atm=", AtmCoinPurse.money_val,
 			" unlocks=", TeleportationManager.generate_unlock_save_dict())
-	if not base_level_saved:
-		_save_base_level_scene()
-		base_level_saved = true
+	if not base_level_saved or (_base_repack_pending and allow_base_repack):
+		if _save_base_level_scene():
+			base_level_saved = true
+			_base_repack_pending = false
 	SavePaths.ensure_dir()
 	var level_save = LevelSaveFile.new()
+	level_save.format_version = LevelSaveFile.FORMAT_VERSION if not _base_repack_pending else 1
 	for body in RigidBodySyncManager.tracked_bodies:
 		if not body or not is_instance_valid(body):
 			continue
@@ -87,7 +94,11 @@ func load_level(game_info : Dictionary):
 		" bodies=", saved_level.rigid_body_states.size(),
 		_file_age_note(SAVED_LEVEL_FILE_PATH))
 	var saved_base_level = MultiplayerManager.add_node_to_spawner(SAVED_BASE_LEVEL_FILE_PATH, Vector3.ZERO)
+	# Older saves keep customers in the base level scene and also list them here.
+	var legacy_layout = saved_level.format_version < LevelSaveFile.FORMAT_VERSION
 	for body in saved_level.rigid_body_states:
+		if legacy_layout and body[LevelSaveFile.StateIndices.SCENE_PATH] == CUSTOMER_SCENE_PATH:
+			continue
 		MultiplayerManager.add_node_to_spawner(
 			body[LevelSaveFile.StateIndices.SCENE_PATH],
 			body[LevelSaveFile.StateIndices.POS],
@@ -106,8 +117,9 @@ func load_level(game_info : Dictionary):
 	# BetterMultiplayerSpawner._custom_spawn_func streams it rather than reading it in
 	# one go. Rewriting it underneath them truncates the file mid-parse.
 	base_level_saved = true
+	_base_repack_pending = legacy_layout
 	level_loaded = true
-	save_level()
+	save_level(false)
 	# This whole function runs on the main thread in one go. Anything past a couple of
 	# seconds and ENet on the other end starts treating the host as gone, so it is worth
 	# knowing how long it actually took. See MultiplayerManager.PEER_TIMEOUT_MIN_MS.
@@ -117,15 +129,13 @@ func load_level(game_info : Dictionary):
 		push_warning("level load blocked the main thread for %d ms" % load_elapsed_ms)
 
 
-func _save_base_level_scene():
+func _save_base_level_scene() -> bool:
 	var pack_started_ms = Time.get_ticks_msec()
 	SavePaths.ensure_dir()
 	var level_scene = PackedScene.new()
 	var level_node = $/root/Main/MultiplayerBaseScene/LevelRoot/Level.duplicate()
 	for child in level_node.find_children("*"):
 		if child is AutoSpawner or child is RelativeRigidBody3D:
-			if child is Customer:
-				continue
 			child.get_parent().remove_child(child)
 	_strip_generated_terrain_textures(level_node)
 	level_scene.pack(level_node)
@@ -133,14 +143,15 @@ func _save_base_level_scene():
 	# previous file never sees this one truncate it.
 	if ResourceSaver.save(level_scene, SavePaths.BASE_LEVEL_TMP) != OK:
 		push_error("could not write base level scene")
-		return
+		return false
 	var rename_error = DirAccess.rename_absolute(SavePaths.BASE_LEVEL_TMP, SAVED_BASE_LEVEL_FILE_PATH)
 	if rename_error != OK:
 		push_error("could not swap base level scene into place: %d" % rename_error)
-		return
+		return false
 	var written = FileAccess.open(SAVED_BASE_LEVEL_FILE_PATH, FileAccess.READ)
 	var written_kib = 0 if written == null else written.get_length() / 1024
 	print("packed base level in ", Time.get_ticks_msec() - pack_started_ms, " ms (", written_kib, " KiB)")
+	return true
 
 
 ## Terrain3D builds a normal map ImageTexture for every texture asset that has no

@@ -22,13 +22,12 @@ func remove_glow():
 
 
 func interact(interacting_node: Node) -> void:
-	if (not MultiplayerManager.safe_is_multiplayer_authority(self) or 
+	if (not MultiplayerManager.safe_is_multiplayer_authority(self) or
 		not interacting_node is Character or
 		not customer.can_take_order()
 	):
 		return
-	var character : Character = interacting_node
-	customer.take_order.rpc()
+	customer.request_order()
 
 
 func _physics_process(delta: float) -> void:
@@ -36,5 +35,5 @@ func _physics_process(delta: float) -> void:
 		label.text = "Take Order"
 	elif customer.order_cooldown_timer.time_left > 0.0:
 		label.text = "Not Hungry: %.0f" % customer.order_cooldown_timer.time_left
-	elif customer.order_valid_duration_timer.time_left > 0.0:
-		label.text = customer.current_order + (": %.0f" % customer.order_valid_duration_timer.time_left)
+	elif customer.can_consume:
+		label.text = customer.current_order.display_name + (": %.0f" % customer.order_valid_duration_timer.time_left)
