@@ -21,6 +21,10 @@ signal locked_interaction_ended
 @export var randomness_duration = 1.0
 @export var holding_item = false
 @export var health : HealthComponent
+## How far a stack is raised above where it was grabbed (see _get_hold_offset)
+@export var stack_grab_lift = 0.15
+## How much further out than the hand a stack's grab point is held (see _get_hold_offset)
+@export var stack_grab_distance = 0.0
 
 var move_direction : Vector3
 var is_dead = false
@@ -158,7 +162,9 @@ func end_locked_interaction():
 	locked_interaction_ended.emit()
 
 
-func grab_item(item : HoldableItem):
+## [param grab_point] is the global point where the interaction ray hit the item's
+## GrabItemArea3D, or null if unknown.
+func grab_item(item : HoldableItem, grab_point = null):
 	if held_item != null:
 		return false
 	use_item_stopwatch.restart()
@@ -167,13 +173,29 @@ func grab_item(item : HoldableItem):
 		hand.rotation = Vector3.ZERO
 	else:
 		hand.global_basis = item.global_basis
-	hand.position = base_hand_pos + item.hold_offset
+	hand.position = base_hand_pos + _get_hold_offset(item, grab_point)
 	hand.remote_path = item.get_path()
 	hand.update_rotation = true
 	held_item = item
 	holding_item = true
 	held_item.use_finished.connect(_on_use_finished)
 	return true
+
+
+## A stack's origin is its first item, which can be far from where the player grabbed it.
+## So for stacks that keep their rotation, offset the hand so the grab point lands
+## stack_grab_distance further out than base_hand_pos, and at the grab point's current height
+## plus stack_grab_lift, so the stack looks lifted rather than snapped to hand height.
+## All in RotationPivot space, so "up" and "forward" follow the character's orientation.
+func _get_hold_offset(item : HoldableItem, grab_point) -> Vector3:
+	if item.reset_rotation_when_grabbed or not item is BaseStackedItem or grab_point == null:
+		return item.hold_offset
+	var hand_parent : Node3D = hand.get_parent()
+	var grab_from_origin : Vector3 = hand_parent.global_basis.inverse() * (grab_point - item.global_position)
+	var target := base_hand_pos
+	target.y = hand_parent.to_local(grab_point).y + stack_grab_lift
+	target.z += stack_grab_distance
+	return target - grab_from_origin - base_hand_pos
 
 
 func start_use_item():

@@ -28,5 +28,9 @@ func interact(interacting_node: Node) -> void:
 	if not interacting_node is Character or item.being_held:
 		return
 	var character : Character = interacting_node
-	if character.grab_item(item):
+	var grab_point = null
+	var raycast := character.interact_raycast
+	if raycast and raycast.last_hit_area == self:
+		grab_point = raycast.last_hit_point
+	if character.grab_item(item, grab_point):
 		item.set_being_held(character)

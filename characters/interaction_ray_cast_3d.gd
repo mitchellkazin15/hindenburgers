@@ -4,6 +4,9 @@ extends RayCast3D
 @export var character : Character
 
 var prev_interact_area : InteractableArea3D = null
+## Area last returned by get_interactable_area_collider() and the global point where the ray hit it
+var last_hit_area : InteractableArea3D = null
+var last_hit_point := Vector3.ZERO
 
 
 func _physics_process(delta: float) -> void:
@@ -33,12 +36,14 @@ func get_interactable_area_collider() -> InteractableArea3D:
 			break
 		if _can_interact_with(collider):
 			result = collider
+			last_hit_point = get_collision_point()
 			break
 		add_exception(collider)
 		skipped_any = true
 		force_raycast_update()
 	if skipped_any:
 		clear_exceptions()
+	last_hit_area = result
 	return result
 
 

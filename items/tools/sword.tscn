@@ -103,7 +103,6 @@ collision_mask = 2
 script = ExtResource("9_5wtha")
 additional_transfer_list = [NodePath("../KnifeDamageArea3D")]
 can_stack_same_type = true
-override_reset_rotation_when_grabbed = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StackableItemArea3D" unique_id=496006202]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0.6051309, 0.04128003)
