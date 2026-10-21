@@ -13,6 +13,11 @@ var item_holder : Character
 var prev_item_holder : Character
 var prev_release_position : Vector3
 var old_collision_children : Array[CollisionShape3D] = []
+## Swings currently being combined, see swing_about_local_axis
+var _swings : Array[Dictionary] = []
+var _swing_start_basis : Basis
+## Effects still running from the last use, see begin_use_action
+var _pending_use_actions := 0
 
 
 func _ready() -> void:
@@ -55,16 +60,29 @@ func start_use():
 
 func use(use_charge_time : float):
 	apply_effects(item_holder, use_charge_time)
+	# Nothing is still running (e.g. no swing applied), so the use is already over
+	if _pending_use_actions == 0:
+		use_finished.emit()
 
 
+## Effects are grouped by the item they came from (see ItemEffect.source_index).
+## A group only applies if all of its effects can, but groups don't block each other,
+## so in a stack a bun that needs a full charge to eat doesn't stop a spatula flip.
+## Returns true if any group applied.
 func apply_effects(user : Node3D, use_charge_time : float = INF) -> bool:
-	var effects := get_effects()
-	for effect in effects:
-		if not effect.can_apply(user, use_charge_time):
-			return false
-	for effect in effects:
-		effect.apply_effect(user, use_charge_time)
-	return true
+	var groups := {}
+	for effect in get_effects():
+		if not groups.has(effect.source_index):
+			groups[effect.source_index] = []
+		groups[effect.source_index].append(effect)
+	var applied_any = false
+	for group in groups.values():
+		if not group.all(func(effect): return effect.can_apply(user, use_charge_time)):
+			continue
+		for effect in group:
+			effect.apply_effect(user, use_charge_time)
+		applied_any = true
+	return applied_any
 
 
 func get_effects() -> Array[ItemEffect]:
@@ -96,12 +114,35 @@ func swing_about_local_x(angle : float, duration : float) -> Tween:
 	return swing_about_local_axis(Vector3.RIGHT, angle, duration)
 
 
+## Swings that overlap in time (e.g. several SwingEffects on one stack) are combined,
+## each rotating about its own local axis, instead of the last tween to run winning.
 func swing_about_local_axis(local_axis : Vector3, angle : float, duration : float) -> Tween:
-	var start_quat := global_basis.orthonormalized().get_rotation_quaternion()
-	var end_basis := global_basis.rotated((global_basis * local_axis).normalized(), angle)
-	var end_quat := end_basis.orthonormalized().get_rotation_quaternion()
-	var tween := get_tree().create_tween()
-	tween.tween_method(
-		func(t : float): global_basis = Basis(start_quat.slerp(end_quat, t)),
-		0.0, 1.0, duration)
+	if _swings.all(func(swing): return swing.done):
+		_swings.clear()
+		_swing_start_basis = global_basis.orthonormalized()
+	var swing := {axis = local_axis.normalized(), angle = angle, progress = 0.0, done = false}
+	_swings.append(swing)
+	var tween := create_tween()
+	tween.tween_method(_set_swing_progress.bind(swing), 0.0, 1.0, duration)
+	tween.finished.connect(func(): swing.done = true)
 	return tween
+
+
+func _set_swing_progress(progress : float, swing : Dictionary):
+	swing.progress = progress
+	var swing_basis := _swing_start_basis
+	for active_swing in _swings:
+		swing_basis = swing_basis * Basis(active_swing.axis, active_swing.angle * active_swing.progress)
+	global_basis = swing_basis
+
+
+## Effects that take time to finish a use call this when they start and
+## end_use_action when they're done, so use_finished fires once for the whole use.
+func begin_use_action():
+	_pending_use_actions += 1
+
+
+## Returns true if this was the last pending action, i.e. the use is finished
+func end_use_action() -> bool:
+	_pending_use_actions = max(0, _pending_use_actions - 1)
+	return _pending_use_actions == 0

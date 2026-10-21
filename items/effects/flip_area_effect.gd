@@ -25,8 +25,8 @@ func _physics_process(_delta: float) -> void:
 		return
 	for body in flip_area.get_overlapping_bodies():
 		if body is RelativeRigidBody3D and body != item and not body is CookingBody:
-			body.apply_central_impulse(active_strength * item.global_basis.y)
-			body.apply_torque_impulse(0.1 * active_strength * item.global_basis.x)
+			body.apply_central_impulse(active_strength * (item.global_basis * item_basis.y))
+			body.apply_torque_impulse(0.1 * active_strength * (item.global_basis * item_basis.x))
 			active = false
 
 

@@ -35,6 +35,12 @@ var vehicle : Vehicle
 var held_item : HoldableItem = null
 var reset_input = false
 var base_hand_pos : Vector3
+## Hand pose the held item rests at, set when grabbed. Item effects layer offsets
+## on top of it with set_hand_offset, so the hand always returns here afterwards.
+var hand_rest_position : Vector3
+var hand_rest_basis : Basis
+## source -> [position offset, euler rotation offset]
+var _hand_offsets := {}
 
 var randomness_timer : SceneTreeTimer
 var rand_speed = 0.0
@@ -173,7 +179,10 @@ func grab_item(item : HoldableItem, grab_point = null):
 		hand.rotation = Vector3.ZERO
 	else:
 		hand.global_basis = item.global_basis
-	hand.position = base_hand_pos + _get_hold_offset(item, grab_point)
+	hand_rest_basis = hand.basis
+	hand_rest_position = base_hand_pos + _get_hold_offset(item, grab_point)
+	_hand_offsets.clear()
+	_apply_hand_pose()
 	hand.remote_path = item.get_path()
 	hand.update_rotation = true
 	held_item = item
@@ -196,6 +205,28 @@ func _get_hold_offset(item : HoldableItem, grab_point) -> Vector3:
 	target.y = hand_parent.to_local(grab_point).y + stack_grab_lift
 	target.z += stack_grab_distance
 	return target - grab_from_origin - base_hand_pos
+
+
+## Offsets the hand from its rest pose on behalf of [param source]. Offsets from
+## different sources add together.
+func set_hand_offset(source : Object, position_offset : Vector3, rotation_offset : Vector3):
+	_hand_offsets[source] = [position_offset, rotation_offset]
+	_apply_hand_pose()
+
+
+func clear_hand_offset(source : Object):
+	_hand_offsets.erase(source)
+	_apply_hand_pose()
+
+
+func _apply_hand_pose():
+	var position_offset := Vector3.ZERO
+	var rotation_offset := Vector3.ZERO
+	for offset in _hand_offsets.values():
+		position_offset += offset[0]
+		rotation_offset += offset[1]
+	hand.position = hand_rest_position + position_offset
+	hand.basis = hand_rest_basis * Basis.from_euler(rotation_offset)
 
 
 func start_use_item():
@@ -229,6 +260,7 @@ func throw_item(aim_dir : Vector3):
 		return
 	hand.remote_path = NodePath("")
 	hand.rotation = Vector3.ZERO
+	_hand_offsets.clear()
 	held_item.use_finished.disconnect(_on_use_finished)
 	held_item.release()
 	var throw_vec : Vector3 = (aim_dir + Vector3(0.0, 0.1, 0.0)).normalized()

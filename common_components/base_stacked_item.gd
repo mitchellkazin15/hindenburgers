@@ -73,14 +73,14 @@ func sync_stack_to_peer(peer_id : int):
 func rebuild_stack(scenes : Array, positions : Array, rotations : Array, states : Array):
 	for i in range(stacked_scenes.size(), scenes.size()):
 		var state : Dictionary = states[i] if i < states.size() else {}
-		_absorb_scene(scenes[i], Transform3D(Basis.from_euler(rotations[i]), positions[i]), state)
+		_absorb_scene(scenes[i], Transform3D(Basis.from_euler(rotations[i]), positions[i]), state, i)
 		stacked_scenes.append(scenes[i])
 		stacked_scene_positions.append(positions[i])
 		stacked_scene_rotations.append(rotations[i])
 		stacked_states.append(state)
 
 
-func _absorb_scene(scene_path : String, item_transform : Transform3D, state : Dictionary):
+func _absorb_scene(scene_path : String, item_transform : Transform3D, state : Dictionary, source_index : int):
 	var item : HoldableItem = load(scene_path).instantiate()
 	for child in item.get_children():
 		if child.has_method("apply_item_state"):
@@ -91,6 +91,8 @@ func _absorb_scene(scene_path : String, item_transform : Transform3D, state : Di
 			stackable_area = child
 	_merge_item_values(item, stackable_area)
 	for node in stackable_area.get_transfer_list():
+		if node is ItemEffect:
+			node.source_index = source_index
 		_absorb_node(item, node, item_transform)
 	_absorb_node(item, stackable_area, item_transform)
 	item.free()
@@ -115,6 +117,7 @@ func _absorb_node(item : HoldableItem, node : Node, item_transform : Transform3D
 				_move_node(child, area_parent, item_transform * _transform_in(child, item))
 		return
 	elif node is ItemEffect:
+		node.item_basis = item_transform.basis.orthonormalized() * node.item_basis
 		if not _merge_into_existing_effect(node):
 			_move_node(node, self, Transform3D.IDENTITY)
 		return

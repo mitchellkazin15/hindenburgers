@@ -3,6 +3,14 @@ extends Node
 
 @export var requires_full_charge = true
 
+## Orientation of the item this effect came from, relative to [member item].
+## Identity unless the effect was absorbed into a stack. Use it for any
+## direction that should follow the original item rather than the stack.
+var item_basis := Basis.IDENTITY
+## Which stacked item this effect came from, -1 if not part of a stack.
+## Effects from the same item apply all-or-nothing (see HoldableItem.apply_effects).
+var source_index := -1
+
 @onready var item : HoldableItem:
 	get:
 		return get_parent()

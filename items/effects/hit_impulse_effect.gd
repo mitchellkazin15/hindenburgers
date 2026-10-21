@@ -41,5 +41,5 @@ func _on_hit(body):
 		if body is Character:
 			body.set_launched()
 			hit_strength *= character_strength_multiplier
-		body.apply_relative_central_impulse((hit_strength * item.global_basis.x))
+		body.apply_relative_central_impulse((hit_strength * (item.global_basis * item_basis.x)))
 		bodies_hit_per_swing.append(body)

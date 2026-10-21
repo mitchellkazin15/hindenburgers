@@ -7,6 +7,9 @@ extends ItemEffect
 @export var reset_on_use_finished = true
 
 var start_use_tween : Tween
+## How far into the wind up the hand is, 0 = resting, 1 = fully wound up
+var _weight := 0.0
+var _holder : Character
 
 
 func _init() -> void:
@@ -23,22 +26,37 @@ func on_reparent():
 		item.use_finished.connect(_reset_transform)
 
 
+## Wind ups are layered onto the hand as offsets (see Character.set_hand_offset),
+## so several wind up effects on one stack add together instead of fighting over the hand.
 func start_effect(holder : Character):
-	start_use_tween = get_tree().create_tween()
-	start_use_tween.set_parallel(true)
-	start_use_tween.tween_property(holder.hand, "rotation", holder.hand.rotation + wind_up_rotation, item.max_use_charge_time)
-	start_use_tween.tween_property(holder.hand, "position", holder.hand.position + wind_up_position_offset, item.max_use_charge_time)
-	
+	_holder = holder
+	if start_use_tween:
+		start_use_tween.kill()
+	start_use_tween = create_tween()
+	start_use_tween.tween_method(_set_weight, _weight, 1.0, item.max_use_charge_time)
 
 
 func apply_effect(_user : Node3D, _use_charge_time : float):
-	if not reset_on_use_finished:
-		_reset_transform()
 	if start_use_tween:
 		start_use_tween.stop()
+	if not reset_on_use_finished:
+		_reset_transform()
+
+
+func on_released():
+	if start_use_tween:
+		start_use_tween.kill()
+	_weight = 0.0
+	_holder = null
+
+
+func _set_weight(weight : float):
+	_weight = weight
+	if _holder and item.being_held:
+		_holder.set_hand_offset(self, weight * wind_up_position_offset, weight * wind_up_rotation)
 
 
 func _reset_transform():
-	if item.being_held:
-		item.item_holder.hand.rotation = Vector3.ZERO
-		item.item_holder.hand.position = item.item_holder.base_hand_pos + item.hold_offset
+	_weight = 0.0
+	if _holder and item.being_held:
+		_holder.clear_hand_offset(self)
